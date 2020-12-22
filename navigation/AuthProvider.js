@@ -4,7 +4,7 @@ import auth from '@react-native-firebase/auth';
 
 
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 
 export const AuthProvider = ({children}) => {
@@ -43,3 +43,4 @@ export const AuthProvider = ({children}) => {
         </AuthContext.Provider>
     );
 };
+

@@ -1,13 +1,17 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import {Subheading, TextInput, Button} from 'react-native-paper';
+import {Subheading} from 'react-native-paper';
+import {TextInput} from 'react-native-paper';
+import {Button} from 'react-native-paper'
 import {TouchableOpacity} from 'react-native-gesture-handler';
-
+import { AuthContext } from '../navigation/AuthProvider.js';
+import { useContext } from 'react';
 
 const SignUpViewController = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [confirm, setConfirm] = useState('');
+    const {register} = useContext(AuthContext);
 
     return(
         <View style={styles.container}>
@@ -24,7 +28,7 @@ const SignUpViewController = ({navigation}) => {
                 placeholder="Email"
                 selectionColor="#000"
                 underlineColor="#F76F6D"
-                onChangeText={email => setEmail(email)}
+                onChangeText={(userEmail) => setEmail(userEmail)}
                 style={styles.input}
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -36,7 +40,7 @@ const SignUpViewController = ({navigation}) => {
                 placeholder="Password"
                 selectionColor="#000"
                 underlineColor="#F76F6D"
-                onChangeText={pass => setPass(pass)}
+                onChangeText={(userPass) => setPass(userPass)}
                 
                 style={styles.input}
                 value={pass}
@@ -47,7 +51,7 @@ const SignUpViewController = ({navigation}) => {
                 placeholder="Confirm password"
                 selectionColor="#000"
                 underlineColor="#F76F6D"
-                onChangeText={confirm => setConfirm(confirm)}
+                onChangeText={(userPass) => setPass(userPass)}
                 
                 style={styles.input}
                 value={confirm}
@@ -56,7 +60,7 @@ const SignUpViewController = ({navigation}) => {
 
             <Button icon="microsoft" 
                 mode="contained"
-                onPress={() => alert("good job dipshit. you pressed a button")}
+                onPress={() => register(email, pass)}
                 style={styles.button}>
                     Register
             </Button>

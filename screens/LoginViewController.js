@@ -2,11 +2,14 @@ import React, {useState} from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import {Headline, TextInput, Button } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import { useContext } from 'react';
+import { AuthContext } from '../navigation/AuthProvider.js';
 
 const LoginViewController = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
+
+    const {login} = useContext(AuthContext);
 
     return(
         <View style={styles.container}>
@@ -40,7 +43,7 @@ const LoginViewController = ({navigation}) => {
 
             <Button icon="rocket" 
                 mode="contained"
-                onPress={() => alert("good job dipshit. you pressed a button")}
+                onPress={() => login(email, pass)}
                 style={styles.button}>
                     Log In!
                 </Button>
