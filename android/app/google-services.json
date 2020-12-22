@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "998304890071",
+    "project_id": "bite-party",
+    "storage_bucket": "bite-party.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998304890071:android:4290bc2d2714ba2e048492",
+        "android_client_info": {
+          "package_name": "com.bitepartymark4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998304890071-i49r2jp3r6dt8c1jdhch03mt8mkojra8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC83tWpgSMugZelkMgFqz4ju1rgD6LnAo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "998304890071-i49r2jp3r6dt8c1jdhch03mt8mkojra8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "998304890071-ac49a4d57va2nsidh7j2ivoicel8gu78.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.name.bitepartymark4"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

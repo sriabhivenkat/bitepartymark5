@@ -1,0 +1,12 @@
+{
+  "name": "bitepartymark4",
+  "displayName": "bitepartymark4",
+  "expo": {
+    "name": "bitepartymark4",
+    "slug": "bitepartymark4",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
