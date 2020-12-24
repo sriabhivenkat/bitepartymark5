@@ -10,15 +10,7 @@ const HomeViewController = () => {
 
     return(
     <View style = {styles.container}>
-        <Text>Welcome {user.email}</Text>
-        <Button 
-            icon="car"
-            mode="container"
-            style={styles.button}
-            onPress={() => logout()}
-        >
-            Logout
-        </Button>
+        <Text style={styles.title}>Welcome {user.email}</Text>
     </View>
     );
 }
@@ -32,6 +24,12 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor: "#16335e"
+    },
+    title: {
+        color: "#f7a146",
+        fontWeight: "bold",
+        
     },
     button: {
         marginTop: 20,

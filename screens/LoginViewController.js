@@ -34,6 +34,7 @@ const LoginViewController = ({navigation}) => {
                 placeholder="Password"
                 selectionColor="#000"
                 underlineColor="#F76F6D"
+                secureTextEntry={true}
                 onChangeText={pass => setPass(pass)}
                 
                 style={styles.input}
@@ -59,13 +60,7 @@ const LoginViewController = ({navigation}) => {
                 <Text style={styles.navButton}>Forgot Password? No Worries!</Text>
             </TouchableOpacity>
 
-            <Button icon="google" mode="contained" onPress={() => {}} style={styles.googButton}>
-                Log In with Google
-            </Button>
-
-            <Button icon="facebook" mode="contained" onPress={() => {}} style={styles.fbButton}>
-                Log In with Facebook
-            </Button>
+            
         </View>
     );
 };
@@ -79,7 +74,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#000"
+        backgroundColor: "#16335e"
     },
     logo: {
         height: "25%",
@@ -109,21 +104,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: "white"
     },
-    googButton: {
-       marginTop: 20,
-       height: 37,
-       width:"75%",
-       backgroundColor: "#DB4437",
-    },
     text: {
         fontWeight: "bold",
         fontSize: 35,
         color: "white"
     },
-    fbButton: {
-       marginTop: 20,
-       height: 37,
-       width:"75%",
-       backgroundColor: "#4267B2"
-    }
 });

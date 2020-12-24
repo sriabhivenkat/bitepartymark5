@@ -58,7 +58,7 @@ const SignUpViewController = ({navigation}) => {
                 theme={{ colors: {primary: '#F76F6D', underlineColor:'#F7A146',}}}
             />
 
-            <Button icon="microsoft" 
+            <Button icon="hiking" 
                 mode="contained"
                 onPress={() => register(email, pass)}
                 style={styles.button}>
@@ -69,13 +69,6 @@ const SignUpViewController = ({navigation}) => {
                 <Text style={styles.navButton}>Have an account? Sign In.</Text>
             </TouchableOpacity>
 
-            <Button icon="google" mode="contained" onPress={() => {}} style={styles.googButton}>
-                Sign Up with Google
-            </Button>
-
-            <Button icon="facebook" mode="contained" onPress={() => {}} style={styles.fbButton}>
-                Sign Up with Facebook
-            </Button>
         </View>
     );
 };
@@ -89,7 +82,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "black"
+        backgroundColor: "#16335e"
     },
     input: {
         padding: 10,
@@ -97,28 +90,17 @@ const styles = StyleSheet.create({
         height: 45,
         borderRadius: 25
     },
-    googButton: {
-        marginTop: 20,
-        height: 37,
-        width:"75%",
-        backgroundColor: "#DB4437",
-    },
     text: {
         display: "flex",
         justifyContent: 'center',
         alignItems: "center",
         fontWeight: "bold",
         fontSize: 35,
-        color: "#4CC3CD"
+        color: "#F76F6D"
     },
     subheading: {
-        color: '#4CC3CD'
-    },
-    fbButton: {
-        marginTop: 20,
-        height: 37,
-        width:"75%",
-        backgroundColor: "#4267B2"
+        color: '#f7a146',
+        
     },
     button: {
         marginTop: 20,

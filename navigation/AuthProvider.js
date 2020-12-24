@@ -3,7 +3,6 @@ import {createContext} from 'react';
 import auth from '@react-native-firebase/auth';
 
 
-
 export const AuthContext = createContext();
 
 
@@ -22,7 +21,6 @@ export const AuthProvider = ({children}) => {
                         console.log(e);
                     }
                 },
-
                 register: async(email, password) => {
                     try {
                         await auth().createUserWithEmailAndPassword(email, password);
