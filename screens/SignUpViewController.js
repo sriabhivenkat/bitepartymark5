@@ -10,7 +10,10 @@ import { useContext } from 'react';
 const SignUpViewController = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
-    const [confirm, setConfirm] = useState('');
+    
+    const [handle, setHandle] = useState('');
+    const [first, setFirst] = useState('');
+    const [last, setLast] = useState('');
     const {register} = useContext(AuthContext);
 
     return(
@@ -41,26 +44,46 @@ const SignUpViewController = ({navigation}) => {
                 selectionColor="#000"
                 underlineColor="#F76F6D"
                 onChangeText={(userPass) => setPass(userPass)}
-                
+                autoCapitalize="none"
                 style={styles.input}
                 value={pass}
                 theme={{ colors: {primary: '#F76F6D', underlineColor:'#F7A146',}}}
             />
             <TextInput 
                 mode="outlined"
-                placeholder="Confirm password"
+                placeholder="Enter a handle"
                 selectionColor="#000"
                 underlineColor="#F76F6D"
-                onChangeText={(userPass) => setPass(userPass)}
-                
+                autoCapitalize="none"
+                onChangeText={(userHandle) => setHandle(userHandle)}
                 style={styles.input}
-                value={confirm}
+                value={handle}
+                theme={{ colors: {primary: '#F76F6D', underlineColor:'#F7A146',}}}
+            />
+            <TextInput 
+                mode="outlined"
+                placeholder="Enter your first name"
+                selectionColor="#000"
+                underlineColor="#F76F6D"
+                onChangeText={(userFirst) => setFirst(userFirst)}
+                style={styles.input}
+                value={first}
+                theme={{ colors: {primary: '#F76F6D', underlineColor:'#F7A146',}}}
+            />
+            <TextInput 
+                mode="outlined"
+                placeholder="Enter your last name"
+                selectionColor="#000"
+                underlineColor="#F76F6D"
+                onChangeText={(userLast) => setLast(userLast)}
+                style={styles.input}
+                value={last}
                 theme={{ colors: {primary: '#F76F6D', underlineColor:'#F7A146',}}}
             />
 
             <Button icon="hiking" 
                 mode="contained"
-                onPress={() => register(email, pass)}
+                onPress={() => register(email, pass, handle, first, last)}
                 style={styles.button}>
                     Register
             </Button>
@@ -68,7 +91,7 @@ const SignUpViewController = ({navigation}) => {
             <TouchableOpacity style={styles.forgotPass} onPress={() => navigation.navigate("Login")}>
                 <Text style={styles.navButton}>Have an account? Sign In.</Text>
             </TouchableOpacity>
-
+            
         </View>
     );
 };
@@ -110,7 +133,8 @@ const styles = StyleSheet.create({
         borderRadius: 15
     },
     forgotPass: {
-        marginVertical: 25
+        marginVertical: 25,
+        marginBottom: 100
     },
     navButton: {
         fontSize: 15,

@@ -1,16 +1,15 @@
 import React from 'react';
 import { useContext } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import {Button} from 'react-native-paper';
+import { View, Image, StyleSheet } from 'react-native';
 import { AuthContext } from '../navigation/AuthProvider.js';
-
+import { Text } from 'galio-framework';
 
 const HomeViewController = () => {
     const {user, logout} = useContext(AuthContext);
 
     return(
     <View style = {styles.container}>
-        <Text style={styles.title}>Welcome {user.email}</Text>
+        <Text h3 style={styles.title}>Welcome, {user.email}!</Text>
     </View>
     );
 }
@@ -23,13 +22,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "center",
         backgroundColor: "#16335e"
     },
     title: {
         color: "#f7a146",
         fontWeight: "bold",
-        
+        padding: 20
     },
     button: {
         marginTop: 20,

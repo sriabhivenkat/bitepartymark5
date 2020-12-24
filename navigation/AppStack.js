@@ -5,14 +5,18 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { AuthContext } from '../navigation/AuthProvider.js';
 import { useContext } from 'react';
 import { View } from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import SettingsViewController from '../screens/SettingsViewController.js'
+import ProfileViewController from '../screens/ProfileViewController.js';
+import NearbyViewController from '../screens/NearbyViewController.js';
+
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 
-export const AppStack = ({navigation}) => {
-    const {logout} = useContext(AuthContext);
-
-    return(
-        <Stack.Navigator>
+const FeedStack = ({navigation}) => (
+    <Stack.Navigator>
             <Stack.Screen 
                 name="Home" 
                 component={HomeViewController}
@@ -26,11 +30,11 @@ export const AppStack = ({navigation}) => {
                     headerRight: () => (
                         <View style={{marginRight: 10}}>
                             <FontAwesome.Button 
-                                name="sign-out"
+                                name="cogs"
                                 size={25}
                                 backgroundColor="#16335e"
                                 color="#f76f6d"
-                                onPress={() => logout()}
+                                onPress={() => navigation.navigate("Settings")}
                             />
                         </View>
                     ),     
@@ -39,7 +43,89 @@ export const AppStack = ({navigation}) => {
                     }
                 })}
             />
+            <Stack.Screen 
+                name="Settings"
+                component={SettingsViewController}
+                options={() => ({
+                    title:"",
+                    headerStyle: {
+                        backgroundColor: "#16335e",
+                        shadowColor: "#16335e",
+                        elevation: 0,
+                    },
+                    headerLeft: () => (
+                        <Ionicons.Button 
+                            name="arrow-back"
+                            size= {30}
+                            backgroundColor="#16335e"
+                            color="#f76f6d"
+                            onPress={() => navigation.navigate("Home")}
+                        />
+                    ),
+                })}
+            />
         </Stack.Navigator>
+);
+
+const AppStack = () => {
+    return(
+        <Tab.Navigator
+            tabBarOptions={{
+                activeTintColor: "#f76f6d",
+                inactiveTintColor: "white",
+                style: {
+                    backgroundColor: '#16335e',
+                    borderTopColor: "#16335e"
+                },
+            }}
+            initialRouteName={
+                "Home"
+            }>
+            <Tab.Screen 
+                name="Profile"
+                component={ProfileViewController}
+                options={{
+                    tabBarLabel: "Profile",
+                    tabBarIcon: () => (
+                        <Ionicons 
+                            name="person"
+                            color={"#f76f6d"}
+                            size={25}
+                        />
+                    )
+                }}
+            />
+            <Tab.Screen 
+                name="Home"
+                component={FeedStack}
+                options={{
+                    tabBarLabel: 'Home',
+                    tabBarIcon:() => (
+                        <Ionicons 
+                            name="home"
+                            color={"#f76f6d"}
+                            size={25}
+                        />
+                    ),
+                }}
+            />
+            <Tab.Screen 
+                name="Nearby"
+                component={NearbyViewController}
+                options={{
+                    tabBarLabel: 'Nearby',
+                    tabBarIcon: () => (
+                        <FontAwesome 
+                            name="car"
+                            size= {25}
+                            backgroundColor="#16335e"
+                            color="#f76f6d"
+                        />
+                    ),
+                }}
+            />
+        </Tab.Navigator>
     );
 }
 
+export default AppStack;
