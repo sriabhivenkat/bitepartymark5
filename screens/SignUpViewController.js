@@ -5,7 +5,9 @@ import {TextInput} from 'react-native-paper';
 import {Button} from 'react-native-paper'
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import { AuthContext } from '../navigation/AuthProvider.js';
+import firestore from '@react-native-firebase/firestore';
 import { useContext } from 'react';
+
 
 const SignUpViewController = ({navigation}) => {
     const [email, setEmail] = useState('');
@@ -83,11 +85,11 @@ const SignUpViewController = ({navigation}) => {
 
             <Button icon="hiking" 
                 mode="contained"
-                onPress={() => register(email, pass, handle, first, last)}
+                onPress={() => register(email, pass, first, last, handle)}
                 style={styles.button}>
                     Register
             </Button>
-
+            
             <TouchableOpacity style={styles.forgotPass} onPress={() => navigation.navigate("Login")}>
                 <Text style={styles.navButton}>Have an account? Sign In.</Text>
             </TouchableOpacity>

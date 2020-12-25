@@ -9,7 +9,7 @@ const HomeViewController = () => {
 
     return(
     <View style = {styles.container}>
-        <Text h3 style={styles.title}>Welcome, {user.email}!</Text>
+        <Text h3 style={styles.title}>Welcome, {user.first}!</Text>
     </View>
     );
 }
