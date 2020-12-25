@@ -29,7 +29,7 @@ export const AuthProvider = ({children}) => {
                                 firestore()
                                     .collection('Users')
                                     .doc(uidval)
-                                    .add({
+                                    .set({
                                         firstName: first,
                                         lastName: last,
                                         handle: handle,
