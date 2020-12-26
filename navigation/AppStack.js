@@ -10,12 +10,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import SettingsViewController from '../screens/SettingsViewController.js'
 import ProfileViewController from '../screens/ProfileViewController.js';
 import NearbyViewController from '../screens/NearbyViewController.js';
+import AddFriendsViewController from '../screens/AddFriendsViewController.js';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 
-const FeedStack = ({navigation}) => (
+const HomeStack = ({navigation}) => (
     <Stack.Navigator>
             <Stack.Screen 
                 name="Home" 
@@ -64,9 +65,37 @@ const FeedStack = ({navigation}) => (
                     ),
                 })}
             />
+            <Stack.Screen 
+                name="Add Friends"
+                component={AddFriendsViewController}
+                options={() => ({
+                    title:"",
+                    headerStyle: {
+                        backgroundColor: "#16335e",
+                        shadowColor: "#16335e",
+                        elevation: 0,
+                    },
+                })}
+            />
         </Stack.Navigator>
 );
 
+const ProfileStack = () => (
+    <Stack.Navigator>
+        <Stack.Screen 
+            name="Profile"
+            component={ProfileViewController}
+            options={() => ({
+            title:"",
+            headerStyle: {
+                backgroundColor: "#16335e",
+                shadowColor: "#16335e",
+                elevation: 0,
+                },
+            })}
+        />
+    </Stack.Navigator>
+);
 const AppStack = () => {
     return(
         <Tab.Navigator
@@ -83,7 +112,7 @@ const AppStack = () => {
             }>
             <Tab.Screen 
                 name="Profile"
-                component={ProfileViewController}
+                component={ProfileStack}
                 options={{
                     tabBarLabel: "Profile",
                     tabBarIcon: () => (
@@ -97,7 +126,7 @@ const AppStack = () => {
             />
             <Tab.Screen 
                 name="Home"
-                component={FeedStack}
+                component={HomeStack}
                 options={{
                     tabBarLabel: 'Home',
                     tabBarIcon:() => (

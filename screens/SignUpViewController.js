@@ -5,7 +5,6 @@ import {TextInput} from 'react-native-paper';
 import {Button} from 'react-native-paper'
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import { AuthContext } from '../navigation/AuthProvider.js';
-import firestore from '@react-native-firebase/firestore';
 import { useContext } from 'react';
 
 

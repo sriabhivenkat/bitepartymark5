@@ -37,6 +37,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Bite Party would like to access to your photo gallery</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Bite Party would like to borrow your camera for a minute</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Bite Party would like to save photos to your photo gallery</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
 	<key>UILaunchStoryboardName</key>

@@ -605,12 +605,22 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.8.0):
     - React
+  - RNImageCropPicker (0.35.2):
+    - React-Core
+    - React-RCTImage
+    - RNImageCropPicker/QBImagePickerController (= 0.35.2)
+    - TOCropViewController
+  - RNImageCropPicker/QBImagePickerController (0.35.2):
+    - React-Core
+    - React-RCTImage
+    - TOCropViewController
   - RNReanimated (1.13.2):
     - React-Core
   - RNScreens (2.15.0):
     - React-Core
   - RNVectorIcons (7.1.0):
     - React
+  - TOCropViewController (2.5.5)
   - UMAppLoader (1.4.0)
   - UMBarCodeScannerInterface (5.4.0)
   - UMCameraInterface (5.4.0)
@@ -679,6 +689,7 @@ DEPENDENCIES:
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -715,6 +726,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - TOCropViewController
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -809,6 +821,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/firestore"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -907,9 +921,11 @@ SPEC CHECKSUMS:
   RNFBAuth: 4bf9e2c84d2e42651030eb80acf6b32f966f847a
   RNFBFirestore: 9b4ce9ecf2b18a1840f744bdf432b17fcedaacb5
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
+  RNImageCropPicker: 9e0bf18cf4184a846fed55747c8e622208b39947
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: 2ad555d4d9fa10b91bb765ca07fe9b29d59573f0
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
+  TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
   UMAppLoader: 515d02d30e29cf05bbe58f77c59f896840cc5895
   UMBarCodeScannerInterface: 77a5bebdc21106979a363bb057c4fbb46aacc171
   UMCameraInterface: 123f7ebc3f6d0915afd369f7133bf29231ed418b

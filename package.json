@@ -27,6 +27,7 @@
     "react-native": "~0.63.4",
     "react-native-elements": "^3.0.1",
     "react-native-gesture-handler": "^1.8.0",
+    "react-native-image-crop-picker": "^0.35.2",
     "react-native-onboarding-swiper": "^1.1.4",
     "react-native-paper": "^4.5.0",
     "react-native-reanimated": "^1.13.2",

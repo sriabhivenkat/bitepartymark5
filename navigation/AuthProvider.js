@@ -33,6 +33,8 @@ export const AuthProvider = ({children}) => {
                                         firstName: first,
                                         lastName: last,
                                         handle: handle,
+                                        friends: [],
+                                        pastParties: []
                                     })
                             })
                             .catch(function (e) {
