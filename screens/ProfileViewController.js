@@ -9,6 +9,7 @@ import {Modal, Portal, Provider} from 'react-native-paper';
 import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 
+
 const ProfileViewController = ({navigation}) => {
     const { user, logout } = useContext(AuthContext);
     const [userFirst, setUserFirst] = useState("");
@@ -16,10 +17,11 @@ const ProfileViewController = ({navigation}) => {
     const [userHandle, setUserHandle] = useState("");
     const [friendsHandle, setFriendsHandle] = useState("");
     const [partiesHandle, setPartiesHandle] = useState("");
-
-    const [image, setImage] = useState("");
+    var storageRef = firebase.storage().ref(user.uid);
+    const [image, setImage] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [transferred, setTransferred] = useState(0);
+    const [downloading, setDownloading] = useState(false);
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -55,8 +57,11 @@ const ProfileViewController = ({navigation}) => {
         }).then(image => {
             console.log(image);
             setImage(image.path);
-            //uploadPfp();
+            uploadPfp(image.path);
+            
             hideModal();
+        }).catch(e => {
+            console.log(e);
         });
     }
 
@@ -72,10 +77,11 @@ const ProfileViewController = ({navigation}) => {
         });
     }
     
-    /*const uploadPfp = async() => {
-        const uploadUri = image;
-        let filename = uploadUri.substring(uploadUri.lastIndexOf('/')+1);
-
+    const uploadPfp = async(imagepath) => {
+        const uploadUri = imagepath;
+        let filename = user.uid;
+        console.log(uploadUri);
+        //console.log(filename);
         setUploading(true);
         try {
             await storage().ref(filename).putFile(uploadUri);
@@ -84,8 +90,11 @@ const ProfileViewController = ({navigation}) => {
         } catch(e) {
             console.log(e);
         }
-        setImage(uploadUri);
-    }*/
+    }
+
+    const url = storageRef.getDownloadURL();
+
+    
 
     return(
         <View style={styles.container}>
@@ -94,7 +103,7 @@ const ProfileViewController = ({navigation}) => {
             </Text>
             <View style={styles.container2}>
                 <TouchableOpacity onPress={showModal}>
-                    <Image source={{uri: image}} style={{width: 100, height: 100, backgroundColor: "yellow", borderRadius: 50, resizeMode: "cover"}} />
+                    <Image source={{uri: url}} style={{width: 100, height: 100, backgroundColor: "yellow", borderRadius: 50, resizeMode: "cover"}} />
                 </TouchableOpacity>
                 <Text h5 style={styles.text1}>@{userHandle}</Text>
             </View>
