@@ -34,7 +34,9 @@ export const AuthProvider = ({children}) => {
                                         lastName: last,
                                         handle: handle,
                                         friends: [],
-                                        pastParties: []
+                                        pastParties: [],
+                                        flavorProfileCreated: false,
+                                        avatar: null
                                     })
                             })
                             .catch(function (e) {

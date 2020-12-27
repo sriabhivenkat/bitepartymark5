@@ -8,6 +8,8 @@ import firestore from "@react-native-firebase/firestore";
 const HomeViewController = () => {
   const { user } = useContext(AuthContext);
   const [userHandle, setUserHandle] = useState("");
+  const [profileBool, setProfileBool] = useState("");
+  
   const B = (props) => <Text style={{fontWeight: "bold"}}>{props.children}</Text>
 
 
@@ -15,11 +17,21 @@ const HomeViewController = () => {
     const main = async () => {
       const refVal = firestore().collection("Users").doc(user.uid);
       const doc = await refVal.get();
-      const {handle} = doc.data()
-      setUserHandle(handle)
+      const {handle} = doc.data();
+      const {flavorProfileCreated} = doc.data();
+
+      setUserHandle(handle);
+      setProfileBool(flavorProfileCreated);
     };
     main();
   }, []);
+
+  var message;
+    if(profileBool==false) {
+        message="You have not created a flavor profile. Tap this card to set it up!"
+    } else {
+        message="suck my dick"
+    }
 
   return (
     <View style={styles.container}>

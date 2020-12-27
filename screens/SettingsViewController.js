@@ -8,13 +8,6 @@ const SettingsViewController = () => {
     return(
         <View style={styles.container}>
             <Text>Howdy</Text>
-            <Button icon="logout"
-                mode="contained"
-                onPress={() => logout()}
-                style={styles.button}
-            >
-                Log Out!
-            </Button>
         </View>
     );
 }
