@@ -36,7 +36,6 @@ export const AuthProvider = ({children}) => {
                                         friends: [],
                                         pastParties: [],
                                         flavorProfileCreated: false,
-                                        avatar: null
                                     })
                             })
                             .catch(function (e) {
