@@ -65,18 +65,6 @@ const HomeStack = ({navigation}) => (
                     ),
                 })}
             />
-            <Stack.Screen 
-                name="Add Friends"
-                component={AddFriendsViewController}
-                options={() => ({
-                    title:"",
-                    headerStyle: {
-                        backgroundColor: "#16335e",
-                        shadowColor: "#16335e",
-                        elevation: 0,
-                    },
-                })}
-            />
         </Stack.Navigator>
 );
 
@@ -91,6 +79,18 @@ const ProfileStack = () => (
                 backgroundColor: "#16335e",
                 shadowColor: "#16335e",
                 elevation: 0,
+                },
+            })}
+        />
+        <Stack.Screen 
+            name="Add Friends"
+            component={AddFriendsViewController}
+            options={() => ({
+                title:"",
+                headerStyle: {
+                    backgroundColor: "#16335e",
+                    shadowColor: "#16335e",
+                    elevation: 0,
                 },
             })}
         />

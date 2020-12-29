@@ -22,10 +22,10 @@ const ProfileViewController = ({navigation}) => {
     const [uploading, setUploading] = useState(false);
     const [transferred, setTransferred] = useState(0);
     const [downloading, setDownloading] = useState(false);
-
+    
     const [modalVisible, setModalVisible] = useState(false);
 
-
+    const [profileImageUrl, setProfileImageUrl] = useState(null);
     const showModal = () => setModalVisible(true);
     const hideModal = () => setModalVisible(false);
     const B = (props) => <Text style={{fontWeight: "bold"}}>{props.children}</Text>
@@ -73,7 +73,10 @@ const ProfileViewController = ({navigation}) => {
         }).then(image => {
             console.log(image);
             setImage(image.path);
-            hideModal(); 
+            uploadPfp(image.path);
+            hideModal();
+        }).catch(e => {
+            console.log(e);
         });
     }
     
@@ -91,11 +94,17 @@ const ProfileViewController = ({navigation}) => {
             console.log(e);
         }
     }
-
-    const url = storageRef.getDownloadURL();
-
     
-
+    useEffect(() => {
+        console.log(user.uid)
+        const storageRef = firebase.storage().ref(user.uid);
+        storageRef.
+            getDownloadURL()
+            .then((url) => {
+                setProfileImageUrl(url);
+            })
+            .catch((e) => console.log(e));
+    }, [user]);
     return(
         <View style={styles.container}>
             <Text h3 size={45} style={styles.text}>
@@ -103,7 +112,7 @@ const ProfileViewController = ({navigation}) => {
             </Text>
             <View style={styles.container2}>
                 <TouchableOpacity onPress={showModal}>
-                    <Image source={{uri: url}} style={{width: 100, height: 100, backgroundColor: "yellow", borderRadius: 50, resizeMode: "cover"}} />
+                    <Image source={{uri: profileImageUrl}} style={{width: 100, height: 100, backgroundColor: "yellow", borderRadius: 50, resizeMode: "cover"}} />
                 </TouchableOpacity>
                 <Text h5 style={styles.text1}>@{userHandle}</Text>
             </View>
@@ -126,7 +135,7 @@ const ProfileViewController = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.containercolumn}>
-                <Button color="#f76f6d" icon="person-add" iconSize={15} iconFamily="ionicons" round uppercase size="large" onPress={()=>{}}> Add friends here</Button>
+                <Button color="#f76f6d" icon="person-add" iconSize={15} iconFamily="ionicons" round uppercase size="large" onPress={()=>navigation.navigate("Add Friends")}> Add friends here</Button>
                 <Button color="#f76f6d" icon="logout" iconSize={15} iconFamily="ionicons" round uppercase size="large" onPress={()=>logout()}> Logout</Button>
             </View>
 
