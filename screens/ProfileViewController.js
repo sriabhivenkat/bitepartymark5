@@ -15,13 +15,14 @@ const ProfileViewController = ({navigation}) => {
     const [userFirst, setUserFirst] = useState("");
     const [userLast, setUserLast] = useState("");
     const [userHandle, setUserHandle] = useState("");
-    const [friendsHandle, setFriendsHandle] = useState("");
-    const [partiesHandle, setPartiesHandle] = useState("");
-    var storageRef = firebase.storage().ref(user.uid);
+    
+
+    const [friendssize, setFriendsSize] = useState(0);
+    const [partynumber, setPartyNumber] = useState(0);
+
     const [image, setImage] = useState(null);
     const [uploading, setUploading] = useState(false);
-    const [transferred, setTransferred] = useState(0);
-    const [downloading, setDownloading] = useState(false);
+    
     
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -36,13 +37,20 @@ const ProfileViewController = ({navigation}) => {
         const {firstName} = doc.data();
         const {lastName} = doc.data();
         const {handle} = doc.data();
-        const {friends} = doc.data();
-        const {pastParties} = doc.data();
+        
+        refVal.collection("friends").get()
+            .then(function(querySnapshot) {
+                setFriendsSize(querySnapshot.docs.length);
+            })
+        
+        refVal.collection("pastParties").get()
+            .then(function(querySnapshot1) {
+                setPartyNumber(querySnapshot1.docs.length);
+            })
         setUserFirst(firstName)
         setUserLast(lastName);
         setUserHandle(handle);
-        setFriendsHandle(friends);
-        setPartiesHandle(pastParties);
+        
         
       };
       main();
@@ -96,14 +104,19 @@ const ProfileViewController = ({navigation}) => {
     }
     
     useEffect(() => {
-        console.log(user.uid)
         const storageRef = firebase.storage().ref(user.uid);
         storageRef.
             getDownloadURL()
             .then((url) => {
                 setProfileImageUrl(url);
+                firestore()
+                    .collection("Users")
+                    .doc(user.uid)
+                    .update({
+                        imageUrl: url
+                    })
             })
-            .catch((e) => console.log(e));
+            .catch((e) => console.log(e))
     }, [user]);
     return(
         <View style={styles.container}>
@@ -124,13 +137,12 @@ const ProfileViewController = ({navigation}) => {
                 <View style={[styles.infoBox, {
                     borderRightColor: "#dddddd",
                     borderRightWidth: 2
-
                 }]}>
-                    <Title style={{fontWeight: "bold", color: "#f76f6d" }}>{friendsHandle.length}</Title>
+                    <Title style={{fontWeight: "bold", color: "#f76f6d" }}>{friendssize}</Title>
                     <Caption style={{color: "#f76f6d", fontWeight: "bold"}}>Friends</Caption>
                 </View>
                 <View style={styles.infoBox}>
-                    <Title style={{fontWeight: "bold", color: "#f76f6d" }}>{partiesHandle.length}</Title>
+                <Title style={{fontWeight: "bold", color: "#f76f6d" }}>{partynumber}</Title>
                     <Caption style={{color: "#f76f6d", fontWeight: "bold"}}>Parties</Caption>
                 </View>
             </View>

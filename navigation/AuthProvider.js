@@ -33,9 +33,30 @@ export const AuthProvider = ({children}) => {
                                         firstName: first,
                                         lastName: last,
                                         handle: handle,
-                                        friends: [],
-                                        pastParties: [],
                                         flavorProfileCreated: false,
+                                    })
+                            })
+                            .then(() => {
+                                var uidval = firebase.auth().currentUser.uid;
+                                firestore()
+                                    .collection("Users")
+                                    .doc(uidval)
+                                    .collection("friends")
+                                    .doc("friend1")
+                                    .set({
+                                        uidvalue: "testuid",
+                                        firstName: "TestFirst",
+                                        lastName: "TestLastName",
+                                        handleval: "testhandle"
+                                    });
+                                firestore()
+                                    .collection("Users")
+                                    .doc(uidval)
+                                    .collection("pastParties")
+                                    .doc("testParty")
+                                    .set({
+                                        partyMembers: [],
+                                        location: "testLocation",
                                     })
                             })
                             .catch(function (e) {
