@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { View, Image, StyleSheet } from "react-native";
 import { AuthContext } from "../navigation/AuthProvider.js";
 import { Text } from "galio-framework";
+import {Divider} from 'react-native-elements';
 import firestore from "@react-native-firebase/firestore";
 
 const HomeViewController = () => {
@@ -38,6 +39,7 @@ const HomeViewController = () => {
       <Text h3 size={45} style={styles.title}>
         <B>@{userHandle}'s</B> Home
       </Text>
+      <Divider style={{backgroundColor: "#C4b2bc", height: 2,}}/>
     </View>
   );
 };

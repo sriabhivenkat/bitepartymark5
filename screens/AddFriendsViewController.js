@@ -17,30 +17,27 @@ const AddFriendsViewController = () => {
   const showPanel = () => setVisible(true);
   const hidePanel = () => setVisible(false);
   const [userHandle, setUserHandle] = useState("");
-  const [friendsarr, setFriendsArr] = useState([]);
+  const [pressable, setPressable] = useState(true);
+
+  const [friendssize, setFriendsSize] = useState(0);
+  const [buttonMessage, setButtonMessage] = useState("Add Friend");
 
   useEffect(() => {
     const main = async() => {
         const refVal = firestore().collection("Users").doc(user.uid);
         const doc = await refVal.get();
         const {handle} = doc.data();
+
+        refVal.collection("friends").get()
+            .then(function(querySnapshot) {
+                setFriendsSize(querySnapshot.docs.length);
+            })
         setUserHandle(handle); 
     };
     main();
   }, []);
 
-  const addFriends = ([id, handlevalue, firstname, lastname]) =>{
-    firestore()
-      .collection("Users")
-      .doc(user.uid)
-      .collection("friends")
-      .doc(id)
-      .set({
-        firstName: firstname,
-        handleval: handlevalue,
-        lastName: lastname
-      });
-  }
+
   useEffect(() => {
     firestore()
       .collection("Users")
@@ -58,6 +55,18 @@ const AddFriendsViewController = () => {
     <Text style={{ fontWeight: "bold" }}>{props.children}</Text>
   );
 
+  /*const addFriends = ([id, handlevalue, firstname, lastname]) =>{
+    firestore()
+      .collection("Users")
+      .doc(user.uid)
+      .collection("friends")
+      .doc(id)
+      .set({
+        firstName: firstname,
+        handleval: handlevalue,
+        lastName: lastname
+      });
+  }*/
   return (
     <View style={styles.container}>
       <Text h3 style={styles.text}>
@@ -101,8 +110,29 @@ const AddFriendsViewController = () => {
                     <Modal visible={visible} onDismiss={hidePanel} contentContainerStyle={styles.modalStyling}>
                         <Avatar.Image size={90} source={{uri: item.imageUrl}} style={{marginLeft: "auto", marginRight: "auto", marginBottom: 9}}/>
                         <Text h5 style={{textAlign: "center", fontWeight: "bold", color: "#f76f6d", marginBottom: 5}}>@{item.handle}</Text>
-                        <Text p style={{textAlign: "center", marginBottom: 10}}>{item.firstName+" "+item.lastName}: {item.friends.length} Friends</Text>
-                        <Button style={{backgroundColor: "#F06960", marginLeft: "auto", marginRight: "auto", width:"90%"}} onPress={addFriends([item.id, item.handle, item.firstName, item.lastName])}>Add friend</Button>
+                        <Text p style={{textAlign: "center", marginBottom: 10}}>{item.firstName+" "+item.lastName}</Text>
+                          <Button 
+                            style={{backgroundColor: "#F06960", marginLeft: "auto", marginRight: "auto", width:"90%"}} 
+                            onPress={() => {
+                              firestore()
+                              .collection("Users")
+                              .doc(user.uid)
+                              .collection("friends")
+                              .doc(item.uid)
+                              .set({
+                                handle: item.handle,
+                                firstName: item.firstName,
+                                lastName: item.lastName,
+                              })
+                              .then(
+                                setPressable(false)
+                              )
+                              setButtonMessage("Friend Added");
+                              alert("Friend Added");
+                            }}>
+                              {buttonMessage}
+                          </Button>
+                        
                     </Modal>
               </Portal>
           </Provider>

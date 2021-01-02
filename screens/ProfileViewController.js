@@ -130,12 +130,12 @@ const ProfileViewController = ({navigation}) => {
                 <Text h5 style={styles.text1}>@{userHandle}</Text>
             </View>
             <View style={styles.column}>
-                    <Text h5 style={{color:"#777777", textAlign:"center", marginLeft:20, color: "#f76f6d", fontWeight: "bold", padding: 20}}>{userFirst} {userLast}</Text>
+                    <Text h5 style={{color:"#777777", textAlign:"center", marginLeft:20, color: "#f76f6d", fontWeight: "bold", padding: 20,}}>{userFirst} {userLast}</Text>
             </View>
             
             <View style={styles.infoBoxWrapper}>
                 <View style={[styles.infoBox, {
-                    borderRightColor: "#dddddd",
+                    borderRightColor: "#f76f6d",
                     borderRightWidth: 2
                 }]}>
                     <Title style={{fontWeight: "bold", color: "#f76f6d" }}>{friendssize}</Title>
@@ -221,9 +221,9 @@ const styles = StyleSheet.create({
         marginBottom: 25,
     },
     infoBoxWrapper: {
-        borderBottomColor: "#dddddd",
+        borderBottomColor: "#f76f6d",
         borderBottomWidth: 2,
-        borderTopColor: '#dddddd',
+        borderTopColor: '#f76f6d',
         borderTopWidth: 2,
         flexDirection: "row",
         marginBottom: 20,
