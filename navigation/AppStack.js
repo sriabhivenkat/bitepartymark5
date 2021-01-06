@@ -11,6 +11,7 @@ import SettingsViewController from '../screens/SettingsViewController.js'
 import ProfileViewController from '../screens/ProfileViewController.js';
 import NearbyViewController from '../screens/NearbyViewController.js';
 import AddFriendsViewController from '../screens/AddFriendsViewController.js';
+import AddPartyViewController from '../screens/AddPartyViewController.js';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -21,49 +22,33 @@ const HomeStack = ({navigation}) => (
             <Stack.Screen 
                 name="Home" 
                 component={HomeViewController}
-                options={({navigation}) => ({
-                    title:"",
+                options = {() => ({
+                    title: "Bite Party!",
                     headerStyle: {
                         backgroundColor: "#16335e",
                         shadowColor: "#16335e",
                         elevation: 0,
                     },
-                    headerRight: () => (
-                        <View style={{marginRight: 10}}>
-                            <FontAwesome.Button 
-                                name="cogs"
-                                size={25}
-                                backgroundColor="#16335e"
-                                color="#f76f6d"
-                                onPress={() => navigation.navigate("Settings")}
-                            />
-                        </View>
-                    ),     
                     headerTitleStyle: {
-                        color: "#f76f6d",
+                        color: "white",
+                        fontFamily: "HelveticaNeue"
+
                     }
                 })}
             />
+
             <Stack.Screen 
-                name="Settings"
-                component={SettingsViewController}
-                options={() => ({
-                    title:"",
+                name="Begin Party"
+                component={AddPartyViewController}
+                options = {() => ({
+                    title: "",
                     headerStyle: {
                         backgroundColor: "#16335e",
                         shadowColor: "#16335e",
                         elevation: 0,
-                    },
-                    headerLeft: () => (
-                        <Ionicons.Button 
-                            name="arrow-back"
-                            size= {30}
-                            backgroundColor="#16335e"
-                            color="#f76f6d"
-                            onPress={() => navigation.navigate("Home")}
-                        />
-                    ),
+                    }
                 })}
+
             />
         </Stack.Navigator>
 );
@@ -100,7 +85,7 @@ const AppStack = () => {
     return(
         <Tab.Navigator
             tabBarOptions={{
-                activeTintColor: "#f76f6d",
+                activeTintColor: "#AFAFC7",
                 inactiveTintColor: "white",
                 style: {
                     backgroundColor: '#16335e',
@@ -118,7 +103,7 @@ const AppStack = () => {
                     tabBarIcon: () => (
                         <Ionicons 
                             name="person"
-                            color={"#f76f6d"}
+                            color={"#C5E1E5"}
                             size={25}
                         />
                     )
@@ -132,7 +117,7 @@ const AppStack = () => {
                     tabBarIcon:() => (
                         <Ionicons 
                             name="home"
-                            color={"#f76f6d"}
+                            color={"#C5E1E5"}
                             size={25}
                         />
                     ),
@@ -148,7 +133,7 @@ const AppStack = () => {
                             name="car"
                             size= {25}
                             backgroundColor="#16335e"
-                            color="#f76f6d"
+                            color="#C5E1E5"
                         />
                     ),
                 }}

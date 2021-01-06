@@ -8,7 +8,7 @@ import {Title, Caption} from 'react-native-paper';
 import {Modal, Portal, Provider} from 'react-native-paper';
 import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
-
+import ModernHeader from 'react-native-modern-header';
 
 const ProfileViewController = ({navigation}) => {
     const { user, logout } = useContext(AuthContext);
@@ -120,14 +120,11 @@ const ProfileViewController = ({navigation}) => {
     }, [user]);
     return(
         <View style={styles.container}>
-            <Text h3 size={45} style={styles.text}>
-                <B>{userFirst}'s</B> Profile
-            </Text>
+            <Text h2 style={styles.text}>@{userHandle}</Text>
             <View style={styles.container2}>
                 <TouchableOpacity onPress={showModal}>
                     <Image source={{uri: profileImageUrl}} style={{width: 100, height: 100, backgroundColor: "yellow", borderRadius: 50, resizeMode: "cover"}} />
                 </TouchableOpacity>
-                <Text h5 style={styles.text1}>@{userHandle}</Text>
             </View>
             <View style={styles.column}>
                     <Text h5 style={{color:"#777777", textAlign:"center", marginLeft:20, color: "#f76f6d", fontWeight: "bold", padding: 20,}}>{userFirst} {userLast}</Text>
@@ -159,8 +156,7 @@ const ProfileViewController = ({navigation}) => {
                         <Button 
                             color="#f76f6d" 
                             uppercase size="large" 
-                            onPress={() => selectFromPhone()}
-                        >
+                            onPress={() => selectFromPhone()}>
                             Select from phone
                         </Button>
                         <Button color="#f76f6d" uppercase size="large" onPress={()=>openCamera()}>Take a picture</Button>
@@ -186,9 +182,9 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },  
     text: {
-        padding: 20,
-        color: "#f76f6d",
-        
+        marginBottom: "5%",
+        marginLeft: "5%",
+        color: "#ff9685",
     },
     text1: {
         color: "#f76f6d",

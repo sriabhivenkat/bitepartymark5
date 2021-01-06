@@ -25,7 +25,7 @@ const SignUpViewController = ({navigation}) => {
                 
                 <Card style={styles.card}>
                     <Card.Content>
-                        <Text h3 style={{fontWeight: "bold", color: "#F76F6D", textAlign: "center", marginBottom: "5%"}}>Sign Up</Text>
+                        <Text h3 style={{fontWeight: "bold", color: "#F76F6D", textAlign: "center", marginBottom: "5%", marginTop: "5%"}}>Sign Up</Text>
                         <TextInput
                             mode="outlined"
                             name="user"

@@ -5,8 +5,10 @@ import { AuthContext } from "../navigation/AuthProvider.js";
 import { Text } from "galio-framework";
 import {Divider} from 'react-native-elements';
 import firestore from "@react-native-firebase/firestore";
+import {Button} from 'react-native-paper';
 
-const HomeViewController = () => {
+
+const HomeViewController = ({navigation}) => {
   const { user } = useContext(AuthContext);
   const [userHandle, setUserHandle] = useState("");
   const [profileBool, setProfileBool] = useState("");
@@ -37,9 +39,18 @@ const HomeViewController = () => {
   return (
     <View style={styles.container}>
       <Text h3 size={45} style={styles.title}>
-        <B>@{userHandle}'s</B> Home
+        My Cache
       </Text>
-      <Divider style={{backgroundColor: "#C4b2bc", height: 2,}}/>
+        <View style={styles.bottomView}>
+          <Button 
+            color="#f76f6d" 
+            icon="party-popper" 
+            mode="contained"
+            style={styles.button}
+            onPress={()=>navigation.navigate("Begin Party")}> 
+              Let's Party!
+          </Button>
+        </View>
     </View>
   );
 };
@@ -54,13 +65,23 @@ const styles = StyleSheet.create({
   title: {
     color: "#f76f6d",
     justifyContent: "center",
-    padding: 15,
+    textAlign: "center",
+    fontSize: 40,
+    fontFamily: "",
   },
   button: {
-    marginTop: 20,
-    height: 37,
-    width: "50%",
-    backgroundColor: "#F76F6D",
-    borderRadius: 15,
-  },
+    width: "80%",
+    height: "75%",
+
+  },  
+  bottomView: {
+    width: '100%',
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: "5%",
+    position: "absolute",
+    bottom: 0
+  },  
+
 });

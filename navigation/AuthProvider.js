@@ -34,6 +34,7 @@ export const AuthProvider = ({children}) => {
                                         lastName: last,
                                         handle: handle,
                                         flavorProfileCreated: false,
+                                        uid: uidval
                                     })
                             })
                             .then(() => {

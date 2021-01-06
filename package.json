@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@freakycoder/react-native-header-view": "^1.1.1",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-firebase/app": "^10.3.0",
@@ -26,11 +27,16 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "~0.63.4",
+    "react-native-apple-header": "^0.1.1",
+    "react-native-classic-header": "^0.1.7",
+    "react-native-dynamic-vector-icons": "^1.1.4",
     "react-native-elements": "^3.0.1",
     "react-native-gesture-handler": "^1.8.0",
+    "react-native-gorgeous-header": "^0.1.0",
     "react-native-image-crop-picker": "^0.35.2",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-modal": "^11.6.1",
+    "react-native-modern-header": "^0.1.0",
     "react-native-onboarding-swiper": "^1.1.4",
     "react-native-paper": "^4.5.0",
     "react-native-reanimated": "^1.13.2",
@@ -39,7 +45,8 @@
     "react-native-touchable-scale": "^2.1.2",
     "react-native-unimodules": "~0.12.0",
     "react-native-vector-icons": "^7.1.0",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "tslib": "^2.0.3"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

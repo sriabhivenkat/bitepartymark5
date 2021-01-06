@@ -19,7 +19,7 @@ const LoginViewController = ({navigation}) => {
                 <Image source={require('../images/logo.png')} style={styles.logo} />
                 <Card style={styles.card}>
                     <Card.Content>
-                        <Text h3 style={{textAlign: "center", fontWeight: "bold", marginTop: "12%"}}>Log In</Text>
+                        <Text h3 style={{textAlign: "center", fontWeight: "bold", marginTop: "12%", color: "#0095f1"}}>Log In</Text>
                         <TextInput
                             mode="outlined"
                             name="user"

@@ -123,9 +123,10 @@ const AddFriendsViewController = () => {
                                 handle: item.handle,
                                 firstName: item.firstName,
                                 lastName: item.lastName,
+                                imageUrlPath: item.imageUrl
                               })
                               .then(
-                                setPressable(false)
+                                setPressable(false),
                               )
                               setButtonMessage("Friend Added");
                               alert("Friend Added");
