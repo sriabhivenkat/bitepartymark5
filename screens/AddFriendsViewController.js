@@ -55,18 +55,7 @@ const AddFriendsViewController = () => {
     <Text style={{ fontWeight: "bold" }}>{props.children}</Text>
   );
 
-  /*const addFriends = ([id, handlevalue, firstname, lastname]) =>{
-    firestore()
-      .collection("Users")
-      .doc(user.uid)
-      .collection("friends")
-      .doc(id)
-      .set({
-        firstName: firstname,
-        handleval: handlevalue,
-        lastName: lastname
-      });
-  }*/
+
   return (
     <View style={styles.container}>
       <Text h3 style={styles.text}>
@@ -147,7 +136,7 @@ export default AddFriendsViewController;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#16335e",
+    backgroundColor: "white",
   },
   queryView: {
     flex: 0.13,

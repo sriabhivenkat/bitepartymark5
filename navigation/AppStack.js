@@ -12,6 +12,10 @@ import ProfileViewController from '../screens/ProfileViewController.js';
 import NearbyViewController from '../screens/NearbyViewController.js';
 import AddFriendsViewController from '../screens/AddFriendsViewController.js';
 import AddPartyViewController from '../screens/AddPartyViewController.js';
+import AddDuosViewController from '../screens/AddDuosViewController.js';
+import AddSquadsViewController from '../screens/AddSquadsViewController.js';
+
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -23,16 +27,18 @@ const HomeStack = ({navigation}) => (
                 name="Home" 
                 component={HomeViewController}
                 options = {() => ({
-                    title: "Bite Party!",
+                    title: "My Feed",
                     headerStyle: {
-                        backgroundColor: "#16335e",
-                        shadowColor: "#16335e",
+                        backgroundColor: "#f76f6d",
+                        shadowColor: "#f76f6d",
                         elevation: 0,
                     },
                     headerTitleStyle: {
                         color: "white",
-                        fontFamily: "HelveticaNeue"
-
+                        fontSize: 27.5,
+                        alignSelf:"center",
+                        textAlign:"center",
+                        flex:1,
                     }
                 })}
             />
@@ -43,13 +49,25 @@ const HomeStack = ({navigation}) => (
                 options = {() => ({
                     title: "",
                     headerStyle: {
-                        backgroundColor: "#16335e",
-                        shadowColor: "#16335e",
+                        backgroundColor: "white",
+                        shadowColor: "white",
                         elevation: 0,
-                    }
+                    },
                 })}
-
             />
+            <Stack.Screen 
+                name="Duos"
+                component={AddDuosViewController}
+                options = {() => ({
+                    title: "",
+                    headerStyle: {
+                        backgroundColor: "#f76f6d",
+                        shadowColor: "#f76f6d",
+                        elevation: 0,
+                    },
+                })}
+            />
+            
         </Stack.Navigator>
 );
 
@@ -61,8 +79,8 @@ const ProfileStack = () => (
             options={() => ({
             title:"",
             headerStyle: {
-                backgroundColor: "#16335e",
-                shadowColor: "#16335e",
+                backgroundColor: "#f76f6d",
+                shadowColor: "#f76f6d",
                 elevation: 0,
                 },
             })}
@@ -73,8 +91,8 @@ const ProfileStack = () => (
             options={() => ({
                 title:"",
                 headerStyle: {
-                    backgroundColor: "#16335e",
-                    shadowColor: "#16335e",
+                    backgroundColor: "#f76f6d",
+                    shadowColor: "#f76f6d",
                     elevation: 0,
                 },
             })}
@@ -88,8 +106,8 @@ const AppStack = () => {
                 activeTintColor: "#AFAFC7",
                 inactiveTintColor: "white",
                 style: {
-                    backgroundColor: '#16335e',
-                    borderTopColor: "#16335e"
+                    backgroundColor: 'white',
+                    borderTopColor: "white"
                 },
             }}
             initialRouteName={
@@ -103,7 +121,7 @@ const AppStack = () => {
                     tabBarIcon: () => (
                         <Ionicons 
                             name="person"
-                            color={"#C5E1E5"}
+                            color={"black"}
                             size={25}
                         />
                     )
@@ -117,7 +135,7 @@ const AppStack = () => {
                     tabBarIcon:() => (
                         <Ionicons 
                             name="home"
-                            color={"#C5E1E5"}
+                            color={"black"}
                             size={25}
                         />
                     ),
@@ -133,7 +151,7 @@ const AppStack = () => {
                             name="car"
                             size= {25}
                             backgroundColor="#16335e"
-                            color="#C5E1E5"
+                            color="black"
                         />
                     ),
                 }}

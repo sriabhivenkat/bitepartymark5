@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, ImageBackground } from "react-native";
 import { AuthContext } from "../navigation/AuthProvider.js";
 import { Text } from "galio-framework";
 import {Divider} from 'react-native-elements';
@@ -38,12 +38,9 @@ const HomeViewController = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text h3 size={45} style={styles.title}>
-        My Cache
-      </Text>
         <View style={styles.bottomView}>
           <Button 
-            color="#f76f6d" 
+            color="black" 
             icon="party-popper" 
             mode="contained"
             style={styles.button}
@@ -60,14 +57,15 @@ export default HomeViewController;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#16335e",
+    backgroundColor: "white",
   },
   title: {
     color: "#f76f6d",
     justifyContent: "center",
-    textAlign: "center",
-    fontSize: 40,
-    fontFamily: "",
+    marginLeft: "5%",
+    fontSize: 45,
+    fontFamily: "PingFangHK-Medium",
+    
   },
   button: {
     width: "80%",

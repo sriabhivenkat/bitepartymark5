@@ -61,9 +61,6 @@
 	<string>UIStatusBarStyleDefault</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Kollektif-Bold.ttf</string>
-		<string>Kollektif-BoldItalic.ttf</string>
-		<string>Kollektif-Italic.ttf</string>
 		<string>Kollektif.ttf</string>
 	</array>
 </dict>

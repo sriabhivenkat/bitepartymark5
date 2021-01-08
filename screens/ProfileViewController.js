@@ -120,32 +120,32 @@ const ProfileViewController = ({navigation}) => {
     }, [user]);
     return(
         <View style={styles.container}>
-            <Text h2 style={styles.text}>@{userHandle}</Text>
             <View style={styles.container2}>
                 <TouchableOpacity onPress={showModal}>
-                    <Image source={{uri: profileImageUrl}} style={{width: 100, height: 100, backgroundColor: "yellow", borderRadius: 50, resizeMode: "cover"}} />
+                    <Image source={{uri: profileImageUrl}} style={{width: 125, height: 125, backgroundColor: "yellow", borderRadius: 60, resizeMode: "cover", marginRight: "5%"}} />
                 </TouchableOpacity>
-            </View>
-            <View style={styles.column}>
-                    <Text h5 style={{color:"#777777", textAlign:"center", marginLeft:20, color: "#f76f6d", fontWeight: "bold", padding: 20,}}>{userFirst} {userLast}</Text>
+                <View style={styles.column}>
+                    <Text h5 style={{textAlign:"center", marginLeft:20, color: "black", fontWeight: "bold", marginTop: "-5%", padding: "1.5%"}}>{userFirst} {userLast}</Text>
+                    <Text h5 style={{color: "black", textAlign: "center", marginLeft: "7.5%"}}>@{userHandle}</Text>
+                </View>
             </View>
             
             <View style={styles.infoBoxWrapper}>
                 <View style={[styles.infoBox, {
-                    borderRightColor: "#f76f6d",
-                    borderRightWidth: 2
+                    borderRightColor: "black",
+                    borderRightWidth: 3.5
                 }]}>
-                    <Title style={{fontWeight: "bold", color: "#f76f6d" }}>{friendssize}</Title>
-                    <Caption style={{color: "#f76f6d", fontWeight: "bold"}}>Friends</Caption>
+                    <Title style={{fontWeight: "bold", color: "black" }}>{friendssize}</Title>
+                    <Caption style={{color: "black"}}>Friends</Caption>
                 </View>
                 <View style={styles.infoBox}>
-                <Title style={{fontWeight: "bold", color: "#f76f6d" }}>{partynumber}</Title>
-                    <Caption style={{color: "#f76f6d", fontWeight: "bold"}}>Parties</Caption>
+                <Title style={{fontWeight: "bold", color: "black" }}>{partynumber}</Title>
+                    <Caption style={{color: "black"}}>Parties</Caption>
                 </View>
             </View>
             <View style={styles.containercolumn}>
-                <Button color="#f76f6d" icon="person-add" iconSize={15} iconFamily="ionicons" round uppercase size="large" onPress={()=>navigation.navigate("Add Friends")}> Add friends here</Button>
-                <Button color="#f76f6d" icon="logout" iconSize={15} iconFamily="ionicons" round uppercase size="large" onPress={()=>logout()}> Logout</Button>
+                <Button color="black" icon="person-add" iconSize={15} iconFamily="ionicons" round uppercase size="large" onPress={()=>navigation.navigate("Add Friends")}> Add friends here</Button>
+                <Button color="black" icon="logout" iconSize={15} iconFamily="ionicons" round uppercase size="large" onPress={()=>logout()}> Logout</Button>
             </View>
 
             <Provider>
@@ -173,18 +173,20 @@ export default ProfileViewController;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#16335e"
+        backgroundColor: "white"
     },
     container2: {
         flex: 0.5,
         flexDirection: "row",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        marginTop: "5%"
     },  
     text: {
         marginBottom: "5%",
         marginLeft: "5%",
-        color: "#ff9685",
+        color: "black",
+        fontWeight: "bold"
     },
     text1: {
         color: "#f76f6d",
@@ -210,20 +212,15 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 30,
+        marginTop: "15%",
     },
     infoSect: {
         paddingHorizontal: 30,
         marginBottom: 25,
     },
     infoBoxWrapper: {
-        borderBottomColor: "#f76f6d",
-        borderBottomWidth: 2,
-        borderTopColor: '#f76f6d',
-        borderTopWidth: 2,
+        marginTop: "2%",
         flexDirection: "row",
-        marginBottom: 20,
-        height:100,
     },
     infoBox: {
         width: '50%',
