@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { View,  Image, StyleSheet, ImageBackground } from 'react-native';
-import {Text} from 'galio-framework';
+import {Text, Input} from 'galio-framework';
 import {Headline, TextInput, Button } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useContext } from 'react';
@@ -19,32 +19,20 @@ const LoginViewController = ({navigation}) => {
                 <Image source={require('../images/logo.png')} style={styles.logo} />
                 <Card style={styles.card}>
                     <Card.Content>
-                        <Text h3 style={{textAlign: "center", fontWeight: "bold", marginTop: "12%", color: "#0095f1"}}>Log In</Text>
-                        <TextInput
-                            mode="outlined"
-                            name="user"
-                            icon="user"
+                        <Text h3 style={{textAlign: "center", fontWeight: "bold", marginTop: "12%", color: "black", fontFamily: "PingFangHK-Medium"}}>Log In</Text>
+                        <Input
                             placeholder="Email"
-                            selectionColor="#000"
-                            underlineColor="#F76F6D"
                             onChangeText={email => setEmail(email)}
-                            style={{padding: 10, width: "100%", height: 45, borderRadius: 25, marginTop: "2%"}}
-                            keyboardType="email-address"
+                            style={styles.input1}
                             autoCapitalize="none"
                             value={email}
-                            theme={{ colors: {primary: '#F76F6D', underlineColor:'#F7A146',}}}
                         />
-                        <TextInput 
-                            mode="outlined"
+                        <Input      
                             placeholder="Password"
-                            selectionColor="#000"
-                            underlineColor="#F76F6D"
                             secureTextEntry={true}
                             onChangeText={pass => setPass(pass)}
-                            
                             style={styles.input}
                             value={pass}
-                            theme={{ colors: {primary: '#F76F6D', underlineColor:'#F7A146',}}}
                         />
                     </Card.Content>
                     
@@ -60,7 +48,7 @@ const LoginViewController = ({navigation}) => {
                         <Button icon="rocket" 
                             mode="contained"
                             onPress={() => navigation.navigate("Sign Up")}
-                            style={styles.button}>
+                            style={styles.button1}>
                                 Sign Up
                         </Button>
                 <TouchableOpacity style={styles.forgotPass}>
@@ -86,38 +74,51 @@ const styles = StyleSheet.create({
         flex: 1,
         resizeMode: "cover",
         alignItems: "center",
-        width: "100%"
+        width: "100%",
+        
     },
     card: {
         height: "35%",
         width: "80%",
         borderRadius: 25,
         shadowRadius: 40,
-        alignContent: "center",
         marginBottom: "5%",
         backgroundColor: "#D7D5ED"
     },  
     logo: {
-        height: "25%",
-        width: 250,
+        height: "33%",
+        width: "50%",
         resizeMode: 'cover',
         position: "relative",
-        marginBottom: "8%",
-        marginTop: "10%"
+        marginBottom: "-5%"
     },
     input: {
         padding: 10,
-        width: '100%',
+        width: '90%',
         height: 45,
         borderRadius: 25,
-        
+        marginLeft: "5%",
+    },
+    input1: {
+        width: '90%',
+        height: 45,
+        borderRadius: 25,
+        marginLeft: "5%",
+        marginTop: "5%",
     },
     button: {
-       marginTop: 20,
+       marginTop: "3%",
        height: 37,
        width:"60%",
        backgroundColor: "#F76F6D",
        borderRadius: 15
+    },
+    button1: {
+        marginTop: "5%",
+        height: 37,
+        width:"60%",
+        backgroundColor: "#F76F6D",
+        borderRadius: 15,
     },
     forgotPass: {
         marginVertical: 35

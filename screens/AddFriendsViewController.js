@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { View, Image, StyleSheet, FlatList } from "react-native";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { Text, Button } from "galio-framework";
-import {Searchbar, Modal, Portal, Provider, Avatar} from "react-native-paper";
-import {ListItem} from 'react-native-elements';
+import {Modal, Portal, Provider, Avatar} from "react-native-paper";
+import {ListItem, Input} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import TouchableScale from 'react-native-touchable-scale';
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -17,10 +17,10 @@ const AddFriendsViewController = () => {
   const showPanel = () => setVisible(true);
   const hidePanel = () => setVisible(false);
   const [userHandle, setUserHandle] = useState("");
-  const [pressable, setPressable] = useState(true);
-
+  const [checkHandle, setCheckHandle] = useState([]);
   const [friendssize, setFriendsSize] = useState(0);
   const [buttonMessage, setButtonMessage] = useState("Add Friend");
+  const [errorMessage, setErrorMessage] = useState("Friend added");
 
   useEffect(() => {
     const main = async() => {
@@ -54,14 +54,27 @@ const AddFriendsViewController = () => {
   const B = (props) => (
     <Text style={{ fontWeight: "bold" }}>{props.children}</Text>
   );
-
+  
+  useEffect(() => {
+    firestore()
+      .collection("Users")
+      .doc(user.uid)
+      .collection("friends")
+      .get()
+      .then((resvals) => {
+        const resarr = resvals.docs.map((y) => y.data());
+        setCheckHandle(resarr);
+      })
+      .catch((err) => alert(err));
+  }, [])
+  
 
   return (
     <View style={styles.container}>
       <Text h3 style={styles.text}>
         Add <B>Friends</B>
       </Text>
-      <Searchbar
+      <Input
         placeholder="Enter a handle"
         onChangeText={(txt) => setQuery(txt)}
         autoCapitalize="none"
@@ -115,10 +128,9 @@ const AddFriendsViewController = () => {
                                 imageUrlPath: item.imageUrl
                               })
                               .then(
-                                setPressable(false),
+                                alert("Friend Added")
                               )
-                              setButtonMessage("Friend Added");
-                              alert("Friend Added");
+                              
                             }}>
                               {buttonMessage}
                           </Button>
@@ -131,7 +143,7 @@ const AddFriendsViewController = () => {
   );
 };
 
-export default AddFriendsViewController;
+export default AddFriendsViewController; 
 
 const styles = StyleSheet.create({
   container: {
@@ -150,6 +162,8 @@ const styles = StyleSheet.create({
     padding: 20,
     color: "#f76f6d",
     fontSize: 45,
+    marginTop: "20%",
+    fontFamily: "PingFangHK-Medium",
   },
   searchbar: {
     marginLeft: 20,

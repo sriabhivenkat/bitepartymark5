@@ -6,9 +6,11 @@ import { AuthContext } from "../navigation/AuthProvider.js";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Title, Caption} from 'react-native-paper';
 import {Modal, Portal, Provider} from 'react-native-paper';
+import {Icon} from 'react-native-elements';
 import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 import ModernHeader from 'react-native-modern-header';
+import LinearGradient from "react-native-linear-gradient";
 
 const ProfileViewController = ({navigation}) => {
     const { user, logout } = useContext(AuthContext);
@@ -120,6 +122,7 @@ const ProfileViewController = ({navigation}) => {
     }, [user]);
     return(
         <View style={styles.container}>
+            
             <View style={styles.container2}>
                 <TouchableOpacity onPress={showModal}>
                     <Image source={{uri: profileImageUrl}} style={{width: 125, height: 125, backgroundColor: "yellow", borderRadius: 60, resizeMode: "cover", marginRight: "5%"}} />
@@ -144,8 +147,52 @@ const ProfileViewController = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.containercolumn}>
-                <Button color="black" icon="person-add" iconSize={15} iconFamily="ionicons" round uppercase size="large" onPress={()=>navigation.navigate("Add Friends")}> Add friends here</Button>
-                <Button color="black" icon="logout" iconSize={15} iconFamily="ionicons" round uppercase size="large" onPress={()=>logout()}> Logout</Button>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.9}
+                    onPress={()=>navigation.navigate("Add Friends")}
+                    style={{width: "90%", height: '45%', marginBottom: "5%"}}
+                    >
+                    <LinearGradient
+                        start={{x:0, y:0}}
+                        end={{x:1, y:0}}
+                        colors={['#8a2387', '#e94057', '#f27121']}
+                        style={{height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15}}>
+                        <Text style={{color: "white", fontFamily: "PingFangHK-Regular", fontSize: 17, }}>Add Friends 🧑‍🤝‍🧑 </Text>
+                    </LinearGradient>
+                </TouchableOpacity>
+
+
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.9}
+                    onPress={()=>navigation.navigate("Settings")}
+                    style={{width: "90%", height: '45%', marginBottom: "5%"}}
+                    >
+                    <LinearGradient
+                        start={{x:0, y:0}}
+                        end={{x:1, y:0}}
+                        colors={['#8a2387', '#e94057', '#f27121']}
+                        style={{height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15}}>
+                        <Text style={{color: "white", fontFamily: "PingFangHK-Medium", fontSize: 17}}>Settings 📖</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
+                
+
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.9}
+                    onPress={()=>logout()}
+                    style={{width: "90%", height: '45%', marginBottom: "5%"}}
+                    >
+                    <LinearGradient
+                        start={{x:0, y:0}}
+                        end={{x:1, y:0}}
+                        colors={['#8a2387', '#e94057', '#f27121']}
+                        style={{height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15}}>
+                        <Text style={{color: "white", fontFamily: "PingFangHK-Medium", fontSize: 17}}>Log Out 🚪</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
             </View>
 
             <Provider>
@@ -180,7 +227,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "5%"
+        marginTop: "20%"
     },  
     text: {
         marginBottom: "5%",
@@ -226,6 +273,7 @@ const styles = StyleSheet.create({
         width: '50%',
         alignItems: "center",
         justifyContent: "center",
+        marginBottom: "5%"
     },
     button: {
         marginBottom:10

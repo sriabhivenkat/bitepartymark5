@@ -6,7 +6,9 @@ import { Text } from "galio-framework";
 import {Divider} from 'react-native-elements';
 import firestore from "@react-native-firebase/firestore";
 import {Button} from 'react-native-paper';
-
+import LinearGradient from "react-native-linear-gradient";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import TouchableScale from 'react-native-touchable-scale';
 
 const HomeViewController = ({navigation}) => {
   const { user } = useContext(AuthContext);
@@ -38,15 +40,27 @@ const HomeViewController = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+        <Text h2 style={styles.title}>Your Feed</Text>
+        
         <View style={styles.bottomView}>
-          <Button 
-            color="black" 
-            icon="party-popper" 
-            mode="contained"
+          <TouchableOpacity
             style={styles.button}
-            onPress={()=>navigation.navigate("Begin Party")}> 
-              Let's Party!
-          </Button>
+            activeOpacity={0.9}
+            onPress={() => navigation.navigate("Begin Party")}
+            style={{width: 312, height: '80%', marginBottom: "3%"}}
+            >
+              <LinearGradient
+                start={{x:0, y:0}}
+                end={{x:1, y:0}}
+                colors={['#8a2387', '#e94057', '#f27121']}
+                style={{height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15, width: "110%", marginLeft: "-5%"}}
+                Component={TouchableScale}
+                friction={90}
+                tension={100}
+                activeScale={0.95}>
+                  <Text style={{color: "white", fontFamily: "PingFangHK-Medium", fontSize: 17}}>Let's Party 🥳 </Text>
+                </LinearGradient>
+          </TouchableOpacity>
         </View>
     </View>
   );
@@ -60,17 +74,17 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   title: {
-    color: "#f76f6d",
+    color: "black",
     justifyContent: "center",
     marginLeft: "5%",
-    fontSize: 45,
+    fontSize: 43,
     fontFamily: "PingFangHK-Medium",
-    
+    marginTop: "15%"
   },
   button: {
     width: "80%",
     height: "75%",
-
+    
   },  
   bottomView: {
     width: '100%',

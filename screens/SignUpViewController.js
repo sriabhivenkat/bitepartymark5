@@ -4,7 +4,7 @@ import {Subheading} from 'react-native-paper';
 import {TextInput} from 'react-native-paper';
 import {Button, Card} from 'react-native-paper'
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Text} from 'galio-framework';
+import {Text, Input} from 'galio-framework';
 import { AuthContext } from '../navigation/AuthProvider.js';
 import { useContext } from 'react';
 
@@ -25,63 +25,41 @@ const SignUpViewController = ({navigation}) => {
                 
                 <Card style={styles.card}>
                     <Card.Content>
-                        <Text h3 style={{fontWeight: "bold", color: "#F76F6D", textAlign: "center", marginBottom: "5%", marginTop: "5%"}}>Sign Up</Text>
-                        <TextInput
-                            mode="outlined"
-                            name="user"
-                            icon="user"
+                        <Text h3 style={{fontWeight: "bold", color: "black", textAlign: "center", marginBottom: "5%", marginTop: "5%", fontFamily: "PingFangHK-Medium"}}>Sign Up</Text>
+                        <Input
                             placeholder="Email"
-                            selectionColor="#000"
-                            underlineColor="#F76F6D"
                             onChangeText={(userEmail) => setEmail(userEmail)}
                             style={styles.input}
                             keyboardType="email-address"
                             autoCapitalize="none"
                             value={email}
-                            theme={{ colors: {primary: '#F76F6D', underlineColor:'#F7A146',}}}
                         />
-                        <TextInput 
-                            mode="outlined"
+                        <Input 
                             placeholder="Password"
-                            selectionColor="#000"
-                            underlineColor="#F76F6D"
                             onChangeText={(userPass) => setPass(userPass)}
                             autoCapitalize="none"
                             secureTextEntry={true}
                             style={styles.input}
                             value={pass}
-                            theme={{ colors: {primary: '#F76F6D', underlineColor:'#F7A146',}}}
                         />
-                        <TextInput 
-                            mode="outlined"
+                        <Input 
                             placeholder="Enter your first name"
-                            selectionColor="#000"
-                            underlineColor="#F76F6D"
                             onChangeText={(userFirst) => setFirst(userFirst)}
                             style={styles.input}
                             value={first}
-                            theme={{ colors: {primary: '#F76F6D', underlineColor:'#F7A146',}}}
                         />
-                        <TextInput 
-                            mode="outlined"
+                        <Input 
                             placeholder="Enter your last name"
-                            selectionColor="#000"
-                            underlineColor="#F76F6D"
                             onChangeText={(userLast) => setLast(userLast)}
                             style={styles.input}
                             value={last}
-                            theme={{ colors: {primary: '#F76F6D', underlineColor:'#F7A146',}}}
                         />
-                        <TextInput 
-                            mode="outlined"
+                        <Input 
                             placeholder="Enter a handle"
-                            selectionColor="#000"
-                            underlineColor="#F76F6D"
                             autoCapitalize="none"
                             onChangeText={(userHandle) => setHandle(userHandle)}
                             style={styles.input}
                             value={handle}
-                            theme={{ colors: {primary: '#F76F6D', underlineColor:'#F7A146',}}}
                         />
                     </Card.Content>
                 </Card>
@@ -112,13 +90,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#16335e"
     },
     card: {
-        height: "55%",
+        height: "50%",
         width: "80%",
         borderRadius: 25,
         shadowRadius: 40,
         alignContent: "center",
-        marginBottom: "5%",
-        marginTop: "13%",
+        marginBottom: "3%",
+        marginTop: "8%",
         backgroundColor: "#D7D5ED"
     }, 
     image: {
@@ -129,16 +107,18 @@ const styles = StyleSheet.create({
     },
     input: {
         padding: 10,
-        width: '100%',
+        width: '90%',
+        marginLeft: "5%",
         height: 45,
         borderRadius: 25,
     },
     text: {
-        marginTop: "25%",
+        marginTop: "30%",
         textAlign: "center",
         fontWeight: "bold",
-        fontSize: 37,
+        fontSize: 32,
         color: "white",
+        fontFamily: "PingFangHK-Medium"
     },
     subheading: {
         color: '#f7a146',

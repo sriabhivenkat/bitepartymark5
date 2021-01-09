@@ -26,23 +26,8 @@ const HomeStack = ({navigation}) => (
             <Stack.Screen 
                 name="Home" 
                 component={HomeViewController}
-                options = {() => ({
-                    title: "My Feed",
-                    headerStyle: {
-                        backgroundColor: "#f76f6d",
-                        shadowColor: "#f76f6d",
-                        elevation: 0,
-                    },
-                    headerTitleStyle: {
-                        color: "white",
-                        fontSize: 27.5,
-                        alignSelf:"center",
-                        textAlign:"center",
-                        flex:1,
-                    }
-                })}
+                options={{header: () => null}}
             />
-
             <Stack.Screen 
                 name="Begin Party"
                 component={AddPartyViewController}
@@ -61,8 +46,8 @@ const HomeStack = ({navigation}) => (
                 options = {() => ({
                     title: "",
                     headerStyle: {
-                        backgroundColor: "#f76f6d",
-                        shadowColor: "#f76f6d",
+                        backgroundColor: "white",
+                        shadowColor: "white",
                         elevation: 0,
                     },
                 })}
@@ -76,26 +61,17 @@ const ProfileStack = () => (
         <Stack.Screen 
             name="Profile"
             component={ProfileViewController}
-            options={() => ({
-            title:"",
-            headerStyle: {
-                backgroundColor: "#f76f6d",
-                shadowColor: "#f76f6d",
-                elevation: 0,
-                },
-            })}
+            options={{header: () => null}}
         />
         <Stack.Screen 
             name="Add Friends"
             component={AddFriendsViewController}
-            options={() => ({
-                title:"",
-                headerStyle: {
-                    backgroundColor: "#f76f6d",
-                    shadowColor: "#f76f6d",
-                    elevation: 0,
-                },
-            })}
+            options={{header: () => null}}
+        />
+        <Stack.Screen 
+            name="Settings"
+            component={SettingsViewController}
+            options={{header: () => null}}
         />
     </Stack.Navigator>
 );

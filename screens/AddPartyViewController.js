@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import {Text} from 'galio-framework';
-import {Input} from 'react-native-elements';
 import {Card} from 'react-native-paper';
 import { AuthContext } from "../navigation/AuthProvider.js";
 import TouchableScale from 'react-native-touchable-scale';
@@ -19,14 +18,16 @@ const AddPartyViewController = ({navigation}) => {
                 activeScale={0.95}>
                 <Card.Content>
                     <Text h4 style={{fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "#f76f6d", textAlign: "center"}}>Duos</Text>
-                    <Image source={require('../images/duos.png')} style={{width: 150, height: 150, alignItems: "center"}}/>
+                    <Text style={{fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "#f76f6d", textAlign: "center"}}>Grab a buddy. Have fun!</Text>
+                    <Image source={require('../images/duos.png')} style={{width: 170, height: 160, alignItems: "center"}}/>
                 </Card.Content>
             </Card>
 
-            <Card style={styles.card1} onPress={() => {}}>
+            <Card style={styles.card} onPress={() => {}}>
                 <Card.Content>
                     <Text h4 style={{fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "#f76f6d", textAlign: "center"}}>Parties</Text>
-                    <Image source={require('../images/squads.png')} style={{width: 150, height: 150, alignItems: "center"}}/>
+                    <Text style={{fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "#f76f6d", textAlign: "center"}}>Party it up with a group of 3 or more!</Text>
+                    <Image source={require('../images/squads.png')} style={{width: 170, height: 160}}/>
                 </Card.Content>
             </Card>
         </View>
@@ -47,7 +48,9 @@ const styles = StyleSheet.create({
     },
     title: {
         padding: "5%",
-        fontFamily: "PingFangHK-Light",
+        marginTop: "2.5%",
+        marginBottom: "2.5%",
+        fontFamily: "PingFangHK-Medium",
         color: "#f76f6d",
         textAlign: "center",
     },
@@ -59,20 +62,11 @@ const styles = StyleSheet.create({
         borderRadius: 15
      },
     card: {
-        height: "30%",
-        width: "80%",
+        height: "35%",
+        width: "85%",
         borderRadius: 25,
-        shadowRadius: 40,
+        shadowRadius: 10,
         marginBottom: "5%",
         backgroundColor: "white", 
     }, 
-    card1: {
-        height: "30%",
-        width: "80%",
-        borderRadius: 25,
-        shadowRadius: 40,
-        marginBottom: "5%",
-        marginTop: "10%",
-        backgroundColor: "white", 
-    },  
 });
