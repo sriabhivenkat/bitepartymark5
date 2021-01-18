@@ -35,7 +35,6 @@ const LoginViewController = ({navigation}) => {
                             value={pass}
                         />
                     </Card.Content>
-                    
                 </Card>
                         <Button icon="rocket" 
                             mode="contained"

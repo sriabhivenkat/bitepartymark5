@@ -14,7 +14,8 @@ import AddFriendsViewController from '../screens/AddFriendsViewController.js';
 import AddPartyViewController from '../screens/AddPartyViewController.js';
 import AddDuosViewController from '../screens/AddDuosViewController.js';
 import AddSquadsViewController from '../screens/AddSquadsViewController.js';
-
+import FiltersViewController from '../screens/FiltersViewController.js';
+import DuosPartyScreen from '../screens/DuosPartyScreen.js';
 
 
 const Stack = createStackNavigator();
@@ -33,6 +34,7 @@ const HomeStack = ({navigation}) => (
                 component={AddPartyViewController}
                 options = {() => ({
                     title: "",
+                    headerShown: "false",
                     headerStyle: {
                         backgroundColor: "white",
                         shadowColor: "white",
@@ -52,7 +54,16 @@ const HomeStack = ({navigation}) => (
                     },
                 })}
             />
-            
+            <Stack.Screen 
+                name="Filters"
+                component={FiltersViewController}
+                options={{header: () => null}}
+            />
+            <Stack.Screen 
+                name="DuosPartyScreen"
+                component={DuosPartyScreen}
+                options={{header: () => null}}
+            />
         </Stack.Navigator>
 );
 
@@ -85,6 +96,7 @@ const AppStack = () => {
                     backgroundColor: 'white',
                     borderTopColor: "white"
                 },
+                headerShown: false
             }}
             initialRouteName={
                 "Home"

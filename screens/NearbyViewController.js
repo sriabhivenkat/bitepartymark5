@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet,StatusBar } from 'react-native';
 
 
 const NearbyViewController = () => {
     return(
         <View style={styles.container}>
+            <StatusBar translucent={true}/>
             <Text>Howdy</Text>
         </View>
     );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
-import { View, Image, StyleSheet, ImageBackground } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, StatusBar } from "react-native";
 import { AuthContext } from "../navigation/AuthProvider.js";
 import { Text } from "galio-framework";
 import {Divider} from 'react-native-elements';
@@ -11,37 +11,17 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import TouchableScale from 'react-native-touchable-scale';
 
 const HomeViewController = ({navigation}) => {
-  const { user } = useContext(AuthContext);
-  const [userHandle, setUserHandle] = useState("");
-  const [profileBool, setProfileBool] = useState("");
   
   const B = (props) => <Text style={{fontWeight: "bold"}}>{props.children}</Text>
 
 
-  useEffect(() => {
-    const main = async () => {
-      const refVal = firestore().collection("Users").doc(user.uid);
-      const doc = await refVal.get();
-      const {handle} = doc.data();
-      const {flavorProfileCreated} = doc.data();
-
-      setUserHandle(handle);
-      setProfileBool(flavorProfileCreated);
-    };
-    main();
-  }, []);
-
-  var message;
-    if(profileBool==false) {
-        message="You have not created a flavor profile. Tap this card to set it up!"
-    } else {
-        message="suck my dick"
-    }
-
   return (
     <View style={styles.container}>
+      <StatusBar translucent={true}/>
         <Text h2 style={styles.title}>Your Feed</Text>
-        
+        <View style={{flex:0.35}}>
+          <Text h4 style={styles.title1}>Invitations</Text>
+        </View>
         <View style={styles.bottomView}>
           <TouchableOpacity
             style={styles.button}
@@ -52,7 +32,7 @@ const HomeViewController = ({navigation}) => {
               <LinearGradient
                 start={{x:0, y:0}}
                 end={{x:1, y:0}}
-                colors={['#8a2387', '#e94057', '#f27121']}
+                colors={['#7f00ff', '#e100ff', '#ffaf7b']}
                 style={{height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15, width: "110%", marginLeft: "-5%"}}
                 Component={TouchableScale}
                 friction={90}
@@ -81,6 +61,14 @@ const styles = StyleSheet.create({
     fontFamily: "PingFangHK-Medium",
     marginTop: "15%"
   },
+  title1: {
+    padding: "5%",
+    marginTop: "2.5%",
+    marginBottom: "2.5%",
+    fontFamily: "PingFangHK-Medium",
+    color: "#f76f6d",
+    marginLeft: "1.5%",
+},
   button: {
     width: "80%",
     height: "75%",

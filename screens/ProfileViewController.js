@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity, Alert, StatusBar } from 'react-native';
 import {Text, Button, Card} from 'galio-framework';
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { AuthContext } from "../navigation/AuthProvider.js";
@@ -9,7 +9,6 @@ import {Modal, Portal, Provider} from 'react-native-paper';
 import {Icon} from 'react-native-elements';
 import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
-import ModernHeader from 'react-native-modern-header';
 import LinearGradient from "react-native-linear-gradient";
 
 const ProfileViewController = ({navigation}) => {
@@ -122,7 +121,7 @@ const ProfileViewController = ({navigation}) => {
     }, [user]);
     return(
         <View style={styles.container}>
-            
+            <StatusBar translucent={true} />
             <View style={styles.container2}>
                 <TouchableOpacity onPress={showModal}>
                     <Image source={{uri: profileImageUrl}} style={{width: 125, height: 125, backgroundColor: "yellow", borderRadius: 60, resizeMode: "cover", marginRight: "5%"}} />
