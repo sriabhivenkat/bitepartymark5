@@ -21,7 +21,21 @@ const AddDuosViewController = ({navigation}) => {
     const showPanel = () => setIsVisible(true);
     const hidePanel = () => setIsVisible(false);
 
+    const [userHandle, setUserHandle] = useState("");
+    const [imagePath, setImagePath] = useState("");
     const [handleval, setHandleVal] = useState("");
+
+    useEffect(() => {
+        const main = async () => {
+          const refVal = firestore().collection("Users").doc(user.uid);
+          const doc = await refVal.get();
+          const {handle} = doc.data();
+          const {imageUrl} = doc.data();
+          setUserHandle(handle)
+          setImagePath(imageUrl);
+        };
+        main();
+    }, []);
 
     useEffect(() => {
         firestore()
@@ -87,6 +101,19 @@ const AddDuosViewController = ({navigation}) => {
                                             })
                                             .then(() => {
                                                 return AsyncStorage.setItem('handlequeryval', item1.handle);
+                                            })
+                                            .then(() => {
+                                                firestore()
+                                                    .collection("Users")
+                                                    .doc(item1.uidvalue)
+                                                    .collection("invitations")
+                                                    .doc("invitation from "+userHandle)
+                                                    .set({
+                                                        inviter: userHandle,
+                                                        isDuo: true,
+                                                        accepted: false,
+                                                        imagePath: imagePath,
+                                                    })
                                             })
                                             .then(
                                                 navigation.navigate("Filters", {paramKey: handleval}),

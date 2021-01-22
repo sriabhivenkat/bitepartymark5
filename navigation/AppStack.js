@@ -16,11 +16,10 @@ import AddDuosViewController from '../screens/AddDuosViewController.js';
 import AddSquadsViewController from '../screens/AddSquadsViewController.js';
 import FiltersViewController from '../screens/FiltersViewController.js';
 import DuosPartyScreen from '../screens/DuosPartyScreen.js';
-
+import FlavorTestViewController from '../screens/FlavorTestViewController.js';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
 
 const HomeStack = ({navigation}) => (
     <Stack.Navigator>
@@ -86,6 +85,23 @@ const ProfileStack = () => (
         />
     </Stack.Navigator>
 );
+
+
+const NearbyStack = () => (
+    <Stack.Navigator>
+        <Stack.Screen 
+            name="FlavorProfile"
+            component={NearbyViewController}
+            options={{header: () => null}}
+        />
+        <Stack.Screen 
+            name="FlavorTest"
+            component={FlavorTestViewController}
+            options={{header: () => null}}
+        />
+    </Stack.Navigator>
+)
+
 const AppStack = () => {
     return(
         <Tab.Navigator
@@ -100,7 +116,8 @@ const AppStack = () => {
             }}
             initialRouteName={
                 "Home"
-            }>
+            }
+        >
             <Tab.Screen 
                 name="Profile"
                 component={ProfileStack}
@@ -112,7 +129,7 @@ const AppStack = () => {
                             color={"black"}
                             size={25}
                         />
-                    )
+                    ),
                 }}
             />
             <Tab.Screen 
@@ -130,16 +147,15 @@ const AppStack = () => {
                 }}
             />
             <Tab.Screen 
-                name="Nearby"
-                component={NearbyViewController}
+                name="FlavorProfile"
+                component={NearbyStack}
                 options={{
-                    tabBarLabel: 'Nearby',
+                    tabBarLabel: 'FlavorProfile',
                     tabBarIcon: () => (
-                        <FontAwesome 
-                            name="car"
-                            size= {25}
-                            backgroundColor="#16335e"
-                            color="black"
+                        <Ionicons 
+                            name="restaurant"
+                            color={"black"}
+                            size={30}
                         />
                     ),
                 }}

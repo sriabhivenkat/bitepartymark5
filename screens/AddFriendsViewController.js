@@ -116,16 +116,18 @@ const AddFriendsViewController = () => {
                           <Button 
                             style={{backgroundColor: "#F06960", marginLeft: "auto", marginRight: "auto", width:"90%"}} 
                             onPress={() => {
+                              var uidval = 
                               firestore()
                               .collection("Users")
                               .doc(user.uid)
                               .collection("friends")
-                              .doc(item.uid)
+                              .doc(item.uidvalue)
                               .set({
                                 handle: item.handle,
                                 firstName: item.firstName,
                                 lastName: item.lastName,
-                                imageUrlPath: item.imageUrl
+                                imageUrlPath: item.imageUrl,
+                                uidvalue: item.uidvalue
                               })
                               .then(
                                 alert("Friend Added")

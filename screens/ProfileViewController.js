@@ -124,7 +124,7 @@ const ProfileViewController = ({navigation}) => {
             <StatusBar translucent={true} />
             <View style={styles.container2}>
                 <TouchableOpacity onPress={showModal}>
-                    <Image source={{uri: profileImageUrl}} style={{width: 125, height: 125, backgroundColor: "yellow", borderRadius: 60, resizeMode: "cover", marginRight: "5%"}} />
+                    <Image source={{uri: profileImageUrl}} style={{width: 125, height: 125, backgroundColor: "yellow", borderRadius: 60, resizeMode: "cover", marginRight: "2.5%",}} />
                 </TouchableOpacity>
                 <View style={styles.column}>
                     <Text h5 style={{textAlign:"center", marginLeft:20, color: "black", fontWeight: "bold", marginTop: "-5%", padding: "1.5%"}}>{userFirst} {userLast}</Text>
@@ -155,7 +155,7 @@ const ProfileViewController = ({navigation}) => {
                     <LinearGradient
                         start={{x:0, y:0}}
                         end={{x:1, y:0}}
-                        colors={['#8a2387', '#e94057', '#f27121']}
+                        colors={["#ee0979","#f76f6d",'#ff6a00']}
                         style={{height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15}}>
                         <Text style={{color: "white", fontFamily: "PingFangHK-Regular", fontSize: 17, }}>Add Friends 🧑‍🤝‍🧑 </Text>
                     </LinearGradient>
@@ -171,7 +171,7 @@ const ProfileViewController = ({navigation}) => {
                     <LinearGradient
                         start={{x:0, y:0}}
                         end={{x:1, y:0}}
-                        colors={['#8a2387', '#e94057', '#f27121']}
+                        colors={["#ee0979","#f76f6d",'#ff6a00']}
                         style={{height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15}}>
                         <Text style={{color: "white", fontFamily: "PingFangHK-Medium", fontSize: 17}}>Settings 📖</Text>
                     </LinearGradient>
@@ -187,7 +187,7 @@ const ProfileViewController = ({navigation}) => {
                     <LinearGradient
                         start={{x:0, y:0}}
                         end={{x:1, y:0}}
-                        colors={['#8a2387', '#e94057', '#f27121']}
+                        colors={["#ee0979","#f76f6d",'#ff6a00']}
                         style={{height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15}}>
                         <Text style={{color: "white", fontFamily: "PingFangHK-Medium", fontSize: 17}}>Log Out 🚪</Text>
                     </LinearGradient>

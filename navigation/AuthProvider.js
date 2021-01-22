@@ -34,7 +34,7 @@ export const AuthProvider = ({children}) => {
                                         lastName: last,
                                         handle: handle,
                                         flavorProfileCreated: false,
-                                        uid: uidval
+                                        uidvalue: uidval
                                     })
                             })
                             .then(() => {
@@ -58,7 +58,17 @@ export const AuthProvider = ({children}) => {
                                     .set({
                                         partyMembers: [],
                                         location: "testLocation",
-                                    })
+                                    });
+                                firestore()
+                                    .collection("Users")
+                                    .doc(uidval)
+                                    .collection("invitations")
+                                    .doc("testInvitation")
+                                    .set({
+                                        inviter: "Potato Stalin",
+                                        accepted: false,
+                                        isDuo: true,
+                                    });
                             })
                             .catch(function (e) {
                                 console.log(e)
