@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useRef} from 'react';
 import { View, Image, StyleSheet,StatusBar, Animated, TouchableWithoutFeedback} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, Slider} from 'react-native-elements';
 import {Text} from 'galio-framework';
 import {RadioButton} from 'react-native-paper'
 import firestore from "@react-native-firebase/firestore";
@@ -13,12 +13,11 @@ import TouchableScale from 'react-native-touchable-scale';
 const FlavorTestViewController = (props) => {
     const {user} = useContext(AuthContext);
     const opacity = useState(new Animated.Value(1))[0]
-    const [message, setMessage] = useState("Find out what you're into.");
-    const [buttonText, setButtonText] = useState("Let's go!")
-    const [stateval, setStateVal] = useState(false);
-    const [value, setValue] = React.useState('first');
+    const [stateval, setStateVal] = useState(false)
     const introOpacity = useRef(new Animated.Value(0)).current
     const textOpacity = useRef(new Animated.Value(0)).current
+    const slide2Opacity = useRef(new Animated.Value(0)).current
+    const [value, setValue] = useState('first');
 
 
     const fadeInIntro = Animated.timing(introOpacity,
@@ -45,6 +44,21 @@ const FlavorTestViewController = (props) => {
         }
     )
 
+    const fadeOutText = Animated.timing(textOpacity,
+        {
+            toValue: 0,
+            duration: 1500,
+            useNativeDriver: true
+        }    
+    )
+    const fadeInSlide2 = Animated.timing(slide2Opacity,
+        {
+            toValue: 1,
+            duration: 1500,
+            useNativeDriver: true
+        }
+    )
+
     // fade in on mount
     useEffect(() => {
         fadeInIntro.start()
@@ -55,17 +69,24 @@ const FlavorTestViewController = (props) => {
         fadeOutIntro.start()
         fadeInText.start()
         setStateVal(true);
-    }    
+    }
+
+    const movetoSlide2 = () => {
+        setStateVal(false);
+        fadeOutText.start()
+        fadeInSlide2.start()
+        setStateVal(true);
+    }
     return(
         <View style={styles.container}>
             <Animated.View
-                style={{opacity: introOpacity, marginTop: "50%"}}
+                style={{opacity: introOpacity, marginTop: "50%", marginTop: "90%"}}
             >
-                <Text numberOfLines={1} style={styles.fadingText}>{message}</Text>
+                <Text numberOfLines={1} style={styles.fadingText}>What are your tastes?</Text>
                 <TouchableOpacity
                 activeOpacity={0.9}
                 onPress={handleTransition}
-                style={{width: "80%", height: '30%', marginLeft: "10%", justifyContent: "center",}}
+                style={{width: "80%", height: '35%', marginLeft: "10%", justifyContent: "center", marginTop: "2%"}}
                 >
                     <LinearGradient
                         start={{x:0, y:0}}
@@ -77,15 +98,23 @@ const FlavorTestViewController = (props) => {
                 </TouchableOpacity>
             </Animated.View>
             <Animated.View
-                pointerEvents="none"
-                style={[{opacity: textOpacity, bottom: 400}]}
-            >
-                <Text numberOfLines={1} style={styles.fadingText}>Rate your sweet tooth</Text>
+                pointerEvents={stateval ? "auto":"none"}
+                style={[{opacity: textOpacity, bottom: "30%", marginLeft: "5%", marginRight: "5%"}]}>
                 <View>
-                    <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
-                        <RadioButton.Item label="First item" value="first" />
-                        <RadioButton.Item label="Second item" value="second" />
+                    <Text h5 style={{textAlign: "center", color: "#f76f6d", fontFamily: "PingFangHK-Medium"}}>Picture this. You've just broken up with your significant other and you want ice cream. What flavor are you going to pick?</Text>
+                    <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
+                        <RadioButton.Item label="Vanilla, of course???" value="first" labelStyle={{fontFamily: "PingFangHK-Medium", color: "#f76f6d", fontSize: 20}} style={{marginTop: "5%"}}/>
+                        <RadioButton.Item label="Chocolate" value="second" labelStyle={{fontFamily: "PingFangHK-Medium", color: "#f76f6d", fontSize: 20}}/>
                     </RadioButton.Group>
+                </View>
+            </Animated.View>
+            <Animated.View
+                pointerEvents={stateval ? "auto":"none"}
+                style={[{opacity: slide2Opacity, justifyContent: "center"}]}
+            >
+                <Text numberOfLines={1} style={styles.fadingText1}>Rate your sweet tooth</Text>
+                <View style={{justifyContent: "center", marginBottom: "10%"}}>
+                    <Text style={{color: "black", bottom: 750, textAlign: "center"}}>howdy kachowdy</Text>
                 </View>
             </Animated.View>
         </View>
@@ -124,6 +153,14 @@ const styles = StyleSheet.create({
         textAlign: "center",
         justifyContent: "center",
         marginBottom: "5%",
+        marginTop: "32%",
+        color : "#f76f6d",
+        fontFamily: "PingFangHK-Medium"
+    },
+    fadingText1: {
+        fontSize: 28,
+        textAlign: "center",
+        justifyContent: "center",
         marginTop: "35%",
         color : "#f76f6d",
         fontFamily: "PingFangHK-Medium"

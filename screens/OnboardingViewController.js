@@ -1,41 +1,39 @@
-import React from 'react';
-import { View, Text, Button, Image, StyleSheet } from 'react-native';
+import React, {useState, useRef} from 'react';
+import { View, Text, Button, Image, StyleSheet, FlatList, Animated } from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
-
-
+import slides from '../slides.js';
+import OnboardingItem from '../component/OnboardingItem.js'
 
 const OnboardingViewController = ({navigation}) => {
+    const scrollX = useRef(new Animated.Value(0)).current
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+
+    const viewableItemsChanged = useRef(({ viewableItems }) => {
+        setCurrentIndex(viewableItems[0].index);
+    }).current;
+
+    const viewConfig = useRef({viewAreaCoveragePercentThreshold: 50}).current;
     return(
-        <Onboarding
-        onSkip={() => navigation.replace("Login")}
-        onDone={() => navigation.replace("Login")}
-        pages={[
-            {
-                backgroundColor: '#05405A',
-                image: <Image source={require('../images/onboarding-img1.png')} />,
-                title: 'Welcome.',
-                subtitle: 'Welcome to Bite Party! Now you and your friends can keep the party going with good food!',
-            },
-            {
-                backgroundColor: '#F76F6D',
-                image: <Image source={require('../images/onboarding-img1.png')} />,
-                title: 'Fun.',
-                subtitle: 'Create a flavor profile and find people with similar profiles!',
-            },
-            {
-                backgroundColor: '#F7A146',
-                image: <Image source={require('../images/onboarding-img1.png')} />,
-                title: 'Easy to use.',
-                subtitle: 'Press the "Start The Party!" button if you and your friends want to pick a place to eat',
-            },
-            {
-                backgroundColor: '#4CD95A',
-                image: <Image source={require('../images/onboarding-img1.png')} />,
-                title: 'Easy to use.',
-                subtitle: "Don't want to go through the hassle of picking a new place every time? No worries! Bite Party saves your past restaurant picks so you never forget that one place with the really good, uh, what was it again?",
-            },
-        ]}
-        />
+        <View style={styles.container}>
+            <View style={{flex: 3}}>
+                <FlatList 
+                    data={slides} 
+                    renderItem={({item}) => <OnboardingItem item={item} /> } 
+                    horizontal
+                    showsHorizontalScrollIndicator
+                    pagingEnabled
+                    bounces={false}
+                    keyExtractor={(item) => item.id}
+                    onScroll={Animated.event([{nativeEvent: {contentOffset: {x: scrollX}}}], {
+                        useNativeDriver: false,
+                    })}
+                    scrollEventThrottle={32}
+                    onViewableItemsChanged={viewableItemsChanged}
+                    viewabilityConfig={viewConfig}
+                />
+            </View>
+        </View>
     );
 };
 
