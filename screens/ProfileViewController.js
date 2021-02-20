@@ -122,6 +122,7 @@ const ProfileViewController = ({navigation}) => {
     return(
         <View style={styles.container}>
             <StatusBar translucent={true} />
+            <Text h2 style={styles.title}>My Profile</Text>
             <View style={styles.container2}>
                 <TouchableOpacity onPress={showModal}>
                     <Image source={{uri: profileImageUrl}} style={{width: 125, height: 125, backgroundColor: "yellow", borderRadius: 60, resizeMode: "cover", marginRight: "2.5%",}} />
@@ -226,7 +227,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "20%"
+        marginTop: "5%"
     },  
     text: {
         marginBottom: "5%",
@@ -280,6 +281,13 @@ const styles = StyleSheet.create({
     modalStyling: {
         backgroundColor: "white",
         padding: 20,
-        
+    },
+    title: {
+        color: "black",
+        justifyContent: "center",
+        marginLeft: "5%",
+        fontSize: 43,
+        fontFamily: "PingFangHK-Medium",
+        marginTop: "15%"
     },
 });
