@@ -1,5 +1,6 @@
 #import <Firebase.h>
 #import "AppDelegate.h"
+#import <React/RCTLinkingManager.h>
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -102,7 +103,9 @@ static void InitializeFlipper(UIApplication *application) {
 }
 
 // Linking API
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
   return [RCTLinkingManager application:application openURL:url options:options];
 }
 
@@ -112,5 +115,6 @@ static void InitializeFlipper(UIApplication *application) {
                   continueUserActivity:userActivity
                     restorationHandler:restorationHandler];
 }
+
 
 @end

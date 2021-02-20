@@ -1,6 +1,6 @@
 import React from 'react'
 import Providers from './navigation/index.js';
-import {Provider as PaperProvider} from 'react-native-paper';
+import {Provider as PaperProvider } from 'react-native-paper';
 
 
 
