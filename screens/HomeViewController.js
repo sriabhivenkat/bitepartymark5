@@ -39,28 +39,34 @@ const HomeViewController = ({navigation}) => {
           <ScrollView 
             pagingEnabled 
             showsHorizontalScrollIndicator={true}
-            snapToStart={true}
-            contentContainerStyle={{flex: 1, justifyContent: "center", borderWidth:1, borderColor: "white", flexDirection: "column", marginBottom: "5%"}}>
+            snapToStart={false}
+            contentContainerStyle={{flex: 1, borderWidth:1, borderColor: "white", flexDirection: "column", marginBottom: "5%"}}>
             {data.map((item) => (
               <Card style={styles.card}>
-                <Card.Content style={{marginLeft: "4%", marginTop: "5%"}}>
-                  <Avatar.Image size={65} source={{uri: item.imagePath}}/>
-                  <Text 
-                    adjustsFontSizeToFit 
-                    numberOfLines={1}
-                    style={
-                            {
-                              fontFamily: "PingFangHK-Light",
-                              marginTop: "5%", 
-                              fontSize: 20
-                            }
-                          }>
-                            {item.inviter}
-                  </Text>
-                  {item.isDuo==true &&
-                    <Text style={{fontFamily: "PingFangHK-Semibold", color: "#f76f6d", marginBottom: "7%"}}>Duo</Text>
-                  }
+                <Card.Content style={{marginLeft: "4%", marginTop: "5%", flexDirection: "row"}}>
+                    <View style={{flexDirection: "column", justifyContent: "center"}}>
+                      <Avatar.Image size={65} source={{uri: item.imagePath}}/>
+                      <Text 
+                        adjustsFontSizeToFit 
+                        numberOfLines={1}
+                        style={
+                                {
+                                  fontFamily: "PingFangHK-Light",
+                                  marginTop: "5%", 
+                                  fontSize: 20
+                                }
+                              }>
+                                {item.inviter}
+                      </Text>
+                      {item.isDuo==true &&
+                        <Text style={{fontFamily: "PingFangHK-Semibold", color: "#f76f6d", marginBottom: "7%"}}>Duo</Text>
+                      }
+                    </View>
 
+                    <View style={{flexDirection: "column", justifyContent: "flex-end", marginLeft: "5%"}}>
+                      <Button mode="outlined" style={{marginBottom: "20%", width: "200%"}} labelStyle={{color: "green"}}>Accept</Button>
+                      <Button mode="outlined" style={{width:"200%"}} labelStyle={{color: "red"}}>Decline</Button>
+                    </View>
                   {item.acc}
                   
                 </Card.Content>

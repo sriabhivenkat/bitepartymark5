@@ -119,10 +119,10 @@ const AppStack = () => {
                 name="Profile"
                 component={HomeStack}
                 options={{
-                    tabBarIcon: () => (
+                    tabBarIcon: ({focused}) => (
                         <Ionicons 
                             name="mail"
-                            color={"black"}
+                            color={focused ? 'black' : "gray"}
                             size={30}
                         />
                     ),
@@ -132,10 +132,10 @@ const AppStack = () => {
                 name="Home"
                 component={NearbyStack}
                 options={{
-                    tabBarIcon:({tintColor}) => (
+                    tabBarIcon:({focused}) => (
                         <Ionicons 
                             name="home"
-                            color={"black"}
+                            color={focused ? 'black' : "gray"}
                             size={25}
                         />
                     ),
@@ -145,10 +145,10 @@ const AppStack = () => {
                 name="Party!"
                 component={ProfileStack}
                 options={{
-                    tabBarIcon: () => (
+                    tabBarIcon: ({focused}) => (
                         <Ionicons 
                             name="person"
-                            color={"black"}
+                            color={focused ? 'black' : "gray"}
                             size={25}
                         />
                     ),
