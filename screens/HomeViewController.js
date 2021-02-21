@@ -10,7 +10,6 @@ import LinearGradient from "react-native-linear-gradient";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import TouchableScale from 'react-native-touchable-scale';
 import {Card, Avatar} from 'react-native-paper';
-import { Platform } from "react-native";
 
 const HomeViewController = ({navigation}) => {
   
@@ -35,63 +34,45 @@ const HomeViewController = ({navigation}) => {
   return (
     <View style={styles.container}>
       <StatusBar translucent={true}/>
-        <Text h2 style={styles.title}>Your Feed</Text>
+        <Text h2 style={styles.title}>Invitations</Text>
         <View style={styles.invitationscontainer}>
-          <Text h4 style={styles.title1}>Invitations</Text>
           <ScrollView 
             pagingEnabled 
-            showsHorizontalScrollIndicator={true} 
-            horizontal={true} 
-            snapToStart={true}
-            contentContainerStyle={{flex: 1, justifyContent: "center", borderWidth:1, borderColor: "white", flexDirection: "row", marginBottom: "5%"}}>
+            showsHorizontalScrollIndicator={true}
+            snapToStart={false}
+            contentContainerStyle={{flex: 1, borderWidth:1, borderColor: "white", flexDirection: "column", marginBottom: "5%"}}>
             {data.map((item) => (
               <Card style={styles.card}>
-                <Card.Content style={{alignItems: "center"}}>
-                  <Avatar.Image size={65} source={{uri: item.imagePath}}/>
-                  <Text 
-                    adjustsFontSizeToFit 
-                    numberOfLines={1}
-                    style={
-                            {
-                              fontFamily: "PingFangHK-Light", 
-                              textAlign: "center", 
-                              marginTop: "5%", 
-                              fontSize: 17.5
-                            }
-                          }>
-                            {item.inviter}
-                  </Text>
-                  {item.isDuo==true &&
-                    <Text style={{fontFamily: "PingFangHK-Semibold", color: "#f76f6d", marginBottom: "7%"}}>Duo</Text>
-                  }
+                <Card.Content style={{marginLeft: "4%", marginTop: "5%", flexDirection: "row"}}>
+                    <View style={{flexDirection: "column", justifyContent: "center"}}>
+                      <Avatar.Image size={65} source={{uri: item.imagePath}}/>
+                      <Text 
+                        adjustsFontSizeToFit 
+                        numberOfLines={1}
+                        style={
+                                {
+                                  fontFamily: "PingFangHK-Light",
+                                  marginTop: "5%", 
+                                  fontSize: 20
+                                }
+                              }>
+                                {item.inviter}
+                      </Text>
+                      {item.isDuo==true &&
+                        <Text style={{fontFamily: "PingFangHK-Semibold", color: "#f76f6d", marginBottom: "7%"}}>Duo</Text>
+                      }
+                    </View>
 
-                  {item.accepted==false &&
-                    <Icon name="thumbs-up" type="feather" color="#F52549" size={40}/> 
-                  }
+                    <View style={{flexDirection: "column", justifyContent: "flex-end", marginLeft: "5%"}}>
+                      <Button mode="outlined" style={{marginBottom: "20%", width: "200%"}} labelStyle={{color: "green"}}>Accept</Button>
+                      <Button mode="outlined" style={{width:"200%"}} labelStyle={{color: "red"}}>Decline</Button>
+                    </View>
+                  {item.acc}
+                  
                 </Card.Content>
               </Card>
             ))}
           </ScrollView>
-        </View>
-        <View style={styles.bottomView}>
-          <TouchableOpacity
-            style={styles.button}
-            activeOpacity={0.9}
-            onPress={() => navigation.navigate("Begin Party")}
-            style={{width: 312, height: '80%', marginBottom: "3%"}}
-            >
-              <LinearGradient
-                start={{x:0, y:0}}
-                end={{x:1, y:0}}
-                colors={['#7f00ff', '#e100ff', '#ffaf7b']}
-                style={{height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15, width: "110%", marginLeft: "-5%"}}
-                Component={TouchableScale}
-                friction={90}
-                tension={100}
-                activeScale={0.95}>
-                  <Text style={{color: "white", fontFamily: "PingFangHK-Medium", fontSize: 17}}>Let's Party 🥳 </Text>
-                </LinearGradient>
-          </TouchableOpacity>
         </View>
     </View>
   );
@@ -102,7 +83,7 @@ export default HomeViewController;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "white", 
   },
   title: {
     color: "black",
@@ -113,11 +94,11 @@ const styles = StyleSheet.create({
     marginTop: "15%"
   },
   invitationscontainer: {
-    flex:0.425, 
+    flex:0.95, 
     borderWidth:1, 
     borderRadius:25, 
     marginTop: "5%", 
-    borderColor: "#ddd",
+    borderColor: "white",
     marginLeft: "3%",
     marginRight: "3%",
     shadowColor: "#000",
@@ -137,8 +118,8 @@ const styles = StyleSheet.create({
     height: "75%",
   },  
   card: {
-    height: "100%",
-    width: "35%",
+    height: "35%",
+    width: "100%",
     borderRadius: 25,
     shadowRadius: 4,
     marginBottom: "5%",

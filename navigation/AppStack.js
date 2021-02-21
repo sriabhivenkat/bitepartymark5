@@ -17,50 +17,24 @@ import AddSquadsViewController from '../screens/AddSquadsViewController.js';
 import FiltersViewController from '../screens/FiltersViewController.js';
 import DuosPartyScreen from '../screens/DuosPartyScreen.js';
 import FlavorTestViewController from '../screens/FlavorTestViewController.js';
+import {Image} from 'react-native';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+function LogoTitle() {
+    return(
+        <Image 
+            style={{width: 100, height: 75, alignItems: "center"}}
+            source={require("../images/headerlogo.png")}
+        />
+    );
+}
 const HomeStack = ({navigation}) => (
     <Stack.Navigator>
             <Stack.Screen 
                 name="Home" 
                 component={HomeViewController}
-                options={{header: () => null}}
-            />
-            <Stack.Screen 
-                name="Begin Party"
-                component={AddPartyViewController}
-                options = {() => ({
-                    title: "",
-                    headerShown: "false",
-                    headerStyle: {
-                        backgroundColor: "white",
-                        shadowColor: "white",
-                        elevation: 0,
-                    },
-                })}
-            />
-            <Stack.Screen 
-                name="Duos"
-                component={AddDuosViewController}
-                options = {() => ({
-                    title: "",
-                    headerStyle: {
-                        backgroundColor: "white",
-                        shadowColor: "white",
-                        elevation: 0,
-                    },
-                })}
-            />
-            <Stack.Screen 
-                name="Filters"
-                component={FiltersViewController}
-                options={{header: () => null}}
-            />
-            <Stack.Screen 
-                name="DuosPartyScreen"
-                component={DuosPartyScreen}
                 options={{header: () => null}}
             />
         </Stack.Navigator>
@@ -90,15 +64,37 @@ const ProfileStack = () => (
 const NearbyStack = () => (
     <Stack.Navigator>
         <Stack.Screen 
-            name="FlavorProfile"
-            component={NearbyViewController}
-            options={{header: () => null}}
-        />
-        <Stack.Screen 
-            name="FlavorTest"
-            component={FlavorTestViewController}
-            options={{header: () => null}}
-        />
+                name="Begin Party"
+                component={AddPartyViewController}
+                options={{
+                    headerTitle: props => <LogoTitle {...props}/>,
+                    headerStyle: {
+                        height: 120,
+                    }
+                }}
+            />
+            <Stack.Screen 
+                name="Duos"
+                component={AddDuosViewController}
+                options = {() => ({
+                    title: "",
+                    headerStyle: {
+                        backgroundColor: "white",
+                        shadowColor: "white",
+                        elevation: 0,
+                    },
+                })}
+            />
+            <Stack.Screen 
+                name="Filters"
+                component={FiltersViewController}
+                options={{header: () => null}}
+            />
+            <Stack.Screen 
+                name="DuosPartyScreen"
+                component={DuosPartyScreen}
+                options={{header: () => null}}
+            />
     </Stack.Navigator>
 )
 
@@ -106,13 +102,14 @@ const AppStack = () => {
     return(
         <Tab.Navigator
             tabBarOptions={{
-                activeTintColor: "#AFAFC7",
+                activeTintColor: "white",
                 inactiveTintColor: "white",
                 style: {
                     backgroundColor: 'white',
                     borderTopColor: "white"
                 },
-                headerShown: false
+                headerShown: false,
+                tintColor: "#f76f6d"
             }}
             initialRouteName={
                 "Home"
@@ -120,42 +117,39 @@ const AppStack = () => {
         >
             <Tab.Screen 
                 name="Profile"
-                component={ProfileStack}
+                component={HomeStack}
                 options={{
-                    tabBarLabel: "Profile",
-                    tabBarIcon: () => (
+                    tabBarIcon: ({focused}) => (
                         <Ionicons 
-                            name="person"
-                            color={"black"}
-                            size={25}
+                            name="mail"
+                            color={focused ? 'black' : "gray"}
+                            size={30}
                         />
                     ),
                 }}
             />
             <Tab.Screen 
                 name="Home"
-                component={HomeStack}
+                component={NearbyStack}
                 options={{
-                    tabBarLabel: 'Home',
-                    tabBarIcon:() => (
+                    tabBarIcon:({focused}) => (
                         <Ionicons 
                             name="home"
-                            color={"black"}
+                            color={focused ? 'black' : "gray"}
                             size={25}
                         />
                     ),
                 }}
             />
             <Tab.Screen 
-                name="FlavorProfile"
-                component={NearbyStack}
+                name="Party!"
+                component={ProfileStack}
                 options={{
-                    tabBarLabel: 'FlavorProfile',
-                    tabBarIcon: () => (
+                    tabBarIcon: ({focused}) => (
                         <Ionicons 
-                            name="restaurant"
-                            color={"black"}
-                            size={30}
+                            name="person"
+                            color={focused ? 'black' : "gray"}
+                            size={25}
                         />
                     ),
                 }}

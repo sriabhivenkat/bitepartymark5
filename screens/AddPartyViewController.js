@@ -9,7 +9,6 @@ import TouchableScale from 'react-native-touchable-scale';
 const AddPartyViewController = ({navigation}) => {
     return(
         <View style={styles.container}>
-            <Text h3 style={styles.title}>Pick a mode</Text>
             <Card style={styles.card} 
                 onPress={() => navigation.navigate("Duos")} 
                 Component={TouchableScale}
@@ -17,7 +16,7 @@ const AddPartyViewController = ({navigation}) => {
                 tension={100}
                 activeScale={0.95}>
                 <Card.Content>
-                    <Text h4 style={{fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "#f76f6d", textAlign: "center"}}>Duos</Text>
+                    <Text h4 style={{fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "black", textAlign: "center"}}>Duos</Text>
                     <Text style={{fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "#f76f6d", textAlign: "center"}}>Grab a buddy. Have fun!</Text>
                     <Image source={require('../images/duos.png')} style={{width: 170, height: 160, alignItems: "center"}}/>
                 </Card.Content>
@@ -25,7 +24,7 @@ const AddPartyViewController = ({navigation}) => {
 
             <Card style={styles.card} onPress={() => {}}>
                 <Card.Content>
-                    <Text h4 style={{fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "#f76f6d", textAlign: "center"}}>Parties</Text>
+                    <Text h4 style={{fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "black", textAlign: "center"}}>Parties</Text>
                     <Text style={{fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "#f76f6d", textAlign: "center"}}>Party it up with a group of 3 or more!</Text>
                     <Image source={require('../images/squads.png')} style={{width: 170, height: 160}}/>
                 </Card.Content>
@@ -41,6 +40,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
+        justifyContent: "center",
         backgroundColor: "white"
     },
     input: {
