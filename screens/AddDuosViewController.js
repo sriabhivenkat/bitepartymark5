@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, Share } from 'react-native';
 import {Text} from 'galio-framework';
 import {Button, Provider, Portal, Avatar, Modal} from 'react-native-paper';
 import {AuthContext} from '../navigation/AuthProvider.js';
@@ -9,7 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import TouchableScale from 'react-native-touchable-scale';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from '@react-native-community/async-storage';
-
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 
 const AddDuosViewController = ({navigation}) => {
     const [duosmember, setDuosMember] = useState([]);
@@ -51,6 +51,48 @@ const AddDuosViewController = ({navigation}) => {
           .catch((err) => alert(err));
     }, [query]);
     
+
+    const generateLink = async (groupId) => {
+        const link = await dynamicLinks().buildShortLink({
+            link: `https://biteparty.app/join?id=${groupId}`,
+            // domainUriPrefix is created in your Firebase console
+            domainUriPrefix: 'https://biteparty.page.link',
+            // optional setup which updates Firebase analytics campaign
+            // "banner". This also needs setting up before hand
+            // analytics: {
+            //   campaign: 'banner',
+            // },
+            androidInfo: {
+                androidPackageName: "com.kastech.biteparty"
+            },
+            iosInfo: {
+                iosBundleId: "com.kastech.biteparty"
+            }
+        });
+        // alert(link)
+        console.log(link)
+
+        return link;
+    }
+
+    const onShare = async ({url}) => {
+        try {
+          const result = await Share.share({
+            message: `BiteParty | Join the party! ${url}`,
+          });
+        //   if (result.action === Share.sharedAction) {
+        //     if (result.activityType) {
+        //       // shared with activity type of result.activityType
+        //     } else {
+        //       // shared
+        //     }
+        //   } else if (result.action === Share.dismissedAction) {
+        //     // dismissed
+        //   }
+        } catch (error) {
+          alert(error.message);
+        }
+      };
     
     return(
         <View style={styles.container}>
@@ -62,6 +104,7 @@ const AddDuosViewController = ({navigation}) => {
                 value={query}
                 containerStyle={{width: "90%",marginLeft: "4%"}}
             />
+           
             {duosmember.map((item) => (           
                 <View style={{marginTop: "-2%"}}>
                     <ListItem
@@ -137,6 +180,21 @@ const AddDuosViewController = ({navigation}) => {
                     </Portal>
                 </Provider>
             ))}
+             <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.9}
+                    onPress={async () => onShare({url: await generateLink('foo')})}
+                    style={{height: 50, marginHorizontal: "20%", marginVertical: 15}}
+                    >
+                    <LinearGradient
+                        start={{x:0, y:0}}
+                        end={{x:1, y:0}}
+                        colors={["#ee0979","#f76f6d",'#ff6a00']}
+                        style={{height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15}}>
+                        <Text style={{color: "white", fontFamily: "PingFangHK-Regular", fontSize: 17, }}>Share link 🔗</Text>
+                    </LinearGradient>
+            </TouchableOpacity>
+
         </View>
     );
 }
