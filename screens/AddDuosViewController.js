@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 
 const AddDuosViewController = ({navigation}) => {
+    const [groupId, setGroupId] = useState("")
     const [duosmember, setDuosMember] = useState([]);
     const [query, setQuery] = useState("");
     const { user } = useContext(AuthContext);
@@ -50,6 +51,8 @@ const AddDuosViewController = ({navigation}) => {
           })
           .catch((err) => alert(err));
     }, [query]);
+
+    useEffect(() => setGroupId(Math.random().toString(36).substring(7)), [])
     
 
     const generateLink = async (groupId) => {
@@ -158,9 +161,15 @@ const AddDuosViewController = ({navigation}) => {
                                                         imagePath: imagePath,
                                                     })
                                             })
-                                            .then(
-                                                navigation.navigate("Filters", {paramKey: handleval}),
-                                            )
+                                            .then(() => navigation.navigate("Filters", {paramKey: handleval}),)
+                                            .then(() => firestore()
+                                            .collection("Parties")
+                                            .doc(groupId)
+                                            .set({
+                                                admin: userHandle,
+                                                duo: true,
+                                            }))
+                                            // .then((ref) => alert(ref.id))
                                     }}
                                     style={{width: "100%", height: "50%", marginTop: "3%"}}
                                 >
@@ -183,7 +192,7 @@ const AddDuosViewController = ({navigation}) => {
              <TouchableOpacity
                     style={styles.button}
                     activeOpacity={0.9}
-                    onPress={async () => onShare({url: await generateLink('foo')})}
+                    onPress={async () => onShare({url: await generateLink(groupId)})}
                     style={{height: 50, marginHorizontal: "20%", marginVertical: 15}}
                     >
                     <LinearGradient
