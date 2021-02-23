@@ -22,6 +22,7 @@ const LoginViewController = ({navigation}) => {
                         <Text h3 style={{textAlign: "center", fontWeight: "bold", marginTop: "12%", color: "black", fontFamily: "PingFangHK-Medium"}}>Log In</Text>
                         <Input
                             placeholder="Email"
+                            placeholderTextColor="gray"
                             onChangeText={email => setEmail(email)}
                             style={styles.input1}
                             autoCapitalize="none"
@@ -29,6 +30,7 @@ const LoginViewController = ({navigation}) => {
                         />
                         <Input      
                             placeholder="Password"
+                            placeholderTextColor="gray"
                             secureTextEntry={true}
                             onChangeText={pass => setPass(pass)}
                             style={styles.input}

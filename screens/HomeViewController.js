@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useContext } from "react";
 import { View, Image, StyleSheet, ImageBackground, StatusBar, ScrollView} from "react-native";
 import { AuthContext } from "../navigation/AuthProvider.js";
@@ -17,6 +17,7 @@ const HomeViewController = ({navigation}) => {
   const {user} = useContext(AuthContext);
   const [data, setData] = useState([]);
   const [duos, setDuos] = useState(false);
+  const scrollViewRef = useRef();
 
   useEffect(() => {
     firestore()
@@ -36,13 +37,13 @@ const HomeViewController = ({navigation}) => {
       <StatusBar translucent={true}/>
         <Text h2 style={styles.title}>Invitations</Text>
         <View style={styles.invitationscontainer}>
-          <ScrollView 
+          <ScrollView
+            contentInset={{top: 0, left:0, bottom:300, right:0}}
             pagingEnabled 
             showsHorizontalScrollIndicator={true}
-            snapToStart={false}
             contentContainerStyle={{flex: 1, borderWidth:1, borderColor: "white", flexDirection: "column", marginBottom: "5%"}}>
             {data.map((item) => (
-              <Card style={styles.card}>
+              <Card style={[styles.card, {maxHeight: 250, marginBottom: 20}]}>
                 <Card.Content style={{marginLeft: "4%", marginTop: "5%", flexDirection: "row"}}>
                     <View style={{flexDirection: "column", justifyContent: "center"}}>
                       <Avatar.Image size={65} source={{uri: item.imagePath}}/>

@@ -36,6 +36,7 @@ const SignUpViewController = ({navigation}) => {
                         />
                         <Input 
                             placeholder="Password"
+                            placeholderTextColor="gray"
                             onChangeText={(userPass) => setPass(userPass)}
                             autoCapitalize="none"
                             secureTextEntry={true}
@@ -44,18 +45,21 @@ const SignUpViewController = ({navigation}) => {
                         />
                         <Input 
                             placeholder="Enter your first name"
+                            placeholderTextColor="gray"
                             onChangeText={(userFirst) => setFirst(userFirst)}
                             style={styles.input}
                             value={first}
                         />
                         <Input 
                             placeholder="Enter your last name"
+                            placeholderTextColor="gray"
                             onChangeText={(userLast) => setLast(userLast)}
                             style={styles.input}
                             value={last}
                         />
                         <Input 
                             placeholder="Enter a handle"
+                            placeholderTextColor="gray"
                             autoCapitalize="none"
                             onChangeText={(userHandle) => setHandle(userHandle)}
                             style={styles.input}
