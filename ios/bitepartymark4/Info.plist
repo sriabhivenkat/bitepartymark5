@@ -77,29 +77,4 @@
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>Bite Party wants to borrow your camera for a second.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location access is required to run this app.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Bite Party wants to borrow your photo library for a second.</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Kollektif.ttf</string>
-	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>SplashScreen</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
-	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleDefault</string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-</dict>
 </plist>
