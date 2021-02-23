@@ -36,7 +36,7 @@ const SignUpViewController = ({navigation}) => {
                         />
                         <Input 
                             placeholder="Password"
-                            placeholderTextColor="gray"
+                            placeholderTextColor="grey"
                             onChangeText={(userPass) => setPass(userPass)}
                             autoCapitalize="none"
                             secureTextEntry={true}
