@@ -11,11 +11,13 @@ import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 import LinearGradient from "react-native-linear-gradient";
 
+
 const ProfileViewController = ({navigation}) => {
     const { user, logout } = useContext(AuthContext);
     const [userFirst, setUserFirst] = useState("");
     const [userLast, setUserLast] = useState("");
     const [userHandle, setUserHandle] = useState("");
+    const [userQRLink,setUserQr] = useState("www.kas-tech.com")
     
 
     const [friendssize, setFriendsSize] = useState(0);
@@ -38,6 +40,7 @@ const ProfileViewController = ({navigation}) => {
         const {firstName} = doc.data();
         const {lastName} = doc.data();
         const {handle} = doc.data();
+        const {personalLink} = doc.data();
         
         refVal.collection("friends").get()
             .then(function(querySnapshot) {
@@ -51,6 +54,7 @@ const ProfileViewController = ({navigation}) => {
         setUserFirst(firstName)
         setUserLast(lastName);
         setUserHandle(handle);
+        setUserQr(personalLink);
         
         
       };

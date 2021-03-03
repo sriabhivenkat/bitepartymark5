@@ -22,7 +22,7 @@ const AddPartyViewController = ({navigation}) => {
                 </Card.Content>
             </Card>
 
-            <Card style={styles.card} onPress={() => {}}>
+            <Card style={styles.card} onPress={() => navigation.navigate("Squads")}>
                 <Card.Content>
                     <Text h4 style={{fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "black", textAlign: "center"}}>Parties</Text>
                     <Text style={{fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "#f76f6d", textAlign: "center"}}>Party it up with a group of 3 or more!</Text>

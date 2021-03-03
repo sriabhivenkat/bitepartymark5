@@ -1,17 +1,21 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, createContext } from 'react';
 import { View, Image, StyleSheet, Share } from 'react-native';
-import {Text} from 'galio-framework';
-import {Button, Provider, Portal, Avatar, Modal} from 'react-native-paper';
-import {AuthContext} from '../navigation/AuthProvider.js';
-import {Input, ListItem, Overlay} from 'react-native-elements';
+import { Text } from 'galio-framework';
+import { Button, Provider, Portal, Avatar, Modal } from 'react-native-paper';
+import { AuthContext } from '../navigation/AuthProvider.js';
+import { Input, ListItem, Overlay } from 'react-native-elements';
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import LinearGradient from 'react-native-linear-gradient';
 import TouchableScale from 'react-native-touchable-scale';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from '@react-native-community/async-storage';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
+import FiltersViewController from './FiltersViewController.js';
 
-const AddDuosViewController = ({navigation}) => {
+
+
+const AddDuosViewController = ({ route, navigation }) => {
+
     const [groupId, setGroupId] = useState("")
     const [duosmember, setDuosMember] = useState([]);
     const [query, setQuery] = useState("");
@@ -28,32 +32,32 @@ const AddDuosViewController = ({navigation}) => {
 
     useEffect(() => {
         const main = async () => {
-          const refVal = firestore().collection("Users").doc(user.uid);
-          const doc = await refVal.get();
-          const {handle} = doc.data();
-          const {imageUrl} = doc.data();
-          setUserHandle(handle)
-          setImagePath(imageUrl);
+            const refVal = firestore().collection("Users").doc(user.uid);
+            const doc = await refVal.get();
+            const { handle } = doc.data();
+            const { imageUrl } = doc.data();
+            setUserHandle(handle)
+            setImagePath(imageUrl);
         };
         main();
     }, []);
 
     useEffect(() => {
         firestore()
-          .collection("Users")
-          .doc(user.uid)
-          .collection("friends")
-          .where("handle", "==", query)
-          .get()
-          .then((res) => {
-            const results = res.docs.map((x) => x.data());
-            setDuosMember(results);
-          })
-          .catch((err) => alert(err));
+            .collection("Users")
+            .doc(user.uid)
+            .collection("friends")
+            .where("handle", "==", query)
+            .get()
+            .then((res) => {
+                const results = res.docs.map((x) => x.data());
+                setDuosMember(results);
+            })
+            .catch((err) => alert(err));
     }, [query]);
 
     useEffect(() => setGroupId(Math.random().toString(36).substring(7)), [])
-    
+
 
     const generateLink = async (groupId) => {
         const link = await dynamicLinks().buildShortLink({
@@ -78,136 +82,102 @@ const AddDuosViewController = ({navigation}) => {
         return link;
     }
 
-    const onShare = async ({url}) => {
+    const onShare = async ({ url }) => {
         try {
-          const result = await Share.share({
-            message: `BiteParty | Join the party! ${url}`,
-          });
-        //   if (result.action === Share.sharedAction) {
-        //     if (result.activityType) {
-        //       // shared with activity type of result.activityType
-        //     } else {
-        //       // shared
-        //     }
-        //   } else if (result.action === Share.dismissedAction) {
-        //     // dismissed
-        //   }
+            const result = await Share.share({
+                message: `BiteParty | Join the party! ${url}`,
+            });
+            //   if (result.action === Share.sharedAction) {
+            //     if (result.activityType) {
+            //       // shared with activity type of result.activityType
+            //     } else {
+            //       // shared
+            //     }
+            //   } else if (result.action === Share.dismissedAction) {
+            //     // dismissed
+            //   }
         } catch (error) {
-          alert(error.message);
+            alert(error.message);
         }
-      };
-    
-    return(
+    };
+
+    return (
         <View style={styles.container}>
             <Text h3 style={styles.title}>Who's coming?</Text>
-            <Input 
+            <Input
                 placeholder="Pick a partner"
                 onChangeText={(txt) => setQuery(txt)}
                 autoCapitalize="none"
                 value={query}
-                containerStyle={{width: "90%",marginLeft: "4%"}}
+                containerStyle={{ width: "90%", marginLeft: "4%" }}
             />
-           
-            {duosmember.map((item) => (           
-                <View style={{marginTop: "-2%"}}>
+
+            {duosmember.map((item) => (
+                <View style={{ marginTop: "-2%" }}>
                     <ListItem
                         Component={TouchableScale}
                         friction={90}
                         tension={100}
                         activeScale={0.95}
                         onPress={showPanel}
-                        style={{borderBottomColor: "lightgray", borderBottomWidth: 1, borderTopColor: "lightgray", borderTopWidth: 1}}
+                        style={{ borderBottomColor: "lightgray", borderBottomWidth: 1, borderTopColor: "lightgray", borderTopWidth: 1 }}
                     >
-                        <Avatar.Image size={45} source={{uri: item.imageUrlPath}}/>
-                        <ListItem.Content style={styles.queryContent}>                    
-                            <ListItem.Title style={styles.querytitle}>{"@"+item.handle}</ListItem.Title>
-                            <ListItem.Subtitle style={styles.querysubtitle}>{item.firstName+" "+item.lastName}</ListItem.Subtitle>                   
+                        <Avatar.Image size={45} source={{ uri: item.imageUrlPath }} />
+                        <ListItem.Content style={styles.queryContent}>
+                            <ListItem.Title style={styles.querytitle}>{"@" + item.handle}</ListItem.Title>
+                            <ListItem.Subtitle style={styles.querysubtitle}>{item.firstName + " " + item.lastName}</ListItem.Subtitle>
                         </ListItem.Content>
                     </ListItem>
                 </View>
             ))}
-            {duosmember.map((item1) => ( 
-                <Provider>
-                    <Portal>
-                        <Modal visible={isVisible} onDismiss={hidePanel} contentContainerStyle={styles.modalStyling}>
-                            <Text h4 style={styles.modalTitle}>Invite {item1.firstName} to your duo?</Text>
-                                <TouchableOpacity
-                                    style={styles.button}
-                                    activeOpacity={0.9}
-                                    onPress={() => {
-                                        firestore()
-                                            .collection("Users")
-                                            .doc(user.uid)
-                                            .collection("pastParties")
-                                            .doc(item1.handle)
-                                            .set({
-                                                location: "To be decided",
-                                                isDuos: true,
-                                                buddy: item1.handle,
-                                            })
-                                            .then(() => {
-                                                return AsyncStorage.setItem('handlequeryval', item1.handle);
-                                            })
-                                            .then(() => {
-                                                firestore()
-                                                    .collection("Users")
-                                                    .doc(item1.uidvalue)
-                                                    .collection("invitations")
-                                                    .doc("invitation from "+userHandle)
-                                                    .set({
-                                                        inviter: userHandle,
-                                                        isDuo: true,
-                                                        accepted: false,
-                                                        imagePath: imagePath,
-                                                    })
-                                            })
-                                            .then(() => navigation.navigate("Filters", {paramKey: handleval}),)
-                                            .then(() => firestore()
-                                            .collection("Parties")
-                                            .doc(groupId)
-                                            .set({
-                                                admin: userHandle,
-                                                duo: true,
-                                            }))
-                                            // .then((ref) => alert(ref.id))
-                                    }}
-                                    style={{width: "100%", height: "50%", marginTop: "3%"}}
-                                >
-                                    <LinearGradient
-                                        start={{x:0, y:0}}
-                                        end={{x:1, y:0}}
-                                        colors={['#7f00ff', '#e100ff', '#ffaf7b']}
-                                        style={{height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15, width: "110%", marginLeft: "-5%"}}
-                                        Component={TouchableScale}
-                                        friction={90}
-                                        tension={100}
-                                        activeScale={0.95}>
-                                        <Text style={{color: "white", fontFamily: "PingFangHK-Medium", fontSize: 17, fontWeight: "400"}}>Yep, let's go.</Text>
-                                    </LinearGradient>
-                                </TouchableOpacity>
-                        </Modal>
-                    </Portal>
-                </Provider>
-            ))}
-             <TouchableOpacity
-                    style={styles.button}
-                    activeOpacity={0.9}
-                    onPress={async () => onShare({url: await generateLink(groupId)})}
-                    style={{height: 50, marginHorizontal: "20%", marginVertical: 15}}
-                    >
-                    <LinearGradient
-                        start={{x:0, y:0}}
-                        end={{x:1, y:0}}
-                        colors={["#ee0979","#f76f6d",'#ff6a00']}
-                        style={{height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15}}>
-                        <Text style={{color: "white", fontFamily: "PingFangHK-Regular", fontSize: 17, }}>Share link 🔗</Text>
-                    </LinearGradient>
+            { duosmember.length > 0 &&
+            <Provider>
+                <Portal>
+                    <Modal visible={isVisible} onDismiss={hidePanel} contentContainerStyle={styles.modalStyling}>
+                        <Text h4 style={styles.modalTitle}>Invite {duosmember[0].firstName} to your duo?</Text>
+                        <TouchableOpacity
+                            style={styles.button}
+                            activeOpacity={0.9}
+                            onPress={() => {
+                                navigation.navigate('Filters', { admin: user.uid, partyID: groupId, imagePath, members: duosmember, userHandle })
+                            }}
+                            style={{ width: "100%", height: "50%", marginTop: "3%" }}
+                        >
+                            <LinearGradient
+                                start={{ x: 0, y: 0 }}
+                                end={{ x: 1, y: 0 }}
+                                colors={['#7f00ff', '#e100ff', '#ffaf7b']}
+                                style={{ height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15, width: "110%", marginLeft: "-5%" }}
+                                Component={TouchableScale}
+                                friction={90}
+                                tension={100}
+                                activeScale={0.95}>
+                                <Text style={{ color: "white", fontFamily: "PingFangHK-Medium", fontSize: 17, fontWeight: "400" }}>Yep, let's go.</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
+                    </Modal>
+                </Portal>
+            </Provider>
+            }
+            <TouchableOpacity
+                style={styles.button}
+                activeOpacity={0.9}
+                onPress={async () => onShare({ url: await generateLink(groupId) })}
+                style={{ height: 50, marginHorizontal: "20%", marginVertical: 15 }}
+            >
+                <LinearGradient
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    colors={["#ee0979", "#f76f6d", '#ff6a00']}
+                    style={{ height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15 }}>
+                    <Text style={{ color: "white", fontFamily: "PingFangHK-Regular", fontSize: 17, }}>Share link 🔗</Text>
+                </LinearGradient>
             </TouchableOpacity>
 
         </View>
     );
 }
-1
+
 export default AddDuosViewController;
 
 
@@ -234,10 +204,10 @@ const styles = StyleSheet.create({
     button: {
         marginTop: 20,
         height: 37,
-        width:"50%",
+        width: "50%",
         backgroundColor: "#F76F6D",
         borderRadius: 15,
-     },
+    },
     title: {
         padding: "5%",
         fontFamily: "PingFangHK-Medium",
@@ -250,15 +220,15 @@ const styles = StyleSheet.create({
         backgroundColor: "#16335e"
     },
     pfp: {
-      alignItems: "center"
+        alignItems: "center"
     },
     querytitle: {
-      fontWeight: "bold",
-      color: "black",
-      textAlign: "center"
+        fontWeight: "bold",
+        color: "black",
+        textAlign: "center"
     },
     querysubtitle: {
-      color: "black"
+        color: "black"
     },
     modalStyling: {
         display: "flex",

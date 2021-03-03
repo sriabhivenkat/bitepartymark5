@@ -86,6 +86,11 @@ const NearbyStack = () => (
                 })}
             />
             <Stack.Screen 
+                name="Squads"
+                component={AddSquadsViewController}
+                options={{header: () => null}}
+            />
+            <Stack.Screen 
                 name="Filters"
                 component={FiltersViewController}
                 options={{header: () => null}}

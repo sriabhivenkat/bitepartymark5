@@ -20,18 +20,20 @@ const HomeViewController = ({navigation}) => {
   const scrollViewRef = useRef();
 
   useEffect(() => {
+    alert(user.uid)
     firestore()
       .collection("Users")
       .doc(user.uid)
       .collection("invitations")
       .get()
       .then((res) => {
-        const results = res.docs.map((x) => x.data());
+        const results = res.docs.map((x) => ({...x.data(), id: x.id}))
         setData(results);
       })
       .catch((err) => alert(err));
   }, []);
 
+  // console.log(data[0].uid)
   return (
     <View style={styles.container}>
       <StatusBar translucent={true}/>
@@ -65,10 +67,11 @@ const HomeViewController = ({navigation}) => {
                     </View>
 
                     <View style={{flexDirection: "column", justifyContent: "flex-end", marginLeft: "5%"}}>
-                      <Button mode="outlined" style={{marginBottom: "20%", width: "200%"}} labelStyle={{color: "green"}}>Accept</Button>
-                      <Button mode="outlined" style={{width:"200%"}} labelStyle={{color: "red"}} onPress={() => {
-                        firestore().collection("Users").doc(user.uid).collection("Invitations").
-                      }}>Decline</Button>
+                      <Button mode="outlined" style={{marginBottom: "20%", width: "200%"}} labelStyle={{color: "green"}} onPress={() => navigation.navigate("DuosPartyScreen", { partyID: item.docID, inviteID: item.id  })}
+                      >Accept</Button>
+                      {/* <Button mode="outlined" style={{width:"200%"}} labelStyle={{color: "red"}} onPress={() => {
+                        firestore().collection("Users").doc(user.uid).collection("Invitations")
+                      }}>Decline</Button> */}
                     </View>
                   {item.acc}
                   
