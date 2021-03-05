@@ -53,17 +53,16 @@ const FiltersViewController = ({ route, navigation }) => {
     useEffect(() => {
         GetLocation.getCurrentPosition({
             enableHighAccuracy:true,
-            timeout: 15000,
+            timeout: 1000,
         })
         .then(location => {
-            console.log(location)
             setLocation(location);
             setUserLat(locationval.latitude);
             setUserLong(locationval.longitude);
             console.log(userLat, userLong)
         })
         .catch(error => console.log(error))
-    }, [GetLocation])
+    }, [])
    
     
     useEffect(() => {
@@ -71,6 +70,7 @@ const FiltersViewController = ({ route, navigation }) => {
         setGeoPointSouth([userLat, userLong-miles_to_longitude(Math.round(sliderval1))])
         setGeoPointEast([userLat+miles_to_latitude(Math.round(sliderval1)), userLong])
         setGeoPointWest([userLat-miles_to_latitude(Math.round(sliderval1)), userLong])
+        console.log([geoPointNorth, geoPointSouth, geoPointEast, geoPointWest])
     },[sliderval1, userLat, userLong])
     return (
         <View style={styles.container}>
@@ -187,7 +187,7 @@ const FiltersViewController = ({ route, navigation }) => {
                                 .get()
                                 .then((data) => {
                                     const query_results = data.docs.map((x) => x.data())
-                                    console.log([geoPointNorth, geoPointSouth, geoPointEast, geoPointWest])
+                                    console.log(query_results)
                                     setExportArray(query_results)
                                 })
                                 .then(() => {
