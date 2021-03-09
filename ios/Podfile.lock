@@ -285,6 +285,9 @@ PODS:
   - Firebase/Firestore (7.6.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 7.6.0)
+  - Firebase/Messaging (7.6.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 7.6.0)
   - Firebase/Storage (7.6.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 7.6.0)
@@ -330,6 +333,18 @@ PODS:
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
     - PromisesObjC (~> 1.2)
+  - FirebaseInstanceID (7.7.0):
+    - FirebaseCore (~> 7.0)
+    - FirebaseInstallations (~> 7.0)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GoogleUtilities/UserDefaults (~> 7.0)
+  - FirebaseMessaging (7.6.0):
+    - FirebaseCore (~> 7.0)
+    - FirebaseInstanceID (~> 7.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GoogleUtilities/Reachability (~> 7.0)
+    - GoogleUtilities/UserDefaults (~> 7.0)
   - FirebaseStorage (7.6.0):
     - FirebaseCore (~> 7.0)
     - GTMSessionFetcher/Core (~> 1.4)
@@ -568,7 +583,7 @@ PODS:
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
   - React-jsinspector (0.63.4)
-  - react-native-safe-area-context (3.1.9):
+  - react-native-safe-area-context (3.2.0):
     - React-Core
   - react-native-slider (3.0.3):
     - React
@@ -636,31 +651,35 @@ PODS:
     - React-Core
   - RNCMaskedView (0.1.10):
     - React
-  - RNFBAnalytics (10.8.0):
+  - RNFBAnalytics (10.8.1):
     - Firebase/Analytics (~> 7.6.0)
     - React-Core
     - RNFBApp
-  - RNFBApp (10.8.0):
+  - RNFBApp (10.8.1):
     - Firebase/CoreOnly (~> 7.6.0)
     - React-Core
-  - RNFBAuth (10.8.0):
+  - RNFBAuth (10.8.1):
     - Firebase/Auth (~> 7.6.0)
     - React-Core
     - RNFBApp
-  - RNFBDynamicLinks (10.8.0):
+  - RNFBDynamicLinks (10.8.1):
     - Firebase/DynamicLinks (~> 7.6.0)
     - GoogleUtilities/AppDelegateSwizzler
     - React-Core
     - RNFBApp
-  - RNFBFirestore (10.8.0):
+  - RNFBFirestore (10.8.1):
     - Firebase/Firestore (~> 7.6.0)
     - React-Core
     - RNFBApp
-  - RNFBStorage (10.8.0):
+  - RNFBMessaging (11.0.0):
+    - Firebase/Messaging (~> 7.6.0)
+    - React-Core
+    - RNFBApp
+  - RNFBStorage (10.8.1):
     - Firebase/Storage (~> 7.6.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (1.9.0):
+  - RNGestureHandler (1.10.3):
     - React-Core
   - RNImageCropPicker (0.35.3):
     - React-Core
@@ -673,7 +692,7 @@ PODS:
     - TOCropViewController
   - RNReanimated (1.13.2):
     - React-Core
-  - RNScreens (2.16.1):
+  - RNScreens (2.18.1):
     - React-Core
   - RNSVG (12.1.0):
     - React
@@ -751,6 +770,7 @@ DEPENDENCIES:
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
+  - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - "RNFBStorage (from `../node_modules/@react-native-firebase/storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
@@ -786,6 +806,8 @@ SPEC REPOS:
     - FirebaseDynamicLinks
     - FirebaseFirestore
     - FirebaseInstallations
+    - FirebaseInstanceID
+    - FirebaseMessaging
     - FirebaseStorage
     - GoogleAppMeasurement
     - GoogleDataTransport
@@ -897,6 +919,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/dynamic-links"
   RNFBFirestore:
     :path: "../node_modules/@react-native-firebase/firestore"
+  RNFBMessaging:
+    :path: "../node_modules/@react-native-firebase/messaging"
   RNFBStorage:
     :path: "../node_modules/@react-native-firebase/storage"
   RNGestureHandler:
@@ -959,7 +983,7 @@ SPEC CHECKSUMS:
   EXSecureStore: 1b571851e6068b30b8ec097be848a04603c03bae
   EXSplashScreen: 8c7c1112ce7611a853486af4737fe2298eda7657
   EXSQLite: bda6a286dded0637bb312ee781239dcca163ff4b
-  EXUpdates: 28368049118dbe4ceaf4422ec72e0ad5f770df1f
+  EXUpdates: 5124c03b19730078482a27b97fcb4718b06ca6b5
   FBLazyVector: 3bb422f41b18121b71783a905c10e58606f7dc3e
   FBReactNativeSpec: f2c97f2529dd79c083355182cc158c9f98f4bd6e
   Firebase: e1e089d9aac215a52442583f818ab61de3c4581b
@@ -970,6 +994,8 @@ SPEC CHECKSUMS:
   FirebaseDynamicLinks: 1ba27bcead0c55cb3fa48db7e1ca75005f8123d0
   FirebaseFirestore: b860346d5095c741528efac94995bab39275d0bf
   FirebaseInstallations: 6e4e77396559bc2ae0504823837ed737b1c7e47f
+  FirebaseInstanceID: cf940324a20ac14a27ad1e931d15ac9d335526db
+  FirebaseMessaging: 4b9b2850fcfcaac2820097ee3703ba6cfff3df84
   FirebaseStorage: 47890c9607e58b3046f072538c8c1ca4db2b0940
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
@@ -992,7 +1018,7 @@ SPEC CHECKSUMS:
   React-jsi: a0418934cf48f25b485631deb27c64dc40fb4c31
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
-  react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
+  react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
@@ -1006,16 +1032,17 @@ SPEC CHECKSUMS:
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
-  RNFBAnalytics: 90d32a12ca53f8cd6246030b7f1c12615c148f1f
-  RNFBApp: 97b618641633d6d23187a9d0537c3893482c483f
-  RNFBAuth: 7c6c9e7289d98709cd5d1333d829925f81823375
-  RNFBDynamicLinks: b270e335b5c4a2f2175941b24d425da81bc83553
-  RNFBFirestore: 859fc78b3dc89ef10e430b39cd9f14e07ef4e158
-  RNFBStorage: e6e439c14e413f6810d304807bf7295ebe22fc7b
-  RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
+  RNFBAnalytics: 454b17745d3824156cb906e2777d85f6848bf3e1
+  RNFBApp: 02bde3edecf2e9694b908a5d3504e03449980f20
+  RNFBAuth: 16f2b91bf53f398d83a15cff0dd52225967c1d78
+  RNFBDynamicLinks: 13a25bde71fd3efd5d583386241d46c2e6d4d237
+  RNFBFirestore: 337b96bf5b1b2d32bb9fc4735afd47b16532dde8
+  RNFBMessaging: f486811192239c0de112bb116d9628c1bc564657
+  RNFBStorage: fb33c149ca21187b86f4e32dc35693525b5f2ac0
+  RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNImageCropPicker: 08ba3a2e2f4f8833d606f01906c371e382c4dea9
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
-  RNScreens: 45c457af3d2ee9e08fc01e70da87e653d46b1198
+  RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
