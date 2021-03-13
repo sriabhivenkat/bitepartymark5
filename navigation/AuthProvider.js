@@ -50,7 +50,7 @@ export const AuthProvider = ({children}) => {
                                         lastName: "TestLastName",
                                         handleval: "testhandle"
                                     });
-                                firestore()
+                                    firestore()
                                     .collection("Users")
                                     .doc(uidval)
                                     .collection("pastParties")
@@ -59,16 +59,16 @@ export const AuthProvider = ({children}) => {
                                         partyMembers: [],
                                         location: "testLocation",
                                     });
-                                firestore()
-                                    .collection("Users")
-                                    .doc(uidval)
-                                    .collection("invitations")
-                                    .doc("testInvitation")
-                                    .set({
-                                        inviter: "Potato Stalin",
-                                        accepted: false,
-                                        isDuo: true,
-                                    });
+                                    firestore()
+                                        .collection("Users")
+                                        .doc(uidval)
+                                        .collection("invitations")
+                                        .doc("testInvitation")
+                                        .set({
+                                            inviter: "Potato Stalin",
+                                            accepted: false,
+                                            isDuo: true,
+                                        });
                             })
                             .catch(function (e) {
                                 console.log(e)

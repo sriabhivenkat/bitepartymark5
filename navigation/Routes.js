@@ -1,6 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {Alert} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import {AuthContext} from './AuthProvider';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
@@ -12,6 +12,7 @@ import AppStack from './AppStack';
 const Routes = () => {
   const {user, setUser} = useContext(AuthContext);
   const [initializing, setInitializing] = useState(true);
+  // const navigation = useNavigation();
 
   const onAuthStateChanged = (user) => {
     setUser(user);
@@ -52,7 +53,7 @@ const Routes = () => {
             onPress: () => console.log("Cancel Pressed"),
             style: "cancel"
           },
-          { text: "Go!", onPress: () => console.log("OK Pressed") }
+          // { text: "Go!", onPress: () => navigation.navigate("DuosPartyScreen", { partyID: item.docID }) }
         ],
         // { cancelable: false }
       );
