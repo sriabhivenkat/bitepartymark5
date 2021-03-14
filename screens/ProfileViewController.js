@@ -71,6 +71,12 @@ const ProfileViewController = ({ navigation }) => {
         .collection("friends")
         .onSnapshot(onResult, onError);
 
+      firestore()
+        .collection("Users")
+        .doc(user.uid)
+        .collection("pastParties")
+        .onSnapshot(onResult2, onError);
+
       // Code for Image Listener: Look at onResult3 for more info
       firestore()
         .collection("Users")
@@ -83,10 +89,6 @@ const ProfileViewController = ({ navigation }) => {
   function onResult(QuerySnapshot) {
     const refVal = firestore().collection("Users").doc(user.uid);
     const doc = refVal.get();
-    const { firstName } = doc.data();
-    const { lastName } = doc.data();
-    const { handle } = doc.data();
-    const { personalLink } = doc.data();
 
     refVal
       .collection("friends")
