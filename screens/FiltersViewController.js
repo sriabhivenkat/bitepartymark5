@@ -18,8 +18,8 @@ const FiltersViewController = ({ route, navigation }) => {
     const [switch1, setSwitch1] = useState(false);
     const [switch2, setSwitch2] = useState(false);
     const [handleval, setHandleVal] = useState("");
-    
-    
+
+
     const [locationval, setLocation] = useState({});
     const [userLat, setUserLat] = useState(0);
     const [userLong, setUserLong] = useState(0);
@@ -33,7 +33,7 @@ const FiltersViewController = ({ route, navigation }) => {
     const toggleSwitch1 = () => setSwitch1(previousState => !previousState);
     const toggleSwitch2 = () => setSwitch2(previousState => !previousState);
 
-    const {partyID, imagePath, members, userHandle, admin} = route.params;
+    const { partyID, imagePath, members, userHandle, admin } = route.params;
 
     useEffect(() => {
         AsyncStorage.getItem('handlequeryval')
@@ -44,34 +44,34 @@ const FiltersViewController = ({ route, navigation }) => {
 
 
     function miles_to_latitude(miles) {
-        return miles/69
+        return miles / 69
     }
 
     function miles_to_longitude(miles) {
-        return miles/54.6
+        return miles / 54.6
     }
     useEffect(() => {
         GetLocation.getCurrentPosition({
-            enableHighAccuracy:true,
+            enableHighAccuracy: true,
             timeout: 1000,
         })
-        .then(location => {
-            setLocation(location);
-            setUserLat(locationval.latitude);
-            setUserLong(locationval.longitude);
-            console.log(userLat, userLong)
-        })
-        .catch(error => console.log(error))
+            .then(location => {
+                setLocation(location);
+                setUserLat(locationval.latitude);
+                setUserLong(locationval.longitude);
+                console.log(userLat, userLong)
+            })
+            .catch(error => console.log(error))
     }, [])
-   
-    
+
+
     useEffect(() => {
-        setGeoPointNorth([userLat, userLong+miles_to_longitude(Math.round(sliderval1))])
-        setGeoPointSouth([userLat, userLong-miles_to_longitude(Math.round(sliderval1))])
-        setGeoPointEast([userLat+miles_to_latitude(Math.round(sliderval1)), userLong])
-        setGeoPointWest([userLat-miles_to_latitude(Math.round(sliderval1)), userLong])
+        setGeoPointNorth([userLat, userLong + miles_to_longitude(Math.round(sliderval1))])
+        setGeoPointSouth([userLat, userLong - miles_to_longitude(Math.round(sliderval1))])
+        setGeoPointEast([userLat + miles_to_latitude(Math.round(sliderval1)), userLong])
+        setGeoPointWest([userLat - miles_to_latitude(Math.round(sliderval1)), userLong])
         console.log([geoPointNorth, geoPointSouth, geoPointEast, geoPointWest])
-    },[sliderval1, userLat, userLong])
+    }, [sliderval1, userLat, userLong])
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Set some filters</Text>
@@ -160,12 +160,12 @@ const FiltersViewController = ({ route, navigation }) => {
                                         buddy: members[0].handle,
                                     })
 
-                                })
+                            })
                             .then(() => {
                                 return AsyncStorage.setItem('handlequeryval', members[0].handle);
                             })
                             .then(() => {
-                                console.log({user, member: members[0]})
+                                console.log({ user, member: members[0] })
                                 firestore()
                                     .collection("Users")
                                     .doc(members[0].uidvalue)
@@ -181,25 +181,25 @@ const FiltersViewController = ({ route, navigation }) => {
                             })
                             .then(() => {
                                 firestore()
-                                .collection("Restaurants")
-                                .where("latitude", '<=', geoPointEast[0] && "latitude", '>=', geoPointWest[0] && "longitude", '>=', geoPointSouth[1] && "longitude", '<=', geoPointNorth[1])
-                                .limit(Math.round(sliderval2))
-                                .get()
-                                .then((data) => {
-                                    const query_results = data.docs.map((x) => x.data())
-                                    console.log(query_results)
-                                    setExportArray(query_results)
-                                })
-                                .then(() => {
-                                    firestore()
-                                    .collection("Parties")
-                                    .doc(partyID)
-                                    .update({
-                                        'restaurants': exportArray,
+                                    .collection("Restaurants")
+                                    .where("latitude", '<=', geoPointEast[0] && "latitude", '>=', geoPointWest[0] && "longitude", '>=', geoPointSouth[1] && "longitude", '<=', geoPointNorth[1])
+                                    .limit(Math.round(sliderval2))
+                                    .get()
+                                    .then((data) => {
+                                        const query_results = data.docs.map((x) => x.data())
+                                        console.log(query_results)
+                                        setExportArray(query_results)
                                     })
-                                })
+                                    .then(() => {
+                                        firestore()
+                                            .collection("Parties")
+                                            .doc(partyID)
+                                            .update({
+                                                'restaurants': exportArray,
+                                            })
+                                    })
                             })
-                            .then(navigation.navigate("DuosPartyScreen", { partyID }))
+                            .then(navigation.navigate("SwipingScreen", { partyID }))
                             .catch(err => console.error(err))
 
                     }}

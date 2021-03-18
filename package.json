@@ -23,6 +23,7 @@
     "@react-navigation/bottom-tabs": "^5.11.2",
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
+    "algoliasearch": "^4.8.6",
     "android-platform-tools": "^3.0.2",
     "d3-shape": "^2.0.0",
     "expo": "~40.0.0",
