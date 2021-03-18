@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import SwipeCards from "react-native-swipe-cards-deck";
+import firestore from "@react-native-firebase/firestore";
 
 function Card({ data }) {
     return (
         <View style={[styles.card, { backgroundColor: data.backgroundColor }]}>
             <View>
                 <Text style={styles.cardsText2}>{data.text}</Text>
-                <Text style={styles.cardsText3}>{data.distance} miles away </Text>
+                <Text style={styles.cardsText3}>{data.address} </Text>
+                <Text style={styles.cardsText3}>{data.city + "," + data.state + ' ' + data.zip} </Text>
             </View>
         </View>
     );
@@ -21,21 +23,49 @@ function StatusCard({ text }) {
     );
 }
 
-export default function App() {
+
+
+
+
+export default function swipingScreen() {
     const [cards, setCards] = useState();
+    const [data, setData] = useState([]);
+    const [carrd, setCardDict] = useState()
+
+    useEffect(() => {
+        const main = async () => {
+            firestore()
+                .collection("Restaurants")
+                .get()
+                .then((res) => {
+                    const results = res.docs.map((x) => ({ ...x.data(), id: x.id }))
+                    setData(results);
+
+                })
+
+                .catch((err) => alert(err));
+
+
+
+        }
+        main()
+    }, []);
+
+
 
     // replace with real remote data fetching
     useEffect(() => {
-        setTimeout(() => {
-            setCards([
-                { text: "McDonalds", backgroundColor: "red", distance: 0.5 },
-                { text: "Whatabuger", backgroundColor: "purple", distance: 20 },
-                { text: "Chic-fil-A", backgroundColor: "green", distance: 3.7 },
-                { text: "Chipotle", backgroundColor: "blue", distance: 4.5 },
-                { text: "Mod Pizza", backgroundColor: "cyan", distance: 0.7 },
-                { text: "Taco Bell", backgroundColor: "orange", distance: 1.3 },
-            ]);
-        }, 3000);
+        const main = async () => {
+            setTimeout(() => {
+                const cardDict = data.map((x) => (
+                    { text: x.name, backgroundColor: "red", address: x.address, city: x.city, state: x.province, zip: x.postalCode }
+
+                ))
+                console.log("The restaurants are:" + cardDict)
+                setCards(cardDict);
+            }, 3000);
+        }
+        main()
     }, []);
 
     function handleYes(card) {
@@ -55,7 +85,10 @@ export default function App() {
         <View style={styles.container}>
             {cards ? (
                 <SwipeCards
-                    cards={cards}
+                    cards={data.map((x) => (
+                        { text: x.name, backgroundColor: "red", address: x.address, city: x.city, state: x.province, zip: x.postalCode }
+
+                    ))}
                     renderCard={(cardData) => <Card data={cardData} />}
                     keyExtractor={(cardData) => String(cardData.text)}
                     renderNoMoreCards={() => <StatusCard text="No more cards..." />}
@@ -66,7 +99,7 @@ export default function App() {
 
                 // If you want a stack of cards instead of one-per-one view, activate stack mode
                 // stack={true}
-                // stackDepth={3}
+
                 />
             ) : (
                     <StatusCard text="Loading..." />
