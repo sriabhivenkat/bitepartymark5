@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import SwipeCards from "react-native-swipe-cards-deck";
-import firestore from "@react-native-firebase/firestore";
+import Geolocation from '@react-native-community/geolocation';
 
 function Card({ data }) {
     return (
@@ -31,20 +31,24 @@ export default function swipingScreen() {
     const [cards, setCards] = useState();
     const [data, setData] = useState([]);
     const [carrd, setCardDict] = useState()
+    const [lat, setLat] = useState(Geolocation.getCurrentPosition(info => console.log(info.coords.latitude)))
+    const [lon, setLon] = useState(Geolocation.getCurrentPosition(info => console.log(info.coords.longitude)))
+
+    const algoliasearch = require("algoliasearch");
+
+    const client = algoliasearch("09UQ1K8B5P", "8acae8abeccfb55267b40a5d231b31e6");
+    const index = client.initIndex("restaurants");
 
     useEffect(() => {
         const main = async () => {
-            firestore()
-                .collection("Restaurants")
-                .get()
-                .then((res) => {
-                    const results = res.docs.map((x) => ({ ...x.data(), id: x.id }))
-                    setData(results);
-
+            index
+                .search("", {
+                    aroundLatLng: lat + "," + lon,
                 })
-
-                .catch((err) => alert(err));
-
+                .then(({ hits }) => {
+                    setData(hits)
+                    console.log(hits);
+                });
 
 
         }
@@ -58,7 +62,7 @@ export default function swipingScreen() {
         const main = async () => {
             setTimeout(() => {
                 const cardDict = data.map((x) => (
-                    { text: x.name, backgroundColor: "red", address: x.address, city: x.city, state: x.province, zip: x.postalCode }
+                    { text: x.name, backgroundColor: "blue", address: x.address, city: x.cit, state: x.state, zip: x.zip_score }
 
                 ))
                 console.log("The restaurants are:" + cardDict)
@@ -69,6 +73,7 @@ export default function swipingScreen() {
     }, []);
 
     function handleYes(card) {
+
         console.log(`Yes for ${card.text}`);
         return true; // return false if you wish to cancel the action
     }
@@ -82,11 +87,12 @@ export default function swipingScreen() {
     }
 
     return (
+
         <View style={styles.container}>
             {cards ? (
                 <SwipeCards
                     cards={data.map((x) => (
-                        { text: x.name, backgroundColor: "red", address: x.address, city: x.city, state: x.province, zip: x.postalCode }
+                        { text: x.name, backgroundColor: "red", address: x.address, city: x.city, state: x.state, zip: x.zip_code }
 
                     ))}
                     renderCard={(cardData) => <Card data={cardData} />}
