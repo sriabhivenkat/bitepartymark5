@@ -28,6 +28,7 @@ const FiltersViewController = ({ route, navigation }) => {
     const [geoPointSouth, setGeoPointSouth] = useState([]);
     const [geoPointEast, setGeoPointEast] = useState([]);
     const [geoPointWest, setGeoPointWest] = useState([]);
+    const [data, setData] = useState([]);
 
     const [exportArray, setExportArray] = useState([]);
     const toggleSwitch1 = () => setSwitch1(previousState => !previousState);
@@ -41,6 +42,33 @@ const FiltersViewController = ({ route, navigation }) => {
                 setHandleVal(value);
             })
     }, []);
+    const algoliasearch = require("algoliasearch");
+
+    const client = algoliasearch("09UQ1K8B5P", "8acae8abeccfb55267b40a5d231b31e6");
+    const index = client.initIndex("restaurants");
+
+    useEffect(() => {
+
+        index
+            .search("", {
+
+                aroundLatLng: "30.6384293, -96.3332523"
+
+            })
+            .then(({ hits }) => {
+                setData(hits.map((x) => (
+                    { address: x.address, city: x.city, cuisine: x.cuisine, nameR: x.name, objectId: x.objectId, state: x.state, web: x.website, zip: x.zip_code, yesCount: 0 }
+                )))
+
+            })
+
+
+    }
+
+        , []);
+
+
+
 
 
     function miles_to_latitude(miles) {
@@ -195,11 +223,11 @@ const FiltersViewController = ({ route, navigation }) => {
                                             .collection("Parties")
                                             .doc(partyID)
                                             .update({
-                                                'restaurants': exportArray,
+                                                'restaurants': data,
                                             })
                                     })
                             })
-                            .then(navigation.navigate("SwipingScreen", { partyID }))
+                            .then(navigation.navigate("DuosPartyScreen", { partyID, data }))
                             .catch(err => console.error(err))
 
                     }}
@@ -213,10 +241,20 @@ const FiltersViewController = ({ route, navigation }) => {
                         <Text style={{ color: "white", fontFamily: "PingFangHK-Regular", fontSize: 17, }}>Start party!</Text>
                     </LinearGradient>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() =>
+                    console.log(data)}>
+                    <Text>
+                        press me
+                        </Text>
+                </TouchableOpacity>
+                <Text>
+                    {partyID}
+                </Text>
             </View>
         </View>
     );
 }
+
 
 
 export default FiltersViewController;

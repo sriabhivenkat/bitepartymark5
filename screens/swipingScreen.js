@@ -31,8 +31,11 @@ export default function swipingScreen() {
     const [cards, setCards] = useState();
     const [data, setData] = useState([]);
     const [carrd, setCardDict] = useState()
-    const [lat, setLat] = useState(Geolocation.getCurrentPosition(info => console.log(info.coords.latitude)))
-    const [lon, setLon] = useState(Geolocation.getCurrentPosition(info => console.log(info.coords.longitude)))
+    const [lat, setLat] = useState()
+    const [lon, setLon] = useState()
+
+    Geolocation.getCurrentPosition(info => setLat(info.coords.latitude))
+    Geolocation.getCurrentPosition(info => setLon(info.coords.longitude))
 
     const algoliasearch = require("algoliasearch");
 
@@ -40,20 +43,25 @@ export default function swipingScreen() {
     const index = client.initIndex("restaurants");
 
     useEffect(() => {
-        const main = async () => {
-            index
-                .search("", {
-                    aroundLatLng: lat + "," + lon,
-                })
-                .then(({ hits }) => {
-                    setData(hits)
-                    console.log(hits);
-                });
+        Geolocation.getCurrentPosition(info => setLat(info.coords.latitude.toString()))
+        Geolocation.getCurrentPosition(info => setLon(info.coords.longitude.toString()))
+
+        index
+            .search("", {
+
+                aroundLatLng: "30.6384293, -96.3332523"
+
+            })
+            .then(({ hits }) => {
+                setData(hits)
+
+                console.log(data)
+            });
 
 
-        }
-        main()
-    }, []);
+    }
+
+        , []);
 
 
 
@@ -63,10 +71,10 @@ export default function swipingScreen() {
             setTimeout(() => {
                 const cardDict = data.map((x) => (
                     { text: x.name, backgroundColor: "blue", address: x.address, city: x.cit, state: x.state, zip: x.zip_score }
-
                 ))
-                console.log("The restaurants are:" + cardDict)
-                setCards(cardDict);
+
+                setCards(cardDict)
+
             }, 3000);
         }
         main()
@@ -74,15 +82,20 @@ export default function swipingScreen() {
 
     function handleYes(card) {
 
-        console.log(`Yes for ${card.text}`);
+        // console.log(`Yes for ${card.text}`);
+        // console.log(lat)
+        // console.log(lon)
+        // console.log(lat + ', ' + lon)
+        // console.log("30.6384293, -96.3332523")
         return true; // return false if you wish to cancel the action
     }
     function handleNo(card) {
-        console.log(`No for ${card.text}`);
+        // console.log(lon)
+        // console.log(`No for ${card.text}`);
         return true;
     }
     function handleMaybe(card) {
-        console.log(`Maybe for ${card.text}`);
+        // console.log(`Maybe for ${card.text}`);
         return true;
     }
 
