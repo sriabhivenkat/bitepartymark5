@@ -25,14 +25,15 @@ const AddDuosViewController = ({ route, navigation }) => {
     const [query, setQuery] = useState("");
     const { user } = useContext(AuthContext);
     const [isVisible, setIsVisible] = useState(false);
-
+    const [selectedPeople, setSelectedPeople] = useState([]);
+    var localArray = [];
     const [count, setCount] = useState(0);
     const showPanel = () => setIsVisible(true);
     const hidePanel = () => setIsVisible(false);
-
+    
     const [userHandle, setUserHandle] = useState("");
     const [imagePath, setImagePath] = useState("");
-    const [handleval, setHandleVal] = useState("");
+    const [isPressed, setIsPressed] = useState(false);
 
     useEffect(() => {
         const main = async () => {
@@ -51,7 +52,6 @@ const AddDuosViewController = ({ route, navigation }) => {
             .collection("Users")
             .doc(user.uid)
             .collection("friends")
-            .where("handle", "==", query)
             .get()
             .then((res) => {
                 const results = res.docs.map((x) => x.data());
@@ -109,13 +109,6 @@ const AddDuosViewController = ({ route, navigation }) => {
     return (
         <View style={styles.container}>
             <Text h3 style={styles.title}>Who's coming?</Text>
-            <Input
-                placeholder="Pick a partner"
-                onChangeText={(txt) => setQuery(txt)}
-                autoCapitalize="none"
-                value={query}
-                containerStyle={{ width: "90%", marginLeft: "4%" }}
-            />
 
             {duosmember.map((item) => (
                 <View style={{ marginTop: "-2%" }}>
@@ -124,7 +117,22 @@ const AddDuosViewController = ({ route, navigation }) => {
                         friction={90}
                         tension={100}
                         activeScale={0.95}
-                        onPress={showPanel}
+                        onPress={() => {
+                            if(localArray.includes(item.uidvalue)) {
+                                var n = localArray.indexOf(item.uidvalue);
+                                localArray.splice(n, 1)
+                            }
+                            else {
+                                localArray.push(item.uidvalue);
+                            }
+                            console.log(localArray);
+                            if(localArray.length!=0) {
+                                setIsPressed(true);
+                            }
+                            else {
+                                setIsPressed(false);
+                            }
+                        }}
                         style={{ borderBottomColor: "lightgray", borderBottomWidth: 1, borderTopColor: "lightgray", borderTopWidth: 1 }}
                     >
                         <Avatar.Image size={45} source={{ uri: item.imageUrlPath }} />
@@ -139,12 +147,13 @@ const AddDuosViewController = ({ route, navigation }) => {
                 <Provider>
                     <Portal>
                         <Modal visible={isVisible} onDismiss={hidePanel} contentContainerStyle={styles.modalStyling}>
-                            <Text h4 style={styles.modalTitle}>Invite {duosmember[0].firstName} to your duo?</Text>
+                            <Text h4 style={styles.modalTitle}>Invite potato to your duo?</Text>
                             <TouchableOpacity
                                 style={styles.button}
                                 activeOpacity={0.9}
                                 onPress={() => {
-                                    navigation.navigate('Filters', { admin: user.uid, partyID: groupId, imagePath, members: duosmember, userHandle })
+                                    setIsPressed(false);
+                                    navigation.navigate('Filters', { admin: user.uid, partyID: groupId, imagePath, members: duosmember, userHandle });
                                 }}
                                 style={{ width: "100%", height: "50%", marginTop: "3%" }}
                             >
@@ -163,6 +172,22 @@ const AddDuosViewController = ({ route, navigation }) => {
                         </Modal>
                     </Portal>
                 </Provider>
+            }
+            {isPressed==true &&
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.9}
+                    onPress={showPanel}
+                    style={{ height: 50, marginHorizontal: "20%", marginVertical: 15 }}
+                >
+                    <LinearGradient
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        colors={["#ee0979", "#f76f6d", '#ff6a00']}
+                        style={{ height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15}}>
+                        <Text style={{ color: "white", fontFamily: "PingFangHK-Regular", fontSize: 17, }}>Done</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
             }
             <TouchableOpacity
                 style={styles.button}

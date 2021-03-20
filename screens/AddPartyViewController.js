@@ -21,14 +21,6 @@ const AddPartyViewController = ({ navigation }) => {
                     <Image source={require('../images/duos.png')} style={{ width: 170, height: 160, alignItems: "center" }} />
                 </Card.Content>
             </Card>
-
-            <Card style={styles.card} onPress={() => navigation.navigate("SwipingScreen")}>
-                <Card.Content>
-                    <Text h4 style={{ fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "black", textAlign: "center" }}>Parties</Text>
-                    <Text style={{ fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "#f76f6d", textAlign: "center" }}>Party it up with a group of 3 or more!</Text>
-                    <Image source={require('../images/squads.png')} style={{ width: 170, height: 160 }} />
-                </Card.Content>
-            </Card>
         </View>
     );
 }
