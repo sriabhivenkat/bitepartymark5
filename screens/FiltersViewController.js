@@ -222,6 +222,7 @@ const FiltersViewController = ({ route, navigation }) => {
                                         accepted: false,
                                         imagePath: imagePath,
                                         docID: partyID,
+
                                     })
                             })
 
