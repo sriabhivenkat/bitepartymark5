@@ -56,7 +56,12 @@ const ProfileStack = () => (
         <Stack.Screen
             name="Settings"
             component={SettingsViewController}
-            options={{ header: () => null }}
+            options={{
+                headerTitle: props => <LogoTitle {...props} />,
+                headerStyle: {
+                    height: 120,
+                }
+            }}
         />
     </Stack.Navigator>
 );

@@ -225,32 +225,20 @@ const ProfileViewController = ({ navigation }) => {
           <Image
             source={{ uri: profileImageUrl }}
             style={{
-              width: 125,
-              height: 125,
+              width: 200,
+              height: 200,
               backgroundColor: "yellow",
-              borderRadius: 60,
+              borderRadius: 95,
               resizeMode: "cover",
               marginRight: "2.5%",
+              marginTop: "25%",
             }}
           />
         </TouchableOpacity>
         <View style={styles.column}>
           <Text
             h5
-            style={{
-              textAlign: "center",
-              marginLeft: 20,
-              color: "black",
-              fontWeight: "bold",
-              marginTop: "-5%",
-              padding: "1.5%",
-            }}
-          >
-            {userFirst} {userLast}
-          </Text>
-          <Text
-            h5
-            style={{ color: "black", textAlign: "center", marginLeft: "7.5%" }}
+            style={{ color: "black", textAlign: "center", marginTop: "4%"}}
           >
             @{userHandle}
           </Text>
@@ -261,10 +249,7 @@ const ProfileViewController = ({ navigation }) => {
         <View
           style={[
             styles.infoBox,
-            {
-              borderRightColor: "black",
-              borderRightWidth: 3.5,
-            },
+            
           ]}
         >
           <Title style={{ fontWeight: "bold", color: "black" }}>
@@ -284,7 +269,7 @@ const ProfileViewController = ({ navigation }) => {
           style={styles.button}
           activeOpacity={0.9}
           onPress={() => navigation.navigate("Add Friends")}
-          style={{ width: "90%", height: "45%", marginBottom: "5%" }}
+          style={{ width: "90%", height: "75%", marginBottom: "5%" }}
         >
           <LinearGradient
             start={{ x: 0, y: 0 }}
@@ -313,7 +298,7 @@ const ProfileViewController = ({ navigation }) => {
           style={styles.button}
           activeOpacity={0.9}
           onPress={() => navigation.navigate("Settings")}
-          style={{ width: "90%", height: "45%", marginBottom: "5%" }}
+          style={{ width: "90%", height: "75%", marginBottom: "5%" }}
         >
           <LinearGradient
             start={{ x: 0, y: 0 }}
@@ -342,7 +327,7 @@ const ProfileViewController = ({ navigation }) => {
           style={styles.button}
           activeOpacity={0.9}
           onPress={() => logout()}
-          style={{ width: "90%", height: "45%", marginBottom: "5%" }}
+          style={{ width: "90%", height: "75%", marginBottom: "5%" }}
         >
           <LinearGradient
             start={{ x: 0, y: 0 }}
@@ -413,7 +398,7 @@ const styles = StyleSheet.create({
   },
   container2: {
     flex: 0.5,
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     marginTop: "5%",
@@ -455,7 +440,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   infoBoxWrapper: {
-    marginTop: "2%",
+    marginTop: "35%",
     flexDirection: "row",
   },
   infoBox: {

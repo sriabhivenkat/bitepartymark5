@@ -4,10 +4,9 @@ import { Button } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider.js';
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { Avatar } from 'react-native-paper';
-
-
 import SwipeCards from "react-native-swipe-cards-deck";
 import Geolocation from '@react-native-community/geolocation';
+import LinearGradient from 'react-native-linear-gradient';
 
 function Card({ data }) {
     return (
@@ -15,7 +14,14 @@ function Card({ data }) {
             <View>
                 <Text style={styles.cardsText2}>{data.text}</Text>
                 <Text style={styles.cardsText3}>{data.address} </Text>
-                <Text style={styles.cardsText3}>{data.city + "," + data.state + ' ' + data.zip} </Text>
+                <Text style={styles.cardsText3}>{data.city + "," + data.state}</Text>
+                <Text style={styles.cardsText4}>{data.cuisine}</Text>
+                {data.cuisine.includes("American") &&
+                    <Image source={require("../images/american_image.png")} style={styles.images}/>
+                }
+                {data.cuisine.includes("Restaurant") &&
+                    <Image source={require("../images/frenchfry.png")} style={styles.images}/>
+                }
             </View>
         </View>
     );
@@ -43,14 +49,14 @@ const acceptInvite = (inviteId, uId) =>
 
 const DuosPartyScreen = ({ route }) => {
     const { partyID, inviteID } = route.params
-    var count = 0;
+    var count = -1;
     const { user } = useContext(AuthContext);
     const [participant, setParticipants] = useState([]);
     console.log({ partyID, inviteID })
 
 
     const [cards, setCards] = useState();
-    const [data2, setData] = useState();
+    const [data2, setData2] = useState();
     const [carrd, setCardDict] = useState()
     const [lat, setLat] = useState()
     const [lon, setLon] = useState()
@@ -79,7 +85,7 @@ const DuosPartyScreen = ({ route }) => {
                             console.log("Document data:", doc.data());
                             const { restaurants } = doc.data()
                             console.log(restaurants)
-                            setData(restaurants)
+                            setData2(restaurants)
                         } else {
                             // doc.data() will be undefined in this case
                             console.log("No such document!");
@@ -98,19 +104,37 @@ const DuosPartyScreen = ({ route }) => {
     }, []);
 
     function handleYes(card) {
-
         console.log(card)
+        const refVal = firebase.firestore().collection("Parties").doc(partyID);
+        refVal.get()
+            .then(function (doc) {
 
-        data2[count]["yesCount"] += 1
-        firestore()
-            .collection("Parties")
-            .doc(partyID)
-            .update({
-                'restaurants': data2,
-            })
+                if (doc.exists) {
+                    console.log("Document data:", doc.data());
+                    const { restaurants } = doc.data()
+                    console.log(restaurants)
+                    restaurants[count]["yesCount"] += 1
+                    firestore()
+                        .collection("Parties")
+                        .doc(partyID)
+                        .update({
+                            'restaurants': restaurants,
+                        })
+
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                }
+            }).catch(function (error) {
+                console.log("Error getting document:", error);
+            });
+
+
+
 
         count += 1
-        return true; // return false if you wish to cancel the action
+        console.log("Count is", count)
+        return true; // returnfalse if you wi
     }
 
     function handleNo(card) {
@@ -132,7 +156,7 @@ const DuosPartyScreen = ({ route }) => {
     //         .catch(err => alert(err))
     // ), [inviteID, partyID])
 
-
+    //['#e9e4f0', '#d3cce3', '#fff']
 
     console.log(participant[0])
     return (
@@ -141,16 +165,24 @@ const DuosPartyScreen = ({ route }) => {
                 <SwipeCards
                     cards={
                         data2.map((x) => (
-                            { text: x.nameR, backgroundColor: "red", address: x.address, city: x.city, state: x.state, zip: x.zip, yesCount: x.yesCount }
-
+                            {   
+                                text: x.nameR, 
+                                backgroundColor: "#fcfcfc",
+                                address: x.address, 
+                                city: x.city, 
+                                state: x.state, 
+                                zip: x.zip, 
+                                yesCount: x.yesCount,
+                                cuisine: x.cuisine
+                            }
                         ))}
-                    renderCard={(cardData) => <Card data={cardData} />}
-                    keyExtractor={(cardData) => String(cardData.text)}
-                    renderNoMoreCards={() => <StatusCard text="No more cards..." />}
-                    handleYup={handleYes}
-                    handleNope={handleNo}
-                    handleMaybe={handleMaybe}
-                    hasMaybeAction={true}
+                        renderCard={(cardData) => <Card data={cardData} />}
+                        keyExtractor={(cardData) => String(cardData.text)}
+                        renderNoMoreCards={() => <StatusCard text="No more cards..." />}
+                        handleYup={handleYes}
+                        handleNope={handleNo}
+                        stack={true}
+                        dragY={false}
 
                 // If you want a stack of cards instead of one-per-one view, activate stack mode
                 // stack={true}
@@ -175,22 +207,47 @@ const styles = StyleSheet.create({
     },
     card: {
         marginTop: 27,
-        justifyContent: "flex-end",
-        alignItems: "flex-start",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        textShadowColor:'#585858',
         width: 400,
         height: 750,
-        borderRadius: 10
-    },
-    cardsText: {
-        fontSize: 22,
+        borderRadius: 20,
+        borderWidth: 2,
+        borderColor: "#5C42FF"
     },
     cardsText2: {
-        fontSize: 60,
-        marginTop: 5
+        fontSize: 50,
+        display: "flex",
+        textAlign: "center",
+        fontWeight: "bold",
+        marginTop: '20%',
+        fontFamily:"PingFangHK-Medium",
     },
     cardsText3: {
-        fontSize: 45,
-        marginTop: 5
+        fontSize: 25,
+        textAlign: "center",
+        fontWeight: "200",
+        fontFamily: "PingFangHK-Medium"
     },
+    cardsText4: {
+        fontSize: 20,
+        textAlign: "center",
+        fontWeight: "300",
+        marginTop: 5,
+        fontFamily: "PingFangHK-Medium"
+    },
+    images: {
+        display: "flex",
+        alignItems: "center",
+        margin: "auto"
+    },
+    linearGradient: {
+        alignItems: 'center',
+        justifyContent: "center",
+        borderRadius: 5,
+        height: 200,
+        width: 350,
+    }
 });
 
