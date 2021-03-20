@@ -16,6 +16,10 @@ import FiltersViewController from './FiltersViewController.js';
 
 const AddDuosViewController = ({ route, navigation }) => {
 
+
+
+
+
     const [groupId, setGroupId] = useState("")
     const [duosmember, setDuosMember] = useState([]);
     const [query, setQuery] = useState("");
@@ -53,6 +57,7 @@ const AddDuosViewController = ({ route, navigation }) => {
                 const results = res.docs.map((x) => x.data());
                 setDuosMember(results);
             })
+
             .catch((err) => alert(err));
     }, [query]);
 
@@ -131,33 +136,33 @@ const AddDuosViewController = ({ route, navigation }) => {
                 </View>
             ))}
             { duosmember.length > 0 &&
-            <Provider>
-                <Portal>
-                    <Modal visible={isVisible} onDismiss={hidePanel} contentContainerStyle={styles.modalStyling}>
-                        <Text h4 style={styles.modalTitle}>Invite {duosmember[0].firstName} to your duo?</Text>
-                        <TouchableOpacity
-                            style={styles.button}
-                            activeOpacity={0.9}
-                            onPress={() => {
-                                navigation.navigate('Filters', { admin: user.uid, partyID: groupId, imagePath, members: duosmember, userHandle })
-                            }}
-                            style={{ width: "100%", height: "50%", marginTop: "3%" }}
-                        >
-                            <LinearGradient
-                                start={{ x: 0, y: 0 }}
-                                end={{ x: 1, y: 0 }}
-                                colors={['#7f00ff', '#e100ff', '#ffaf7b']}
-                                style={{ height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15, width: "110%", marginLeft: "-5%" }}
-                                Component={TouchableScale}
-                                friction={90}
-                                tension={100}
-                                activeScale={0.95}>
-                                <Text style={{ color: "white", fontFamily: "PingFangHK-Medium", fontSize: 17, fontWeight: "400" }}>Yep, let's go.</Text>
-                            </LinearGradient>
-                        </TouchableOpacity>
-                    </Modal>
-                </Portal>
-            </Provider>
+                <Provider>
+                    <Portal>
+                        <Modal visible={isVisible} onDismiss={hidePanel} contentContainerStyle={styles.modalStyling}>
+                            <Text h4 style={styles.modalTitle}>Invite {duosmember[0].firstName} to your duo?</Text>
+                            <TouchableOpacity
+                                style={styles.button}
+                                activeOpacity={0.9}
+                                onPress={() => {
+                                    navigation.navigate('Filters', { admin: user.uid, partyID: groupId, imagePath, members: duosmember, userHandle })
+                                }}
+                                style={{ width: "100%", height: "50%", marginTop: "3%" }}
+                            >
+                                <LinearGradient
+                                    start={{ x: 0, y: 0 }}
+                                    end={{ x: 1, y: 0 }}
+                                    colors={['#7f00ff', '#e100ff', '#ffaf7b']}
+                                    style={{ height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15, width: "110%", marginLeft: "-5%" }}
+                                    Component={TouchableScale}
+                                    friction={90}
+                                    tension={100}
+                                    activeScale={0.95}>
+                                    <Text style={{ color: "white", fontFamily: "PingFangHK-Medium", fontSize: 17, fontWeight: "400" }}>Yep, let's go.</Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                        </Modal>
+                    </Portal>
+                </Provider>
             }
             <TouchableOpacity
                 style={styles.button}

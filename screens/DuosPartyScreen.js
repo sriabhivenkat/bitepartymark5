@@ -67,6 +67,8 @@ const DuosPartyScreen = ({ route }) => {
 
 
 
+
+
     // replace with real remote data fetching
     useEffect(() => {
 
@@ -88,8 +90,40 @@ const DuosPartyScreen = ({ route }) => {
             });
 
 
+        firestore()
+            .collection("Parties")
+            .doc(partyID)
+            .onSnapshot(onResult3, onError);
+
 
     }, []);
+
+    function onResult3(QuerySnapshot) {
+        const refVal = firestore().collection("Parties").doc(partyID);
+        const doc = refVal.get();
+        refVal.get().then(function (querySnapshot) {
+
+            if (querySnapshot.exists) {
+                console.log("Document data:", doc.data());
+                const { restaurants } = doc.data()
+                console.log(restaurants)
+                setData(restaurants)
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch(function (error) {
+            console.log("Error getting document:", error);
+        });
+
+    }
+
+    function onError(error) {
+        console.error(error);
+    }
+
+
+
 
     function handleYes(card) {
         console.log(card)
@@ -149,7 +183,7 @@ const DuosPartyScreen = ({ route }) => {
     console.log(participant[0])
     return (
         <View style={styles.container}>
-            { (
+            {  (
                 <SwipeCards
                     cards={
                         data.map((x) => (

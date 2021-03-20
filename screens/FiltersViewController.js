@@ -189,6 +189,8 @@ const FiltersViewController = ({ route, navigation }) => {
                                         restrictions: [Math.round(sliderval1), Math.round(sliderval2), switch1, switch2],
                                         participants: members,
                                         isDuo: members.length <= 1,
+                                        participants: members,
+                                        participantCount: 1
                                     }
                                     ))
                             .then(() => {
