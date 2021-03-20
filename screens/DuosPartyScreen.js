@@ -49,9 +49,9 @@ const DuosPartyScreen = ({ route }) => {
     console.log({ partyID, inviteID })
 
 
-    const [cards, setCards] = useState();
-    const [data2, setData] = useState();
-    const [carrd, setCardDict] = useState()
+
+    const [data, setData] = useState([]);
+
     const [lat, setLat] = useState()
     const [lon, setLon] = useState()
 
@@ -69,32 +69,26 @@ const DuosPartyScreen = ({ route }) => {
 
     // replace with real remote data fetching
     useEffect(() => {
-        const main = async () => {
-            setTimeout(() => {
-                const refVal = firebase.firestore().collection("Parties").doc(partyID);
-                refVal.get()
-                    .then(function (doc) {
 
-                        if (doc.exists) {
-                            console.log("Document data:", doc.data());
-                            const { restaurants } = doc.data()
-                            console.log(restaurants)
-                            setData(restaurants)
-                        } else {
-                            // doc.data() will be undefined in this case
-                            console.log("No such document!");
-                        }
-                    }).catch(function (error) {
-                        console.log("Error getting document:", error);
-                    });
+        const refVal = firebase.firestore().collection("Parties").doc(partyID);
+        refVal.get()
+            .then(function (doc) {
 
-                setCards(data2)
+                if (doc.exists) {
+                    console.log("Document data:", doc.data());
+                    const { restaurants } = doc.data()
+                    console.log(restaurants)
+                    setData(restaurants)
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                }
+            }).catch(function (error) {
+                console.log("Error getting document:", error);
+            });
 
 
 
-            }, 3000);
-        }
-        main()
     }, []);
 
     function handleYes(card) {
@@ -156,10 +150,10 @@ const DuosPartyScreen = ({ route }) => {
     console.log(participant[0])
     return (
         <View style={styles.container}>
-            {cards ? (
+            {data.length > 0 ? (
                 <SwipeCards
                     cards={
-                        data2.map((x) => (
+                        data.map((x) => (
                             { text: x.nameR, backgroundColor: "blue", address: x.address, city: x.city, state: x.state, zip: x.zip, yesCount: x.yesCount }
 
                         ))}

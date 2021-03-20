@@ -36,12 +36,11 @@ const FiltersViewController = ({ route, navigation }) => {
     const toggleSwitch2 = () => setSwitch2(previousState => !previousState);
 
     const { partyID, imagePath, members, userHandle, admin } = route.params;
-    const [lat, setLat] = useState()
-    const [lon, setLon] = useState()
+    const [lat, setLat] = useState(30.01512)
+    const [lon, setLon] = useState(-95.74642)
 
 
-    Geolocation.getCurrentPosition(info => setLat(info.coords.latitude))
-    Geolocation.getCurrentPosition(info => setLon(info.coords.longitude))
+
     useEffect(() => {
         AsyncStorage.getItem('handlequeryval')
             .then((value) => {
@@ -54,6 +53,9 @@ const FiltersViewController = ({ route, navigation }) => {
     const index = client.initIndex("restaurants");
 
     useEffect(() => {
+
+        // Geolocation.getCurrentPosition(info => setLat(info.coords.latitude))
+        // Geolocation.getCurrentPosition(info => setLon(info.coords.longitude))
         console.log(lat + ',' + lon)
         console.log(Math.round(sliderval1))
         index
@@ -219,26 +221,16 @@ const FiltersViewController = ({ route, navigation }) => {
                                         docID: partyID,
                                     })
                             })
+
                             .then(() => {
                                 firestore()
-                                    .collection("Restaurants")
-                                    .where("latitude", '<=', geoPointEast[0] && "latitude", '>=', geoPointWest[0] && "longitude", '>=', geoPointSouth[1] && "longitude", '<=', geoPointNorth[1])
-                                    .limit(Math.round(sliderval2))
-                                    .get()
-                                    .then((data) => {
-                                        const query_results = data.docs.map((x) => x.data())
-                                        // console.log(query_results)
-                                        setExportArray(query_results)
-                                    })
-                                    .then(() => {
-                                        firestore()
-                                            .collection("Parties")
-                                            .doc(partyID)
-                                            .update({
-                                                'restaurants': data,
-                                            })
+                                    .collection("Parties")
+                                    .doc(partyID)
+                                    .update({
+                                        'restaurants': data,
                                     })
                             })
+
                             .then(navigation.navigate("DuosPartyScreen", { partyID, data }))
                             .catch(err => console.error(err))
 
