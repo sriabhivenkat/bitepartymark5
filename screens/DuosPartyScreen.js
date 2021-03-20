@@ -183,7 +183,7 @@ const DuosPartyScreen = ({ route }) => {
     console.log(participant[0])
     return (
         <View style={styles.container}>
-            {  (
+            { data ? (
                 <SwipeCards
                     cards={
                         data.map((x) => (
@@ -210,7 +210,7 @@ const DuosPartyScreen = ({ route }) => {
                     stack={true}
 
                 />
-            )}
+            ) : <StatusCard text="No more cards..." />}
         </View>
     );
 }

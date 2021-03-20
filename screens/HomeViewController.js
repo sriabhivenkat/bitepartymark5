@@ -18,6 +18,7 @@ const HomeViewController = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [duos, setDuos] = useState(false);
   const scrollViewRef = useRef();
+  const increment = firestore.FieldValue.increment(1);
 
   useEffect(() => {
     alert(user.uid)
@@ -92,8 +93,19 @@ const HomeViewController = ({ navigation }) => {
                 </View>
 
                 <View style={{ flexDirection: "column", justifyContent: "flex-end", marginLeft: "5%" }}>
-                  <Button mode="outlined" style={{ marginBottom: "20%", width: "200%" }} labelStyle={{ color: "green" }} onPress={() => navigation.navigate("DuosPartyScreen", { partyID: item.docID, inviteID: item.id })
-                    .then(firestore().collection())}
+                  <Button mode="outlined" style={{ marginBottom: "20%", width: "200%" }} labelStyle={{ color: "green" }}
+                    onPress={() =>
+                      firestore()
+                        .collection("Parties")
+                        .doc(item.docID)
+                        .update({ "participantCount": increment })
+                        .then(
+                          alert(item.id)
+                        )
+                        .then(
+                          navigation.navigate("DuosPartyScreen", { partyID: item.docID, inviteID: item.id })
+                        )
+                    }
                   >Accept</Button>
                   {/* <Button mode="outlined" style={{width:"200%"}} labelStyle={{color: "red"}} onPress={() => {
                         firestore().collection("Users").doc(user.uid).collection("Invitations")
