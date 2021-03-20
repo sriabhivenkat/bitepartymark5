@@ -75,32 +75,26 @@ const DuosPartyScreen = ({ route }) => {
 
     // replace with real remote data fetching
     useEffect(() => {
-        const main = async () => {
-            setTimeout(() => {
-                const refVal = firebase.firestore().collection("Parties").doc(partyID);
-                refVal.get()
-                    .then(function (doc) {
 
-                        if (doc.exists) {
-                            console.log("Document data:", doc.data());
-                            const { restaurants } = doc.data()
-                            console.log(restaurants)
-                            setData2(restaurants)
-                        } else {
-                            // doc.data() will be undefined in this case
-                            console.log("No such document!");
-                        }
-                    }).catch(function (error) {
-                        console.log("Error getting document:", error);
-                    });
+        const refVal = firebase.firestore().collection("Parties").doc(partyID);
+        refVal.get()
+            .then(function (doc) {
 
-                setCards(data2)
+                if (doc.exists) {
+                    console.log("Document data:", doc.data());
+                    const { restaurants } = doc.data()
+                    console.log(restaurants)
+                    setData(restaurants)
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                }
+            }).catch(function (error) {
+                console.log("Error getting document:", error);
+            });
 
 
 
-            }, 3000);
-        }
-        main()
     }, []);
 
     function handleYes(card) {
@@ -161,7 +155,7 @@ const DuosPartyScreen = ({ route }) => {
     console.log(participant[0])
     return (
         <View style={styles.container}>
-            {cards ? (
+            {data.length > 0 ? (
                 <SwipeCards
                     cards={
                         data2.map((x) => (
@@ -184,8 +178,8 @@ const DuosPartyScreen = ({ route }) => {
                         stack={true}
                         dragY={false}
 
-                // If you want a stack of cards instead of one-per-one view, activate stack mode
-                // stack={true}
+                    // If you want a stack of cards instead of one-per-one view, activate stack mode
+                    stack={true}
 
                 />
             ) : (
