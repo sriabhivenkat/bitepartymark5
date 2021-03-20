@@ -94,7 +94,7 @@ const HomeViewController = ({ navigation }) => {
 
                 <View style={{ flexDirection: "column", justifyContent: "flex-end", marginLeft: "5%" }}>
                   <Button mode="outlined" style={{ marginBottom: "20%", width: "200%" }} labelStyle={{ color: "green" }} onPress={() => navigation.navigate("DuosPartyScreen", { partyID: item.docID, inviteID: item.id })
-                    .then(firestore().collection("Parties").doc(item.docID).update({ "participants": increment }))}
+                    .then(firestore().collection("Parties").doc(item.docID).update({ "participantCount": increment }))}
                   >Accept</Button>
                   {/* <Button mode="outlined" style={{width:"200%"}} labelStyle={{color: "red"}} onPress={() => {
                         firestore().collection("Users").doc(user.uid).collection("Invitations")
