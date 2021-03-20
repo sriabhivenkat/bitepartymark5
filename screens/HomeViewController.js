@@ -36,8 +36,8 @@ const HomeViewController = ({ navigation }) => {
     firestore()
       .collection("Users")
       .doc(user.uid)
-      .collection("Invitations")
-      .onSnapshot(onResult, onError);
+      .collection("invitations")
+      .onSnapshot(onResult2, onError);
 
 
   }, []);
@@ -45,17 +45,17 @@ const HomeViewController = ({ navigation }) => {
     console.error(error);
   }
 
-  function onResult(QuerySnapshot) {
-    const refVal = firestore().collection("Users").doc(user.uid);
+  function onResult2(QuerySnapshot) {
+    const refVal =
+      firestore().collection("Users").doc(user.uid);
     const doc = refVal.get();
     refVal
       .collection("invitations")
       .get()
-      .then((res) => {
-        const results = res.docs.map((x) => ({ ...x.data(), id: x.id }))
+      .then(function (querySnapshot) {
+        const results = querySnapshot.docs.map((x) => ({ ...x.data(), id: x.id }))
         setData(results);
-      })
-      .catch((err) => alert(err));
+      });
   }
 
   // console.log(data[0].uid)
