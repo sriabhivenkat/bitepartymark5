@@ -18,7 +18,7 @@ const HomeViewController = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [duos, setDuos] = useState(false);
   const scrollViewRef = useRef();
-  const increment = firebase.firestore.FieldValue.increment(1);
+  const increment = firestore.FieldValue.increment(1);
 
   useEffect(() => {
     alert(user.uid)
