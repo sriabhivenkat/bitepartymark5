@@ -9,6 +9,7 @@ import LinearGradient from "react-native-linear-gradient";
 import AsyncStorage from '@react-native-community/async-storage';
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import GetLocation from 'react-native-get-location';
+import Geolocation from '@react-native-community/geolocation';
 
 const FiltersViewController = ({ route, navigation }) => {
     const [sliderval1, setSliderVal1] = useState(0);
@@ -35,6 +36,10 @@ const FiltersViewController = ({ route, navigation }) => {
     const toggleSwitch2 = () => setSwitch2(previousState => !previousState);
 
     const { partyID, imagePath, members, userHandle, admin } = route.params;
+    const [lat, setLat] = useState(30.01512)
+    const [lon, setLon] = useState(-95.74642)
+
+
 
     useEffect(() => {
         AsyncStorage.getItem('handlequeryval')
@@ -49,10 +54,19 @@ const FiltersViewController = ({ route, navigation }) => {
 
     useEffect(() => {
 
+        // Geolocation.getCurrentPosition(info => setLat(info.coords.latitude))
+        // Geolocation.getCurrentPosition(info => setLon(info.coords.longitude))
+        console.log(lat + ',' + lon)
+        console.log(Math.round(sliderval1))
         index
             .search("", {
 
-                aroundLatLng: "30.6384293, -96.3332523"
+                aroundLatLng: lat + ',' + lon
+                ,
+                aroundRadius: Math.round(sliderval1 * 1609.34),
+                hitsPerPage: 10
+
+
 
             })
             .then(({ hits }) => {
@@ -65,7 +79,7 @@ const FiltersViewController = ({ route, navigation }) => {
 
     }
 
-        , []);
+        , [sliderval1]);
 
 
 
@@ -87,7 +101,7 @@ const FiltersViewController = ({ route, navigation }) => {
                 setLocation(location);
                 setUserLat(locationval.latitude);
                 setUserLong(locationval.longitude);
-                console.log(userLat, userLong)
+                // console.log(userLat, userLong)
             })
             .catch(error => console.log(error))
     }, [])
@@ -98,7 +112,7 @@ const FiltersViewController = ({ route, navigation }) => {
         setGeoPointSouth([userLat, userLong - miles_to_longitude(Math.round(sliderval1))])
         setGeoPointEast([userLat + miles_to_latitude(Math.round(sliderval1)), userLong])
         setGeoPointWest([userLat - miles_to_latitude(Math.round(sliderval1)), userLong])
-        console.log([geoPointNorth, geoPointSouth, geoPointEast, geoPointWest])
+        // console.log([geoPointNorth, geoPointSouth, geoPointEast, geoPointWest])
     }, [sliderval1, userLat, userLong])
     return (
         <View style={styles.container}>
@@ -193,7 +207,7 @@ const FiltersViewController = ({ route, navigation }) => {
                                 return AsyncStorage.setItem('handlequeryval', members[0].handle);
                             })
                             .then(() => {
-                                console.log({ user, member: members[0] })
+                                // console.log({ user, member: members[0] })
                                 firestore()
                                     .collection("Users")
                                     .doc(members[0].uidvalue)
@@ -207,26 +221,16 @@ const FiltersViewController = ({ route, navigation }) => {
                                         docID: partyID,
                                     })
                             })
+
                             .then(() => {
                                 firestore()
-                                    .collection("Restaurants")
-                                    .where("latitude", '<=', geoPointEast[0] && "latitude", '>=', geoPointWest[0] && "longitude", '>=', geoPointSouth[1] && "longitude", '<=', geoPointNorth[1])
-                                    .limit(Math.round(sliderval2))
-                                    .get()
-                                    .then((data) => {
-                                        const query_results = data.docs.map((x) => x.data())
-                                        console.log(query_results)
-                                        setExportArray(query_results)
-                                    })
-                                    .then(() => {
-                                        firestore()
-                                            .collection("Parties")
-                                            .doc(partyID)
-                                            .update({
-                                                'restaurants': data,
-                                            })
+                                    .collection("Parties")
+                                    .doc(partyID)
+                                    .update({
+                                        'restaurants': data,
                                     })
                             })
+
                             .then(navigation.navigate("DuosPartyScreen", { partyID, data }))
                             .catch(err => console.error(err))
 
