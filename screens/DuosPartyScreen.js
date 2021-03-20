@@ -160,7 +160,7 @@ const DuosPartyScreen = ({ route }) => {
                 <SwipeCards
                     cards={
                         data2.map((x) => (
-                            { text: x.nameR, backgroundColor: "red", address: x.address, city: x.city, state: x.state, zip: x.zip, yesCount: x.yesCount }
+                            { text: x.nameR, backgroundColor: "blue", address: x.address, city: x.city, state: x.state, zip: x.zip, yesCount: x.yesCount }
 
                         ))}
                     renderCard={(cardData) => <Card data={cardData} />}
@@ -198,7 +198,11 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         width: 400,
         height: 750,
-        borderRadius: 10
+        borderRadius: 10,
+        borderStyle: 'solid',
+
+
+
     },
     cardsText: {
         fontSize: 22,
