@@ -17,10 +17,10 @@ function Card({ data }) {
                 <Text style={styles.cardsText3}>{data.city + "," + data.state}</Text>
                 <Text style={styles.cardsText4}>{data.cuisine}</Text>
                 {data.cuisine.includes("American") &&
-                    <Image source={require("../images/american_image.png")} style={styles.images}/>
+                    <Image source={require("../images/american_image.png")} style={styles.images} />
                 }
                 {data.cuisine.includes("Restaurant") &&
-                    <Image source={require("../images/frenchfry.png")} style={styles.images}/>
+                    <Image source={require("../images/frenchfry.png")} style={styles.images} />
                 }
             </View>
         </View>
@@ -55,20 +55,14 @@ const DuosPartyScreen = ({ route }) => {
     console.log({ partyID, inviteID })
 
 
-    const [cards, setCards] = useState();
-    const [data2, setData2] = useState();
-    const [carrd, setCardDict] = useState()
+
+    const [data, setData] = useState([]);
+
     const [lat, setLat] = useState()
     const [lon, setLon] = useState()
 
 
-    Geolocation.getCurrentPosition(info => setLat(info.coords.latitude))
-    Geolocation.getCurrentPosition(info => setLon(info.coords.longitude))
 
-    const algoliasearch = require("algoliasearch");
-
-    const client = algoliasearch("09UQ1K8B5P", "8acae8abeccfb55267b40a5d231b31e6");
-    const index = client.initIndex("restaurants");
 
 
 
@@ -155,36 +149,34 @@ const DuosPartyScreen = ({ route }) => {
     console.log(participant[0])
     return (
         <View style={styles.container}>
-            {data ? (
+            { (
                 <SwipeCards
                     cards={
-                        data2.map((x) => (
-                            {   
-                                text: x.nameR, 
+                        data.map((x) => (
+                            {
+                                text: x.nameR,
                                 backgroundColor: "#fcfcfc",
-                                address: x.address, 
-                                city: x.city, 
-                                state: x.state, 
-                                zip: x.zip, 
+                                address: x.address,
+                                city: x.city,
+                                state: x.state,
+                                zip: x.zip,
                                 yesCount: x.yesCount,
                                 cuisine: x.cuisine
                             }
                         ))}
-                        renderCard={(cardData) => <Card data={cardData} />}
-                        keyExtractor={(cardData) => String(cardData.text)}
-                        renderNoMoreCards={() => <StatusCard text="No more cards..." />}
-                        handleYup={handleYes}
-                        handleNope={handleNo}
-                        stack={true}
-                        dragY={false}
+                    renderCard={(cardData) => <Card data={cardData} />}
+                    keyExtractor={(cardData) => String(cardData.text)}
+                    renderNoMoreCards={() => <StatusCard text="No more cards..." />}
+                    handleYup={handleYes}
+                    handleNope={handleNo}
+                    stack={true}
+                    dragY={false}
 
                     // If you want a stack of cards instead of one-per-one view, activate stack mode
                     stack={true}
 
                 />
-            ) : (
-                    <StatusCard text="Loading..." />
-                )}
+            )}
         </View>
     );
 }
@@ -203,7 +195,7 @@ const styles = StyleSheet.create({
         marginTop: 27,
         justifyContent: "flex-start",
         alignItems: "center",
-        textShadowColor:'#585858',
+        textShadowColor: '#585858',
         width: 400,
         height: 750,
         borderRadius: 20,
@@ -216,7 +208,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontWeight: "bold",
         marginTop: '20%',
-        fontFamily:"PingFangHK-Medium",
+        fontFamily: "PingFangHK-Medium",
     },
     cardsText3: {
         fontSize: 25,

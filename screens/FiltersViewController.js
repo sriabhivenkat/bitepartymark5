@@ -54,8 +54,10 @@ const FiltersViewController = ({ route, navigation }) => {
 
     useEffect(() => {
 
-        // Geolocation.getCurrentPosition(info => setLat(info.coords.latitude))
-        // Geolocation.getCurrentPosition(info => setLon(info.coords.longitude))
+        Geolocation.getCurrentPosition(info => setLat(info.coords.latitude))
+        Geolocation.getCurrentPosition(info => setLon(info.coords.longitude))
+
+
         console.log(lat + ',' + lon)
         console.log(Math.round(sliderval1))
         index
@@ -63,7 +65,7 @@ const FiltersViewController = ({ route, navigation }) => {
 
                 aroundLatLng: lat + ',' + lon,
                 aroundRadius: Math.round(sliderval1 * 1609.34),
-                hitsPerPage: 10
+                hitsPerPage: Math.round(sliderval2)
 
 
 
@@ -78,7 +80,7 @@ const FiltersViewController = ({ route, navigation }) => {
 
     }
 
-        , [sliderval1]);
+        , [sliderval1, sliderval2]);
 
 
 
@@ -100,7 +102,7 @@ const FiltersViewController = ({ route, navigation }) => {
                 setLocation(location);
                 setUserLat(locationval.latitude);
                 setUserLong(locationval.longitude);
-                // console.log(userLat, userLong)
+                //alert(userLat + ", " + userLong)
             })
             .catch(error => console.log(error))
     }, [])
