@@ -32,7 +32,31 @@ const HomeViewController = ({ navigation }) => {
       })
       .catch((err) => alert(err));
     console.log(data)
+
+    firestore()
+      .collection("Users")
+      .doc(user.uid)
+      .collection("Invitations")
+      .onSnapshot(onResult, onError);
+
+
   }, []);
+  function onError(error) {
+    console.error(error);
+  }
+
+  function onResult(QuerySnapshot) {
+    const refVal = firestore().collection("Users").doc(user.uid);
+    const doc = refVal.get();
+    refVal
+      .collection("invitations")
+      .get()
+      .then((res) => {
+        const results = res.docs.map((x) => ({ ...x.data(), id: x.id }))
+        setData(results);
+      })
+      .catch((err) => alert(err));
+  }
 
   // console.log(data[0].uid)
   return (
