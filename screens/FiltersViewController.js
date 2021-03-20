@@ -48,11 +48,13 @@ const FiltersViewController = ({ route, navigation }) => {
     const index = client.initIndex("restaurants");
 
     useEffect(() => {
-
+        console.log(Math.round(sliderval1))
         index
             .search("", {
 
-                aroundLatLng: "30.6384293, -96.3332523"
+                aroundLatLng: "30.6384293, -96.3332523",
+
+
 
             })
             .then(({ hits }) => {
@@ -65,7 +67,7 @@ const FiltersViewController = ({ route, navigation }) => {
 
     }
 
-        , []);
+        , [sliderval1]);
 
 
 

@@ -43,7 +43,7 @@ const acceptInvite = (inviteId, uId) =>
 
 const DuosPartyScreen = ({ route }) => {
     const { partyID, inviteID } = route.params
-    var count = 0;
+    var count = -1;
     const { user } = useContext(AuthContext);
     const [participant, setParticipants] = useState([]);
     console.log({ partyID, inviteID })
@@ -100,17 +100,36 @@ const DuosPartyScreen = ({ route }) => {
     function handleYes(card) {
 
         console.log(card)
+        const refVal = firebase.firestore().collection("Parties").doc(partyID);
+        refVal.get()
+            .then(function (doc) {
 
-        data2[count]["yesCount"] += 1
-        firestore()
-            .collection("Parties")
-            .doc(partyID)
-            .update({
-                'restaurants': data2,
-            })
+                if (doc.exists) {
+                    console.log("Document data:", doc.data());
+                    const { restaurants } = doc.data()
+                    console.log(restaurants)
+                    restaurants[count]["yesCount"] += 1
+                    firestore()
+                        .collection("Parties")
+                        .doc(partyID)
+                        .update({
+                            'restaurants': restaurants,
+                        })
+
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                }
+            }).catch(function (error) {
+                console.log("Error getting document:", error);
+            });
+
+
+
 
         count += 1
-        return true; // return false if you wish to cancel the action
+        console.log("Count is", count)
+        return true; // returnfalse if you wish to cancel the action
     }
 
     function handleNo(card) {
@@ -152,8 +171,8 @@ const DuosPartyScreen = ({ route }) => {
                     handleMaybe={handleMaybe}
                     hasMaybeAction={true}
 
-                // If you want a stack of cards instead of one-per-one view, activate stack mode
-                // stack={true}
+                    // If you want a stack of cards instead of one-per-one view, activate stack mode
+                    stack={true}
 
                 />
             ) : (
