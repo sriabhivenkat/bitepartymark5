@@ -155,7 +155,7 @@ const DuosPartyScreen = ({ route }) => {
     console.log(participant[0])
     return (
         <View style={styles.container}>
-            {data.length > 0 ? (
+            {data ? (
                 <SwipeCards
                     cards={
                         data2.map((x) => (

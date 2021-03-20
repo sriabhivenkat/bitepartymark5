@@ -61,8 +61,7 @@ const FiltersViewController = ({ route, navigation }) => {
         index
             .search("", {
 
-                aroundLatLng: lat + ',' + lon
-                ,
+                aroundLatLng: lat + ',' + lon,
                 aroundRadius: Math.round(sliderval1 * 1609.34),
                 hitsPerPage: 10
 
