@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { View, Image, StyleSheet, } from 'react-native';
 import { Text } from 'galio-framework'
 import firestore, { firebase } from "@react-native-firebase/firestore";
-
+x
 
 const test = ({ navigation, route }) => {
     const [winner1, setWinner] = useState();
@@ -26,7 +26,6 @@ const test = ({ navigation, route }) => {
                         setWinner(winner)
                     }, () => console.error(err))
             })
-
     }, [])
 
     // function onError(error) {

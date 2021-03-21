@@ -35,7 +35,7 @@ const FiltersViewController = ({ route, navigation }) => {
     const toggleSwitch1 = () => setSwitch1(previousState => !previousState);
     const toggleSwitch2 = () => setSwitch2(previousState => !previousState);
 
-    const { partyID, imagePath, members, userHandle, admin } = route.params;
+    const { partyID, imagePath, members, userHandle, admin, selectedPeople } = route.params;
     const [lat, setLat] = useState(30.01512)
     const [lon, setLon] = useState(-95.74642)
 

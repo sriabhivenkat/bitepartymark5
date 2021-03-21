@@ -144,7 +144,7 @@ const AddDuosViewController = ({ route, navigation }) => {
                         style={styles.button}
                         activeOpacity={0.9}
                         onPress={() => {
-                            navigation.navigate('Filters', { admin: user.uid, partyID: groupId, imagePath, members: duosmember, userHandle });
+                            navigation.navigate('Filters', { admin: user.uid, partyID: groupId, imagePath, members: duosmember, userHandle, selectedPeople});
                         }}
                         style={{ height: 50, marginHorizontal: "20%", marginVertical: 15 }}
                     >
