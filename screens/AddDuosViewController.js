@@ -25,15 +25,14 @@ const AddDuosViewController = ({ route, navigation }) => {
     const [query, setQuery] = useState("");
     const { user } = useContext(AuthContext);
     const [isVisible, setIsVisible] = useState(false);
-    const [selectedPeople, setSelectedPeople] = useState([]);
-    var localArray = [];
+
     const [count, setCount] = useState(0);
     const showPanel = () => setIsVisible(true);
     const hidePanel = () => setIsVisible(false);
-    
+
     const [userHandle, setUserHandle] = useState("");
     const [imagePath, setImagePath] = useState("");
-    const [isPressed, setIsPressed] = useState(false);
+    const [handleval, setHandleVal] = useState("");
 
     useEffect(() => {
         const main = async () => {
@@ -52,6 +51,7 @@ const AddDuosViewController = ({ route, navigation }) => {
             .collection("Users")
             .doc(user.uid)
             .collection("friends")
+            .where("handle", "==", query)
             .get()
             .then((res) => {
                 const results = res.docs.map((x) => x.data());
@@ -62,7 +62,7 @@ const AddDuosViewController = ({ route, navigation }) => {
     }, [query]);
 
     useEffect(() => setGroupId(Math.random().toString(36).substring(7)), [])
-    
+
 
     const generateLink = async (groupId) => {
         const link = await dynamicLinks().buildShortLink({
@@ -102,15 +102,20 @@ const AddDuosViewController = ({ route, navigation }) => {
             //     // dismissed
             //   }
         } catch (error) {
-            // alert(error.message);
+            alert(error.message);
         }
     };
-
-    console.log(selectedPeople)
 
     return (
         <View style={styles.container}>
             <Text h3 style={styles.title}>Who's coming?</Text>
+            <Input
+                placeholder="Pick a partner"
+                onChangeText={(txt) => setQuery(txt)}
+                autoCapitalize="none"
+                value={query}
+                containerStyle={{ width: "90%", marginLeft: "4%" }}
+            />
 
             {duosmember.map((item) => (
                 <View style={{ marginTop: "-2%" }}>
@@ -118,16 +123,8 @@ const AddDuosViewController = ({ route, navigation }) => {
                         Component={TouchableScale}
                         friction={90}
                         tension={100}
-                        containerStyle={selectedPeople.includes(item.uidvalue) && {backgroundColor: '#edf0f5'}}
                         activeScale={0.95}
-                        onPress={() => {
-                            if (selectedPeople.includes(item.uidvalue)) {
-                                setSelectedPeople(selectedPeople.filter(i => i!= item.uidvalue))
-                            } else {
-                                setSelectedPeople([item.uidvalue, ...selectedPeople])
-                                setIsPressed(true);
-                            }
-                        }}
+                        onPress={showPanel}
                         style={{ borderBottomColor: "lightgray", borderBottomWidth: 1, borderTopColor: "lightgray", borderTopWidth: 1 }}
                     >
                         <Avatar.Image size={45} source={{ uri: item.imageUrlPath }} />
@@ -138,40 +135,50 @@ const AddDuosViewController = ({ route, navigation }) => {
                     </ListItem>
                 </View>
             ))}
-            <View style={styles.buttonContainer}>
-                {selectedPeople.length!=0 &&
-                    <TouchableOpacity
-                        style={styles.button}
-                        activeOpacity={0.9}
-                        onPress={() => {
-                            navigation.navigate('Filters', { admin: user.uid, partyID: groupId, imagePath, members: duosmember, userHandle });
-                        }}
-                        style={{ height: 50, marginHorizontal: "20%", marginVertical: 15 }}
-                    >
-                        <LinearGradient
-                            start={{ x: 0, y: 0 }}
-                            end={{ x: 1, y: 0 }}
-                            colors={["#ee0979", "#f76f6d", '#ff6a00']}
-                            style={{ height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15}}>
-                            <Text style={{ color: "white", fontFamily: "PingFangHK-Regular", fontSize: 17, }}>Done</Text>
-                        </LinearGradient>
-                    </TouchableOpacity>
-                }
-                <TouchableOpacity
-                    style={styles.button}
-                    activeOpacity={0.9}
-                    onPress={async () => onShare({ url: await generateLink(groupId) })}
-                    style={{ height: 50, marginHorizontal: "20%", marginVertical: 15 }}
-                >
-                    <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={["#ee0979", "#f76f6d", '#ff6a00']}
-                        style={{ height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15 }}>
-                        <Text style={{ color: "white", fontFamily: "PingFangHK-Regular", fontSize: 17, }}>Share link 🔗</Text>
-                    </LinearGradient>
-                </TouchableOpacity>
-            </View>
+            { duosmember.length > 0 &&
+                <Provider>
+                    <Portal>
+                        <Modal visible={isVisible} onDismiss={hidePanel} contentContainerStyle={styles.modalStyling}>
+                            <Text h4 style={styles.modalTitle}>Invite {duosmember[0].firstName} to your duo?</Text>
+                            <TouchableOpacity
+                                style={styles.button}
+                                activeOpacity={0.9}
+                                onPress={() => {
+                                    navigation.navigate('Filters', { admin: user.uid, partyID: groupId, imagePath, members: duosmember, userHandle })
+                                }}
+                                style={{ width: "100%", height: "50%", marginTop: "3%" }}
+                            >
+                                <LinearGradient
+                                    start={{ x: 0, y: 0 }}
+                                    end={{ x: 1, y: 0 }}
+                                    colors={['#7f00ff', '#e100ff', '#ffaf7b']}
+                                    style={{ height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15, width: "110%", marginLeft: "-5%" }}
+                                    Component={TouchableScale}
+                                    friction={90}
+                                    tension={100}
+                                    activeScale={0.95}>
+                                    <Text style={{ color: "white", fontFamily: "PingFangHK-Medium", fontSize: 17, fontWeight: "400" }}>Yep, let's go.</Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                        </Modal>
+                    </Portal>
+                </Provider>
+            }
+            <TouchableOpacity
+                style={styles.button}
+                activeOpacity={0.9}
+                onPress={async () => onShare({ url: await generateLink(groupId) })}
+                style={{ height: 50, marginHorizontal: "20%", marginVertical: 15 }}
+            >
+                <LinearGradient
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    colors={["#ee0979", "#f76f6d", '#ff6a00']}
+                    style={{ height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15 }}>
+                    <Text style={{ color: "white", fontFamily: "PingFangHK-Regular", fontSize: 17, }}>Share link 🔗</Text>
+                </LinearGradient>
+            </TouchableOpacity>
+
         </View>
     );
 }
@@ -243,11 +250,4 @@ const styles = StyleSheet.create({
         color: "#f76f6d",
         textAlign: "center",
     },
-    buttonContainer: {
-        position: "absolute",
-        bottom: 0,
-        display: "flex",
-        width: "100%"
-
-    }
 });

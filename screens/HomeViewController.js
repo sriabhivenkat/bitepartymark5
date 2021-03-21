@@ -100,7 +100,12 @@ const HomeViewController = ({ navigation }) => {
                         .doc(item.docID)
                         .update({ "participantCount": increment })
                         .then(
-                          // alert(item.id)
+                          firestore()
+                            .collection("Users")
+                            .doc(user.uid)
+                            .collection("invitations")
+                            .doc(item.id)
+                            .delete()
                         )
                         .then(
                           navigation.navigate("DuosPartyScreen", { partyID: item.docID, inviteID: item.id })

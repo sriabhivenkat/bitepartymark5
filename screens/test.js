@@ -6,11 +6,13 @@ import firestore, { firebase } from "@react-native-firebase/firestore";
 
 const test = ({ navigation, route }) => {
     const [winner1, setWinner] = useState();
+    const [winnerName, setName] = useState()
     const { partyID } = route.params;
     useEffect(() => {
         const refVal = firestore().collection("Parties").doc(partyID);
         refVal.get().then(doc => {
             const { winner } = doc.data()
+
             setWinner(winner)
         })
 
@@ -19,12 +21,12 @@ const test = ({ navigation, route }) => {
             .doc(partyID)
             .onSnapshot(() => {
                 const refVal = firebase.firestore().collection("Parties").doc(partyID);
-                const doc = 
+                const doc =
                     refVal.get()
-                    .then(doc => {
-                        const { winner } = doc.data()
-                        setWinner(winner)
-                    }, () => console.error(err))
+                        .then(doc => {
+                            const { winner } = doc.data()
+                            setWinner(winner)
+                        }, () => console.error(err))
             })
 
     }, [])
@@ -46,7 +48,7 @@ const test = ({ navigation, route }) => {
     return (
         <View style={styles.container}>
             {winner1 &&
-                <Text h3 style={{ color: "#f76f6d", fontFamily: "PingFangHK-Medium" }}>Restaurant Selected!</Text>
+                <Text h3 style={{ color: "#f76f6d", fontFamily: "PingFangHK-Medium" }}>{winner1.nameR} Selected!</Text>
             }
             {!winner1 &&
                 <Text h3 style={{ color: "#f76f6d", fontFamily: "PingFangHK-Medium" }}>Keep waiting!</Text>
