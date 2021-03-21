@@ -4,6 +4,7 @@ import { Text } from 'galio-framework';
 import { Card } from 'react-native-paper';
 import { AuthContext } from "../navigation/AuthProvider.js";
 import TouchableScale from 'react-native-touchable-scale';
+import { Button } from 'react-native';
 
 
 const AddPartyViewController = ({ navigation }) => {
@@ -21,6 +22,9 @@ const AddPartyViewController = ({ navigation }) => {
                     <Image source={require('../images/duos.png')} style={{ width: 170, height: 160, alignItems: "center" }} />
                 </Card.Content>
             </Card>
+            <Button 
+                onPress={() => {navigation.navigate("test")}}
+                title="go to test"/>
         </View>
     );
 }

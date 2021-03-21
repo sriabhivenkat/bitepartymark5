@@ -19,6 +19,7 @@ import DuosPartyScreen from '../screens/DuosPartyScreen.js';
 import FlavorTestViewController from '../screens/FlavorTestViewController.js';
 import { Image } from 'react-native';
 import SwipingScreenViewController from '../screens/swipingScreen.js';
+import test from '../screens/test.js';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -110,6 +111,16 @@ const NearbyStack = () => (
             name="SwipingScreen"
             component={SwipingScreenViewController}
             options={{ header: () => null }}
+        />
+        <Stack.Screen 
+            name="test"
+            component={test}
+            options={{
+                headerTitle: props => <LogoTitle {...props} />,
+                headerStyle: {
+                    height: 120,
+                }
+            }}
         />
     </Stack.Navigator>
 )
