@@ -188,7 +188,7 @@ const ProfileViewController = ({ navigation }) => {
     try {
       await storage().ref(filename).putFile(uploadUri);
       setUploading(false);
-      Alert.alert("Image uploaded.");
+      // Alert.alert("Image uploaded.");
     } catch (e) {
       console.log(e);
     }

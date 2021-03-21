@@ -22,9 +22,6 @@ const AddPartyViewController = ({ navigation }) => {
                     <Image source={require('../images/duos.png')} style={{ width: 170, height: 160, alignItems: "center" }} />
                 </Card.Content>
             </Card>
-            <Button 
-                onPress={() => {navigation.navigate("test")}}
-                title="go to test"/>
         </View>
     );
 }

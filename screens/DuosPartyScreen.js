@@ -7,6 +7,7 @@ import { Avatar } from 'react-native-paper';
 import SwipeCards from "react-native-swipe-cards-deck";
 import Geolocation from '@react-native-community/geolocation';
 import LinearGradient from 'react-native-linear-gradient';
+import { Alert } from 'react-native';
 
 function Card({ data }) {
     return (
@@ -47,7 +48,7 @@ const acceptInvite = (inviteId, uId) =>
         })
 
 
-const DuosPartyScreen = ({ route }) => {
+const DuosPartyScreen = ({ navigation,route }) => {
     const { partyID, inviteID } = route.params
     var count = -1;
     const { user } = useContext(AuthContext);
@@ -102,9 +103,7 @@ const DuosPartyScreen = ({ route }) => {
         const refVal = firestore().collection("Parties").doc(partyID);
         const doc = refVal.get();
         refVal.get().then(function (querySnapshot) {
-
             if (querySnapshot.exists) {
-                console.log("Document data:", doc.data());
                 const { restaurants } = doc.data()
                 console.log(restaurants)
                 setData(restaurants)
@@ -171,6 +170,9 @@ const DuosPartyScreen = ({ route }) => {
         return true;
     }
 
+    useEffect(() => {
+        
+    })
 
     // useEffect(() => (
     //     acceptInvite(inviteID, user.uid)
@@ -200,7 +202,10 @@ const DuosPartyScreen = ({ route }) => {
                         ))}
                     renderCard={(cardData) => <Card data={cardData} />}
                     keyExtractor={(cardData) => String(cardData.text)}
-                    renderNoMoreCards={() => <StatusCard text="No more cards..." />}
+                    renderNoMoreCards={() => 
+                        <Button onPress={() => navigation.navigate('test', {partyID})}>
+                            See Results
+                        </Button>}
                     handleYup={handleYes}
                     handleNope={handleNo}
                     stack={true}

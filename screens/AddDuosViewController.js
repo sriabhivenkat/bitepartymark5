@@ -102,7 +102,7 @@ const AddDuosViewController = ({ route, navigation }) => {
             //     // dismissed
             //   }
         } catch (error) {
-            alert(error.message);
+            // alert(error.message);
         }
     };
 

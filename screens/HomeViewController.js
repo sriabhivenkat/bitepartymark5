@@ -100,7 +100,7 @@ const HomeViewController = ({ navigation }) => {
                         .doc(item.docID)
                         .update({ "participantCount": increment })
                         .then(
-                          alert(item.id)
+                          // alert(item.id)
                         )
                         .then(
                           navigation.navigate("DuosPartyScreen", { partyID: item.docID, inviteID: item.id })

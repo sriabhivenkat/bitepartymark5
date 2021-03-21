@@ -129,9 +129,7 @@ const AddFriendsViewController = () => {
                                 imageUrlPath: item.imageUrl,
                                 uidvalue: item.uidvalue
                               })
-                              .then(
-                                alert("Friend Added")
-                              )
+                           
                               
                             }}>
                               {buttonMessage}
