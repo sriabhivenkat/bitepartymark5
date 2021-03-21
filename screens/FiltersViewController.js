@@ -72,7 +72,7 @@ const FiltersViewController = ({ route, navigation }) => {
             })
             .then(({ hits }) => {
                 setData(hits.map((x) => (
-                    { address: x.address, city: x.city, cuisine: x.cuisine, nameR: x.name, objectId: x.objectId, state: x.state, web: x.website, zip: x.zip_code, yesCount: 0 }
+                    { address: x.address, city: x.city, cuisine: x.cuisine, nameR: x.name, objectId: x.objectId, state: x.state, web: x.website, zip: x.zip_code, yesCount: 0, totalSwipes: 0 }
                 )))
 
             })

@@ -9,6 +9,7 @@ import Geolocation from '@react-native-community/geolocation';
 import LinearGradient from 'react-native-linear-gradient';
 import { Alert } from 'react-native';
 
+
 function Card({ data }) {
     return (
         <View style={[styles.card, { backgroundColor: data.backgroundColor }]}>
@@ -48,7 +49,7 @@ const acceptInvite = (inviteId, uId) =>
         })
 
 
-const DuosPartyScreen = ({ navigation,route }) => {
+const DuosPartyScreen = ({ navigation, route }) => {
     const { partyID, inviteID } = route.params
     var count = -1;
     const { user } = useContext(AuthContext);
@@ -135,6 +136,7 @@ const DuosPartyScreen = ({ navigation,route }) => {
                     const { restaurants } = doc.data()
                     console.log(restaurants)
                     restaurants[count]["yesCount"] += 1
+                    restaurants[count]["totalSwipes"] += 1
                     firestore()
                         .collection("Parties")
                         .doc(partyID)
@@ -159,8 +161,30 @@ const DuosPartyScreen = ({ navigation,route }) => {
     }
 
     function handleNo(card) {
-        console.log(card)
-        console.log(`No for ${card.text}`);
+        const refVal = firebase.firestore().collection("Parties").doc(partyID);
+        refVal.get()
+            .then(function (doc) {
+
+                if (doc.exists) {
+                    console.log("Document data:", doc.data());
+                    const { restaurants } = doc.data()
+                    console.log(restaurants)
+                    restaurants[count]["totalSwipes"] += 1
+                    firestore()
+                        .collection("Parties")
+                        .doc(partyID)
+                        .update({
+                            'restaurants': restaurants,
+                        })
+
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                }
+            }).catch(function (error) {
+                console.log("Error getting document:", error);
+            });
+
         count += 1
         return true;
 
@@ -171,7 +195,7 @@ const DuosPartyScreen = ({ navigation,route }) => {
     }
 
     useEffect(() => {
-        
+
     })
 
     // useEffect(() => (
@@ -202,8 +226,8 @@ const DuosPartyScreen = ({ navigation,route }) => {
                         ))}
                     renderCard={(cardData) => <Card data={cardData} />}
                     keyExtractor={(cardData) => String(cardData.text)}
-                    renderNoMoreCards={() => 
-                        <Button onPress={() => navigation.navigate('test', {partyID})}>
+                    renderNoMoreCards={() =>
+                        <Button onPress={() => navigation.navigate('test', { partyID })}>
                             See Results
                         </Button>}
                     handleYup={handleYes}
