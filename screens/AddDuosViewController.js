@@ -106,6 +106,8 @@ const AddDuosViewController = ({ route, navigation }) => {
         }
     };
 
+    console.log(selectedPeople)
+
     return (
         <View style={styles.container}>
             <Text h3 style={styles.title}>Who's coming?</Text>
@@ -116,21 +118,13 @@ const AddDuosViewController = ({ route, navigation }) => {
                         Component={TouchableScale}
                         friction={90}
                         tension={100}
+                        containerStyle={selectedPeople.includes(item.uidvalue) && {backgroundColor: '#edf0f5'}}
                         activeScale={0.95}
                         onPress={() => {
-                            if(localArray.includes(item.uidvalue)) {
-                                var n = localArray.indexOf(item.uidvalue);
-                                localArray.splice(n, 1)
-                            }
-                            else {
-                                localArray.push(item.uidvalue);
-                            }
-                            console.log(localArray);
-                            if(localArray.length!=0) {
-                                setIsPressed(true);
-                            }
-                            else {
-                                setIsPressed(false);
+                            if (selectedPeople.includes(item.uidvalue)) {
+                                setSelectedPeople(selectedPeople.filter(i => i!= item.uidvalue))
+                            } else {
+                                setSelectedPeople([item.uidvalue, ...selectedPeople])
                             }
                         }}
                         style={{ borderBottomColor: "lightgray", borderBottomWidth: 1, borderTopColor: "lightgray", borderTopWidth: 1 }}
