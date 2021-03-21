@@ -249,15 +249,7 @@ const FiltersViewController = ({ route, navigation }) => {
                         <Text style={{ color: "white", fontFamily: "PingFangHK-Regular", fontSize: 17, }}>Start party!</Text>
                     </LinearGradient>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() =>
-                    console.log(data)}>
-                    <Text>
-                        press me
-                        </Text>
-                </TouchableOpacity>
-                <Text>
-                    {partyID}
-                </Text>
+                
             </View>
         </View>
     );
