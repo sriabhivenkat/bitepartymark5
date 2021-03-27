@@ -41,25 +41,23 @@ const FiltersViewController = ({ route, navigation }) => {
 
 
 
-    useEffect(() => {
-        AsyncStorage.getItem('handlequeryval')
-            .then((value) => {
-                setHandleVal(value);
-            })
-    }, []);
+    // useEffect(() => {
+    //     AsyncStorage.getItem('handlequeryval')
+    //         .then((value) => {
+    //             setHandleVal(value);
+    //         })
+    // }, []);
     const algoliasearch = require("algoliasearch");
-
     const client = algoliasearch("09UQ1K8B5P", "8acae8abeccfb55267b40a5d231b31e6");
     const index = client.initIndex("restaurants");
 
     useEffect(() => {
+        console.log(selectedPeople)
+    }, [])
+    useEffect(() => {
 
         Geolocation.getCurrentPosition(info => setLat(info.coords.latitude))
         Geolocation.getCurrentPosition(info => setLon(info.coords.longitude))
-
-
-        console.log(lat + ',' + lon)
-        console.log(Math.round(sliderval1))
         index
             .search("", {
 
@@ -115,6 +113,21 @@ const FiltersViewController = ({ route, navigation }) => {
         setGeoPointWest([userLat - miles_to_latitude(Math.round(sliderval1)), userLong])
         // console.log([geoPointNorth, geoPointSouth, geoPointEast, geoPointWest])
     }, [sliderval1, userLat, userLong])
+
+    function uploadshit(x) {
+        firestore()
+            .collection("Users")
+            .doc(x)
+            .collection("invitations")
+            .set({
+                inviter: userHandle,
+                isDuo: true,
+                accepted: false,
+                imagePath: imagePath,
+                docID: partyID,
+            })
+    }
+    console.log(selectedPeople)
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Set some filters</Text>
@@ -210,20 +223,30 @@ const FiltersViewController = ({ route, navigation }) => {
                                 return AsyncStorage.setItem('handlequeryval', members[0].handle);
                             })
                             .then(() => {
-                                // console.log({ user, member: members[0] })
-                                firestore()
-                                    .collection("Users")
-                                    .doc(members[0].uidvalue)
-                                    .collection("invitations")
-                                    .doc()
-                                    .set({
-                                        inviter: userHandle,
-                                        isDuo: true,
-                                        accepted: false,
-                                        imagePath: imagePath,
-                                        docID: partyID,
+                                selectedPeople.forEach(person =>  firestore()
+                                        .collection("Users")
+                                        .doc(person)
+                                        .collection("invitations")
+                                        .add({
+                                            inviter: userHandle,
+                                            isDuo: true,
+                                            accepted: false,
+                                            imagePath: imagePath,
+                                            docID: partyID,
+                                        }))
+                                // firestore()
+                                //     .collection("Users")
+                                //     .doc(members[0].uidvalue)
+                                //     .collection("invitations")
+                                //     .doc()
+                                //     .set({
+                                //         inviter: userHandle,
+                                //         isDuo: true,
+                                //         accepted: false,
+                                //         imagePath: imagePath,
+                                //         docID: partyID,
 
-                                    })
+                                //     })
                             })
 
                             .then(() => {
