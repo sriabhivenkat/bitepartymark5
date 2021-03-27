@@ -1,64 +1,56 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useContext } from "react";
-import { View, Image, StyleSheet, ImageBackground, StatusBar, ScrollView } from "react-native";
+import { View, Image, StyleSheet, FlatList, StatusBar, ScrollView } from "react-native";
 import { AuthContext } from "../navigation/AuthProvider.js";
 import { Text } from "galio-framework";
-import { Icon } from 'react-native-elements';
 import firestore from "@react-native-firebase/firestore";
 import { Button } from 'react-native-paper';
-import LinearGradient from "react-native-linear-gradient";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import TouchableScale from 'react-native-touchable-scale';
 import { Card, Avatar } from 'react-native-paper';
 
 const HomeViewController = ({ navigation }) => {
-
-  const B = (props) => <Text style={{ fontWeight: "bold" }}>{props.children}</Text>
   const { user } = useContext(AuthContext);
   const [data, setData] = useState([]);
-  const [duos, setDuos] = useState(false);
-  const scrollViewRef = useRef();
-  const increment = firestore.FieldValue.increment(1);
 
+  const partyCollection = firestore().collection("Parties");
+  const inviteCollection = firestore()
+    .collection("Users")
+    .doc(user.uid)
+    .collection("invitations");
+
+  // subscribe to invites list, remove subscription on mount
   useEffect(() => {
-    firestore()
-      .collection("Users")
-      .doc(user.uid)
-      .collection("invitations")
-      .get()
-      .then((res) => {
-        const results = res.docs.map((x) => ({ ...x.data(), id: x.id }))
+    const unsubscribe = inviteCollection.onSnapshot(
+      (snapshot) => {
+        const results = snapshot.docs.map((x) => ({ ...x.data(), id: x.id }));
         setData(results);
-      })
-      .catch((err) => alert(err));
-    console.log(data)
-
-    firestore()
-      .collection("Users")
-      .doc(user.uid)
-      .collection("invitations")
-      .onSnapshot(onResult2, onError);
-
-
+      },
+      (err) => alert(err)
+    );
+    
+    return () => unsubscribe();
   }, []);
-  function onError(error) {
-    console.error(error);
-  }
 
-  function onResult2(QuerySnapshot) {
-    const refVal =
-      firestore().collection("Users").doc(user.uid);
-    const doc = refVal.get();
-    refVal
-      .collection("invitations")
-      .get()
-      .then(function (querySnapshot) {
-        const results = querySnapshot.docs.map((x) => ({ ...x.data(), id: x.id }))
-        setData(results);
+  const handleAccept = async (invite) => {
+    try {
+      const increment = firestore.FieldValue.increment(1);
+      await partyCollection
+        .doc(invite.docID)
+        .update({ participantCount: increment });
+
+      await inviteCollection.doc(invite.id).update({
+        accepted: true,
       });
-  }
 
-  // console.log(data[0].uid)
+      navigation.navigate("DuosPartyScreen", {
+        partyID: invite.docID,
+        inviteID: invite.id,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+   
+  };
+ 
   return (
     <View style={styles.container}>
       <StatusBar translucent={true} />
@@ -92,31 +84,16 @@ const HomeViewController = ({ navigation }) => {
                 </View>
 
                 <View style={{ flexDirection: "column", justifyContent: "flex-end", marginLeft: "5%" }}>
-                  <Button mode="outlined" style={{ marginBottom: "20%", width: "200%" }} labelStyle={{ color: "green" }}
-                    onPress={() =>
-                      firestore()
-                        .collection("Parties")
-                        .doc(item.docID)
-                        .update({ "participantCount": increment })
-                        .then(
-                          firestore()
-                            .collection("Users")
-                            .doc(user.uid)
-                            .collection("invitations")
-                            .doc(item.id)
-                            .delete()
-                        )
-                        .then(
-                          navigation.navigate("DuosPartyScreen", { partyID: item.docID, inviteID: item.id })
-                        )
-                    }
-                  >Accept</Button>
-                  {/* <Button mode="outlined" style={{width:"200%"}} labelStyle={{color: "red"}} onPress={() => {
-                        firestore().collection("Users").doc(user.uid).collection("Invitations")
-                      }}>Decline</Button> */}
+                  <Button
+                    mode="outlined"
+                    style={{ marginBottom: "20%", width: "200%" }}
+                    labelStyle={{ color: "green" }}
+                    onPress={() => handleAccept(item)}
+                  >
+                    Accept
+                  </Button> 
                 </View>
                 {item.acc}
-
               </Card.Content>
             </Card>
           ))}
