@@ -133,7 +133,8 @@ const AppStack = () => {
                 inactiveTintColor: "white",
                 style: {
                     backgroundColor: 'white',
-                    borderTopColor: "white"
+                    borderTopColor: "white",
+                    marginTop: 10,
                 },
                 headerShown: false,
                 tintColor: "#f76f6d"
@@ -148,7 +149,7 @@ const AppStack = () => {
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Ionicons
-                            name="mail"
+                            name="people"
                             color={focused ? 'black' : "gray"}
                             size={30}
                         />

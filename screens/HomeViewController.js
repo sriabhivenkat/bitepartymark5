@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useContext } from "react";
-import { View, Image, StyleSheet, FlatList, StatusBar, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  StatusBar,
+} from "react-native";
 import { AuthContext } from "../navigation/AuthProvider.js";
 import { Text } from "galio-framework";
 import firestore from "@react-native-firebase/firestore";
-import { Button } from 'react-native-paper';
-import { Card, Avatar } from 'react-native-paper';
-
+import InviteCard from "../component/InviteCard";
+import PartyCard from "../component/PartyCard.js";
 const HomeViewController = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   const [data, setData] = useState([]);
@@ -26,7 +30,7 @@ const HomeViewController = ({ navigation }) => {
       },
       (err) => alert(err)
     );
-    
+
     return () => unsubscribe();
   }, []);
 
@@ -48,57 +52,29 @@ const HomeViewController = ({ navigation }) => {
     } catch (error) {
       console.error(error);
     }
-   
   };
- 
+
   return (
     <View style={styles.container}>
-      <StatusBar translucent={true} />
-      <Text h2 style={styles.title}>Invitations</Text>
-      <View style={styles.invitationscontainer}>
-        <ScrollView
-          contentInset={{ top: 0, left: 0, bottom: 300, right: 0 }}
-          pagingEnabled
-          showsHorizontalScrollIndicator={true}
-          contentContainerStyle={{ flex: 1, borderWidth: 1, borderColor: "white", flexDirection: "column", marginBottom: "5%" }}>
-          {data.map((item) => (
-            <Card style={[styles.card, { maxHeight: 250, marginBottom: 20 }]}>
-              <Card.Content style={{ marginLeft: "4%", marginTop: "5%", flexDirection: "row" }}>
-                <View style={{ flexDirection: "column", justifyContent: "center" }}>
-                  <Avatar.Image size={65} source={{ uri: item.imagePath }} />
-                  <Text
-                    adjustsFontSizeToFit
-                    numberOfLines={1}
-                    style={
-                      {
-                        fontFamily: "PingFangHK-Light",
-                        marginTop: "5%",
-                        fontSize: 20
-                      }
-                    }>
-                    {item.inviter}
-                  </Text>
-                  {item.isDuo == true &&
-                    <Text style={{ fontFamily: "PingFangHK-Semibold", color: "#f76f6d", marginBottom: "7%" }}>Duo</Text>
-                  }
-                </View>
+      <StatusBar barStyle="light-content"/>
+      <Text h2 style={styles.title}>
+        Parties
+      </Text>
 
-                <View style={{ flexDirection: "column", justifyContent: "flex-end", marginLeft: "5%" }}>
-                  <Button
-                    mode="outlined"
-                    style={{ marginBottom: "20%", width: "200%" }}
-                    labelStyle={{ color: "green" }}
-                    onPress={() => handleAccept(item)}
-                  >
-                    Accept
-                  </Button> 
-                </View>
-                {item.acc}
-              </Card.Content>
-            </Card>
-          ))}
-        </ScrollView>
-      </View>
+      <PartyCard invite={{}}/>
+
+      <Text h3 style={styles.subtitle}>
+        Pending 
+      </Text>
+
+      <FlatList
+        data={data}
+        style={{paddingTop: 5}}
+        renderItem={({ item }) => (
+          <InviteCard invite={item} onAccept={handleAccept} />
+        )}
+        keyExtractor={() => 1}
+      />
     </View>
   );
 };
@@ -116,7 +92,17 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     fontSize: 43,
     fontFamily: "PingFangHK-Medium",
-    marginTop: "15%"
+    marginTop: "15%",
+    letterSpacing: 0.1
+  },
+  subtitle: {
+    color: "#ee0979",
+    justifyContent: "center",
+    marginLeft: "5%",
+    fontSize: 43,
+    fontFamily: "PingFangHK-Medium",
+    // marginTop: "15%",
+    letterSpacing: 0.1
   },
   invitationscontainer: {
     flex: 0.95,
@@ -131,33 +117,13 @@ const styles = StyleSheet.create({
     shadowRadius: 100,
     elevation: 1,
   },
-  title1: {
-    marginTop: "2.5%",
-    fontFamily: "PingFangHK-Medium",
-    marginBottom: "2%",
-    color: "#f76f6d",
-    marginLeft: "5%",
-  },
-  button: {
-    width: "80%",
-    height: "75%",
-  },
-  card: {
-    height: "35%",
-    width: "100%",
-    borderRadius: 25,
-    shadowRadius: 4,
-    marginBottom: "5%",
-    marginRight: "5%",
-  },
   bottomView: {
-    width: '100%',
+    width: "100%",
     height: 50,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: "5%",
     position: "absolute",
-    bottom: 0
+    bottom: 0,
   },
-
 });
