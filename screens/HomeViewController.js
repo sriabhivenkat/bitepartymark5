@@ -21,7 +21,6 @@ const HomeViewController = ({ navigation }) => {
   const increment = firestore.FieldValue.increment(1);
 
   useEffect(() => {
-    alert(user.uid)
     firestore()
       .collection("Users")
       .doc(user.uid)

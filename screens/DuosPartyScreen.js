@@ -9,7 +9,6 @@ import Geolocation from '@react-native-community/geolocation';
 import LinearGradient from 'react-native-linear-gradient';
 import { Alert } from 'react-native';
 
-
 function Card({ data }) {
     return (
         <View style={[styles.card, { backgroundColor: data.backgroundColor }]}>
@@ -62,14 +61,6 @@ const DuosPartyScreen = ({ navigation, route }) => {
 
     const [lat, setLat] = useState()
     const [lon, setLon] = useState()
-
-
-
-
-
-
-
-
 
     // replace with real remote data fetching
     useEffect(() => {
