@@ -1,23 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useContext } from "react";
-import { View, StyleSheet, FlatList, StatusBar } from "react-native";
-import {
-  View,
-  Image,
-  StyleSheet,
-  ImageBackground,
-  StatusBar,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, FlatList, StatusBar } from "react-native";
 import { AuthContext } from "../navigation/AuthProvider.js";
 import { Text } from "galio-framework";
 import firestore from "@react-native-firebase/firestore";
 import InviteCard from "../component/InviteCard";
 import PartyCard from "../component/PartyCard.js";
+import { SafeAreaView } from "react-native";
 
 const HomeViewController = ({ navigation }) => {
   const { user } = useContext(AuthContext);
-  const [data, setData] = useState([]);
+  const [invites, setData] = useState([]);
 
   const partyCollection = firestore().collection("Parties");
   const inviteCollection = firestore()
@@ -32,9 +25,8 @@ const HomeViewController = ({ navigation }) => {
         const results = snapshot.docs.map((x) => ({ ...x.data(), id: x.id }));
         setData(results);
       },
-      (err) => alert(x)
+      (err) => console.error(err)
     );
-
     return () => unsubscribe();
   }, []);
 
@@ -44,11 +36,9 @@ const HomeViewController = ({ navigation }) => {
       await partyCollection
         .doc(invite.docID)
         .update({ participantCount: increment });
-
       await inviteCollection.doc(invite.id).update({
         accepted: true,
       });
-
       navigation.navigate("DuosPartyScreen", {
         partyID: invite.docID,
         inviteID: invite.id,
@@ -58,33 +48,32 @@ const HomeViewController = ({ navigation }) => {
     }
   };
 
+
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <Text h2 style={styles.title}>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
+
+      <Text h2 style={[styles.title,  {marginTop: 30}]}>
         Parties
       </Text>
+      {invites
+        .filter((item) => item.accepted)
+        .map(({ docID }) => (
+          <PartyCard key={docID} id={docID} />
+        ))}
 
-      <PartyCard invite={{}} />
-      <StatusBar translucent={true} />
-      <Text h2 style={styles.title}>
-        Invitations
+      <Text h3 style={[styles.title, styles.subtitle]}>
+        Pending
       </Text>
-      <View style={styles.invitationscontainer}>
-        <Text h3 style={styles.subtitle}>
-          Pending
-        </Text>
-
-        <FlatList
-          data={data}
-          style={{ paddingTop: 5 }}
-          renderItem={({ item }) => (
-            <InviteCard invite={item} onAccept={handleAccept} />
-          )}
-          keyExtractor={() => 1}
-        />
-      </View>
-    </View>
+      <FlatList
+        data={invites.filter((item) => !item.accepted)}
+        style={{ paddingTop: 5 }}
+        renderItem={({ item }) => (
+          <InviteCard invite={item} onAccept={handleAccept} />
+        )}
+        keyExtractor={(item) => item.id}
+      />
+    </SafeAreaView>
   );
 };
 
@@ -101,38 +90,10 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     fontSize: 43,
     fontFamily: "PingFangHK-Medium",
-    marginTop: "15%",
     letterSpacing: 0.1,
+    marginBottom: 10,
   },
   subtitle: {
     color: "#ee0979",
-    justifyContent: "center",
-    marginLeft: "5%",
-    fontSize: 43,
-    fontFamily: "PingFangHK-Medium",
-    // marginTop: "15%",
-    letterSpacing: 0.1,
-  },
-  invitationscontainer: {
-    flex: 0.95,
-    borderWidth: 1,
-    borderRadius: 25,
-    marginTop: "5%",
-    borderColor: "white",
-    marginLeft: "3%",
-    marginRight: "3%",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 100,
-    elevation: 1,
-  },
-  bottomView: {
-    width: "100%",
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: "5%",
-    position: "absolute",
-    bottom: 0,
   },
 });

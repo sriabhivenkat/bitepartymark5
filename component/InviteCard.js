@@ -1,15 +1,14 @@
-import React  from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Text } from "galio-framework";
-// import { Button } from "react-native-paper";
 import { Card, Avatar } from "react-native-paper";
 import GradientButton from "./GradientButton";
-import { Button } from 'galio-framework';
 
-
-
-const InviteCard = ({ onAccept, invite }) => 
-  <Card style={[styles.card, { maxHeight: 250, marginBottom: 20 }]} elevation={1}>
+const InviteCard = ({ onAccept, invite }) => (
+  <Card
+    style={[styles.card, { maxHeight: 250, marginBottom: 20 }]}
+    elevation={1}
+  >
     <Card.Content style={styles.innerCard}>
       <View style={{ flexDirection: "column", justifyContent: "center" }}>
         <Avatar.Image size={65} source={{ uri: invite.imagePath }} />
@@ -21,39 +20,33 @@ const InviteCard = ({ onAccept, invite }) =>
       </View>
 
       <View style={styles.buttonContainer}>
-        <GradientButton style={styles.buttonStyle}> 
-            Accept
+        <GradientButton
+          style={styles.buttonStyle}
+          onPress={() => onAccept(invite)}
+        >
+          Accept
         </GradientButton>
-        <GradientButton style={styles.buttonStyle} outline> 
-            Decline
+        <GradientButton style={styles.buttonStyle} outline disabled>
+          Decline
         </GradientButton>
       </View>
-      {invite.acc}
     </Card.Content>
-  </Card>;
-
+  </Card>
+);
 
 export default InviteCard;
 
 const styles = StyleSheet.create({
   card: {
-    // height: "35%",
-    // width: "100%",
     borderRadius: 15,
     shadowRadius: 2,
     marginHorizontal: 20,
-    padding: 10
-    // marginBottom: "5%",
-    // marginRight: "5%",
+    padding: 10,
   },
   buttonContainer: {
-    // flexDirection: "column",
-    // justifyContent: "flex-end",
-    // backgroundColor:'red',
-    // marginLeft: "5%",
-    justifyContent: "center"
+    justifyContent: "center",
   },
-  innerCard: {flexDirection: "row", justifyContent: 'space-between' },
+  innerCard: { flexDirection: "row", justifyContent: "space-between" },
   subText: {
     fontFamily: "PingFangHK-Semibold",
     color: "#f76f6d",
@@ -66,6 +59,6 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     minWidth: 150,
-    marginVertical: 10
-  }
+    marginVertical: 10,
+  },
 });
