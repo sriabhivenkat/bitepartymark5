@@ -1,16 +1,20 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useContext } from "react";
+import { View, StyleSheet, FlatList, StatusBar } from "react-native";
 import {
   View,
+  Image,
   StyleSheet,
-  FlatList,
+  ImageBackground,
   StatusBar,
+  ScrollView,
 } from "react-native";
 import { AuthContext } from "../navigation/AuthProvider.js";
 import { Text } from "galio-framework";
 import firestore from "@react-native-firebase/firestore";
 import InviteCard from "../component/InviteCard";
 import PartyCard from "../component/PartyCard.js";
+
 const HomeViewController = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   const [data, setData] = useState([]);
@@ -28,7 +32,7 @@ const HomeViewController = ({ navigation }) => {
         const results = snapshot.docs.map((x) => ({ ...x.data(), id: x.id }));
         setData(results);
       },
-      (err) => alert(err)
+      (err) => alert(x)
     );
 
     return () => unsubscribe();
@@ -56,25 +60,30 @@ const HomeViewController = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content"/>
+      <StatusBar barStyle="light-content" />
       <Text h2 style={styles.title}>
         Parties
       </Text>
 
-      <PartyCard invite={{}}/>
-
-      <Text h3 style={styles.subtitle}>
-        Pending 
+      <PartyCard invite={{}} />
+      <StatusBar translucent={true} />
+      <Text h2 style={styles.title}>
+        Invitations
       </Text>
+      <View style={styles.invitationscontainer}>
+        <Text h3 style={styles.subtitle}>
+          Pending
+        </Text>
 
-      <FlatList
-        data={data}
-        style={{paddingTop: 5}}
-        renderItem={({ item }) => (
-          <InviteCard invite={item} onAccept={handleAccept} />
-        )}
-        keyExtractor={() => 1}
-      />
+        <FlatList
+          data={data}
+          style={{ paddingTop: 5 }}
+          renderItem={({ item }) => (
+            <InviteCard invite={item} onAccept={handleAccept} />
+          )}
+          keyExtractor={() => 1}
+        />
+      </View>
     </View>
   );
 };
@@ -93,7 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 43,
     fontFamily: "PingFangHK-Medium",
     marginTop: "15%",
-    letterSpacing: 0.1
+    letterSpacing: 0.1,
   },
   subtitle: {
     color: "#ee0979",
@@ -102,7 +111,7 @@ const styles = StyleSheet.create({
     fontSize: 43,
     fontFamily: "PingFangHK-Medium",
     // marginTop: "15%",
-    letterSpacing: 0.1
+    letterSpacing: 0.1,
   },
   invitationscontainer: {
     flex: 0.95,
