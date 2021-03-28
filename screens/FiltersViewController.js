@@ -34,11 +34,11 @@ const FiltersViewController = ({ route, navigation }) => {
     const { user } = useContext(AuthContext);
     const [radius, setRadius] = useState(0);
     const [count, setCount] = useState(1);
-    const [switch1, setSwitch1] = useState(false);
-    const [switch2, setSwitch2] = useState(false);
+    const [isFamily, setIsFamily] = useState(false);
+    const [isFastFood, setIsFastFood] = useState(false);
 
-    const toggleSwitch1 = () => setSwitch1(previousState => !previousState);
-    const toggleSwitch2 = () => setSwitch2(previousState => !previousState);
+    const toggleSwitch1 = () => setIsFamily(previousState => !previousState);
+    const toggleSwitch2 = () => setIsFastFood(previousState => !previousState);
 
     const { partyID, members, admin} = route.params;
 
@@ -71,6 +71,7 @@ const FiltersViewController = ({ route, navigation }) => {
           "cuisine",
         ]),
         matches: 0,
+        id: hit.objectID
       }));
     };
 
@@ -79,14 +80,13 @@ const FiltersViewController = ({ route, navigation }) => {
     const handlePress = async () => {
       try {
         const restaurants = await getNearby(radius, count);
-        console.log(partyRef)
         await partyRef.set({
           admin: user.uid,
           restrictions: {
             radius,
             count,
-            switch1,
-            switch2,
+            switch1: isFamily,
+            switch2: isFastFood,
           },
           isDuo: members.length <= 1,
           restaurants
@@ -112,7 +112,7 @@ const FiltersViewController = ({ route, navigation }) => {
           });
         }); 
         await invitesBatch.commit()
-        navigation.navigate("DuosPartyScreen", { partyID, data: restaurants })
+        // navigation.navigate("DuosPartyScreen", { partyID, data: restaurants })
 
       } catch (error) {
         console.error(error);
@@ -153,7 +153,7 @@ const FiltersViewController = ({ route, navigation }) => {
                 <View style={{ flex: 0.5, flexDirection: "column", alignItems: "center" }}>
                     <Text p style={{ marginLeft: "10%", color: "#f76f6d", fontWeight: "bold", fontFamily: "PingFangHK-Medium" }}>Family-Friendly?</Text>
                     <Switch
-                        value={switch1}
+                        value={isFamily}
                         onValueChange={toggleSwitch1}
                         style={{ marginTop: "4%" }}
                         color="#f76f6d"
@@ -163,7 +163,7 @@ const FiltersViewController = ({ route, navigation }) => {
                 <View style={{ flex: 0.5, flexDirection: "column", alignItems: "center", marginRight: "4%" }}>
                     <Text p style={{ marginLeft: "10%", color: "#f76f6d", fontWeight: "bold", fontFamily: "PingFangHK-Medium" }}>Want Fast Food?</Text>
                     <Switch
-                        value={switch2}
+                        value={isFastFood}
                         onValueChange={toggleSwitch2}
                         style={{ marginTop: "4%" }}
                         color="#f76f6d"

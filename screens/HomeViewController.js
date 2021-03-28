@@ -32,41 +32,45 @@ const HomeViewController = ({ navigation }) => {
 
   const handleAccept = async (invite) => {
     try {
-      const increment = firestore.FieldValue.increment(1);
+      // update user status in the party
       await partyCollection
         .doc(invite.docID)
-        .update({ participantCount: increment });
+        .collection("members")
+        .doc(user.uid)
+        .update({ status: "accepted" });
+      // update my invite status
       await inviteCollection.doc(invite.id).update({
-        accepted: true,
+        status: "accepted",
       });
+
       navigation.navigate("DuosPartyScreen", {
         partyID: invite.docID,
-        inviteID: invite.id,
       });
     } catch (error) {
       console.error(error);
     }
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
 
-      <Text h2 style={[styles.title,  {marginTop: 30}]}>
+      <Text h2 style={[styles.title, { marginTop: 30 }]}>
         Parties
       </Text>
       {invites
-        .filter((item) => item.accepted)
+        .filter((item) => item.status == "accepted")
         .map(({ docID }) => (
-          <PartyCard key={docID} id={docID} />
+          <PartyCard key={docID} id={docID} onPress={() =>  navigation.navigate("DuosPartyScreen", {
+            partyID: docID,
+          }) }/>
         ))}
 
       <Text h3 style={[styles.title, styles.subtitle]}>
         Pending
       </Text>
       <FlatList
-        data={invites.filter((item) => !item.accepted)}
+        data={invites.filter((item) => item.status == "pending")}
         style={{ paddingTop: 5 }}
         renderItem={({ item }) => (
           <InviteCard invite={item} onAccept={handleAccept} />

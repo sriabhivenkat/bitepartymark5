@@ -5,7 +5,7 @@ import { Card, Avatar } from "react-native-paper";
 import GradientButton from "./GradientButton";
 import LinearGradient from "react-native-linear-gradient";
 
-const PartyCard = ({invite = {} }) => (
+const PartyCard = ({invite = {}, onPress}) => (
   <Card
     style={[styles.card, { maxHeight: 250, marginBottom: 20 }]}
     elevation={1}
@@ -28,7 +28,7 @@ const PartyCard = ({invite = {} }) => (
         </View>
 
         <View style={styles.buttonContainer}>
-          <GradientButton style={styles.buttonStyle} outline bg="#fff">
+          <GradientButton style={styles.buttonStyle} outline bg="#fff" onPress={onPress}>
             Go!
           </GradientButton>
         </View>

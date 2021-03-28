@@ -1,16 +1,14 @@
-import React, { useContext, useState, useEffect, createContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { View, Image, StyleSheet, Share } from 'react-native';
 import { Text } from 'galio-framework';
-import { Button, Provider, Portal, Avatar, Modal } from 'react-native-paper';
+import { Avatar } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider.js';
-import { Input, ListItem, Overlay } from 'react-native-elements';
+import { ListItem  } from 'react-native-elements';
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import LinearGradient from 'react-native-linear-gradient';
 import TouchableScale from 'react-native-touchable-scale';
 import { TouchableOpacity } from "react-native-gesture-handler";
-import AsyncStorage from '@react-native-community/async-storage';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
-import FiltersViewController from './FiltersViewController.js';
 
 const AddDuosViewController = ({ route, navigation }) => {
 
@@ -22,16 +20,9 @@ const AddDuosViewController = ({ route, navigation }) => {
     const [duosmember, setDuosMember] = useState([]);
     const [query, setQuery] = useState("");
     const { user } = useContext(AuthContext);
-    const [isVisible, setIsVisible] = useState(false);
     const [selectedPeople, setSelectedPeople] = useState([]);
-    var localArray = [];
-    const [count, setCount] = useState(0);
-    const showPanel = () => setIsVisible(true);
-    const hidePanel = () => setIsVisible(false);
-    
     const [userHandle, setUserHandle] = useState("");
     const [imagePath, setImagePath] = useState("");
-    const [isPressed, setIsPressed] = useState(false);
 
     useEffect(() => {
         const main = async () => {
@@ -65,13 +56,7 @@ const AddDuosViewController = ({ route, navigation }) => {
     const generateLink = async (groupId) => {
         const link = await dynamicLinks().buildShortLink({
             link: `https://biteparty.app/join?id=${groupId}`,
-            // domainUriPrefix is created in your Firebase console
             domainUriPrefix: 'https://biteparty.page.link',
-            // optional setup which updates Firebase analytics campaign
-            // "banner". This also needs setting up before hand
-            // analytics: {
-            //   campaign: 'banner',
-            // },
             androidInfo: {
                 androidPackageName: "com.kastech.biteparty"
             },
@@ -90,15 +75,7 @@ const AddDuosViewController = ({ route, navigation }) => {
             const result = await Share.share({
                 message: `BiteParty | Join the party! ${url}`,
             });
-            //   if (result.action === Share.sharedAction) {
-            //     if (result.activityType) {
-            //       // shared with activity type of result.activityType
-            //     } else {
-            //       // shared
-            //     }
-            //   } else if (result.action === Share.dismissedAction) {
-            //     // dismissed
-            //   }
+ 
         } catch (error) {
             alert(error.message);
         }
@@ -122,7 +99,7 @@ const AddDuosViewController = ({ route, navigation }) => {
                                 setSelectedPeople(selectedPeople.filter(i => i!= item.uidvalue))
                             } else {
                                 setSelectedPeople([item.uidvalue, ...selectedPeople])
-                                setIsPressed(true);
+                                // setIsPressed(true);
                             }
                         }}
                         style={{ borderBottomColor: "lightgray", borderBottomWidth: 1, borderTopColor: "lightgray", borderTopWidth: 1 }}

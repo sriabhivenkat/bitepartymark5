@@ -8,12 +8,13 @@ import SwipeCards from "react-native-swipe-cards-deck";
 import Geolocation from "@react-native-community/geolocation";
 import LinearGradient from "react-native-linear-gradient";
 import { Alert } from "react-native";
+import { matches } from "lodash";
 
 function Card({ data }) {
   return (
-    <View style={[styles.card, { backgroundColor: data.backgroundColor }]}>
+    <View style={[styles.card, { backgroundColor: "#fcfcfc" }]}>
       <View>
-        <Text style={styles.cardsText2}>{data.text}</Text>
+        <Text style={styles.cardsText2}>{data.name}</Text>
         <Text style={styles.cardsText3}>{data.address} </Text>
         <Text style={styles.cardsText3}>{data.city + "," + data.state}</Text>
         <Text style={styles.cardsText4}>{data.cuisine}</Text>
@@ -44,169 +45,104 @@ function StatusCard({ text }) {
 
 const DuosPartyScreen = ({ navigation, route }) => {
   const { user } = useContext(AuthContext);
-  const [party, setParty] = useState();
+  const [party, setParty] = useState({});
+  const [selections, setSelection] = useState({});
+  const [isLoading, setIsLoading] = useState(true)
 
   const { partyID } = route.params;
 
-  const partyRef = firebase.firestore().collection("Parties");
+  const partyRef = firebase.firestore().collection("Parties").doc(partyID);
+  const partyMemberRef = partyRef.collection("members").doc(user.uid);
 
-  var count = -1; // wtf?
+  // derived data...r
+  const { restaurants } = party;
 
-  // derived data...
-  const { restaurants, participants } = party;
-
-  const hasCompletedSwiping =
-    party && participants.map(({ uidvalue }) => uidvalue).includes(user.uid);
+  // const hasCompletedSwiping =
+  //   party && participants.map(({ uidvalue }) => uidvalue).includes(user.uid);
 
   // subscribe to current party data, unsubscribe on unmount
   useEffect(() => {
-    const unsubscribe = partyRef.doc(partyID).onSnapshot(
+    const unsubscribe = partyRef.onSnapshot(
       (snapshot) => setParty(snapshot.data()),
       (err) => console.error(err)
     );
     return () => unsubscribe();
   }, [partyID]);
 
-
-  // replace with real remote data fetching
-  //   useEffect(() => {
-  //     const refVal = firebase.firestore().collection("Parties").doc(partyID);
-  //     refVal
-  //       .get()
-  //       .then(function (doc) {
-  //         if (doc.exists) {
-  //           console.log("Document data:", doc.data());
-  //           const { restaurants } = doc.data();
-  //           console.log(restaurants);
-  //           setData(restaurants);
-  //         } else {
-  //           // doc.data() will be undefined in this case
-  //           console.log("No such document!");
-  //         }
-  //       })
-  //       .catch(function (error) {
-  //         console.log("Error getting document:", error);
-  //       });
-
-  //     firestore()
-  //       .collection("Parties")
-  //       .doc(partyID)
-  //       .onSnapshot(onResult3, onError);
-  //   }, []);
-
-  //   function onResult3(QuerySnapshot) {
-  //     const refVal = firestore().collection("Parties").doc(partyID);
-  //     const doc = refVal.get();
-  //     refVal
-  //       .get()
-  //       .then(function (querySnapshot) {
-  //         if (querySnapshot.exists) {
-  //           const { restaurants } = doc.data();
-  //           console.log(restaurants);
-  //           setData(restaurants);
-  //         } else {
-  //           // doc.data() will be undefined in this case
-  //           console.log("No such document!");
-  //         }
-  //       })
-  //       .catch(function (error) {
-  //         console.log("Error getting document:", error);
-  //       });
-  //   }
-
-  //   function onError(error) {
-  //     console.error(error);
-  //   }
+  useEffect(() => console.log(JSON.stringify(selections, null, 2)), [
+    selections,
+  ]);
 
 
-  
-
-  function handleYes(card) {
-    console.log(card);
-    const refVal = firebase.firestore().collection("Parties").doc(partyID);
-    refVal
-      .get()
-      .then(function (doc) {
-        if (doc.exists) {
-          console.log("Document data:", doc.data());
-          const { restaurants } = doc.data();
-          console.log(restaurants);
-          restaurants[count]["yesCount"] += 1;
-          restaurants[count]["totalSwipes"] += 1;
-          firestore().collection("Parties").doc(partyID).update({
-            restaurants: restaurants,
-          });
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
+  // handle swiping complete
+  useEffect(() => {
+    (async () => {
+      try {
+        if (Object.keys(selections).length == restaurants?.length) {
+          const data = (await partyRef.get()).data();
+          console.log(data)
+          const updatedData = data.restaurants.map((item) => ({
+            ...item,
+            matches: item.matches + selections[item.id],
+          }));
+          console.log(data)
+          console.log(updatedData)
+          await partyRef.set({restaurants: updatedData})
+          await partyMemberRef.set({status: 'complete'})
+          navigation.navigate("test", { partyID })
         }
-      })
-      .catch(function (error) {
-        console.log("Error getting document:", error);
-      });
+      } catch (error) {
+        console.error(error)
+      }
+    })();
+  }, [selections]);
 
-    count += 1; // what the fuck???
-    console.log("Count is", count);
-    return true; // returnfalse if you wi
-  }
+  // redirect if swiping is already done
+  useEffect(() => {
+    (async () => {
+      try {
+        const { status } = (await partyMemberRef.get()).data();
+        if (status == "complete") navigation.navigate("test", { partyID });
+        setIsLoading(false)
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  });
 
-  function handleNo(card) {
-    const refVal = firebase.firestore().collection("Parties").doc(partyID);
-    refVal
-      .get()
-      .then(function (doc) {
-        if (doc.exists) {
-          console.log("Document data:", doc.data());
-          const { restaurants } = doc.data();
-          console.log(restaurants);
-          restaurants[count]["totalSwipes"] += 1;
-          firestore().collection("Parties").doc(partyID).update({
-            restaurants: restaurants,
-          });
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-        }
-      })
-      .catch(function (error) {
-        console.log("Error getting document:", error);
-      });
-
-    count += 1;
+  const handleYes = (item) => {
+    setSelection((val) => ({
+      ...val,
+      [item.id]: 1,
+    }));
     return true;
-  }
+  };
+
+  const handleNo = (item) => {
+    setSelection((val) => ({
+      ...val,
+      [item.id]: 0,
+    }));
+    return true;
+  };
 
   return (
-    // <View style={styles.container}>
-    //   {data ? (
-    //     <SwipeCards
-    //       cards={data.map((x) => ({
-    //         text: x.nameR,
-    //         backgroundColor: "#fcfcfc",
-    //         address: x.address,
-    //         city: x.city,
-    //         state: x.state,
-    //         zip: x.zip,
-    //         yesCount: x.yesCount,
-    //         cuisine: x.cuisine,
-    //       }))}
-    //       renderCard={(cardData) => <Card data={cardData} />}
-    //       keyExtractor={(cardData) => String(cardData.text)}
-    //       renderNoMoreCards={() => (
-    //         <Button onPress={() => navigation.navigate("test", { partyID })}>
-    //           See Results
-    //         </Button>
-    //       )}
-    //       handleYup={handleYes}
-    //       handleNope={handleNo}
-    //       stack={true}
-    //       dragY={false}
-    //     />
-    //   ) : (
-    //     <StatusCard text="No more cards..." />
-    //   )}
-    // </View>
-    <></>
+    <View style={styles.container}>
+      {!isLoading &&
+        <SwipeCards
+          cards={restaurants}
+          renderCard={(item) => <Card data={item} />}
+          keyExtractor={(item) => item.id}
+          handleYup={handleYes}
+          handleNope={handleNo}
+          stack={true}
+          dragY={false}
+        />
+      }
+      {/* // ) : (
+      //   <StatusCard text="No more cards..." />
+      // )} */}
+    </View>
   );
 };
 
