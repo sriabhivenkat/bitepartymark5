@@ -33,6 +33,7 @@
     "expo-updates": "~0.4.0",
     "firebase-admin": "^9.4.2",
     "galio-framework": "^0.7.1",
+    "lodash": "^4.17.21",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "~0.63.4",

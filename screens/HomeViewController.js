@@ -18,7 +18,7 @@ const HomeViewController = ({ navigation }) => {
     .doc(user.uid)
     .collection("invitations");
 
-  // subscribe to invites list, remove subscription on mount
+  // subscribe to invites list, remove subscription on unmount
   useEffect(() => {
     const unsubscribe = inviteCollection.onSnapshot(
       (snapshot) => {
