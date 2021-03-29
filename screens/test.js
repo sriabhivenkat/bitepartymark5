@@ -3,6 +3,7 @@ import { View, Image, StyleSheet, } from 'react-native';
 import { Text } from 'galio-framework'
 import firestore, { firebase } from "@react-native-firebase/firestore";
 
+
 const test = ({ navigation, route }) => {
     const [winner1, setWinner] = useState();
     const [winnerName, setName] = useState()
@@ -46,11 +47,15 @@ const test = ({ navigation, route }) => {
     return (
         <View style={styles.container}>
             {winner1 &&
+                <Image source={require('../images/waitingPic.png')} >
+
                 <Text h3 style={{ color: "#f76f6d", fontFamily: "PingFangHK-Medium" }}>{winner1.nameR} Selected!</Text>
+                </Image>
             }
             {!winner1 &&
+             <Image source={require('../images/waitingPic.png')} >
                 <Text h3 style={{ color: "#f76f6d", fontFamily: "PingFangHK-Medium" }}>Keep waiting!</Text>
-            }
+            </Image>}
         </View>
     )
 }

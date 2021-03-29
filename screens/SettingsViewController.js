@@ -15,6 +15,9 @@ const SettingsViewController = () => {
             <TouchableOpacity>
                 <Text h5 style={{marginTop: "2.5%", fontFamily: "PingFangHK-Medium", textAlign: "center"}}>Terms of Service</Text>
             </TouchableOpacity>
+            <TouchableOpacity onPress = {() => logout()}>
+                <Text h5 style={{marginTop: "2.5%", fontFamily: "PingFangHK-Medium", textAlign: "center"}}>Log Out</Text>
+            </TouchableOpacity>
             <Divider style={{marginTop: "3%"}} />
         </View>
     );

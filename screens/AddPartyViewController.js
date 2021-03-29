@@ -17,8 +17,8 @@ const AddPartyViewController = ({ navigation }) => {
                 tension={100}
                 activeScale={0.95}>
                 <Card.Content>
-                    <Text h4 style={{ fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "black", textAlign: "center" }}>Duos</Text>
-                    <Text style={{ fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "#f76f6d", textAlign: "center" }}>Grab a buddy. Have fun!</Text>
+                    <Text h4 style={{ fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "black", textAlign: "center" }}>Let's Party</Text>
+                    <Text style={{ fontFamily: "PingFangHK-Medium", fontWeight: "bold", color: "#f76f6d", textAlign: "center" }}>Start a party with friends!</Text>
                     <Image source={require('../images/duos.png')} style={{ width: 170, height: 160, alignItems: "center" }} />
                 </Card.Content>
             </Card>

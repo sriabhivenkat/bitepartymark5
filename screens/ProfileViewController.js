@@ -7,12 +7,12 @@ import {
   Alert,
   StatusBar,
 } from "react-native";
-import { Text, Button, Card } from "galio-framework";
+import { Text, Card } from "galio-framework";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { AuthContext } from "../navigation/AuthProvider.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Title, Caption } from "react-native-paper";
-import { Modal, Portal, Provider } from "react-native-paper";
+import { Modal, Portal, Provider, Button } from "react-native-paper";
 import { Icon } from "react-native-elements";
 import ImagePicker from "react-native-image-crop-picker";
 import storage from "@react-native-firebase/storage";
@@ -225,20 +225,21 @@ const ProfileViewController = ({ navigation }) => {
           <Image
             source={{ uri: profileImageUrl }}
             style={{
-              width: 200,
-              height: 200,
+              width: 250,
+              height: 235,
               backgroundColor: "yellow",
-              borderRadius: 95,
+              borderRadius: 120,
               resizeMode: "cover",
               marginRight: "2.5%",
-              marginTop: "25%",
+              marginTop: "50%",
+
             }}
           />
         </TouchableOpacity>
         <View style={styles.column}>
           <Text
             h5
-            style={{ color: "black", textAlign: "center", marginTop: "4%"}}
+            style={{ color: "black", textAlign: "center", marginTop: "4%", fontSize: 32, fontWeight: "normal" }}
           >
             @{userHandle}
           </Text>
@@ -249,108 +250,63 @@ const ProfileViewController = ({ navigation }) => {
         <View
           style={[
             styles.infoBox,
-            
+
           ]}
         >
-          <Title style={{ fontWeight: "bold", color: "black" }}>
+          <Title style={{ fontWeight: "bold", color: "black", fontSize: 27, fontWeight: "normal" }}>
             {friendssize}
           </Title>
-          <Caption style={{ color: "black" }}>Friends</Caption>
+          <Caption style={{ color: "black", fontSize: 22 }}>Friends</Caption>
         </View>
         <View style={styles.infoBox}>
-          <Title style={{ fontWeight: "bold", color: "black" }}>
+          <Title style={{ fontWeight: "bold", color: "black", fontSize: 27, fontWeight: "normal" }}>
             {partynumber}
           </Title>
-          <Caption style={{ color: "black" }}>Parties</Caption>
+          <Caption style={{ color: "black", fontSize: 22 }}>Parties</Caption>
         </View>
       </View>
       <View style={styles.containercolumn}>
-        <TouchableOpacity
+
+        <Button
+          mode="outlined"
           style={styles.button}
           activeOpacity={0.9}
-          onPress={() => navigation.navigate("Add Friends")}
-          style={{ width: "90%", height: "75%", marginBottom: "5%" }}
+
+      
         >
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            colors={["#ee0979", "#f76f6d", "#ff6a00"]}
+
+          <Text
             style={{
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 15,
+              color: "black",
+              fontFamily: "PingFangHK-Medium",
+              fontSize: 17,
             }}
           >
-            <Text
-              style={{
-                color: "white",
-                fontFamily: "PingFangHK-Regular",
-                fontSize: 17,
-              }}
-            >
-              Add Friends 🧑‍🤝‍🧑{" "}
+            Edit Profile
             </Text>
-          </LinearGradient>
-        </TouchableOpacity>
 
-        <TouchableOpacity
+        </Button>
+
+
+        <Button
+          mode="outlined"
           style={styles.button}
           activeOpacity={0.9}
           onPress={() => navigation.navigate("Settings")}
-          style={{ width: "90%", height: "75%", marginBottom: "5%" }}
-        >
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            colors={["#ee0979", "#f76f6d", "#ff6a00"]}
-            style={{
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 15,
-            }}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontFamily: "PingFangHK-Medium",
-                fontSize: 17,
-              }}
-            >
-              Settings 📖
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.9}
-          onPress={() => logout()}
-          style={{ width: "90%", height: "75%", marginBottom: "5%" }}
         >
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            colors={["#ee0979", "#f76f6d", "#ff6a00"]}
+
+          <Text
             style={{
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 15,
+              color: "black",
+              fontFamily: "PingFangHK-Medium",
+              fontSize: 17,
             }}
           >
-            <Text
-              style={{
-                color: "white",
-                fontFamily: "PingFangHK-Medium",
-                fontSize: 17,
-              }}
-            >
-              Log Out 🚪
+            Settings
             </Text>
-          </LinearGradient>
-        </TouchableOpacity>
+
+        </Button>
       </View>
 
       <Provider>
@@ -433,7 +389,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "15%",
+    marginTop: "25%",
   },
   infoSect: {
     paddingHorizontal: 30,
@@ -442,15 +398,36 @@ const styles = StyleSheet.create({
   infoBoxWrapper: {
     marginTop: "35%",
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    // backgroundColor: "blue"
   },
   infoBox: {
-    width: "50%",
+    width: "37.5%",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: "5%",
+    marginTop: "23%",
+    // backgroundColor:"green"
   },
+  buttonBox: {
+    width: "37.5%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: "5%",
+    marginTop: "23%",
+    // backgroundColor:"purple"
+  },
+
   button: {
-    marginBottom: 10,
+  
+    marginBottom: 20,
+    height: "200%",
+    justifyContent: "center",
+    alignItems: "center",
+    // borderRadius: 15,
+    width: "80%"
+
   },
   modalStyling: {
     backgroundColor: "white",
