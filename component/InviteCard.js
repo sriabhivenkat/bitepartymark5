@@ -4,7 +4,7 @@ import { Text } from "galio-framework";
 import { Card, Avatar } from "react-native-paper";
 import GradientButton from "./GradientButton";
 
-const InviteCard = ({ onAccept, invite }) => (
+const InviteCard = ({ onAccept, onReject, invite }) => (
   <Card
     style={[styles.card, { maxHeight: 250, marginBottom: 20 }]}
     elevation={1}
@@ -26,7 +26,7 @@ const InviteCard = ({ onAccept, invite }) => (
         >
           Accept
         </GradientButton>
-        <GradientButton style={styles.buttonStyle} outline disabled>
+        <GradientButton style={styles.buttonStyle} onPress={() => onReject(invite)} outline>
           Decline
         </GradientButton>
       </View>

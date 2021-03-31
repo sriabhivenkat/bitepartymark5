@@ -16,13 +16,17 @@ const HomeViewController = ({ navigation }) => {
   const inviteCollection = firestore()
     .collection("Users")
     .doc(user.uid)
-    .collection("invitations");
+    .collection("invitations")
+    // .orderBy('timestamp')
+    ;
 
   // subscribe to invites list, remove subscription on unmount
   useEffect(() => {
     const unsubscribe = inviteCollection.onSnapshot(
       (snapshot) => {
-        const results = snapshot.docs.map((x) => ({ ...x.data(), id: x.id }));
+        const results = snapshot.docs.map((x) => ({ ...x.data(), id: x.id }))
+        // .sort((a, b) => b.timestamp.seconds - a.timestamp.seconds);
+        console.log(results.map(x => x.timestamp))
         setData(results);
       },
       (err) => console.error(err)
@@ -50,6 +54,27 @@ const HomeViewController = ({ navigation }) => {
       console.error(error);
     }
   };
+
+  const handleReject = async (invite) => {
+    try {
+      // update user status in the party
+      await partyCollection
+        .doc(invite.docID)
+        .collection("members")
+        .doc(user.uid)
+        .update({ status: "rejected" });
+      // update my invite status
+      await inviteCollection.doc(invite.id).update({
+        status: "rejected",
+      });
+
+      // navigation.navigate("DuosPartyScreen", {
+      //   partyID: invite.docID,
+      // });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -104,7 +129,7 @@ const HomeViewController = ({ navigation }) => {
         indicatorStyle="black"
         decelerationRate="fast"
         renderItem={({ item }) => (
-          <InviteCard invite={item} onAccept={handleAccept} />
+          <InviteCard invite={item} onAccept={handleAccept} onReject={handleReject}/>
         )}
         keyExtractor={(item) => item.id}
       />

@@ -111,6 +111,7 @@ const FiltersViewController = ({ route, navigation }) => {
         [...members, {uidvalue: user.uid}].forEach((doc) => {
           const docRef = usersRef.doc(doc.uidvalue).collection("invitations").doc(doc.uidvalue);
           invitesBatch.set(docRef, {
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             inviter: admin.handle,
             isDuo: members.length <= 1,
             status: user.uid == doc.uidvalue ? "accepted" : "pending",

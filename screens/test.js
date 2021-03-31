@@ -35,10 +35,10 @@ const test = ({ navigation, route }) => {
 
       {members.map((item, i) =>  <Text key={i}>{`${item.handle}'s status: ${item.status}`}</Text>)}
      <View style={{height:40}}/>
-      {party.restaurants.sort((a, b) => b.matches - a.matches).map((item, i) => <>
+      {party.restaurants && party.restaurants.sort((a, b) => b.matches - a.matches).map((item, i) => <>
         <Text key={i}>{`${item.name} | matches: ${item.matches}`}</Text> 
       </>)}
-      {/* <Text>{JSON.stringify(party.restaurants, null, 2)}</Text> */}
+      {/* <Text>{JSON.stringify(party.restaurants.length, null, 2)}</Text> */}
       {/* {winner1 &&
                 <Image source={require('../images/waitingPic.png')} >
 
