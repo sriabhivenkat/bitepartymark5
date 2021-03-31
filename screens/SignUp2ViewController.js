@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, StyleSheet, ImageBackground } from 'react-native';
+import { View, StyleSheet, ImageBackground,Keyboard,KeyboardAvoidingView,TouchableWithoutFeedback } from 'react-native';
 import { AuthContext } from '../navigation/AuthProvider.js';
 import { useContext } from 'react';
 import {Text, Input} from 'galio-framework';
@@ -10,6 +10,15 @@ const SignUp2ViewController = ({route}) => {
     const {firstname, lastname, electronicmail, password} = route.params
     const {register} = useContext(AuthContext);
     return(
+
+        <TouchableWithoutFeedback 
+        accessible = {false}
+        onPress={() => Keyboard.dismiss()}> 
+
+        <KeyboardAvoidingView
+        behavior = "padding"
+        style = {styles.container}>
+
         <View style={styles.container}>
             <Text h2 style={[styles.text, {paddingBottom: "10%", padding: 14}]}>Almost there!</Text>
             <Input 
@@ -30,6 +39,8 @@ const SignUp2ViewController = ({route}) => {
                 </Button>
             }
         </View>
+        </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     )
 }
 

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
 import {Subheading} from 'react-native-paper';
 import {TextInput} from 'react-native-paper';
 import {Button, Card} from 'react-native-paper'
@@ -14,9 +14,30 @@ const SignUpViewController = ({navigation}) => {
     const [pass, setPass] = useState('');
     const {register} = useContext(AuthContext);
 
+    
+
+    const DismissKeyboard = ({ children }) => (
+        <TouchableWithoutFeedback 
+    
+        onPress={() => Keyboard.dismiss()}> 
+        {children}
+        </TouchableWithoutFeedback>
+        );
+
     return(
+   
+        <TouchableWithoutFeedback 
+        accessible = {false}
+        onPress={() => Keyboard.dismiss()}> 
+        <KeyboardAvoidingView 
+        behavior = "padding"
+        style = {styles.container} 
+        >
+          
         <View style={styles.container}>
             <Text h2 style={[styles.text, {padding: 10, marginBottom: "5%"}]}>Enter email and password.</Text>
+ 
+
                         <Input
                             placeholder="Email"
                             placeholderTextColor="grey"
@@ -27,6 +48,9 @@ const SignUpViewController = ({navigation}) => {
                             autoCorrect={false}
                             value={email}
                         />
+
+
+
                         <Input 
                             placeholder="Password"
                             placeholderTextColor="grey"
@@ -46,6 +70,12 @@ const SignUpViewController = ({navigation}) => {
                     </Button>
                 }
         </View>
+        
+       
+        </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+
+
     );
 };
 

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View,  Image, StyleSheet, ImageBackground } from 'react-native';
+import { View,  Image, StyleSheet, ImageBackground, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {Text, Input} from 'galio-framework';
 import {Headline, TextInput, Button } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -14,6 +14,13 @@ const LoginViewController = ({navigation}) => {
     GoogleSignin.configure({
         webClientId: '998304890071-5ha8c1cded22uj885qi2jchi7kn6kk1h.apps.googleusercontent.com'
     });
+
+    const DismissKeyboard = ({ children }) => (
+        <TouchableWithoutFeedback 
+        onPress={() => Keyboard.dismiss()}> 
+        {children}
+        </TouchableWithoutFeedback>
+        );
     
     async function onGoogleButtonPress() {
         const {idToken} = await GoogleSignin.signIn();
@@ -53,6 +60,7 @@ const LoginViewController = ({navigation}) => {
     //     return auth().signInWithCredential(facebookCred);
     // }
     return(
+        <DismissKeyboard>
         <View style={styles.container}>
                 <Image source={require('../images/logo.png')} style={styles.logo} />
                     <View style={{flex: 0.4, borderColor: "white"}}>
@@ -79,7 +87,7 @@ const LoginViewController = ({navigation}) => {
                         icon="apple"
                         mode="outlined"
                         style={[styles.button, {marginBottom: "3%"}]}
-                        onPress={() => onAppleButtonPress().then(() => console.log("suck my nuts"))}
+                        onPress={() => onAppleButtonPress().then(() => console.log("suck my nuts")).catch(err => console.error(err))}
                         color="white"
                     >
                         Log In with Apple
@@ -88,6 +96,7 @@ const LoginViewController = ({navigation}) => {
                     <Text style={styles.navButton}>Log In</Text>
                 </TouchableOpacity>
         </View>
+        </DismissKeyboard>
     );
 };
 

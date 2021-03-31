@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Image, StyleSheet, FlatList } from "react-native";
+import { View, Image, StyleSheet, FlatList,KeyboardAvoidingView,Keyboard,TouchableWithoutFeedback } from "react-native";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { Text, Button } from "galio-framework";
 import {Modal, Portal, Provider, Avatar} from "react-native-paper";
@@ -70,6 +70,15 @@ const AddFriendsViewController = () => {
   
 
   return (
+
+    <TouchableWithoutFeedback 
+    accessible = {false}
+    onPress={() => Keyboard.dismiss()}> 
+
+    <KeyboardAvoidingView
+    behavior = "padding"
+    style = {styles.container}>
+
     <View style={styles.container}>
       <Text h3 style={styles.text}>
         Add <B>Friends</B>
@@ -140,6 +149,8 @@ const AddFriendsViewController = () => {
           </Provider>
       ))}
     </View>
+    </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
   );
 };
 

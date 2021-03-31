@@ -1,15 +1,25 @@
 import React, {useState} from 'react';
-import { View, StyleSheet, ImageBackground } from 'react-native';
+import { View, StyleSheet, ImageBackground, KeyboardAvoidingView,TouchableWithoutFeedback,Keyboard } from 'react-native';
 import { AuthContext } from '../navigation/AuthProvider.js';
 import { useContext } from 'react';
 import {Text, Input} from 'galio-framework';
 import {Button, Card} from 'react-native-paper'
+import {DismissKeyboard} from '../component/DismissKeyboard'
 
 const SignUp1ViewController = ({route, navigation}) => {
     const [first, setFirst] = useState('');
     const [last, setLast] = useState('');
     const {electronicmail, password} = route.params;
     return(
+
+        <TouchableWithoutFeedback 
+        accessible = {false}
+        onPress={() => Keyboard.dismiss()}> 
+
+        <KeyboardAvoidingView
+        behavior = "padding"
+        style = {styles.container}>
+           
         <View style={styles.container}>
             <Text h2 style={[styles.text, {paddingBottom: "10%", padding: 14}]}>Enter your first and last name.</Text>
             <Input 
@@ -38,6 +48,9 @@ const SignUp1ViewController = ({route, navigation}) => {
                 </Button>
             }
         </View>
+      
+        </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     )
 }
 
