@@ -72,11 +72,11 @@ const HomeViewController = ({ navigation }) => {
           <PartyCard
             // id={docID}
             invite={item}
-            onPress={(id) =>
-              navigation.navigate("DuosPartyScreen", {
-                partyID: id,
-              })
-            }
+            // onPress={(id) =>
+            //   navigation.navigate("DuosPartyScreen", {
+            //     partyID: id,
+            //   })
+            // }
           />
           // <Text>Foo</Text>
         )}

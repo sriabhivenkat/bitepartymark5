@@ -4,6 +4,7 @@ import {Button} from 'react-native-paper';
 import {AuthContext} from '../navigation/AuthProvider.js';
 import {Text} from 'galio-framework';
 import {Divider} from 'react-native-elements';
+import { InAppBrowser } from 'react-native-inappbrowser-reborn'
 
 
 const SettingsButton = ({children, right, style, textStyle, ...rest}) => (
@@ -14,6 +15,17 @@ const SettingsButton = ({children, right, style, textStyle, ...rest}) => (
 )
 const SettingsViewController = () => {
     const {logout} = useContext(AuthContext);
+
+     const openLink  = async(url) => {
+        try {
+        //   const oldStyle = StatusBar.pushStackEntry({ barStyle: 'dark-content', animate: false });
+          await InAppBrowser.open(url)
+        //   StatusBar.popStackEntry(oldStyle);
+        } catch (error) {
+          console.error(error.message);
+        }
+      }
+
     return(
         <View style={styles.container}>
             <SettingsButton 
@@ -25,10 +37,10 @@ const SettingsViewController = () => {
                 
             </SettingsButton>
             <Divider style={styles.divider} />
-            <SettingsButton>
+            <SettingsButton onPress={() => openLink('https://www.kas-tech.com/privacy').catch(err => console.error(err)) }>
                 Privacy
             </SettingsButton>
-            <SettingsButton>
+            <SettingsButton onPress={() => openLink('https://www.kas-tech.com/terms')}>
                 Terms of Service
             </SettingsButton>
             <Divider style={styles.divider}/>

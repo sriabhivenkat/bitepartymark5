@@ -50,12 +50,17 @@ const DuosPartyScreen = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true)
 
   const { partyID } = route.params;
+  // alert(JSON.stringify(partyID, null, 2))
 
   const partyRef = firebase.firestore().collection("Parties").doc(partyID);
   const partyMemberRef = partyRef.collection("members").doc(user.uid);
 
+  console.log({partyID, uid: user.uid})
+
   // derived data...r
   const { restaurants } = party;
+
+
 
   // const hasCompletedSwiping =
   //   party && participants.map(({ uidvalue }) => uidvalue).includes(user.uid);
@@ -79,16 +84,17 @@ const DuosPartyScreen = ({ navigation, route }) => {
     (async () => {
       try {
         if (Object.keys(selections).length == restaurants?.length) {
+          console.log(partyRef);
           const data = (await partyRef.get()).data();
-          console.log(data)
+          // console.log(data)
           const updatedData = data.restaurants.map((item) => ({
             ...item,
             matches: item.matches + selections[item.id],
           }));
-          console.log(data)
-          console.log(updatedData)
+          // console.log(data)
+          // console.log(updatedData)
           await partyRef.set({restaurants: updatedData})
-          await partyMemberRef.set({status: 'complete'})
+          await partyMemberRef.update({status: 'complete'})
           navigation.navigate("test", { partyID })
         }
       } catch (error) {
@@ -101,7 +107,10 @@ const DuosPartyScreen = ({ navigation, route }) => {
   useEffect(() => {
     (async () => {
       try {
-        const { status } = (await partyMemberRef.get()).data();
+        // console.log(JSON.stringify(partyMemberRef., null, 2))
+        const data = (await partyMemberRef.get()).data();
+        // console.log({data});
+        const status = data.status;
         if (status == "complete") navigation.navigate("test", { partyID });
         setIsLoading(false)
       } catch (error) {
