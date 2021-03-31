@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { Text } from "galio-framework";
 import { Card, Avatar } from "react-native-paper";
 import GradientButton from "./GradientButton";
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     shadowRadius: 2,
     marginHorizontal: 20,
+    width: Dimensions.get('window').width - 20*2
   },
   buttonContainer: {
     justifyContent: "center",
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
   subText: {
     fontFamily: "PingFangHK-Semibold",
     color: "#fff",
-    marginBottom: "7%",
+    // marginBottom: "7%",
   },
   text: {
     fontFamily: "PingFangHK-Light",
