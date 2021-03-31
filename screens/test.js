@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { View, Image, StyleSheet, ScrollView} from "react-native";
 import { Text } from "galio-framework";
 import firestore, { firebase } from "@react-native-firebase/firestore";
+import { SafeAreaView } from "react-native";
 
 const test = ({ navigation, route }) => {
   const [party, setParty] = useState({});
@@ -27,48 +28,17 @@ const test = ({ navigation, route }) => {
     return () => unsubscribe();
   }, [partyID]);
 
-  // const [winner1, setWinner] = useState();
-  // const [winnerName, setName] = useState()
-  // const { partyID } = route.params;
-  // useEffect(() => {
-  //     const refVal = firestore().collection("Parties").doc(partyID);
-  //     refVal.get().then(doc => {
-  //         const { winner } = doc.data()
-
-  //         setWinner(winner)
-  //     })
-
-  //     firestore()
-  //         .collection("Parties")
-  //         .doc(partyID)
-  //         .onSnapshot(() => {
-  //             const refVal = firebase.firestore().collection("Parties").doc(partyID);
-  //             const doc =
-  //                 refVal.get()
-  //                     .then(doc => {
-  //                         const { winner } = doc.data()
-  //                         setWinner(winner)
-  //                     }, () => console.error(err))
-  //         })
-  // }, [])
-
-  // function onError(error) {
-  //     console.error(error);
-  //   }
-
-  // function onResult3(QuerySnapshot) {
-  //     const refVal = firebase.firestore().collection("Parties").doc(partyID);
-  //     const doc = refVal.get()
-
-  //     setWinner(doc.data().winner)
-
-  //   }
-
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
     <ScrollView>
-      <Text>{JSON.stringify(members, null, 2)}</Text>
-      <Text>{JSON.stringify(party.restaurants, null, 2)}</Text>
+    <View style={{height:50}}/>
+
+      {members.map((item, i) =>  <Text key={i}>{`${item.handle}'s status: ${item.status}`}</Text>)}
+     <View style={{height:40}}/>
+      {party.restaurants.sort((a, b) => b.matches - a.matches).map((item, i) => <>
+        <Text key={i}>{`${item.name} | matches: ${item.matches}`}</Text> 
+      </>)}
+      {/* <Text>{JSON.stringify(party.restaurants, null, 2)}</Text> */}
       {/* {winner1 &&
                 <Image source={require('../images/waitingPic.png')} >
 
@@ -80,7 +50,7 @@ const test = ({ navigation, route }) => {
                 <Text h3 style={{ color: "#f76f6d", fontFamily: "PingFangHK-Medium" }}>Keep waiting!</Text>
             </Image>} */}
     </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
