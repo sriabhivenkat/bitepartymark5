@@ -94,7 +94,7 @@ const DuosPartyScreen = ({ navigation, route }) => {
           // console.log(data)
           // console.log(updatedData)
           await partyRef.set({restaurants: updatedData})
-          await partyMemberRef.set({status: 'complete'})
+          await partyMemberRef.update({status: 'complete'})
           navigation.navigate("test", { partyID })
         }
       } catch (error) {
