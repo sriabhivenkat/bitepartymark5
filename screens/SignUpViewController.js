@@ -21,7 +21,7 @@ const SignUpViewController = ({navigation}) => {
                             placeholder="Email"
                             placeholderTextColor="grey"
                             onChangeText={(userEmail) => setEmail(userEmail)}
-                            style={styles.input}
+                            style={styles.input1}
                             keyboardType="email-address"
                             autoCapitalize="none"
                             autoCorrect={false}
@@ -33,7 +33,7 @@ const SignUpViewController = ({navigation}) => {
                             onChangeText={(userPass) => setPass(userPass)}
                             autoCapitalize="none"
                             secureTextEntry={true}
-                            style={styles.input}
+                            style={styles.input1}
                             value={pass}
                         />
                 {(email != '' && pass != "") &&
@@ -80,6 +80,11 @@ const styles = StyleSheet.create({
         padding: 10,
         width: '90%',
         marginLeft: "5%",
+        height: 45,
+        borderRadius: 25,
+    },
+    input1: {
+        width: '70%',
         height: 45,
         borderRadius: 25,
     },

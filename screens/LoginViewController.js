@@ -5,21 +5,41 @@ import {Headline, TextInput, Button } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useContext } from 'react';
 import { AuthContext } from '../navigation/AuthProvider.js';
-import auth from '@react-native-firebase/auth';
-// import { GoogleSignin } from '@react-native-community/google-signin';
+import auth, { firebase } from '@react-native-firebase/auth';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
+import { GoogleSignin } from '@react-native-community/google-signin';
 // import { LoginManager, AccessToken } from 'react-native-fbsdk';
 
 const LoginViewController = ({navigation}) => {
-    // GoogleSignin.configure({
-    //     webClientId: '998304890071-5ha8c1cded22uj885qi2jchi7kn6kk1h.apps.googleusercontent.com'
-    // });
+    GoogleSignin.configure({
+        webClientId: '998304890071-5ha8c1cded22uj885qi2jchi7kn6kk1h.apps.googleusercontent.com'
+    });
     
-    // async function onGoogleButtonPress() {
-    //     const {idToken} = await GoogleSignin.signIn();
-    //     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    //     return auth().signInWithCredential(googleCredential);
-    // }
+    async function onGoogleButtonPress() {
+        const {idToken} = await GoogleSignin.signIn();
+        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+        return auth().signInWithCredential(googleCredential);
+    }
 
+    async function onAppleButtonPress() {
+        // Start the sign-in request
+        const appleAuthRequestResponse = await appleAuth.performRequest({
+          requestedOperation: appleAuth.Operation.LOGIN,
+          requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+        });
+      
+        // Ensure Apple returned a user identityToken
+        if (!appleAuthRequestResponse.identityToken) {
+          throw 'Apple Sign-In failed - no identify token returned';
+        }
+      
+        // Create a Firebase credential from the response
+        const { identityToken, nonce } = appleAuthRequestResponse;
+        const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
+      
+        // Sign the user in with the credential
+        return auth().signInWithCredential(appleCredential);
+      }
     // async function onFacebookButtonPress() {
     //     const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
     //     if (result.isCancelled) {
@@ -50,19 +70,19 @@ const LoginViewController = ({navigation}) => {
                         icon="google"
                         mode="outlined"
                         style={[styles.button]}
-                        // onPress={() => onGoogleButtonPress().then(() => console.log("suck my dick"))}
+                        onPress={() => onGoogleButtonPress().then(() => console.log("suck my dick"))}
                         color="white"
                     >
                         Log In with Google
                     </Button>
                     <Button
-                        icon="facebook"
+                        icon="apple"
                         mode="outlined"
                         style={[styles.button, {marginBottom: "3%"}]}
-                        // onPress={() => onFacebookButtonPress().then(() => console.log("suck my nuts"))}
+                        onPress={() => onAppleButtonPress().then(() => console.log("suck my nuts"))}
                         color="white"
                     >
-                        Log In with Facebook
+                        Log In with Apple
                     </Button>
                 <TouchableOpacity style={styles.forgotPass} onPress={() => navigation.navigate("Authenticate")}>
                     <Text style={styles.navButton}>Log In</Text>

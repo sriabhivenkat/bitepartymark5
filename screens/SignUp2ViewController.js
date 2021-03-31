@@ -17,7 +17,7 @@ const SignUp2ViewController = ({route}) => {
                 placeholderTextColor="gray"
                 autoCapitalize="none"
                 onChangeText={(userHandle) => setHandle(userHandle)}
-                style={styles.input}
+                style={styles.input1}
                 value={handle}
             />
             {handle!="" &&
@@ -49,6 +49,11 @@ const styles = StyleSheet.create({
         marginLeft: "5%",
         height: 45,
         borderRadius: 25,
+    },
+    input1: {
+        width: '70%',
+        height: 45,
+        borderRadius: 20,
     },
     button: {
         marginTop: 20,

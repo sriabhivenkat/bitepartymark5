@@ -32,7 +32,7 @@ const SettingsViewController = () => {
                 Terms of Service
             </SettingsButton>
             <Divider style={styles.divider}/>
-            <SettingsButton onPew>
+            <SettingsButton onPress={logout}>
                 Log Out
             </SettingsButton>
             <SettingsButton

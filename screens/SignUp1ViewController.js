@@ -16,7 +16,7 @@ const SignUp1ViewController = ({route, navigation}) => {
                 placeholder="Enter your first name"
                 placeholderTextColor="gray"
                 onChangeText={(userFirst) => setFirst(userFirst)}
-                style={styles.input}
+                style={styles.input1}
                 autoCorrect={false}
                 value={first}
             />
@@ -24,7 +24,7 @@ const SignUp1ViewController = ({route, navigation}) => {
                 placeholder="Enter your last name"
                 placeholderTextColor="gray"
                 onChangeText={(userLast) => setLast(userLast)}
-                style={styles.input}
+                style={styles.input1}
                 autoCorrect={false}
                 value={last}
             />
@@ -57,6 +57,11 @@ const styles = StyleSheet.create({
         marginLeft: "5%",
         height: 45,
         borderRadius: 25,
+    },
+    input1: {
+        width: '70%',
+        height: 45,
+        borderRadius: 20,
     },
     button: {
         marginTop: 20,

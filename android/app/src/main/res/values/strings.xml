@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">bitepartymark4</string>
+    <string name="facebook_app_id">1129547840800149</string>
+    <string name="fb_login_protocol_scheme">fb1129547840800149</string>
 </resources>

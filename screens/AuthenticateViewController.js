@@ -28,7 +28,7 @@ const AuthenticateViewController = () => {
                 placeholderTextColor="gray"
                 secureTextEntry={true}
                 onChangeText={pass => setPass(pass)}
-                style={styles.input}
+                style={styles.input1}
                 value={pass}
             />
             <Button
