@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View,  Image, StyleSheet, ImageBackground } from 'react-native';
+import { View,  Image, StyleSheet, ImageBackground, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import {Text, Input} from 'galio-framework';
 import {Headline, TextInput, Button} from 'react-native-paper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -13,6 +13,14 @@ const AuthenticateViewController = () => {
 
     const {login} = useContext(AuthContext);
     return(
+
+        <TouchableWithoutFeedback 
+        accessible = {false}
+        onPress={() => Keyboard.dismiss()}> 
+        <KeyboardAvoidingView 
+        behavior = "padding"
+        style = {styles.container} 
+        >
         <View style={styles.container}>
             <Image source={require('../images/logo.png')} style={styles.logo} />
             <Input
@@ -40,6 +48,8 @@ const AuthenticateViewController = () => {
                 Log In
             </Button>
         </View>
+        </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     );
 };
 
