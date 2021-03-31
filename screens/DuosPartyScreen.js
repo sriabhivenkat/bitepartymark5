@@ -170,13 +170,13 @@ const DuosPartyScreen = ({ navigation, route }) => {
           large
           icon="close-thick"
           // onPress={() => console.log("Pressed")}
-          onPress={() => swiperRef.current._forceLeftSwipe()}
+          onPress={() => {swiperRef.current._forceLeftSwipe(); handleYes(swiperRef.current.state.card)}}
         />
          <FAB
           style={[styles.fab, {backgroundColor: 'green'}]}
           large
           icon="check-bold"
-          onPress={() =>swiperRef.current._forceRightSwipe()}
+          onPress={() =>{swiperRef.current._forceRightSwipe(); handleYes(swiperRef.current.state.card)}}
         />
       </View>
       {/* <Button o`>Foo</Button> */}
