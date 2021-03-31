@@ -1,0 +1,76 @@
+import React, {useState} from 'react';
+import { View, StyleSheet, ImageBackground } from 'react-native';
+import { AuthContext } from '../navigation/AuthProvider.js';
+import { useContext } from 'react';
+import {Text, Input} from 'galio-framework';
+import {Button, Card} from 'react-native-paper'
+
+const SignUp1ViewController = ({route, navigation}) => {
+    const [first, setFirst] = useState('');
+    const [last, setLast] = useState('');
+    const {electronicmail, password} = route.params;
+    return(
+        <View style={styles.container}>
+            <Text h2 style={[styles.text, {paddingBottom: "10%", padding: 14}]}>Enter your first and last name.</Text>
+            <Input 
+                placeholder="Enter your first name"
+                placeholderTextColor="gray"
+                onChangeText={(userFirst) => setFirst(userFirst)}
+                style={styles.input}
+                autoCorrect={false}
+                value={first}
+            />
+            <Input 
+                placeholder="Enter your last name"
+                placeholderTextColor="gray"
+                onChangeText={(userLast) => setLast(userLast)}
+                style={styles.input}
+                autoCorrect={false}
+                value={last}
+            />
+            {(first != '' && last != "") &&
+                <Button
+                    mode="contained"
+                    onPress={() => navigation.navigate("Sign Up 2", {firstname: first, lastname: last, electronicmail, password})}
+                    style={styles.button}
+                >
+                    Next
+                </Button>
+            }
+        </View>
+    )
+}
+
+
+export default SignUp1ViewController;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "black"
+    },
+    input: {
+        padding: 10,
+        width: '90%',
+        marginLeft: "5%",
+        height: 45,
+        borderRadius: 25,
+    },
+    button: {
+        marginTop: 20,
+        height: 37,
+        width:"50%",
+        backgroundColor: "#F76F6D",
+        borderRadius: 15
+    },
+    text: {
+        marginTop: "30%",
+        textAlign: "center",
+        fontWeight: "bold",
+        fontSize: 32,
+        color: "white",
+        fontFamily: "PingFangHK-Medium"
+    },
+})

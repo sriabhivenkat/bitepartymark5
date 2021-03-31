@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, StyleSheet, ImageBackground } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import {Subheading} from 'react-native-paper';
 import {TextInput} from 'react-native-paper';
 import {Button, Card} from 'react-native-paper'
@@ -12,26 +12,19 @@ import { useContext } from 'react';
 const SignUpViewController = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
-    
-    const [handle, setHandle] = useState('');
-    const [first, setFirst] = useState('');
-    const [last, setLast] = useState('');
     const {register} = useContext(AuthContext);
 
     return(
         <View style={styles.container}>
-            <ImageBackground source={require('../images/background_img.jpg')} style={styles.image}>
-                <Text h3 style={styles.text}>Glad you're joining us!</Text>
-                
-                <Card style={styles.card}>
-                    <Card.Content>
-                        <Text h3 style={{fontWeight: "bold", color: "black", textAlign: "center", marginBottom: "5%", marginTop: "5%", fontFamily: "PingFangHK-Medium"}}>Sign Up</Text>
+            <Text h2 style={[styles.text, {padding: 10, marginBottom: "5%"}]}>Enter email and password.</Text>
                         <Input
                             placeholder="Email"
+                            placeholderTextColor="grey"
                             onChangeText={(userEmail) => setEmail(userEmail)}
                             style={styles.input}
                             keyboardType="email-address"
                             autoCapitalize="none"
+                            autoCorrect={false}
                             value={email}
                         />
                         <Input 
@@ -43,41 +36,15 @@ const SignUpViewController = ({navigation}) => {
                             style={styles.input}
                             value={pass}
                         />
-                        <Input 
-                            placeholder="Enter your first name"
-                            placeholderTextColor="gray"
-                            onChangeText={(userFirst) => setFirst(userFirst)}
-                            style={styles.input}
-                            value={first}
-                        />
-                        <Input 
-                            placeholder="Enter your last name"
-                            placeholderTextColor="gray"
-                            onChangeText={(userLast) => setLast(userLast)}
-                            style={styles.input}
-                            value={last}
-                        />
-                        <Input 
-                            placeholder="Enter a handle"
-                            placeholderTextColor="gray"
-                            autoCapitalize="none"
-                            onChangeText={(userHandle) => setHandle(userHandle)}
-                            style={styles.input}
-                            value={handle}
-                        />
-                    </Card.Content>
-                </Card>
-                <Button icon="hiking" 
-                    mode="contained"
-                    onPress={() => register(email, pass, first, last, handle)}
-                    style={styles.button}>
-                        Register
-                </Button>
-                
-                <TouchableOpacity style={styles.forgotPass} onPress={() => navigation.navigate("Login")}>
-                    <Text style={styles.navButton}>Have an account? Sign In.</Text>
-                </TouchableOpacity>
-            </ImageBackground>
+                {(email != '' && pass != "") &&
+                    <Button
+                        mode="contained"
+                        onPress={() => navigation.navigate("Sign Up 1", {electronicmail: email, password: pass})}
+                        style={styles.button}
+                    >
+                            Next
+                    </Button>
+                }
         </View>
     );
 };
@@ -90,8 +57,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        
-        backgroundColor: "#16335e"
+        justifyContent: "center",
+        backgroundColor: "black"
     },
     card: {
         height: "50%",
@@ -143,5 +110,11 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         color: "white"
+    },
+    logo: {
+        height: "33%",
+        width: "50%",
+        resizeMode: 'cover',
+        position: "relative",
     },
 });

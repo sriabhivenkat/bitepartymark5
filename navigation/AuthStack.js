@@ -6,6 +6,9 @@ import LoginViewController from '../screens/LoginViewController.js';
 import OnboardingViewController from '../screens/OnboardingViewController';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-community/async-storage';
+import AuthenticateViewController from '../screens/AuthenticateViewController.js';
+import SignUp1ViewController from '../screens/SignUp1ViewController.js';
+import SignUp2ViewController from '../screens/SignUp2ViewController.js';
 
 const Stack = createStackNavigator();
 
@@ -50,6 +53,21 @@ const AuthStack = ({navigation}) => {
             <Stack.Screen 
                 name="Sign Up"
                 component={SignUpViewController}
+                options={{header: () => null}}
+            />
+            <Stack.Screen 
+                name="Authenticate"
+                component={AuthenticateViewController}
+                options={{header: () => null}}
+            />
+            <Stack.Screen 
+                name="Sign Up 1"
+                component={SignUp1ViewController}
+                options={{header: () => null}}
+            />
+            <Stack.Screen 
+                name="Sign Up 2"
+                component={SignUp2ViewController}
                 options={{header: () => null}}
             />
         </Stack.Navigator>
