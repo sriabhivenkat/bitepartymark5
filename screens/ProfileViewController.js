@@ -266,7 +266,34 @@ const ProfileViewController = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.containercolumn}>
-
+      <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.9}
+          onPress={() => navigation.navigate("Add Friends")}
+          style={{ width: "90%", height: "75%", marginBottom: "5%" }}
+        >
+          <LinearGradient
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            colors={["#ee0979", "#f76f6d", "#ff6a00"]}
+            style={{
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 15,
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontFamily: "PingFangHK-Regular",
+                fontSize: 17,
+              }}
+            >
+              Add Friends 🧑‍🤝‍🧑{" "}
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
         <Button
           mode="outlined"
           style={styles.button}
