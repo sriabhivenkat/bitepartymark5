@@ -4,38 +4,49 @@ import { Text } from "galio-framework";
 import { Card, Avatar } from "react-native-paper";
 import GradientButton from "./GradientButton";
 import LinearGradient from "react-native-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
 
-const PartyCard = ({invite = {}, onPress}) => (
-  <Card
-    style={[styles.card, { maxHeight: 250, marginBottom: 20 }]}
-    elevation={1}
-  >
-    <LinearGradient
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }}
-      colors={["#ee0979", "#f76f6d", "#ff6a00"]}
-      style={[styles.background]}
+const PartyCard = ({ invite = {}, onPress }) => {
+  const navigation = useNavigation();
+  return (
+    <Card
+      style={[styles.card, { maxHeight: 250, marginBottom: 20 }]}
+      elevation={1}
     >
-      <Card.Content style={styles.innerCard}>
-        <View style={{ flexDirection: "column", alignItems: "center" }}>
-          <Avatar.Image
-            size={65}
-            source={{ uri: invite.imagePath }}
-            style={{ marginBottom: 8 }}
-          />
-          {invite.isDuo && <Text style={styles.subText}>DUO</Text>}
-          {!invite.isDuo && <Text style={styles.subText}>GROUP</Text>}
-        </View>
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        colors={["#ee0979", "#f76f6d", "#ff6a00"]}
+        style={[styles.background]}
+      >
+        <Card.Content style={styles.innerCard}>
+          <View style={{ flexDirection: "column", alignItems: "center" }}>
+            <Avatar.Image
+              size={65}
+              source={{ uri: invite.imagePath }}
+              style={{ marginBottom: 8 }}
+            />
+            {invite.isDuo && <Text style={styles.subText}>DUO</Text>}
+            {!invite.isDuo && <Text style={styles.subText}>GROUP</Text>}
+          </View>
 
-        <View style={styles.buttonContainer}>
-          <GradientButton style={styles.buttonStyle} outline bg="#fff" onPress={onPress}>
-            Go!
-          </GradientButton>
-        </View>
-      </Card.Content>
-    </LinearGradient>
-  </Card>
-);
+          <View style={styles.buttonContainer}>
+            <GradientButton
+              style={styles.buttonStyle}
+              outline
+              bg="#fff"
+              onPress={() => navigation.navigate("DuosPartyScreen", {
+                    partyID: invite.docID,
+                  })}
+            >
+              Go!
+            </GradientButton>
+          </View>
+        </Card.Content>
+      </LinearGradient>
+    </Card>
+  );
+};
 
 export default PartyCard;
 
@@ -44,7 +55,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     shadowRadius: 2,
     marginHorizontal: 20,
-    width: Dimensions.get('window').width - 20*2
+    width: Dimensions.get("window").width - 20 * 2,
   },
   buttonContainer: {
     justifyContent: "center",

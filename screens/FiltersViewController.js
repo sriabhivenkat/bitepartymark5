@@ -17,7 +17,8 @@ const getUserLocation = () =>
       Geolocation.getCurrentPosition(
         (position) => {
           const {latitude, longitude} = position.coords;
-          resolve([latitude, longitude]);
+          resolve([30.626549768953662, -96.35597622531617])
+          // resolve([latitude, longitude]);
         },
         (error) => {
           reject(error);
@@ -52,12 +53,15 @@ const FiltersViewController = ({ route, navigation }) => {
       );
       const index = client.initIndex("restaurants");
       const loc = await getUserLocation();
+      console.log(loc) 
 
       const results = await index.search("", {
         aroundLatLng: loc.join(","),
         aroundRadius: Math.round(radius * 1609.34),
         hitsPerPage: Math.round(count),
       });
+
+      console.log(results)
 
       return results.hits.map((hit) => ({
         ...pick(hit, [
@@ -98,21 +102,25 @@ const FiltersViewController = ({ route, navigation }) => {
           const docRef = partyRef.collection("members").doc(doc.uidvalue); 
           membersBatch.set(docRef, { ...doc, status: "pending" });
         });
+        const currentUser = (await usersRef.doc(user.uid).get()).data();
+        const docRef = partyRef.collection("members").doc(user.uid);
+        membersBatch.set(docRef, { ...currentUser, status: "pending" });
         await membersBatch.commit();
 
         let invitesBatch = firebase.firestore().batch();
-        members.forEach((doc) => {
-          const docRef = usersRef.doc(doc.uidvalue).collection("invitations").doc();
+        [...members, {uidvalue: user.uid}].forEach((doc) => {
+          const docRef = usersRef.doc(doc.uidvalue).collection("invitations").doc(doc.uidvalue);
           invitesBatch.set(docRef, {
             inviter: admin.handle,
             isDuo: members.length <= 1,
-            status: "pending",
+            status: user.uid == doc.uidvalue ? "accepted" : "pending",
             imagePath: admin.profileImage,
             docID: partyID,
           });
-        }); 
+        });
+        
         await invitesBatch.commit()
-        // navigation.navigate("DuosPartyScreen", { partyID, data: restaurants })
+        navigation.navigate("DuosPartyScreen", { partyID, data: restaurants })
 
       } catch (error) {
         console.error(error);
