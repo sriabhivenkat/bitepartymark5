@@ -11,11 +11,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 
 const AddDuosViewController = ({ route, navigation }) => {
-
-
-
-
-
     const [groupId, setGroupId] = useState("")
     const [duosmember, setDuosMember] = useState([]);
     const [query, setQuery] = useState("");

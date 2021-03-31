@@ -1,13 +1,17 @@
 import React, { useContext, useState, useEffect } from "react";
 import { View, Image, StyleSheet, ScrollView} from "react-native";
-import { Text } from "galio-framework";
+import { Card, Text } from "galio-framework";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { SafeAreaView } from "react-native";
+import { FlatList, StatusBar, Dimensions} from "react-native";
+import PartyCard from "../component/PartyCard.js";
+import LinearGradient from "react-native-linear-gradient";
+import { Avatar } from "react-native-paper";
+
 
 const test = ({ navigation, route }) => {
   const [party, setParty] = useState({});
   const [members, setMembers] = useState([]);
-
   const { partyID } = route.params;
 
   const partyRef = firebase.firestore().collection("Parties").doc(partyID);
@@ -32,7 +36,24 @@ const test = ({ navigation, route }) => {
     <SafeAreaView style={styles.container}>
     <ScrollView>
     <View style={{height:50}}/>
-
+      <View style={{height: 60}}>
+        <Text h3 style={{fontFamily: "PingFangHK-Medium"}}>Party Stats</Text>
+      </View>
+      <View style={{flex: 0.4}}>
+      <FlatList
+          data={members}
+          style={{ paddingTop: 5}}
+          snapToInterval={Dimensions.get('window').width}
+          horizontal
+          // persistentScrollbar
+          // disableIntervalMomentum
+          decelerationRate="fast"
+          indicatorStyle="black"
+          renderItem={({item}) => (
+            <Text>{item.firstName}</Text>
+          )}
+        />
+      </View>
       {members.map((item, i) =>  <Text key={i}>{`${item.handle}'s status: ${item.status}`}</Text>)}
      <View style={{height:40}}/>
       {party.restaurants && party.restaurants.sort((a, b) => b.matches - a.matches).map((item, i) => <>
@@ -63,5 +84,11 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+  },
+  card: {
+    borderRadius: 25,
+    shadowRadius: 2,
+    marginHorizontal: 20,
+    width: Dimensions.get("window").width - 20 * 2,
   },
 });
