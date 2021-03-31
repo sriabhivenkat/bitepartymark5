@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Alert,
   StatusBar,
+  Dimensions
 } from "react-native";
 import { Text, Card } from "galio-framework";
 import firestore, { firebase } from "@react-native-firebase/firestore";
@@ -17,6 +18,7 @@ import { Icon } from "react-native-elements";
 import ImagePicker from "react-native-image-crop-picker";
 import storage from "@react-native-firebase/storage";
 import LinearGradient from "react-native-linear-gradient";
+import { SafeAreaView } from "react-native";
 
 const ProfileViewController = ({ navigation }) => {
   const { user, logout } = useContext(AuthContext);
@@ -214,32 +216,36 @@ const ProfileViewController = ({ navigation }) => {
       })
       .catch((e) => console.log(e));
   }, [user]);
+
+  
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar translucent={true} />
+      
       <Text h2 style={styles.title}>
         My Profile
       </Text>
-      <View style={styles.container2}>
+      <View style={{justifyContent: 'space-between', flexGrow: 1, paddingTop: 35, paddingBottom: 50 }}>
+      <View>
+      <View style={styles.profileContainer}>
         <TouchableOpacity onPress={showModal}>
           <Image
             source={{ uri: profileImageUrl }}
             style={{
-              width: 250,
-              height: 235,
+              width: Dimensions.get('screen').width * .40,
+              height: Dimensions.get('screen').width * .40,
               backgroundColor: "yellow",
               borderRadius: 120,
               resizeMode: "cover",
-              marginRight: "2.5%",
-              marginTop: "50%",
-
+              // marginRight: "2.5%",
+              // marginTop: "50%",
             }}
           />
         </TouchableOpacity>
         <View style={styles.column}>
           <Text
             h5
-            style={{ color: "black", textAlign: "center", marginTop: "4%", fontSize: 32, fontWeight: "normal" }}
+            style={{ color: "black", textAlign: "center", marginVertical: 20, fontSize: 26, fontWeight: "normal" }}
           >
             @{userHandle}
           </Text>
@@ -253,53 +259,43 @@ const ProfileViewController = ({ navigation }) => {
 
           ]}
         >
-          <Title style={{ fontWeight: "bold", color: "black", fontSize: 27, fontWeight: "normal" }}>
+          <Title style={{ fontWeight: "bold", color: "black", fontSize: 22, fontWeight: "normal" }}>
             {friendssize}
           </Title>
-          <Caption style={{ color: "black", fontSize: 22 }}>Friends</Caption>
+          <Caption style={{ color: "black", fontSize: 20 }}>Friends</Caption>
         </View>
         <View style={styles.infoBox}>
-          <Title style={{ fontWeight: "bold", color: "black", fontSize: 27, fontWeight: "normal" }}>
+          <Title style={{ fontWeight: "bold", color: "black", fontSize: 22, fontWeight: "normal" }}>
             {partynumber}
           </Title>
-          <Caption style={{ color: "black", fontSize: 22 }}>Parties</Caption>
+          <Caption style={{ color: "black", fontSize: 20 }}>Parties</Caption>
         </View>
       </View>
+      </View>
       <View style={styles.containercolumn}>
-      <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.9}
-          onPress={() => navigation.navigate("Add Friends")}
-          style={{ width: "90%", height: "75%", marginBottom: "5%" }}
-        >
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            colors={["#ee0979", "#f76f6d", "#ff6a00"]}
-            style={{
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 15,
-            }}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontFamily: "PingFangHK-Regular",
-                fontSize: 17,
-              }}
-            >
-              Add Friends 🧑‍🤝‍🧑{" "}
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
         <Button
           mode="outlined"
           style={styles.button}
           activeOpacity={0.9}
+          onPress={() => navigation.navigate("Add Friends")}
+        >
 
-      
+          <Text
+            style={{
+              color: "black",
+              fontFamily: "PingFangHK-Medium",
+              fontSize: 17,
+            }}
+          >
+            Add Friends
+            </Text>
+
+        </Button>
+
+        <Button
+          mode="outlined"
+          style={styles.button}
+          activeOpacity={0.9}
         >
 
           <Text
@@ -322,7 +318,6 @@ const ProfileViewController = ({ navigation }) => {
           onPress={() => navigation.navigate("Settings")}
 
         >
-
           <Text
             style={{
               color: "black",
@@ -335,8 +330,10 @@ const ProfileViewController = ({ navigation }) => {
 
         </Button>
       </View>
+      </View>
 
-      <Provider>
+
+      { modalVisible && <Provider >
         <Portal>
           <Modal
             visible={modalVisible}
@@ -367,8 +364,8 @@ const ProfileViewController = ({ navigation }) => {
             </Button>
           </Modal>
         </Portal>
-      </Provider>
-    </View>
+      </Provider>}
+    </SafeAreaView>
   );
 };
 
@@ -379,12 +376,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
-  container2: {
-    flex: 0.5,
+  profileContainer: {
+    // flex: 0.5,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "5%",
+    // marginTop: "10%",
   },
   text: {
     marginBottom: "5%",
@@ -412,21 +409,24 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   containercolumn: {
-    flex: 0.25,
+    // flex: 0.25,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "25%",
+    // backgroundColor: 'purple'
+    // marginTop: "25%",
   },
   infoSect: {
     paddingHorizontal: 30,
     marginBottom: 25,
   },
   infoBoxWrapper: {
-    marginTop: "35%",
+    // marginTop: "35%",
+    // backgroundColor: 'red',
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: -5,
     // backgroundColor: "blue"
   },
   infoBox: {
@@ -434,7 +434,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: "5%",
-    marginTop: "23%",
+    // marginTop: "23%",
     // backgroundColor:"green"
   },
   buttonBox: {
@@ -442,14 +442,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: "5%",
-    marginTop: "23%",
+    // marginTop: "23%",
     // backgroundColor:"purple"
   },
 
   button: {
   
     marginBottom: 20,
-    height: "200%",
+    // height: "200%",
+    minHeight: 40,
     justifyContent: "center",
     alignItems: "center",
     // borderRadius: 15,
@@ -466,6 +467,10 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     fontSize: 43,
     fontFamily: "PingFangHK-Medium",
-    marginTop: "15%",
+    marginTop: 30,
+    // marginTop: "15%",
   },
+  column: {
+    marginTop: -5
+  }
 });
