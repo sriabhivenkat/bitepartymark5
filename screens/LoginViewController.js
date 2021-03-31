@@ -6,32 +6,32 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useContext } from 'react';
 import { AuthContext } from '../navigation/AuthProvider.js';
 import auth from '@react-native-firebase/auth';
-import { GoogleSignin } from '@react-native-community/google-signin';
-import { LoginManager, AccessToken } from 'react-native-fbsdk';
+// import { GoogleSignin } from '@react-native-community/google-signin';
+// import { LoginManager, AccessToken } from 'react-native-fbsdk';
 
 const LoginViewController = ({navigation}) => {
-    GoogleSignin.configure({
-        webClientId: '998304890071-5ha8c1cded22uj885qi2jchi7kn6kk1h.apps.googleusercontent.com'
-    });
+    // GoogleSignin.configure({
+    //     webClientId: '998304890071-5ha8c1cded22uj885qi2jchi7kn6kk1h.apps.googleusercontent.com'
+    // });
     
-    async function onGoogleButtonPress() {
-        const {idToken} = await GoogleSignin.signIn();
-        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-        return auth().signInWithCredential(googleCredential);
-    }
+    // async function onGoogleButtonPress() {
+    //     const {idToken} = await GoogleSignin.signIn();
+    //     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    //     return auth().signInWithCredential(googleCredential);
+    // }
 
-    async function onFacebookButtonPress() {
-        const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
-        if (result.isCancelled) {
-            throw 'shit be cancelled'
-        }
-        const data = await AccessToken.getCurrentAccessToken();
-        if(!data) {
-            throw 'something be wrong'
-        }
-        const facebookCred = auth.FacebookAuthProvider.credential(data.accessToken);
-        return auth().signInWithCredential(facebookCred);
-    }
+    // async function onFacebookButtonPress() {
+    //     const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+    //     if (result.isCancelled) {
+    //         throw 'shit be cancelled'
+    //     }
+    //     const data = await AccessToken.getCurrentAccessToken();
+    //     if(!data) {
+    //         throw 'something be wrong'
+    //     }
+    //     const facebookCred = auth.FacebookAuthProvider.credential(data.accessToken);
+    //     return auth().signInWithCredential(facebookCred);
+    // }
     return(
         <View style={styles.container}>
                 <Image source={require('../images/logo.png')} style={styles.logo} />
@@ -50,7 +50,7 @@ const LoginViewController = ({navigation}) => {
                         icon="google"
                         mode="outlined"
                         style={[styles.button]}
-                        onPress={() => onGoogleButtonPress().then(() => console.log("suck my dick"))}
+                        // onPress={() => onGoogleButtonPress().then(() => console.log("suck my dick"))}
                         color="white"
                     >
                         Log In with Google
@@ -59,7 +59,7 @@ const LoginViewController = ({navigation}) => {
                         icon="facebook"
                         mode="outlined"
                         style={[styles.button, {marginBottom: "3%"}]}
-                        onPress={() => onFacebookButtonPress().then(() => console.log("suck my nuts"))}
+                        // onPress={() => onFacebookButtonPress().then(() => console.log("suck my nuts"))}
                         color="white"
                     >
                         Log In with Facebook
