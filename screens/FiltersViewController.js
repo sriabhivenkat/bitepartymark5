@@ -33,8 +33,8 @@ const getUserLocation = () =>
 
 const FiltersViewController = ({ route, navigation }) => {
     const { user } = useContext(AuthContext);
-    const [radius, setRadius] = useState(0);
-    const [count, setCount] = useState(1);
+    const [radius, setRadius] = useState(5);
+    const [count, setCount] = useState(10);
     const [isFamily, setIsFamily] = useState(false);
     const [isFastFood, setIsFastFood] = useState(false);
 
@@ -55,11 +55,11 @@ const FiltersViewController = ({ route, navigation }) => {
       const loc = await getUserLocation();
       console.log(loc) 
 
-      const results = await index.search("", {
+      const results = (await index.search("", {
         aroundLatLng: loc.join(","),
         aroundRadius: Math.round(radius * 1609.34),
-        hitsPerPage: Math.round(count),
-      });
+        hitsPerPage: 30,
+      }))
 
       console.log(results)
 
@@ -76,7 +76,7 @@ const FiltersViewController = ({ route, navigation }) => {
         ]),
         matches: 0,
         id: hit.objectID
-      }));
+      })).sort(() => 0.5 - Math.random()).slice(0, Math.round(count));
     };
 
     console.info(partyID);
@@ -137,6 +137,7 @@ const FiltersViewController = ({ route, navigation }) => {
                 <Slider
                     value={radius}
                     onValueChange={(value) => setRadius(value)}
+                    minimumValue={1} 
                     maximumValue={50}
                     animateTransitions={true}
                     thumbStyle={{ width: "9%", height: "72%", }}
@@ -149,7 +150,8 @@ const FiltersViewController = ({ route, navigation }) => {
                 <Slider
                     value={count}
                     onValueChange={(value) => setCount(value)}
-                    maximumValue={10}
+                    minimumValue={3}
+                    maximumValue={15}
                     animateTransitions={true}
                     thumbStyle={{ width: "9%", height: "72%", }}
                     thumbTintColor={"#f76f6d"}
