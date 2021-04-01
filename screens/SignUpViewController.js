@@ -33,6 +33,7 @@ const SignUpViewController = ({navigation}) => {
         behavior = "padding"
         style = {styles.container} 
         >
+            
           
         <View style={styles.container}>
             <Text h2 style={[styles.text, {padding: 10, marginBottom: "5%"}]}>Enter email and password.</Text>

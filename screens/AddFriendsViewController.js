@@ -139,8 +139,11 @@ const AddFriendsViewController = () => {
                                 uidvalue: item.uidvalue
                               })
                            
-                              
-                            }}>
+                               .then(setVisible(false))
+                               .then(alert("You added " + item.firstName + " as a friend!"))
+                            }
+                            
+                           }>
                               {buttonMessage}
                           </Button>
                         
