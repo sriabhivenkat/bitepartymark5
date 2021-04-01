@@ -107,7 +107,7 @@ const DuosPartyScreen = ({ navigation, route }) => {
           // console.log(updatedData)
           await partyRef.set({restaurants: updatedData})
           await partyMemberRef.update({status: 'complete'})
-          navigation.navigate("test", { partyID })
+          navigation.replace("test", { partyID })
         }
       } catch (error) {
         console.error(error);
@@ -123,7 +123,7 @@ const DuosPartyScreen = ({ navigation, route }) => {
         const data = (await partyMemberRef.get()).data();
         // console.log({data});
         const status = data.status;
-        if (status == "complete") navigation.navigate("test", { partyID });
+        if (status == "complete") navigation.replace("test", { partyID });
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // backgroundColor: "#fff",
-    // backgroundColor: "purple",
+    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "space-around",
   },

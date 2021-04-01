@@ -4,7 +4,7 @@ import HomeViewController from '../screens/HomeViewController.js';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { AuthContext } from '../navigation/AuthProvider.js';
 import { useContext } from 'react';
-import { View } from 'react-native';
+import { View,Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SettingsViewController from '../screens/SettingsViewController.js'
@@ -116,6 +116,7 @@ const NearbyStack = () => (
             name="test"
             component={test}
             options={{
+                headerBackTitle: <Text>Back</Text>,
                 headerTitle: props => <LogoTitle {...props} />,
                 headerStyle: {
                     height: 120,
