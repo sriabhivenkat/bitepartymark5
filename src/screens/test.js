@@ -5,7 +5,7 @@ import {Card} from 'react-native-paper'
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { SafeAreaView } from "react-native";
 import { FlatList, StatusBar, Dimensions} from "react-native";
-import PartyCard from "../component/PartyCard.js";
+import PartyCard from "../components/PartyCard.js";
 import LinearGradient from "react-native-linear-gradient";
 import { Avatar } from "react-native-paper";
 import { Button } from 'react-native-paper';
@@ -68,8 +68,8 @@ const test = ({ navigation, route }) => {
               >
                 <Card.Content style={styles.innerCard}>
                   <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+                    <View>
                     <Avatar.Image size={50} source={{uri: item.imageUrlPath}} style={{marginRight: "5%"}}/>
-                    <View style={{flexDirection: "column", paddingRight: "2%"}}>
                       <Text p style={[styles.subText, {fontSize: 20, }]}>@{item.handle}</Text>
                       <Text style={[styles.subText, {fontSize: 15, fontWeight: "300"}]}>{item.firstName+" "+item.lastName}</Text>
                     </View>

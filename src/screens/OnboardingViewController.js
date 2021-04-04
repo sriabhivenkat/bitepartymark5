@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import { View, Text, Button, Image, StyleSheet, FlatList, Animated } from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 import slides from '../slides.js';
-import OnboardingItem from '../component/OnboardingItem.js'
+import OnboardingItem from '../components/OnboardingItem.js'
 
 const OnboardingViewController = ({navigation}) => {
     const scrollX = useRef(new Animated.Value(0)).current

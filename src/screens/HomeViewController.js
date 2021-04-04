@@ -4,8 +4,8 @@ import { StyleSheet, FlatList, StatusBar, Dimensions, View } from "react-native"
 import { AuthContext } from "../navigation/AuthProvider.js";
 import { Text } from "galio-framework";
 import firestore from "@react-native-firebase/firestore";
-import InviteCard from "../component/InviteCard";
-import PartyCard from "../component/PartyCard.js";
+import InviteCard from "../components/InviteCard";
+import PartyCard from "../components/PartyCard.js";
 import { SafeAreaView } from "react-native";
 
 const HomeViewController = ({ navigation }) => {

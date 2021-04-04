@@ -4,7 +4,7 @@ import { AuthContext } from '../navigation/AuthProvider.js';
 import { useContext } from 'react';
 import {Text, Input} from 'galio-framework';
 import {Button, Card} from 'react-native-paper'
-import {DismissKeyboard} from '../component/DismissKeyboard'
+import {DismissKeyboard} from '../components/DismissKeyboard'
 
 const SignUp1ViewController = ({route, navigation}) => {
     const [first, setFirst] = useState('');
