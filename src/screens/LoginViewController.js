@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import { View,  Image, StyleSheet, ImageBackground, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import {Text, Input} from 'galio-framework';
-import {Headline, TextInput, Button } from 'react-native-paper';
+import React from 'react';
+import { View,  Image, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {Text} from 'galio-framework';
+import { Button } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useContext } from 'react';
 import { AuthContext } from '../navigation/AuthProvider.js';

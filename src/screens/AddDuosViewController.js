@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Image, StyleSheet, Share } from 'react-native';
+import { View, StyleSheet, Share } from 'react-native';
 import { Text } from 'galio-framework';
 import { Avatar } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider.js';
 import { ListItem  } from 'react-native-elements';
-import firestore, { firebase } from "@react-native-firebase/firestore";
+import firestore from "@react-native-firebase/firestore";
 import LinearGradient from 'react-native-linear-gradient';
 import TouchableScale from 'react-native-touchable-scale';
 import { TouchableOpacity } from "react-native-gesture-handler";
