@@ -36,7 +36,7 @@ const test = ({ navigation, route }) => {
   }, [partyID]);
 
 
-  const currentWinner = party.winner ?  party.winner : party.restaurants.sort((a, b) => b.matches - a.matches)[0]
+  const currentWinner = party.winner ?  party.winner : party.restaurants && party.restaurants.sort((a, b) => b.matches - a.matches)[0]
 
   return (
     <SafeAreaView style={styles.container}>
