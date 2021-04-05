@@ -36,21 +36,30 @@ const test = ({ navigation, route }) => {
   }, [partyID]);
 
 
-  const currentWinner = party.winner ?  party.winner : party.restaurants.sort(() => 0.5-Math.random()).sort((a, b) => b.matches - a.matches)[0]
+  const currentWinner = party.winner ?  party.winner : party.restaurants.sort((a, b) => b.matches - a.matches)[0]
 
   return (
     <SafeAreaView style={styles.container}>
     <ScrollView>
     <View style={{height:50}}/>
+     
+      <View style={{flex: 0.4}}>
       <View style={{height: 60}}>
+        <Text h3 style={{fontFamily: "PingFangHK-Medium", textAlign: "center"}}>{party.winner ? "Winner" : "Running Winner"}</Text>
+     </View>
+      {party.restaurants &&
+        <View style={{flex:0.3, justifyContent: "center", paddingVertical: 100}}>
+          <Text h3 style={{textAlign: "center", color: "#ee0979",}}>{currentWinner.name}</Text> 
+        </View>
+      }
+       <View style={{height: 60}}>
         <Text h3 style={{fontFamily: "PingFangHK-Medium", textAlign: "center"}}>Party Stats</Text>
       </View>
-      <View style={{flex: 0.4}}>
       <FlatList
           data={members}
           style={{ paddingTop: 5}}
           snapToInterval={Dimensions.get('window').width}
-          horizontal
+          // horizontal
           // persistentScrollbar
           // disableIntervalMomentum
           decelerationRate="fast"
@@ -95,15 +104,8 @@ const test = ({ navigation, route }) => {
       </View>
       <Divider />
      <View style={{height:40}}/>
-     <View style={{height: 60}}>
-        <Text h3 style={{fontFamily: "PingFangHK-Medium", textAlign: "center"}}>{party.winner ? "Winner" : "Running Winner"}</Text>
-     </View>
-      {party.restaurants &&
-        <View style={{flex:0.3, justifyContent: "center", paddingVertical: 100}}>
-          <Text h3 style={{textAlign: "center", color: "#ee0979",}}>{currentWinner.name}</Text> 
-        </View>
-      }
-      {/* <Text>{JSON.stringify(party.restaurants.length, null, 2)}</Text> */}
+     
+      {/* <Text>{JSON.stringify(party.restaurants, null, 2)}</Text> */}
       {/* {winner1 &&
                 <Image source={require('../images/waitingPic.png')} >
 
