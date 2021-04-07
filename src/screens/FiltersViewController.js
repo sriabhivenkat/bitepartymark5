@@ -17,8 +17,8 @@ const getUserLocation = () =>
       Geolocation.getCurrentPosition(
         (position) => {
           const {latitude, longitude} = position.coords;
-          resolve([30.626549768953662, -96.35597622531617])
-          // resolve([latitude, longitude]);
+          // resolve([30.626549768953662, -96.35597622531617])
+          resolve([latitude, longitude]);
         },
         (error) => {
           reject(error);
@@ -48,8 +48,8 @@ const FiltersViewController = ({ route, navigation }) => {
     
     const getNearby = async (radius, count) => {
       const client = algoliasearch(
-        "09UQ1K8B5P",
-        "8acae8abeccfb55267b40a5d231b31e6"
+        "HKZL5TPBOR",
+        "4de96ea74e0d95a51d065d3f9c317fdb"
       );
       const index = client.initIndex("restaurants");
       const loc = await getUserLocation();
