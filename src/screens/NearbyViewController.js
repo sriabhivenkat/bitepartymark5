@@ -31,7 +31,7 @@ const NearbyViewController = ({navigation}) => {
                 </Text>
                 {flavorProfile==false &&
                     <View style={{flex:1, alignItems: "center"}}>
-                        <Image source={require('../images/empty_street.png')} style={{width: "80%", height: "60%"}}/>
+                        <Image source={require('../assets/images/empty_street.png')} style={{width: "80%", height: "60%"}}/>
                         <Text p numberOfLines={1} style={{fontFamily: "PingFangHK-Light", fontSize:20, marginTop: "2%", marginBottom: "2%"}}>Soooo empty... 😞</Text>
                         <TouchableOpacity
                             style={styles.button}

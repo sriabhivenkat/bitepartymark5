@@ -4,6 +4,8 @@ import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import messaging from "@react-native-firebase/messaging";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
+import { FuegoProvider } from "@nandorojo/swr-firestore";
+import ReactNativeFirebase from "@react-native-firebase/app";
 
 const theme = {
   ...DefaultTheme,
@@ -35,6 +37,20 @@ async function saveTokenToDatabase(token) {
     });
 }
 
+class CustomFuego {
+  // db;
+  // auth;
+  // functions;
+
+  constructor() {
+    this.db = firestore();
+    this.auth = auth;
+    // this.functions = functions;
+  }
+}
+
+const fuego = new CustomFuego();
+
 const App = () => {
   useEffect(() => requestUserPermission(), []);
   useEffect(() => {
@@ -52,7 +68,9 @@ const App = () => {
   }, []);
   return (
     <PaperProvider theme={theme}>
-      <Providers />
+      <FuegoProvider fuego={fuego}>
+        <Providers />
+      </FuegoProvider>
     </PaperProvider>
   );
 };

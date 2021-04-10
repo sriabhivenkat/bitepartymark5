@@ -26,8 +26,12 @@ const PartyCard = ({ invite = {}, onPress }) => {
               source={{ uri: invite.imagePath }}
               style={{ marginBottom: 8 }}
             />
-            {invite.isDuo && <Text style={styles.subText}>DUO</Text>}
-            {!invite.isDuo && <Text style={styles.subText}>GROUP</Text>}
+            {invite.isDuo && (
+              <Text style={styles.subText}>{`DUO (${invite.docID})`}</Text>
+            )}
+            {!invite.isDuo && (
+              <Text style={styles.subText}>{`GROUP (${invite.docID})`}</Text>
+            )}
           </View>
 
           <View style={styles.buttonContainer}>
@@ -35,9 +39,12 @@ const PartyCard = ({ invite = {}, onPress }) => {
               style={styles.buttonStyle}
               outline
               bg="#fff"
-              onPress={() => navigation.navigate("DuosPartyScreen", {
-                    partyID: invite.docID,
-                  })}
+              onPress={() =>
+                navigation.navigate("joinParty", {
+                  screen: "joinParty/swiping",
+                  params: { partyID: invite.docID },
+                })
+              }
             >
               Go!
             </GradientButton>

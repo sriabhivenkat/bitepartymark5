@@ -62,7 +62,7 @@ const LoginViewController = ({navigation}) => {
     return(
         <DismissKeyboard>
         <View style={styles.container}>
-                <Image source={require('../images/logo.png')} style={styles.logo} />
+                <Image source={require('../assets/images/logo.png')} style={styles.logo} />
                     <View style={{flex: 0.4, borderColor: "white"}}>
                         <Text h4 style={{textAlign: "center", fontWeight: "bold", color: "white", fontFamily: "PingFangHK-Medium"}}>Thousands of choices,</Text>
                         <Text h4 style={{textAlign: "center", fontWeight: "bold", color: "white", marginBottom: "15%", fontFamily: "PingFangHK-Medium"}}>right at your fingertips.</Text>
