@@ -26,41 +26,12 @@ const Card = ({ data }) => (
 );
 
 const Swiping = ({ navigation, route }) => {
-  // const { user } = useContext(AuthContext);
-  // const [party, setParty] = useState({});
   const [selections, setSelection] = useState({});
-  // const [isLoading, setIsLoading] = useState(true);
-
   const { partyID } = route.params;
-  const { party, partyMeta, addPartySelections } = useParty(partyID);
-
+  const { party, partyMember, partyMeta, addPartySelections } = useParty(
+    partyID
+  );
   const swiperRef = useRef(null);
-
-  // alert(JSON.stringify(partyID, null, 2))
-
-  // const partyRef = firebase.firestore().collection("Parties").doc(partyID);
-  // const partyMemberRef = partyRef.collection("members").doc(user.uid);
-
-  // console.log({ partyID, uid: user.uid });
-
-  // derived data...r
-  // const { restaurants } = party;
-
-  // const hasCompletedSwiping =
-  //   party && participants.map(({ uidvalue }) => uidvalue).includes(user.uid);
-
-  // subscribe to current party data, unsubscribe on unmount
-  // useEffect(() => {
-  //   const unsubscribe = partyRef.onSnapshot(
-  //     (snapshot) => setParty(snapshot.data()),
-  //     (err) => console.error(err)
-  //   );
-  //   return () => unsubscribe();
-  // }, [partyID]);
-
-  useEffect(() => console.log(JSON.stringify(selections, null, 2)), [
-    selections,
-  ]);
 
   // handle swiping complete
   useEffect(() => {
@@ -69,22 +40,10 @@ const Swiping = ({ navigation, route }) => {
       .catch((err) => console.error(err));
   }, [selections]);
 
-  // // redirect if swiping is already done
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       // console.log(JSON.stringify(partyMemberRef., null, 2))
-  //       const data = (await partyMemberRef.get()).data();
-  //       // console.log({data});
-  //       const status = data.status;
-  //       if (status == "complete")
-  //         navigation.replace("joinParty/completed", { partyID });
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   })();
-  // });
+  useEffect(() => {
+    if (partyMember?.status == "complete")
+      navigation.replace("joinParty/completed", { partyID });
+  }, [partyMember]);
 
   const handleYes = (item) => {
     setSelection((val) => ({
@@ -102,12 +61,9 @@ const Swiping = ({ navigation, route }) => {
     return true;
   };
 
-  console.log({ party, err: partyMeta.partyError });
-
   return (
     <View style={styles.container}>
-      {/* <Text>{JSON.stringify(party, null, 2)}</Text> */}
-      {!partyMeta.isLoading && (
+      {!partyMeta.isLoading && partyMember && (
         <SwipeCards
           ref={swiperRef}
           cards={party.restaurants}

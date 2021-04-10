@@ -20,7 +20,7 @@ const PartyCard = ({ invite = {}, onPress }) => {
         style={[styles.background]}
       >
         <Card.Content style={styles.innerCard}>
-          <View style={{ flexDirection: "column", alignItems: "center" }}>
+          <View style={{ flexDirection: "column", alignItems: "flex-start" }}>
             <Avatar.Image
               size={65}
               source={{ uri: invite.imagePath }}

@@ -1,8 +1,9 @@
 import { useCollection, useDocument } from "@nandorojo/swr-firestore";
 import firestore from "@react-native-firebase/firestore";
 import { useUser } from "./user";
-import algoliasearch from "algoliasearch";
-import { pick } from "lodash";
+import { getNearby } from "./yelp";
+// import algoliasearch from "algoliasearch";
+// import { pick } from "lodash";
 import { useState, useEffect } from "react";
 /*
 React Hooks
@@ -90,6 +91,7 @@ const addPartySelections = async (id, user, party, selections) => {
 
 const createParty = async (id, user, members, options) => {
   const restaurants = await getNearby(options);
+  console.log("restaurants");
   const partyRef = firestore().collection("Parties").doc(id);
   const usersRef = firestore().collection("Users");
 
@@ -131,40 +133,4 @@ const createParty = async (id, user, members, options) => {
   });
 
   await invitesBatch.commit();
-};
-
-const getNearby = async ({ radius, count, loc }) => {
-  const client = algoliasearch(
-    "HKZL5TPBOR",
-    "4de96ea74e0d95a51d065d3f9c317fdb"
-  );
-  const index = client.initIndex("restaurants");
-  // const loc = await getUserLocation();
-  // console.log(loc);
-
-  const results = await index.search("", {
-    aroundLatLng: loc.join(","),
-    aroundRadius: Math.round(radius * 1609.34),
-    hitsPerPage: 30,
-  });
-
-  // console.log(results);
-
-  return results.hits
-    .map((hit) => ({
-      ...pick(hit, [
-        "name",
-        "address",
-        "_geoloc",
-        "city",
-        "website",
-        "state",
-        "zip_code",
-        "cuisine",
-      ]),
-      matches: 0,
-      id: hit.objectID,
-    }))
-    .sort(() => 0.5 - Math.random())
-    .slice(0, Math.round(count));
 };

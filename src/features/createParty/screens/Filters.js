@@ -1,15 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Switch } from "react-native-paper";
 import { Text } from "galio-framework";
 import { Slider } from "react-native-elements";
-// import { AuthContext } from "../navigation/AuthProvider.js";
 import { TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { firebase } from "@react-native-firebase/firestore";
-import algoliasearch from "algoliasearch";
 import Geolocation from "@react-native-community/geolocation";
-import { pick } from "lodash";
 import { useParty } from "lib";
 
 const getUserLocation = () =>
@@ -18,8 +14,8 @@ const getUserLocation = () =>
     Geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        resolve([30.626549768953662, -96.35597622531617]);
-        // resolve([latitude, longitude]);
+        // resolve([30.626549768953662, -96.35597622531617]);
+        resolve([latitude, longitude]);
       },
       (error) => {
         reject(error);
@@ -45,49 +41,10 @@ const Filters = ({ route, navigation }) => {
   const toggleSwitch1 = () => setIsFamily((previousState) => !previousState);
   const toggleSwitch2 = () => setIsFastFood((previousState) => !previousState);
 
-  // const { partyID, members, admin} = route.params;
-
-  // const partyRef = firebase.firestore().collection("Parties").doc(partyID);
-  // const usersRef = firebase.firestore().collection("Users");
-
-  // const getNearby = async (radius, count) => {
-  //   const client = algoliasearch(
-  //     "HKZL5TPBOR",
-  //     "4de96ea74e0d95a51d065d3f9c317fdb"
-  //   );
-  //   const index = client.initIndex("restaurants");
-  //   const loc = await getUserLocation();
-  //   console.log(loc)
-
-  //   const results = (await index.search("", {
-  //     aroundLatLng: loc.join(","),
-  //     aroundRadius: Math.round(radius * 1609.34),
-  //     hitsPerPage: 30,
-  //   }))
-
-  //   console.log(results)
-
-  //   return results.hits.map((hit) => ({
-  //     ...pick(hit, [
-  //       "name",
-  //       "address",
-  //       "_geoloc",
-  //       "city",
-  //       "website",
-  //       "state",
-  //       "zip_code",
-  //       "cuisine",
-  //     ]),
-  //     matches: 0,
-  //     id: hit.objectID
-  //   })).sort(() => 0.5 - Math.random()).slice(0, Math.round(count));
-  // };
-
-  // console.info(partyID);
-
   const handlePress = async () => {
     try {
       const loc = await getUserLocation();
+      console.log(loc);
       const id = await createParty(selectedFriends, {
         loc,
         count,
@@ -95,7 +52,12 @@ const Filters = ({ route, navigation }) => {
         isFamily,
         isFastFood,
       });
-      alert(id);
+      navigation.navigate("joinParty", {
+        screen: "joinParty/swiping",
+        params: { partyID: id },
+      });
+
+      // alert(id);
     } catch (err) {
       console.error(err);
     }
@@ -121,7 +83,7 @@ const Filters = ({ route, navigation }) => {
           value={radius}
           onValueChange={(value) => setRadius(value)}
           minimumValue={1}
-          maximumValue={50}
+          maximumValue={24}
           animateTransitions={true}
           thumbStyle={{ width: "9%", height: "72%" }}
           thumbTintColor={"#f76f6d"}
