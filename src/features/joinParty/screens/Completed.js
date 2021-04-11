@@ -1,16 +1,19 @@
-import React, { useContext, useState, useEffect } from "react";
-import { View, Image, StyleSheet, ScrollView } from "react-native";
+import React from "react";
+import {
+  SafeAreaView,
+  View,
+  Image,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import { Text } from "galio-framework";
-import { SafeAreaView } from "react-native";
-import { FlatList, StatusBar, Dimensions } from "react-native";
+import { FlatList, Dimensions } from "react-native";
 import MemberCard from "components/MemberCard";
-import LinearGradient from "react-native-linear-gradient";
-import { Avatar } from "react-native-paper";
-import { Button } from "react-native-paper";
 import { Divider } from "react-native-elements";
 import { useParty, usePartyMembers } from "lib";
+import { TitleText, SubtitleText } from "components";
 
-const Completed = ({ navigation, route }) => {
+const Completed = ({ route }) => {
   const { partyID } = route.params;
   const { party } = useParty(partyID);
   const { partyMembers } = usePartyMembers(partyID);
@@ -22,56 +25,49 @@ const Completed = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={{ height: 50 }} />
+      <View style={styles.container}>
+        <ScrollView>
+          <View style={{ height: 50 }} />
 
-        <View style={{ flex: 0.4 }}>
-          <View style={{ height: 60 }}>
-            <Text
-              h3
-              style={{ fontFamily: "PingFangHK-Medium", textAlign: "center" }}
-            >
-              {party.winner ? "Winner" : "Running Winner"}
-            </Text>
-          </View>
-          {party.restaurants && (
-            <View
-              style={{
-                flex: 0.3,
-                justifyContent: "center",
-                paddingVertical: 100,
-              }}
-            >
-              <Text h3 style={{ textAlign: "center", color: "#ee0979" }}>
-                {currentWinner.name}
-              </Text>
+          <View style={{ flex: 0.4 }}>
+            <View>
+              <TitleText>
+                {party.winner ? "Winner" : "Running Winner"}
+              </TitleText>
+              <SubtitleText>
+                Your friends are still voting, but here's whose in the lead...
+              </SubtitleText>
             </View>
-          )}
-          <Divider />
+            {party.restaurants && (
+              <View
+                style={{
+                  flex: 0.2,
+                  justifyContent: "center",
+                  paddingVertical: 100,
+                }}
+              >
+                <Text h3 style={{ textAlign: "center", color: "#ee0979" }}>
+                  {currentWinner.name}
+                </Text>
+              </View>
+            )}
+            {/* <Divider /> */}
+            <TitleText>Members</TitleText>
 
-          <View style={{ height: 60 }}>
-            <Text
-              h3
-              style={{ fontFamily: "PingFangHK-Medium", textAlign: "center" }}
-            >
-              Party Stats
-            </Text>
+            <FlatList
+              data={partyMembers}
+              style={{ paddingTop: 5 }}
+              snapToInterval={Dimensions.get("window").width}
+              decelerationRate="fast"
+              indicatorStyle="black"
+              renderItem={({ item }) => <MemberCard data={item} />}
+              keyExtractor={(item) => item.docId}
+            />
           </View>
+          <View style={{ height: 40 }} />
 
-          <FlatList
-            data={partyMembers}
-            style={{ paddingTop: 5 }}
-            snapToInterval={Dimensions.get("window").width}
-            decelerationRate="fast"
-            indicatorStyle="black"
-            renderItem={({ item }) => <MemberCard data={item} />}
-            keyExtractor={(item) => item.docId}
-          />
-        </View>
-        <View style={{ height: 40 }} />
-
-        {/* <Text>{JSON.stringify(party.restaurants, null, 2)}</Text> */}
-        {/* {winner1 &&
+          {/* <Text>{JSON.stringify(party.restaurants, null, 2)}</Text> */}
+          {/* {winner1 &&
                 <Image source={require('../images/waitingPic.png')} >
 
                 <Text h3 style={{ color: "#f76f6d", fontFamily: "PingFangHK-Medium" }}>{winner1.nameR} Selected!</Text>
@@ -81,7 +77,8 @@ const Completed = ({ navigation, route }) => {
              <Image source={require('../images/waitingPic.png')} >
                 <Text h3 style={{ color: "#f76f6d", fontFamily: "PingFangHK-Medium" }}>Keep waiting!</Text>
             </Image>} */}
-      </ScrollView>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -92,9 +89,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    paddingHorizontal: 20,
+    // alignItems: "center",
+    // justifyContent: "center",
   },
   buttonContainer: {
     justifyContent: "center",
@@ -115,8 +112,8 @@ const styles = StyleSheet.create({
   background: {
     flexDirection: "row",
     minHeight: 40,
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
     borderRadius: 15,
   },
   subText: {

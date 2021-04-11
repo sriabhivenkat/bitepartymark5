@@ -3,7 +3,14 @@ import { TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Text } from "galio-framework";
 
-const GradientButton = ({ style, children, onPress, outline, bg, ...rest }) => (
+export const GradientButton = ({
+  style,
+  children,
+  onPress,
+  outline,
+  bg,
+  ...rest
+}) => (
   <TouchableOpacity
     // style={styles.button}
     activeOpacity={0.5}
@@ -44,5 +51,3 @@ const GradientButton = ({ style, children, onPress, outline, bg, ...rest }) => (
     </LinearGradient>
   </TouchableOpacity>
 );
-
-export default GradientButton;

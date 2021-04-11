@@ -9,7 +9,7 @@ import { Image } from "react-native";
 
 import CreatePartyNavigator from "features/createParty/CreatePartyNavigator";
 import JoinPartyNavigator from "features/joinParty/JoinPartyNavigator";
-import HomeViewController from "features/invitesDisplay/InvitesScreen";
+import InvitesDisplayNavigator from "features/invitesDisplay/InvitesDisplayNavigator";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -22,15 +22,6 @@ function LogoTitle() {
     />
   );
 }
-const HomeStack = ({ navigation }) => (
-  <Stack.Navigator>
-    <Stack.Screen
-      name="Home"
-      component={HomeViewController}
-      options={{ header: () => null }}
-    />
-  </Stack.Navigator>
-);
 
 const ProfileStack = () => (
   <Stack.Navigator>
@@ -73,8 +64,8 @@ const BottomTabNavigator = () => (
     initialRouteName={"Home"}
   >
     <Tab.Screen
-      name="Profile"
-      component={HomeStack}
+      name="Invites"
+      component={InvitesDisplayNavigator}
       options={{
         tabBarIcon: ({ focused }) => (
           <Ionicons
@@ -95,7 +86,7 @@ const BottomTabNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Party!"
+      name="Profile"
       component={ProfileStack}
       options={{
         tabBarIcon: ({ focused }) => (

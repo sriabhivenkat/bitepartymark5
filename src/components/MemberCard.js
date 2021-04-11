@@ -30,77 +30,78 @@ const MemberCard = ({ onPress, data, selected, status }) => {
   };
 
   return (
-    <AnimatedCard
-      style={[
-        styles.card,
-        { maxHeight: 250, marginBottom: 15 },
-        selected && {
-          backgroundColor: "#00000010",
-        },
-      ]}
-      elevation={1}
-      onPress={onPress}
-    >
-      <Card.Content style={styles.innerCard}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Avatar.Image size={35} source={{ uri: data.imageUrlPath }} />
+    <View style={styles.container}>
+      <AnimatedCard
+        style={[
+          styles.card,
+          { maxHeight: 250, marginBottom: 15 },
+          selected && {
+            backgroundColor: "#00000010",
+          },
+        ]}
+        elevation={1}
+        onPress={onPress}
+      >
+        <Card.Content style={styles.innerCard}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Avatar.Image size={35} source={{ uri: data.imageUrlPath }} />
 
-          <View style={styles.nameContainer}>
-            <Text
-              ellipsizeMode="tail"
-              // adjustsFontSizeToFit
-              numberOfLines={1}
-              style={[styles.text, styles.name]}
-            >
-              {`${data.firstName} ${data.lastName}`}
-            </Text>
-            <Text
-              // adjustsFontSizeToFit
-              numberOfLines={1}
-              style={[styles.text, styles.handle]}
-            >
-              @{data.handle}
-            </Text>
-          </View>
-          {data.status && (
-            <View style={styles.chipContainer}>
-              <Chip
-                style={{
-                  // minWidth: 100,
-                  backgroundColor: statusMap[data.status].color,
-                  justifyContent: "center",
-                }}
-                textStyle={{
-                  fontWeight: "600",
-                  color: statusMap[data.status].textColor,
-                }}
+            <View style={styles.nameContainer}>
+              <Text
+                ellipsizeMode="tail"
+                numberOfLines={1}
+                style={[styles.text, styles.name]}
               >
-                {statusMap[data.status].text}
-              </Chip>
+                {`${data.firstName} ${data.lastName}`}
+              </Text>
+              <Text
+                // adjustsFontSizeToFit
+                numberOfLines={1}
+                style={[styles.text, styles.handle]}
+              >
+                @{data.handle}
+              </Text>
             </View>
-          )}
-        </View>
-      </Card.Content>
-    </AnimatedCard>
+            {data.status && (
+              <View style={styles.chipContainer}>
+                <Chip
+                  style={{
+                    backgroundColor: statusMap[data.status].color,
+                    justifyContent: "center",
+                  }}
+                  textStyle={{
+                    fontWeight: "600",
+                    color: statusMap[data.status].textColor,
+                  }}
+                >
+                  {statusMap[data.status].text}
+                </Chip>
+              </View>
+            )}
+          </View>
+        </Card.Content>
+      </AnimatedCard>
+    </View>
   );
 };
 
 export default MemberCard;
 
 const styles = StyleSheet.create({
+  container: {
+    width: Dimensions.get("window").width - 20 * 2,
+    paddingHorizontal: 2,
+  },
   card: {
     borderRadius: 15,
     shadowRadius: 2,
-    marginHorizontal: 20,
     paddingHorizontal: 10,
-    paddingVertical: 0,
-    width: Dimensions.get("window").width - 20 * 2,
   },
   buttonContainer: {
     justifyContent: "center",

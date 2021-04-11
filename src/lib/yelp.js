@@ -1,42 +1,4 @@
-// const getRestaurants = async ({ radius, count, loc }) => {
-//   const client = algoliasearch(
-//     "HKZL5TPBOR",
-//     "4de96ea74e0d95a51d065d3f9c317fdb"
-//   );
-//   const index = client.initIndex("restaurants");
-//   // const loc = await getUserLocation();
-//   // console.log(loc);
-
-//   const results = await index.search("", {
-//     aroundLatLng: loc.join(","),
-//     aroundRadius: Math.round(radius * 1609.34),
-//     hitsPerPage: 30,
-//   });
-
-//   // console.log(results);
-
-//   return results.hits
-//     .map((hit) => ({
-//       //   ...pick(hit, [
-//       //     "name",
-//       //     "url",
-//       //     "rating",
-//       //     "price",
-//       //     "address",
-//       //     "_geoloc",
-//       //     "city",
-//       //     "website",
-//       //     "state",
-//       //     "zip_code",
-//       //     "cuisine",
-//       //   ]),
-//       ...hit,
-//       matches: 0,
-//       id: hit.objectID,
-//     }))
-//     .sort(() => 0.5 - Math.random())
-//     .slice(0, Math.round(count));
-// };
+import Geolocation from "@react-native-community/geolocation";
 
 export const getNearby = async ({ radius, count, loc }) => {
   const res = await fetch(
@@ -57,3 +19,23 @@ export const getNearby = async ({ radius, count, loc }) => {
     .sort(() => 0.5 - Math.random())
     .slice(0, Math.round(count));
 };
+
+export const getUserLocation = () =>
+  // Promisify Geolocation.getCurrentPosition since it relies on outdated callbacks
+  new Promise((resolve, reject) => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        // resolve([30.626549768953662, -96.35597622531617]);
+        resolve([latitude, longitude]);
+      },
+      (error) => {
+        reject(error);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 5,
+      }
+    );
+  });

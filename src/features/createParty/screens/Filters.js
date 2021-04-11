@@ -5,28 +5,7 @@ import { Text } from "galio-framework";
 import { Slider } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import Geolocation from "@react-native-community/geolocation";
-import { useParty } from "lib";
-
-const getUserLocation = () =>
-  // Promisify Geolocation.getCurrentPosition since it relies on outdated callbacks
-  new Promise((resolve, reject) => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        // resolve([30.626549768953662, -96.35597622531617]);
-        resolve([latitude, longitude]);
-      },
-      (error) => {
-        reject(error);
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 5,
-      }
-    );
-  });
+import { useParty, getUserLocation } from "lib";
 
 const Filters = ({ route, navigation }) => {
   const [radius, setRadius] = useState(5);
@@ -44,7 +23,6 @@ const Filters = ({ route, navigation }) => {
   const handlePress = async () => {
     try {
       const loc = await getUserLocation();
-      console.log(loc);
       const id = await createParty(selectedFriends, {
         loc,
         count,
@@ -56,8 +34,6 @@ const Filters = ({ route, navigation }) => {
         screen: "joinParty/swiping",
         params: { partyID: id },
       });
-
-      // alert(id);
     } catch (err) {
       console.error(err);
     }

@@ -32,17 +32,20 @@ const Swiping = ({ navigation, route }) => {
     partyID
   );
   const swiperRef = useRef(null);
+  const hasNavigated = useRef(false);
 
   // handle swiping complete
   useEffect(() => {
     addPartySelections(selections)
-      .then(() => navigation.replace("joinParty/completed", { partyID }))
+      // .then(() => navigation.replace("joinParty/completed", { partyID }))
       .catch((err) => console.error(err));
   }, [selections]);
 
   useEffect(() => {
-    if (partyMember?.status == "complete")
+    if (partyMember?.status == "complete" && !hasNavigated.current) {
+      hasNavigated.current = true;
       navigation.replace("joinParty/completed", { partyID });
+    }
   }, [partyMember]);
 
   const handleYes = (item) => {

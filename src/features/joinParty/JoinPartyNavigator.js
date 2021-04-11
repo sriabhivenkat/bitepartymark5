@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 export default ({ route }) => {
   // console.log({ bar: route.params });
   return (
-    <Stack.Navigator>
+    <Stack.Navigator mode="modal">
       <Stack.Screen
         name="joinParty/swiping"
         component={Swiping}
@@ -19,7 +19,11 @@ export default ({ route }) => {
       <Stack.Screen
         name="joinParty/completed"
         component={Completed}
-        options={{ title: "Party", headerShown: false }}
+        options={{
+          title: "Party",
+          headerShown: false,
+          animationEnabled: false,
+        }}
       />
     </Stack.Navigator>
   );

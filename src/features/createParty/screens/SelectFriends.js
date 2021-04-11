@@ -9,7 +9,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
 import { useFriends } from "lib";
 import MemberCard from "components/MemberCard";
-import GradientButton from "components/GradientButton";
 
 const SelectFriends = ({ route, navigation }) => {
   const { friends } = useFriends();
@@ -109,7 +108,7 @@ const SelectFriends = ({ route, navigation }) => {
           />
         ))}
 
-      <View style={styles.buttonContainer}>
+      <View style={[styles.buttonContainer]}>
         {selectedFriends.length != 0 && (
           <TouchableOpacity
             style={styles.button}
@@ -186,6 +185,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
+    paddingHorizontal: 20,
   },
   queryView: {
     flex: 0.13,
@@ -201,13 +201,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: "15%",
-  },
-  button: {
-    marginTop: 20,
-    height: 37,
-    width: "50%",
-    backgroundColor: "#F76F6D",
-    borderRadius: 15,
   },
   title: {
     padding: "5%",
@@ -249,8 +242,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     position: "absolute",
     bottom: 0,
-    display: "flex",
-    width: "100%",
+    left: 0,
+    right: 0,
   },
   button: {
     height: 50,

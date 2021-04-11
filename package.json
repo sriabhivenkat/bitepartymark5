@@ -4,6 +4,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "web": "expo start --web",
+    "generate-barrels": "barrelsby --delete -d ./src",
     "start": "react-native start",
     "test": "jest"
   },
@@ -71,6 +72,7 @@
     "@babel/core": "~7.9.0",
     "babel-jest": "~25.2.6",
     "babel-plugin-module-resolver": "^4.1.0",
+    "barrelsby": "^2.2.0",
     "eslint": "^7.23.0",
     "eslint-plugin-react": "^7.23.1",
     "jest": "~25.2.6",

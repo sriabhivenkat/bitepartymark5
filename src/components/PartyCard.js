@@ -2,11 +2,11 @@ import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { Text } from "galio-framework";
 import { Card, Avatar } from "react-native-paper";
-import GradientButton from "./GradientButton";
+import { GradientButton } from "./";
 import LinearGradient from "react-native-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 
-const PartyCard = ({ invite = {}, onPress }) => {
+export const PartyCard = ({ invite = {}, onPress }) => {
   const navigation = useNavigation();
   return (
     <Card
@@ -55,13 +55,12 @@ const PartyCard = ({ invite = {}, onPress }) => {
   );
 };
 
-export default PartyCard;
+// export default PartyCard;
 
 const styles = StyleSheet.create({
   card: {
     borderRadius: 25,
     shadowRadius: 2,
-    marginHorizontal: 20,
     width: Dimensions.get("window").width - 20 * 2,
   },
   buttonContainer: {
