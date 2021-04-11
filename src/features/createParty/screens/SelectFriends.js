@@ -58,7 +58,7 @@ const SelectFriends = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <Text h3 style={styles.title}>
-        Who's coming?
+        {`Who's coming?`}
       </Text>
 
       {/* {friends.map((item) => (

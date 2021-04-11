@@ -9,7 +9,9 @@ export const TitleText = ({ children, style, ...rest }) => (
 );
 
 export const SubtitleText = ({ children, style, ...rest }) => (
-  <Text style={[styles.subtitle, style]}>{children}</Text>
+  <Text style={[styles.subtitle, style]} {...rest}>
+    {children}
+  </Text>
 );
 
 const styles = StyleSheet.create({

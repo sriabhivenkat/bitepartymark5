@@ -2,51 +2,15 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import SettingsViewController from "../screens/SettingsViewController.js";
-import ProfileViewController from "../screens/ProfileViewController.js";
-import AddFriendsViewController from "../screens/AddFriendsViewController.js";
-import { Image } from "react-native";
 
+import AddFriendsViewController from "../screens/AddFriendsViewController.js";
 import CreatePartyNavigator from "features/createParty/CreatePartyNavigator";
 import JoinPartyNavigator from "features/joinParty/JoinPartyNavigator";
 import InvitesDisplayNavigator from "features/invitesDisplay/InvitesDisplayNavigator";
+import ProfileNavigator from "features/profile/ProfileNavigator";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
-function LogoTitle() {
-  return (
-    <Image
-      style={{ width: 100, height: 75, alignItems: "center" }}
-      source={require("../assets/images/headerlogo.png")}
-    />
-  );
-}
-
-const ProfileStack = () => (
-  <Stack.Navigator>
-    <Stack.Screen
-      name="Profile"
-      component={ProfileViewController}
-      options={{ header: () => null }}
-    />
-    <Stack.Screen
-      name="Add Friends"
-      component={AddFriendsViewController}
-      options={{ header: () => null }}
-    />
-    <Stack.Screen
-      name="Settings"
-      component={SettingsViewController}
-      options={{
-        headerTitle: (props) => <LogoTitle {...props} />,
-        headerStyle: {
-          height: 120,
-        },
-      }}
-    />
-  </Stack.Navigator>
-);
 
 const BottomTabNavigator = () => (
   <Tab.Navigator
@@ -56,9 +20,7 @@ const BottomTabNavigator = () => (
       style: {
         backgroundColor: "white",
         borderTopColor: "white",
-        // marginTop: 10,
       },
-      // headerShown: false,
       tintColor: "#f76f6d",
     }}
     initialRouteName={"Home"}
@@ -87,7 +49,7 @@ const BottomTabNavigator = () => (
     />
     <Tab.Screen
       name="Profile"
-      component={ProfileStack}
+      component={ProfileNavigator}
       options={{
         tabBarIcon: ({ focused }) => (
           <Ionicons
@@ -112,6 +74,11 @@ const AppStack = () => (
       name="joinParty"
       component={JoinPartyNavigator}
       options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="Add Friends"
+      component={AddFriendsViewController}
+      options={{ header: () => null }}
     />
   </Stack.Navigator>
 );
