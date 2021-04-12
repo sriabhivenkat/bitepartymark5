@@ -1,22 +1,21 @@
-import React, {useContext, useState, useEffect} from 'react';
-import {Alert} from 'react-native';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
-import auth from '@react-native-firebase/auth';
-import {AuthContext} from './AuthProvider';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
+import React, { useContext, useState, useEffect } from "react";
+import { Alert } from "react-native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import auth from "@react-native-firebase/auth";
+import { AuthContext } from "./AuthProvider";
+import dynamicLinks from "@react-native-firebase/dynamic-links";
 
-
-import AuthStack from './AuthStack';
-import AppStack from './AppStack';
+import AuthStack from "./AuthStack";
+import AppStack from "./AppStack";
 
 const Routes = () => {
-  const {user, setUser} = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [initializing, setInitializing] = useState(true);
   // const navigation = useNavigation();
 
   const onAuthStateChanged = (user) => {
     setUser(user);
-    if (initializing==true) setInitializing(false);
+    if (initializing == true) setInitializing(false);
   };
 
   useEffect(() => {
@@ -27,8 +26,8 @@ const Routes = () => {
   useEffect(() => {
     dynamicLinks()
       .getInitialLink()
-      .then(link => {
-        handleDynamicLink(link)
+      .then((link) => {
+        handleDynamicLink(link);
       });
   }, []);
 
@@ -38,12 +37,12 @@ const Routes = () => {
     return () => unsubscribe();
   }, []);
 
-  const handleDynamicLink = link => {
+  const handleDynamicLink = (link) => {
     // AWFUL WAY TO PARSE LINKS - WILL FIX
     const url = link.url.slice(0, 26);
     const id = link.url.slice(30);
-    console.log({url, id, foo: link.url})
-    if (url == 'https://biteparty.app/join') {
+    console.log({ url, id, foo: link.url });
+    if (url == "https://biteparty.app/join") {
       Alert.alert(
         "Party Invite",
         `You've been invited to a party (id=${id})`,
@@ -51,10 +50,10 @@ const Routes = () => {
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
           // { text: "Go!", onPress: () => navigation.navigate("DuosPartyScreen", { partyID: item.docID }) }
-        ],
+        ]
         // { cancelable: false }
       );
     }

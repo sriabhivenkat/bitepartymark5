@@ -1,27 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   View,
   Image,
   StyleSheet,
   ScrollView,
+  Button,
 } from "react-native";
 import { Text } from "galio-framework";
 import { FlatList, Dimensions } from "react-native";
 import MemberCard from "components/MemberCard";
 import { Divider } from "react-native-elements";
-import { useParty, usePartyMembers } from "lib";
+import { usePartyData, usePartyMembers } from "lib";
 import { TitleText, SubtitleText } from "components";
 
 const Completed = ({ route }) => {
   const { partyID } = route.params;
-  const { party } = useParty(partyID);
+  // const { party, partyMeta } = useParty(partyID);
   const { partyMembers } = usePartyMembers(partyID);
 
-  const currentWinner = party.winner
-    ? party.winner
-    : party.restaurants &&
-      party.restaurants.sort((a, b) => b.matches - a.matches)[0];
+  const { party } = usePartyData(partyID);
+
+  const currentWinner = party?.winner
+    ? party?.winner
+    : party?.restaurants &&
+      party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
+
+  // console.log({ party: party.winner, partyMembers });
+
+  // useEffect(() => {
+  //   console.error(partyMeta.error);
+  // }, [partyMeta]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,24 +39,34 @@ const Completed = ({ route }) => {
           <View style={{ height: 50 }} />
 
           <View style={{ flex: 0.4 }}>
+            {/* <Button onPress={() => setFoo()} title="Press Me!" /> */}
             <View>
               <TitleText>
-                {party.winner ? "Winner" : "Running Winner"}
+                {party?.winner ? "Winner" : "Running Winner"}
               </TitleText>
-              <SubtitleText>
-                Your friends are still voting, but here's whose in the lead...
-              </SubtitleText>
+              {!party.winner && (
+                <SubtitleText>
+                  Your friends are still voting, but here's what's in the
+                  lead...
+                </SubtitleText>
+              )}
             </View>
-            {party.restaurants && (
+            {party && (
               <View
                 style={{
                   flex: 0.2,
                   justifyContent: "center",
-                  paddingVertical: 100,
+                  paddingVertical: 50,
+                  marginVertical: 50,
+                  borderWidth: 3,
+                  borderRadius: 25,
+                  paddingHorizontal: 15,
+                  borderColor: "#ee0979",
+                  // paddingVertical: 20,
                 }}
               >
                 <Text h3 style={{ textAlign: "center", color: "#ee0979" }}>
-                  {currentWinner.name}
+                  {currentWinner?.name}
                 </Text>
               </View>
             )}

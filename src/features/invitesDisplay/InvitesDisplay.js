@@ -13,6 +13,9 @@ import { useInvites } from "lib/invites.js";
 const InvitesDisplay = ({ navigation }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
 
+  const acceptedInvites = invites?.filter((item) => item.status == "accepted");
+  const pendingInvites = invites?.filter((item) => item.status == "pending");
+
   const handleAccept = (invite) =>
     acceptInvite(invite)
       .then(() =>
@@ -25,17 +28,18 @@ const InvitesDisplay = ({ navigation }) => {
   const handleReject = (invite) => {
     rejectInvite(invite).catch((err) => console.error(err));
   };
+  // console.log({ pendingInvites });
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <TitleText style={styles.title}>Parties</TitleText>
+        {acceptedInvites?.length > 0 && (
+          <TitleText style={styles.title}>Parties</TitleText>
+        )}
         <View>
           <FlatList
-            data={
-              invites && invites.filter((item) => item.status == "accepted")
-            }
+            data={invites && acceptedInvites}
             style={{ paddingTop: 5 }}
             snapToInterval={Dimensions.get("window").width}
             horizontal
@@ -46,15 +50,17 @@ const InvitesDisplay = ({ navigation }) => {
           />
         </View>
 
-        <TitleText style={styles.subtitle}>Invites</TitleText>
-        <SubtitleText style={styles.subtitle}>
-          No pending invites, invite some friends to BiteParty to get started!
-        </SubtitleText>
+        <TitleText style={[styles.subtitle, styles.title]}>Invites</TitleText>
+        {pendingInvites?.length <= 0 && (
+          <SubtitleText style={styles.subtitle}>
+            No pending invites, invite some friends to BiteParty to get started!
+          </SubtitleText>
+        )}
         <View>
           <FlatList
-            data={invites && invites.filter((item) => item.status == "pending")}
+            data={pendingInvites && pendingInvites}
             style={{ paddingTop: 5 }}
-            horizontal
+            // horizontal
             snapToInterval={Dimensions.get("window").width}
             indicatorStyle="black"
             decelerationRate="fast"

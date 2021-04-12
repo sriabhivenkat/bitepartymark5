@@ -19,7 +19,7 @@ export const useParty = (id) => {
   });
 
   const { data: partyMember } = useDocument(
-    `Parties/${partyId}/members/${user.uidvalue}`,
+    `Parties/${partyId}/members/${user?.uidvalue}`,
     {
       listen: true,
     }
@@ -54,6 +54,24 @@ export const useParty = (id) => {
   };
 };
 
+export const usePartyData = (id) => {
+  const [party, setParty] = useState({});
+
+  firestore().collection("Parties").doc(id);
+  useEffect(() => {
+    const unsubscribe = firestore()
+      .collection("Parties")
+      .doc(id)
+      .onSnapshot(
+        (snapshot) => setParty(snapshot.data()),
+        (err) => console.error(err)
+      );
+    return () => unsubscribe();
+  }, [id]);
+
+  return { party };
+};
+
 export const usePartyMembers = (id) => {
   const { data, error } = useCollection(`Parties/${id}/members`, {
     listen: true,
@@ -74,7 +92,7 @@ Helper Methods
 
 const addPartySelections = async (id, user, party, selections) => {
   console.log({ selections });
-  if (Object.keys(selections).length != party.restaurants?.length)
+  if (Object.keys(selections).length != party?.restaurants?.length)
     throw new Error("Not enough items yet");
 
   const partyRef = firestore().collection("Parties").doc(id);

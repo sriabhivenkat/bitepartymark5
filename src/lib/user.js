@@ -11,6 +11,8 @@ export const useUser = () => {
   console.log(ctxUser.uid);
   const { data, error } = useDocument(`Users/${ctxUser.uid}`);
 
+  console.log({ data, error });
+
   return {
     user: data,
     userMeta: {

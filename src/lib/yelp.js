@@ -4,7 +4,7 @@ export const getNearby = async ({ radius, count, loc }) => {
   const res = await fetch(
     `https://api.yelp.com/v3/businesses/search?latitude=${loc[0]}&longitude=${
       loc[1]
-    }&radius=${1609 * radius}&open_now=true&term=restaurants`,
+    }&radius=${Math.round(1609 * radius)}&open_now=true&term=restaurants`,
     {
       headers: {
         Authorization:
@@ -15,9 +15,12 @@ export const getNearby = async ({ radius, count, loc }) => {
 
   const data = await res.json();
 
+  console.log({ data });
+
   return data.businesses
     .sort(() => 0.5 - Math.random())
-    .slice(0, Math.round(count));
+    .slice(0, Math.round(count))
+    .map((item) => ({ ...item, matches: 0 }));
 };
 
 export const getUserLocation = () =>

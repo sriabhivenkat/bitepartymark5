@@ -1,8 +1,6 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { View, Image, StyleSheet, Text, Dimensions } from "react-native";
-// import { AuthContext } from "navigation/AuthProvider.js";
-// import firestore, { firebase } from "@react-native-firebase/firestore";
-import { FAB } from "react-native-paper";
+import { FAB, Chip } from "react-native-paper";
 import SwipeCards from "react-native-swipe-cards-deck";
 import LinearGradient from "react-native-linear-gradient";
 import { useParty } from "lib";
@@ -16,11 +14,32 @@ const Card = ({ data }) => (
   >
     <View>
       <Text style={styles.titleText}>{data.name}</Text>
-      <Text style={styles.cuisineText}>{data.cuisine}</Text>
+      <View
+        flexDirection="row"
+        marginVertical={15}
+        flexWrap="wrap"
+        justifyContent="center"
+      >
+        {data.categories.map((item, i) => (
+          <Chip
+            key={i}
+            maxWidth={100}
+            textAlign="center"
+            marginHorizontal={10}
+            marginVertical={5}
+          >
+            {item.title}
+          </Chip>
+        ))}
+      </View>
+      {/* <Text style={styles.cuisineText}>{data.cuisine}</Text> */}
     </View>
     <View>
-      <Text style={styles.addressText}>{data.address} </Text>
-      <Text style={styles.addressText}>{data.city + "," + data.state}</Text>
+      {data.location.display_address.map((item, i) => (
+        <Text key={i} style={styles.addressText}>
+          {item}
+        </Text>
+      ))}
     </View>
   </LinearGradient>
 );

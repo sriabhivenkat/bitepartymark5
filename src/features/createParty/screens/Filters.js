@@ -13,9 +13,10 @@ const Filters = ({ route, navigation }) => {
   const [isFamily, setIsFamily] = useState(false);
   const [isFastFood, setIsFastFood] = useState(false);
 
-  const { createParty } = useParty();
+  const { selectedFriends, partyId } = route.params;
+  console.log({ partyId });
 
-  const { selectedFriends } = route.params;
+  const { createParty } = useParty(partyId);
 
   const toggleSwitch1 = () => setIsFamily((previousState) => !previousState);
   const toggleSwitch2 = () => setIsFastFood((previousState) => !previousState);

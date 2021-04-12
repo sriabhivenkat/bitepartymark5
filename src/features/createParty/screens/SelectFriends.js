@@ -7,39 +7,40 @@ import LinearGradient from "react-native-linear-gradient";
 import TouchableScale from "react-native-touchable-scale";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
-import { useFriends } from "lib";
+import { useFriends, useParty } from "lib";
 import MemberCard from "components/MemberCard";
 
 const SelectFriends = ({ route, navigation }) => {
   const { friends } = useFriends();
+  const { partyId } = useParty();
   const [selectedFriends, setSelectedFriends] = useState([]);
 
-  // const generateLink = async (groupId) => {
-  //   const link = await dynamicLinks().buildShortLink({
-  //     link: `https://biteparty.app/join?id=${groupId}`,
-  //     domainUriPrefix: "https://biteparty.page.link",
-  //     androidInfo: {
-  //       androidPackageName: "com.kastech.biteparty",
-  //     },
-  //     iosInfo: {
-  //       iosBundleId: "com.kastech.biteparty",
-  //     },
-  //   });
-  //   // alert(link)
-  //   console.log(link);
+  const generateLink = async (groupId) => {
+    const link = await dynamicLinks().buildShortLink({
+      link: `https://biteparty.app/join?id=${partyId}`,
+      domainUriPrefix: "https://biteparty.page.link",
+      androidInfo: {
+        androidPackageName: "com.kastech.biteparty",
+      },
+      iosInfo: {
+        iosBundleId: "com.kastech.biteparty",
+      },
+    });
+    // alert(link)
+    console.log(link);
 
-  //   return link;
-  // };
+    return link;
+  };
 
-  // const onShare = async ({ url }) => {
-  //   try {
-  //     const result = await Share.share({
-  //       message: `BiteParty | Join the party! ${url}`,
-  //     });
-  //   } catch (error) {
-  //     alert(error.message);
-  //   }
-  // };
+  const onShare = async ({ url }) => {
+    try {
+      const result = await Share.share({
+        message: `BiteParty | Join the party! ${url}`,
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   const toggleSelection = (friend) => {
     const exists = selectedFriends.find(
@@ -115,7 +116,7 @@ const SelectFriends = ({ route, navigation }) => {
             activeOpacity={0.9}
             onPress={() => {
               navigation.navigate("createParty/filters", {
-                // partyId,
+                partyId,
                 selectedFriends,
               });
             }}
@@ -149,7 +150,7 @@ const SelectFriends = ({ route, navigation }) => {
          </GradientButton> */}
         <TouchableOpacity
           activeOpacity={0.9}
-          // onPress={async () => onShare({ url: await generateLink(groupId) })}
+          onPress={async () => onShare({ url: await generateLink() })}
           style={{ height: 50, marginHorizontal: "20%", marginVertical: 15 }}
         >
           <LinearGradient

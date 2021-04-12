@@ -95,7 +95,7 @@ const ProfileDisplay = ({ navigation }) => {
           <View style={styles.profileContainer}>
             <TouchableOpacity onPress={showModal}>
               <Image
-                source={{ uri: user.imageUrl }}
+                source={{ uri: user?.imageUrl }}
                 style={{
                   width: Dimensions.get("screen").width * 0.4,
                   height: Dimensions.get("screen").width * 0.4,
@@ -118,7 +118,7 @@ const ProfileDisplay = ({ navigation }) => {
                   fontWeight: "normal",
                 }}
               >
-                @{user.handle}
+                @{user?.handle}
               </Text>
             </View>
           </View>
@@ -148,7 +148,7 @@ const ProfileDisplay = ({ navigation }) => {
                   fontWeight: "normal",
                 }}
               >
-                {invites.filter(({ status }) => status == "completed").length}
+                {invites?.filter(({ status }) => status == "completed").length}
               </Title>
               <Caption style={{ color: "black", fontSize: 20 }}>
                 Parties
