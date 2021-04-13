@@ -139,7 +139,7 @@ const createParty = async (id, user, members, options) => {
     const docRef = usersRef
       .doc(doc.uidvalue)
       .collection("invitations")
-      .doc(doc.uidvalue);
+      .doc(user.uidvalue);
     invitesBatch.set(docRef, {
       timestamp: firestore.FieldValue.serverTimestamp(),
       inviter: user.handle,

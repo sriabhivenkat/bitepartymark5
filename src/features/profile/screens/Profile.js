@@ -148,7 +148,7 @@ const ProfileDisplay = ({ navigation }) => {
                   fontWeight: "normal",
                 }}
               >
-                {invites?.filter(({ status }) => status == "completed").length}
+                {invites?.filter(({ status }) => status == "accepted").length}
               </Title>
               <Caption style={{ color: "black", fontSize: 20 }}>
                 Parties

@@ -4,7 +4,11 @@ export const getNearby = async ({ radius, count, loc }) => {
   const res = await fetch(
     `https://api.yelp.com/v3/businesses/search?latitude=${loc[0]}&longitude=${
       loc[1]
-    }&radius=${Math.round(1609 * radius)}&open_now=true&term=restaurants`,
+    }&radius=${Math.round(
+      1609 * radius
+    )}&open_now=true&term=restaurants&categories=${["food", "restaurants"].join(
+      ","
+    )}`,
     {
       headers: {
         Authorization:

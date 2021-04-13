@@ -1,12 +1,10 @@
 {
-  "name": "bitepartymark4",
-  "displayName": "bitepartymark4",
+  "name": "Bite! Party",
+  "displayName": "Bite! Party",
   "expo": {
-    "name": "bitepartymark4",
-    "slug": "bitepartymark4",
+    "name": "Bite! Party",
+    "slug": "biteparty",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"]
   }
 }

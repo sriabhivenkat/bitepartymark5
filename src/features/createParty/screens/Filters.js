@@ -6,6 +6,7 @@ import { Slider } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useParty, getUserLocation } from "lib";
+import { ScrollView } from "react-native";
 
 const Filters = ({ route, navigation }) => {
   const [radius, setRadius] = useState(5);
@@ -41,7 +42,7 @@ const Filters = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}>Set some filters</Text>
 
       <View style={{ marginTop: "5%" }}>
@@ -220,7 +221,7 @@ const Filters = ({ route, navigation }) => {
           </LinearGradient>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ScrollView,
   Button,
+  TouchableOpacity,
 } from "react-native";
 import { Text } from "galio-framework";
 import { FlatList, Dimensions } from "react-native";
@@ -13,8 +14,8 @@ import MemberCard from "components/MemberCard";
 import { Divider } from "react-native-elements";
 import { usePartyData, usePartyMembers } from "lib";
 import { TitleText, SubtitleText } from "components";
-
-const Completed = ({ route }) => {
+import Ionicons from "react-native-vector-icons/Ionicons";
+const Completed = ({ route, navigation }) => {
   const { partyID } = route.params;
   // const { party, partyMeta } = useParty(partyID);
   const { partyMembers } = usePartyMembers(partyID);
@@ -97,6 +98,14 @@ const Completed = ({ route }) => {
                 <Text h3 style={{ color: "#f76f6d", fontFamily: "PingFangHK-Medium" }}>Keep waiting!</Text>
             </Image>} */}
         </ScrollView>
+      </View>
+      <View justifyContent="center" alignItems="center" marginVertical={10}>
+        <TouchableOpacity
+          justifyContent="center"
+          onPress={() => navigation.navigate({ name: "home" })}
+        >
+          <Ionicons name="home" size={25} />
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

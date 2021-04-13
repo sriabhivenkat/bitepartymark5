@@ -26,7 +26,7 @@ const BottomTabNavigator = () => (
     initialRouteName={"Home"}
   >
     <Tab.Screen
-      name="Invites"
+      name="invites"
       component={InvitesDisplayNavigator}
       options={{
         tabBarIcon: ({ focused }) => (
@@ -39,7 +39,7 @@ const BottomTabNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Home"
+      name="home"
       component={CreatePartyNavigator}
       options={{
         tabBarIcon: ({ focused }) => (
@@ -48,7 +48,7 @@ const BottomTabNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Profile"
+      name="profile"
       component={ProfileNavigator}
       options={{
         tabBarIcon: ({ focused }) => (

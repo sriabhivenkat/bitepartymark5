@@ -9,6 +9,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
 import { useFriends, useParty } from "lib";
 import MemberCard from "components/MemberCard";
+import { ScrollView } from "react-native";
+import { Alert } from "react-native";
 
 const SelectFriends = ({ route, navigation }) => {
   const { friends } = useFriends();
@@ -96,19 +98,19 @@ const SelectFriends = ({ route, navigation }) => {
           </ListItem>
         </View>
       ))} */}
-
-      {friends &&
-        friends.map((item) => (
-          <MemberCard
-            key={item.uidvalue}
-            data={item}
-            onPress={() => toggleSelection(item)}
-            selected={selectedFriends.some(
-              (friend) => friend.uidvalue == item.uidvalue
-            )}
-          />
-        ))}
-
+      <ScrollView marginBottom={80}>
+        {friends &&
+          friends.map((item) => (
+            <MemberCard
+              key={item.uidvalue}
+              data={item}
+              onPress={() => toggleSelection(item)}
+              selected={selectedFriends.some(
+                (friend) => friend.uidvalue == item.uidvalue
+              )}
+            />
+          ))}
+      </ScrollView>
       <View style={[styles.buttonContainer]}>
         {selectedFriends.length != 0 && (
           <TouchableOpacity
@@ -150,7 +152,13 @@ const SelectFriends = ({ route, navigation }) => {
          </GradientButton> */}
         <TouchableOpacity
           activeOpacity={0.9}
-          onPress={async () => onShare({ url: await generateLink() })}
+          onPress={() =>
+            Alert.alert(
+              "Unable to Share Link",
+              "We're still working this feature, check back later!"
+            )
+          }
+          // onPress={async () => onShare({ url: await generateLink() })}
           style={{ height: 50, marginHorizontal: "20%", marginVertical: 15 }}
         >
           <LinearGradient

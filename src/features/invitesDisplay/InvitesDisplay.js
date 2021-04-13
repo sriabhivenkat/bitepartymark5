@@ -41,7 +41,7 @@ const InvitesDisplay = ({ navigation }) => {
           <FlatList
             data={invites && acceptedInvites}
             style={{ paddingTop: 5 }}
-            snapToInterval={Dimensions.get("window").width}
+            snapToInterval={Dimensions.get("window").width - 20 * 2}
             horizontal
             decelerationRate="fast"
             indicatorStyle="black"

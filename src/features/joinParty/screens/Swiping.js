@@ -85,20 +85,22 @@ const Swiping = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      {!partyMeta.isLoading && partyMember && (
-        <SwipeCards
-          ref={swiperRef}
-          cards={party.restaurants}
-          renderCard={(item) => <Card data={item} />}
-          keyExtractor={(item) => item.id}
-          handleYup={handleYes}
-          handleNope={handleNo}
-          stack={true}
-          dragY={false}
-          showYup={false}
-          showNope={false}
-        />
-      )}
+      <View style={styles.cardContainer}>
+        {!partyMeta.isLoading && partyMember && (
+          <SwipeCards
+            ref={swiperRef}
+            cards={party.restaurants}
+            renderCard={(item) => <Card data={item} />}
+            keyExtractor={(item) => item.id}
+            handleYup={handleYes}
+            handleNope={handleNo}
+            stack={true}
+            dragY={false}
+            showYup={false}
+            showNope={false}
+          />
+        )}
+      </View>
       <View style={styles.buttonContainer}>
         <FAB
           style={[styles.fab, { backgroundColor: "red" }]}
@@ -130,7 +132,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "center",
+  },
+  cardContainer: {
+    height: Dimensions.get("window").height - 400,
   },
   card: {
     // marginTop: 27,
@@ -142,8 +147,8 @@ const styles = StyleSheet.create({
     // flexGrow: 0,
     borderRadius: 20,
     color: "#fff",
-    paddingVertical: 70,
-    paddingHorizontal: 10,
+    paddingVertical: 50,
+    paddingHorizontal: 15,
   },
   titleText: {
     fontSize: 35,
@@ -185,13 +190,13 @@ const styles = StyleSheet.create({
     width: 350,
   },
   buttonContainer: {
-    // flex: 1,
-    width: "70%",
+    width: "80%",
     flexDirection: "row",
     // backgroundColor: "blue",
     // marginBottom: 50,
     justifyContent: "space-around",
-    position: "relative",
-    bottom: 70,
+    // position: "relative",
+    // bottom: 70,
+    marginTop: 50,
   },
 });

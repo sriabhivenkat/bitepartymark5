@@ -9,6 +9,7 @@ React Hooks
 export const useInvites = () => {
   const { user } = useUser();
   const { data, error } = useCollection(`Users/${user?.uidvalue}/invitations`, {
+    orderBy: ["timestamp", "desc"],
     listen: true,
   });
 
