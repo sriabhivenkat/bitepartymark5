@@ -43,6 +43,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "~0.63.4",
+    "react-native-deck-swiper": "^2.0.5",
     "react-native-dynamic-vector-icons": "^1.1.4",
     "react-native-elements": "^3.0.1",
     "react-native-gesture-handler": "^1.8.0",

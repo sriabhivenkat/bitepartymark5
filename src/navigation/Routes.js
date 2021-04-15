@@ -4,6 +4,7 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import auth from "@react-native-firebase/auth";
 import { AuthContext } from "./AuthProvider";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
+import messaging from "@react-native-firebase/messaging";
 
 import AuthStack from "./AuthStack";
 import AppStack from "./AppStack";
@@ -58,6 +59,47 @@ const Routes = () => {
       );
     }
   };
+
+  useEffect(() => {
+    // firebase
+    //   .notifications()
+    //   .getInitialNotification()
+    //   .then((notif) => {
+    //     console.log(notif);
+    //   });
+    messaging().onNotificationOpenedApp((remoteMessage) => {
+      console.log(
+        "Notification caused app to open from background state:",
+        remoteMessage.notification
+      );
+      console.log({ remoteMessage });
+      //  navigation.navigate(remoteMessage.data.type);
+    });
+
+    messaging()
+      .getInitialNotification()
+      .then((remoteMessage) => {
+        if (remoteMessage) {
+          console.log(
+            "Notification caused app to open from quit state:",
+            remoteMessage.notification
+          );
+          console.log({ remoteMessage });
+
+          // setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
+        }
+        // setLoading(false);
+      });
+    // if (notificationOpen) {
+    //     // App was opened by a notification
+    //     // Get the action triggered by the notification being opened
+    //     const action = notificationOpen.action;
+    //     // Get information about the notification that was opened
+    //     const notification  = notificationOpen.notification;
+
+    //     console.log({action, notification})
+    // }
+  }, []);
 
   if (initializing) return null;
 
