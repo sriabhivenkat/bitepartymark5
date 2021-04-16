@@ -3,46 +3,300 @@ import { View, Image, StyleSheet } from "react-native";
 import { Text } from "galio-framework";
 import { Card } from "react-native-paper";
 import TouchableScale from "react-native-touchable-scale";
+import { ImageBackground } from "react-native";
 
 const Start = ({ navigation }) => {
+  var hour = new Date().getHours()
+
+
+
+  const image = { source: "assets/images/bfast2.jpg" };
   return (
     <View style={styles.container}>
+
       <Card
-        style={styles.card}
+        style={styles.image}
         onPress={() => navigation.navigate("createParty/selectFriends")}
         Component={TouchableScale}
         tension={100}
         activeScale={0.95}
+
       >
-        <Card.Content>
-          <Text
-            h4
-            style={{
-              fontFamily: "PingFangHK-Medium",
-              fontWeight: "bold",
-              color: "black",
-              textAlign: "center",
-            }}
-          >
-            Let's Party
+        {hour <= 9 && (<ImageBackground source={require("assets/images/bfast1.jpg")} style={styles.image}>
+          <Card.Content >
+            <View style={styles.textContainer}>
+              <Text
+                h2
+                style={{
+                  fontFamily: "PingFangHK-Medium",
+                  fontWeight: "bold",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Let's Party
+            </Text>
+              <Text
+                h5
+                style={{
+                  fontFamily: "PingFangHK-Medium",
+                  fontWeight: "bold",
+                  color: "#f76f6d",
+                  textAlign: "center",
+
+                }}
+              >
+                Start partying with friends!
           </Text>
-          <Text
-            style={{
-              fontFamily: "PingFangHK-Medium",
-              fontWeight: "bold",
-              color: "#f76f6d",
-              textAlign: "center",
-            }}
-          >
-            Start a party with friends!
+            </View>
+
+
+          </Card.Content>
+        </ImageBackground>
+        )}
+        {hour <= 10 && hour > 9 && (<ImageBackground source={require("assets/images/bfast2.jpg")} style={styles.image}>
+          <Card.Content >
+            <View style={styles.textContainer}>
+              <Text
+                h2
+                style={{
+                  fontFamily: "PingFangHK-Medium",
+                  fontWeight: "bold",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Let's Party
+            </Text>
+              <Text
+                h5
+                style={{
+                  fontFamily: "PingFangHK-Medium",
+                  fontWeight: "bold",
+                  color: "#f76f6d",
+                  textAlign: "center",
+
+                }}
+              >
+                Start partying with friends!
           </Text>
-          <Image
-            source={require("assets/images/duos.png")}
-            style={{ width: 170, height: 160, alignItems: "center" }}
-          />
-        </Card.Content>
+            </View>
+
+
+          </Card.Content>
+        </ImageBackground>
+        )}
+
+        {hour <= 11 && hour > 10 && (<ImageBackground source={require("assets/images/bfast3.jpg")} style={styles.image}>
+          <Card.Content >
+            <View style={styles.textContainer}>
+              <Text
+                h2
+                style={{
+                  fontFamily: "PingFangHK-Medium",
+                  fontWeight: "bold",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Let's Party
+            </Text>
+              <Text
+                h5
+                style={{
+                  fontFamily: "PingFangHK-Medium",
+                  fontWeight: "bold",
+                  color: "#f76f6d",
+                  textAlign: "center",
+
+                }}
+              >
+                Start partying with friends!
+          </Text>
+            </View>
+
+
+          </Card.Content>
+        </ImageBackground>
+        )}
+
+        {hour <= 15 && hour >= 12 && (<ImageBackground source={require("assets/images/lunch1.jpg")} style={styles.image}>
+          <Card.Content >
+            <View style={styles.textContainer}>
+              <Text
+                h2
+                style={{
+                  fontFamily: "PingFangHK-Medium",
+                  fontWeight: "bold",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Let's Party
+            </Text>
+              <Text
+                h5
+                style={{
+                  fontFamily: "PingFangHK-Medium",
+                  fontWeight: "bold",
+                  color: "#f76f6d",
+                  textAlign: "center",
+
+                }}
+              >
+                Start partying with friends!
+          </Text>
+            </View>
+
+
+          </Card.Content>
+        </ImageBackground>
+        )}
+
+        {hour <= 18 && hour > 15 && (<ImageBackground source={require("assets/images/lunch2.jpg")} style={styles.image}>
+          <Card.Content >
+            <View style={styles.textContainer}>
+              <Text
+                h2
+                style={{
+                  fontFamily: "PingFangHK-Medium",
+                  fontWeight: "bold",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Let's Party
+            </Text>
+              <Text
+                h5
+                style={{
+                  fontFamily: "PingFangHK-Medium",
+                  fontWeight: "bold",
+                  color: "#f76f6d",
+                  textAlign: "center",
+
+                }}
+              >
+                Start partying with friends!
+          </Text>
+            </View>
+
+
+          </Card.Content>
+        </ImageBackground>
+        )}
+
+
+        {hour <= 21 && hour > 18 && (<ImageBackground source={require("assets/images/lunch3.jpg")} style={styles.image}>
+          <Card.Content >
+            <View style={styles.textContainer}>
+              <Text
+                h2
+                style={{
+                  fontFamily: "PingFangHK-Medium",
+                  fontWeight: "bold",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Let's Party
+            </Text>
+              <Text
+                h5
+                style={{
+                  fontFamily: "PingFangHK-Medium",
+                  fontWeight: "bold",
+                  color: "#f76f6d",
+                  textAlign: "center",
+
+                }}
+              >
+                Start partying with friends!
+          </Text>
+            </View>
+
+
+          </Card.Content>
+        </ImageBackground>
+        )}
+
+
+        {hour > 21 && (<ImageBackground source={require("assets/images/lunch4.jpg")} style={styles.image}>
+          <Card.Content >
+            <View style={styles.textContainer}>
+              <Text
+                h2
+                style={{
+                  fontFamily: "PingFangHK-Medium",
+                  fontWeight: "bold",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Let's Party
+            </Text>
+              <Text
+                h5
+                style={{
+                  fontFamily: "PingFangHK-Medium",
+                  fontWeight: "bold",
+                  color: "#f76f6d",
+                  textAlign: "center",
+
+                }}
+              >
+                Start partying with friends!
+          </Text>
+            </View>
+
+
+          </Card.Content>
+        </ImageBackground>
+        )}
       </Card>
+
     </View>
+
+    //   {/* <View style={styles.container}>
+    // <Card
+    //   style={styles.card}
+    //   onPress={() => navigation.navigate("createParty/selectFriends")}
+    //   Component={TouchableScale}
+    //   tension={100}
+    //   activeScale={0.95}
+    //   ImageBackground={require("assets/images/bfast1.jpg")}
+    // >
+    //   <Card.Content >
+
+    //     <Text
+    //       h4
+    //       style={{
+    //         fontFamily: "PingFangHK-Medium",
+    //         fontWeight: "bold",
+    //         color: "black",
+    //         textAlign: "center",
+    //       }}
+    //     >
+    //       { }
+    //     </Text>
+    //     <Text
+    //       style={{
+    //         fontFamily: "PingFangHK-Medium",
+    //         fontWeight: "bold",
+    //         color: "#f76f6d",
+    //         textAlign: "center",
+    //       }}
+    //     >
+    //       Start a party with friends!
+    //   </Text>
+
+
+
+    //   </Card.Content>
+    // </Card>
+    //   </View>
+
+
   );
 };
 
@@ -51,9 +305,10 @@ export default Start;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "stretch",
+    alignContent: "flex-end",
     backgroundColor: "white",
+
   },
   input: {
     color: "white",
@@ -81,4 +336,14 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
     backgroundColor: "white",
   },
+  image: {
+    flex: 3,
+    resizeMode: "cover",
+    justifyContent: "flex-end",
+    margin: 0
+  },
+  textContainer: {
+    marginBottom: "10%"
+
+  }
 });
