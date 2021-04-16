@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Alert } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
+
+import dynamicLinks from "@react-native-firebase/dynamic-links";
+import messaging from "@react-native-firebase/messaging";
+
+import * as RootNavigation from "navigation/RootNavigation";
 
 import AddFriendsViewController from "../screens/AddFriendsViewController.js";
 import CreatePartyNavigator from "features/createParty/CreatePartyNavigator";
@@ -23,7 +29,7 @@ const BottomTabNavigator = () => (
       },
       tintColor: "#f76f6d",
     }}
-    initialRouteName={"Home"}
+    initialRouteName={"home"}
   >
     <Tab.Screen
       name="invites"
@@ -63,23 +69,48 @@ const BottomTabNavigator = () => (
   </Tab.Navigator>
 );
 
-const AppStack = () => (
-  <Stack.Navigator initialRouteName={"Home"}>
-    <Stack.Screen
-      name="Home"
-      component={BottomTabNavigator}
-      options={{ headerShown: false }}
-    />
-    <Stack.Screen
-      name="joinParty"
-      component={JoinPartyNavigator}
-      options={{ headerShown: false }}
-    />
-    <Stack.Screen
-      name="Add Friends"
-      component={AddFriendsViewController}
-      options={{ header: () => null }}
-    />
-  </Stack.Navigator>
-);
+const AppStack = () => {
+  const handleMessage = (message) => {
+    if (!message) return;
+    const { partyId, type } = message.data;
+    console.log({ type });
+    switch (type) {
+      case "invite":
+        RootNavigation.navigate("invites");
+        break;
+      case "party":
+        RootNavigation.navigate("joinParty", {
+          screen: "joinParty/swiping",
+          params: { partyID: partyId },
+        });
+        break;
+      default:
+        break;
+    }
+  };
+  useEffect(() => {
+    messaging().getInitialNotification().then(handleMessage);
+    messaging().onNotificationOpenedApp(handleMessage);
+  }, []);
+
+  return (
+    <Stack.Navigator initialRouteName={"Home"}>
+      <Stack.Screen
+        name="Home"
+        component={BottomTabNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="joinParty"
+        component={JoinPartyNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Add Friends"
+        component={AddFriendsViewController}
+        options={{ header: () => null }}
+      />
+    </Stack.Navigator>
+  );
+};
 export default AppStack;

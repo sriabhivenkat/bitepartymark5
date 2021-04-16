@@ -9,7 +9,7 @@ const db = admin.firestore();
 exports.sendInviteNotification = functions.firestore
   .document("Users/{userId}/invitations/{inviteId}")
   .onWrite(async (change, context) => {
-    const { userId } = context.params;
+    const { userId, inviteId } = context.params;
     const { inviter } = change.after.data();
     try {
       var { tokens } = (await db.collection("Users").doc(userId).get()).data();
@@ -17,6 +17,10 @@ exports.sendInviteNotification = functions.firestore
         notification: {
           title: "You have new party invite!",
           body: `Join ${inviter}'s party`,
+        },
+        data: {
+          inviteId,
+          type: "invite",
         },
       };
 
@@ -70,7 +74,11 @@ exports.resolveParty = functions.firestore
           notification: {
             title: "Join the party!",
             body: `${matchedRestaurant.name} was selected`,
-            // icon: follower.photoURL
+            icon: matchedRestaurant.image_url,
+          },
+          data: {
+            partyId: partyID,
+            type: "party",
           },
         };
 

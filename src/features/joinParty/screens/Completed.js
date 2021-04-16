@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   View,
-  Image,
   StyleSheet,
   ScrollView,
-  Button,
   TouchableOpacity,
 } from "react-native";
 import { Text } from "galio-framework";
@@ -26,12 +24,6 @@ const Completed = ({ route, navigation }) => {
     ? party?.winner
     : party?.restaurants &&
       party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
-
-  // console.log({ party: party.winner, partyMembers });
-
-  // useEffect(() => {
-  //   console.error(partyMeta.error);
-  // }, [partyMeta]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -118,8 +110,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     paddingHorizontal: 20,
-    // alignItems: "center",
-    // justifyContent: "center",
   },
   buttonContainer: {
     justifyContent: "center",
@@ -140,14 +130,11 @@ const styles = StyleSheet.create({
   background: {
     flexDirection: "row",
     minHeight: 40,
-    // justifyContent: "center",
-    // alignItems: "center",
     borderRadius: 15,
   },
   subText: {
     fontFamily: "PingFangHK-Semibold",
     color: "#fff",
-    // marginBottom: "7%",
   },
   buttonStyle: {
     minWidth: 150,
