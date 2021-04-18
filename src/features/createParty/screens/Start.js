@@ -38,7 +38,7 @@ const Start = ({ navigation }) => {
               <Text
                 h2
                 style={{
-                  fontFamily: "PingFangHK-Medium",
+                  fontFamily: "Kollektif",
                   fontWeight: "800",
                   color: "white",
                   textAlign: "center",
@@ -49,7 +49,7 @@ const Start = ({ navigation }) => {
               <Text
                 h5
                 style={{
-                  fontFamily: "PingFangHK-Medium",
+                  fontFamily: "Kollektif",
                   fontWeight: "bold",
                   color: "#f76f6d",
                   textAlign: "center",
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     padding: "5%",
     marginTop: "2.5%",
     marginBottom: "2.5%",
-    fontFamily: "PingFangHK-Medium",
+    fontFamily: "Kollektif",
     color: "#f76f6d",
     textAlign: "center",
   },

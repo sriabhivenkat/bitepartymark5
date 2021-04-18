@@ -138,7 +138,7 @@ const SelectFriends = ({ route, navigation }) => {
               <Text
                 style={{
                   color: "white",
-                  fontFamily: "PingFangHK-Regular",
+                  fontFamily: "Kollektif",
                   fontSize: 17,
                 }}
               >
@@ -175,7 +175,8 @@ const SelectFriends = ({ route, navigation }) => {
             <Text
               style={{
                 color: "white",
-                fontFamily: "PingFangHK-Regular",
+                fontFamily: "Kollektif",
+                fontWeight: "300",
                 fontSize: 17,
               }}
             >
@@ -212,11 +213,10 @@ const styles = StyleSheet.create({
     marginTop: "15%",
   },
   title: {
-    padding: "5%",
-    fontFamily: "PingFangHK-Medium",
+    fontFamily: "Kollektif",
+    paddingBottom: "10%",
     color: "#f76f6d",
-    textAlign: "center",
-    marginTop: "10%",
+    marginTop: "5%"
   },
   queryResults: {
     marginTop: 20,
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     padding: "5%",
-    fontFamily: "PingFangHK-Medium",
+    fontFamily: "Kollektif",
     color: "#f76f6d",
     textAlign: "center",
   },

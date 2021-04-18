@@ -93,7 +93,7 @@ const FlavorTestViewController = (props) => {
                         end={{x:1, y:0}}
                         colors={["#ee0979","#f76f6d",'#ff6a00']}
                         style={{height: "100%", justifyContent: "center", alignItems: "center", borderRadius: 15, }}>
-                        <Text style={{color: "white", fontFamily: "PingFangHK-Medium", fontSize: 17}}>Let's go!</Text>
+                        <Text style={{color: "white", fontFamily: "Kollektif", fontSize: 17}}>Let's go!</Text>
                     </LinearGradient>
                 </TouchableOpacity>
             </Animated.View>
@@ -101,10 +101,10 @@ const FlavorTestViewController = (props) => {
                 pointerEvents={stateval ? "auto":"none"}
                 style={[{opacity: textOpacity, bottom: "30%", marginLeft: "5%", marginRight: "5%"}]}>
                 <View>
-                    <Text h5 style={{textAlign: "center", color: "#f76f6d", fontFamily: "PingFangHK-Medium"}}>Picture this. You've just broken up with your significant other and you want ice cream. What flavor are you going to pick?</Text>
+                    <Text h5 style={{textAlign: "center", color: "#f76f6d", fontFamily: "Kollektif"}}>Picture this. You've just broken up with your significant other and you want ice cream. What flavor are you going to pick?</Text>
                     <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
-                        <RadioButton.Item label="Vanilla, of course???" value="first" labelStyle={{fontFamily: "PingFangHK-Medium", color: "#f76f6d", fontSize: 20}} style={{marginTop: "5%"}}/>
-                        <RadioButton.Item label="Chocolate" value="second" labelStyle={{fontFamily: "PingFangHK-Medium", color: "#f76f6d", fontSize: 20}}/>
+                        <RadioButton.Item label="Vanilla, of course???" value="first" labelStyle={{fontFamily: "Kollektif", color: "#f76f6d", fontSize: 20}} style={{marginTop: "5%"}}/>
+                        <RadioButton.Item label="Chocolate" value="second" labelStyle={{fontFamily: "Kollektif", color: "#f76f6d", fontSize: 20}}/>
                     </RadioButton.Group>
                 </View>
             </Animated.View>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginLeft: "5%",
         fontSize: 43,
-        fontFamily: "PingFangHK-Medium",
+        fontFamily: "Kollektif",
         marginTop: "15%"
     },
     fadingText: {
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
         marginBottom: "5%",
         marginTop: "32%",
         color : "#f76f6d",
-        fontFamily: "PingFangHK-Medium"
+        fontFamily: "Kollektif"
     },
     fadingText1: {
         fontSize: 28,
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginTop: "35%",
         color : "#f76f6d",
-        fontFamily: "PingFangHK-Medium"
+        fontFamily: "Kollektif"
     },
     button: {
         marginTop: 20,

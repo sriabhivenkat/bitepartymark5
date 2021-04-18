@@ -83,7 +83,7 @@ const LoginViewController = ({ navigation }) => {
               textAlign: "center",
               fontWeight: "bold",
               color: "white",
-              fontFamily: "PingFangHK-Medium",
+              fontFamily: "Kollektif",
             }}
           >
             Thousands of choices,
@@ -95,7 +95,7 @@ const LoginViewController = ({ navigation }) => {
               fontWeight: "bold",
               color: "white",
               marginBottom: "15%",
-              fontFamily: "PingFangHK-Medium",
+              fontFamily: "Kollektif",
             }}
           >
             right at your fingertips.

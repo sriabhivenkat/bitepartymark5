@@ -48,7 +48,7 @@ const NearbyViewController = ({navigation}) => {
                                 friction={90}
                                 tension={100}
                                 activeScale={0.95}>
-                                <Text style={{color: "white", fontFamily: "PingFangHK-Medium", fontSize: 17}}>Create a flavor profile</Text>
+                                <Text style={{color: "white", fontFamily: "Kollektif", fontSize: 17}}>Create a flavor profile</Text>
                             </LinearGradient>
                         </TouchableOpacity>
                     </View>
@@ -84,12 +84,12 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginLeft: "5%",
         fontSize: 43,
-        fontFamily: "PingFangHK-Medium",
+        fontFamily: "Kollektif",
         marginTop: "15%"
     },
     subheading1: {
         marginTop: "2.5%",
-        fontFamily: "PingFangHK-Medium",
+        fontFamily: "Kollektif",
         marginBottom: "2%",
         color: "#f76f6d",
         marginLeft: "5%",

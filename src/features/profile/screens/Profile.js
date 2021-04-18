@@ -113,6 +113,7 @@ const ProfileDisplay = ({ navigation }) => {
                 style={{
                   color: "black",
                   textAlign: "center",
+                  fontFamily: "Kollektif",
                   marginVertical: 20,
                   fontSize: 26,
                   fontWeight: "normal",
@@ -129,13 +130,14 @@ const ProfileDisplay = ({ navigation }) => {
                 style={{
                   fontWeight: "bold",
                   color: "black",
+                  fontFamily: "Kollektif",
                   fontSize: 22,
                   fontWeight: "normal",
                 }}
               >
                 {friends?.length}
               </Title>
-              <Caption style={{ color: "black", fontSize: 20 }}>
+              <Caption style={{ color: "black", fontSize: 20, fontFamily: "Kollektif", }}>
                 Friends
               </Caption>
             </View>
@@ -146,11 +148,12 @@ const ProfileDisplay = ({ navigation }) => {
                   color: "black",
                   fontSize: 22,
                   fontWeight: "normal",
+                  fontFamily: "Kollektif",
                 }}
               >
                 {invites?.filter(({ status }) => status == "accepted").length}
               </Title>
-              <Caption style={{ color: "black", fontSize: 20 }}>
+              <Caption style={{ color: "black", fontSize: 20, fontFamily: "Kollektif",}}>
                 Parties
               </Caption>
             </View>
@@ -166,7 +169,7 @@ const ProfileDisplay = ({ navigation }) => {
             <Text
               style={{
                 color: "black",
-                fontFamily: "PingFangHK-Medium",
+                fontFamily: "Kollektif",
                 fontSize: 17,
               }}
             >
@@ -178,7 +181,7 @@ const ProfileDisplay = ({ navigation }) => {
             <Text
               style={{
                 color: "black",
-                fontFamily: "PingFangHK-Medium",
+                fontFamily: "Kollektif",
                 fontSize: 17,
               }}
             >
@@ -195,7 +198,7 @@ const ProfileDisplay = ({ navigation }) => {
             <Text
               style={{
                 color: "black",
-                fontFamily: "PingFangHK-Medium",
+                fontFamily: "Kollektif",
                 fontSize: 17,
               }}
             >
@@ -338,7 +341,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginLeft: "5%",
     fontSize: 43,
-    fontFamily: "PingFangHK-Medium",
+    fontFamily: "Kollektif",
     marginTop: 30,
     // marginTop: "15%",
   },

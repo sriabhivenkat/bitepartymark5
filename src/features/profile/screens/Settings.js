@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     // marginTop: "2.5%",
-    fontFamily: "PingFangHK-Medium",
+    fontFamily: "Kollektif",
     textAlign: "left",
     paddingHorizontal: 10,
     paddingVertical: 10,

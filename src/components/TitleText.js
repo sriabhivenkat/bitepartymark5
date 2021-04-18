@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     color: "black",
     justifyContent: "center",
     fontSize: 43,
-    fontFamily: "PingFangHK-Medium",
+    fontFamily: "Kollektif",
     letterSpacing: 0.1,
     marginBottom: 10,
   },

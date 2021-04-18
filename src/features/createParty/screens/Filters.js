@@ -111,8 +111,8 @@ const Filters = ({ route, navigation }) => {
           style={{
             marginLeft: "10%",
             marginTop: "3%",
-            fontSize: 20,
-            fontFamily: "PingFangHK-Medium",
+            fontSize: 22.5,
+            fontFamily: "Kollektif",
           }}
         >
           Time
@@ -130,8 +130,8 @@ const Filters = ({ route, navigation }) => {
           style={{
             marginLeft: "10%",
             marginTop: "3%",
-            fontSize: 20,
-            fontFamily: "PingFangHK-Medium",
+            fontSize: 22.5,
+            fontFamily: "Kollektif",
           }}
         >
           Food
@@ -158,8 +158,8 @@ const Filters = ({ route, navigation }) => {
           style={{
             marginLeft: "10%",
             marginTop: "3%",
-            fontSize: 20,
-            fontFamily: "PingFangHK-Medium",
+            fontSize: 22.5,
+            fontFamily: "Kollektif",
           }}
         >
           Restrictions
@@ -180,8 +180,8 @@ const Filters = ({ route, navigation }) => {
         style={{
           marginLeft: "10%",
           marginTop: "3%",
-          fontSize: 20,
-          fontFamily: "PingFangHK-Medium",
+          fontSize: 22.5,
+          fontFamily: "Kollektif",
         }}
       >
         Location
@@ -190,7 +190,7 @@ const Filters = ({ route, navigation }) => {
         style={{
           fontSize: 17.5,
           textAlign: "center",
-          fontFamily: "PingFangHK-Medium",
+          fontFamily:"Kollektif",
           padding: "3%",
           paddingBottom: "4%"
         }}
@@ -205,8 +205,9 @@ const Filters = ({ route, navigation }) => {
             p
             style={{
               marginLeft: "10%",
+              marginTop: "1%",
               fontWeight: "bold",
-              fontFamily: "PingFangHK-Medium",
+              fontFamily: "Kollektif",
             }}
           >
             Radius
@@ -217,7 +218,7 @@ const Filters = ({ route, navigation }) => {
             position: "absolute",
             right: "11%",
             fontWeight: "300",
-            fontFamily: "PingFangHK-Medium",
+            fontFamily: "Kollektif",
           }}
         >
           {Math.round(radius)} miles
@@ -246,7 +247,7 @@ const Filters = ({ route, navigation }) => {
             style={{
               marginLeft: "10%",
               fontWeight: "bold",
-              fontFamily: "PingFangHK-Medium",
+              fontFamily: "Kollektif",
               marginTop: "10%",
             }}
           >
@@ -259,7 +260,7 @@ const Filters = ({ route, navigation }) => {
               position: "absolute",
               right: "11%",
               fontWeight: "300",
-              fontFamily: "PingFangHK-Medium",
+              fontFamily: "Kollektif",
             }}
           >
             {Math.round(count)} restaurants
@@ -320,7 +321,8 @@ const Filters = ({ route, navigation }) => {
             <Text
               style={{
                 color: "white",
-                fontFamily: "PingFangHK-Regular",
+                fontFamily: "Kollektif",
+                fontWeight: "300",
                 fontSize: 17,
               }}
             >
@@ -349,12 +351,12 @@ const styles = StyleSheet.create({
   },
   title: {
     padding: "5%",
-    fontFamily: "PingFangHK-Medium",
+    fontFamily: "Kollektif",
     color: "black",
     fontSize: 35,
   },
   subheading: {
-    fontFamily: "PingFangHK-Medium",
+    fontFamily: "Kollektif",
     color: "#f76f6d",
     textAlign: "center",
   },

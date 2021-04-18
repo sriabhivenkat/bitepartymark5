@@ -89,6 +89,6 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 32,
         color: "white",
-        fontFamily: "PingFangHK-Medium"
+        fontFamily: "Kollektif"
     },
 })

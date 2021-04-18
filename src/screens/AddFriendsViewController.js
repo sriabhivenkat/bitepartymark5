@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     color: "#f76f6d",
     fontSize: 45,
     marginTop: "20%",
-    fontFamily: "PingFangHK-Medium",
+    fontFamily: "Kollektif",
   },
   searchbar: {
     marginLeft: 20,

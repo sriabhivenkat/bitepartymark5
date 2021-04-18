@@ -38,7 +38,7 @@ export const GradientButton = ({
     >
       <Text
         style={{
-          fontFamily: "PingFangHK-Medium",
+          fontFamily: "Kollektif",
           fontSize: 15,
           textTransform: "uppercase",
           letterSpacing: 1,
