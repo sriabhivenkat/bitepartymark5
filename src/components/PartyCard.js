@@ -11,46 +11,70 @@ export const PartyCard = ({ invite = {}, onPress }) => {
   return (
     <Card
       style={[styles.card, { maxHeight: 250, marginBottom: 20 }]}
-      elevation={1}
-    >
-      <LinearGradient
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        colors={["#ee0979", "#f76f6d", "#ff6a00"]}
-        style={[styles.background]}
-      >
-        <Card.Content style={styles.innerCard}>
-          <View style={{ flexDirection: "column", alignItems: "flex-start" }}>
-            <Avatar.Image
-              size={65}
-              source={{ uri: invite.imagePath }}
-              style={{ marginBottom: 8 }}
-            />
-            {invite.isDuo && (
-              <Text style={styles.subText}>{`DUO (${invite.docID})`}</Text>
-            )}
-            {!invite.isDuo && (
-              <Text style={styles.subText}>{`GROUP (${invite.docID})`}</Text>
-            )}
-          </View>
 
-          <View style={styles.buttonContainer}>
-            <GradientButton
-              style={styles.buttonStyle}
-              outline
-              bg="#fff"
-              onPress={() =>
-                navigation.navigate("joinParty", {
-                  screen: "joinParty/swiping",
-                  params: { partyID: invite.docID },
-                })
-              }
+    >
+
+      <Card.Content style={styles.innerCard}>
+        <View style={{ flexDirection: "row", justifyContent: 'center' }}>
+          <Avatar.Image
+            size={65}
+            source={{ uri: invite.imagePath }}
+            style={{ marginTop: 8 }}
+          />
+          <View style={{ marginTop: 12 }}>
+            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text}>
+              {invite.inviter}
+            </Text>
+            <View
+              style={{ flexDirection: "row" }}
             >
-              Go!
-            </GradientButton>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text}>
+                {invite.timestamp.toDate().getMonth() + 1}/{invite.timestamp.toDate().getDate()} at
+            </Text>
+              {(invite.timestamp.toDate().getHours() + 12) % 12 == 0 && (
+                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text2}>
+                  {invite.timestamp.toDate().getHours() % 12 + 12}:{invite.timestamp.toDate().getMinutes()}
+                </Text>
+              )}
+              {(invite.timestamp.toDate().getHours() + 12) % 12 != 0 && (
+                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text2}>
+                  {invite.timestamp.toDate().getHours() % 12}:{invite.timestamp.toDate().getMinutes()}
+                </Text>
+              )}
+              {invite.timestamp.toDate().getHours() >= 12 && (
+                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text2}>
+                  PM
+                </Text>
+              )}
+              {invite.timestamp.toDate().getHours() < 12 && (
+                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text2}>
+                  AM
+                </Text>
+              )}
+
+            </View>
+
+
           </View>
-        </Card.Content>
-      </LinearGradient>
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <GradientButton
+            style={styles.buttonStyle}
+            // outline
+            // bg="#fff"
+            onPress={() =>
+              navigation.navigate("joinParty", {
+                screen: "joinParty/swiping",
+                params: { partyID: invite.docID },
+              })
+            }
+          >
+            Go!
+            </GradientButton>
+        </View>
+      </Card.Content>
+
     </Card>
   );
 };
@@ -87,11 +111,20 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: "PingFangHK-Light",
-    marginTop: "5%",
+    // marginTop: "5%",
     fontSize: 20,
+    marginLeft: 15,
+    fontWeight: "500"
+  },
+  text2: {
+    fontFamily: "PingFangHK-Light",
+    // marginTop: "5%",
+    fontSize: 20,
+    marginLeft: 5,
+    fontWeight: "500"
   },
   buttonStyle: {
-    minWidth: 150,
+    minWidth: 70,
     marginVertical: 10,
   },
 });
