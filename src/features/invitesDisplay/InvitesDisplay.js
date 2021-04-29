@@ -32,49 +32,33 @@ const InvitesDisplay = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <StatusBar barStyle="dark-content" />
-        {acceptedInvites?.length > 0 && (
-          <TitleText style={styles.title}>Parties</TitleText>
-        )}
-        <View>
-          <FlatList
-            data={invites && acceptedInvites}
-            style={{ paddingTop: 5 }}
-            snapToInterval={Dimensions.get("window").width - 20 * 2}
-            horizontal
-            decelerationRate="fast"
-            indicatorStyle="black"
-            renderItem={({ item }) => <PartyCard invite={item} />}
-            keyExtractor={(item) => item.docId}
-          />
-        </View>
 
-        <TitleText style={[styles.subtitle, styles.title]}>Invites</TitleText>
-        {pendingInvites?.length <= 0 && (
-          <SubtitleText style={styles.subtitle}>
-            No pending invites, invite some friends to BiteParty to get started!
-          </SubtitleText>
-        )}
-        <View>
-          <FlatList
-            data={pendingInvites && pendingInvites}
-            style={{ paddingTop: 5 }}
-            // horizontal
-            snapToInterval={Dimensions.get("window").width}
-            indicatorStyle="black"
-            decelerationRate="fast"
-            renderItem={({ item }) => (
-              <InviteCard
-                invite={item}
-                onAccept={handleAccept}
-                onReject={handleReject}
-              />
-            )}
-            keyExtractor={(item) => item.docID}
-          />
-        </View>
+
+
+      {pendingInvites?.length <= 0 && (
+        <SubtitleText style={styles.subtitle}>
+          No pending invites, invite some friends to BiteParty to get started!
+        </SubtitleText>
+      )}
+      <View>
+        <FlatList
+          data={pendingInvites && pendingInvites}
+          style={{ paddingTop: 15 }}
+          // horizontal
+          snapToInterval={Dimensions.get("window").width}
+          indicatorStyle="black"
+          decelerationRate="fast"
+          renderItem={({ item }) => (
+            <InviteCard
+              invite={item}
+              onAccept={handleAccept}
+              onReject={handleReject}
+            />
+          )}
+          keyExtractor={(item) => item.docID}
+        />
       </View>
+
     </SafeAreaView>
   );
 };

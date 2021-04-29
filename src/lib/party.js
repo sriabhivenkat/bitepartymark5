@@ -120,6 +120,7 @@ const createParty = async (id, user, members, options) => {
     },
     isDuo: members.length <= 1,
     restaurants,
+
   });
 
   // voodoo magic to add all members at once
@@ -142,7 +143,7 @@ const createParty = async (id, user, members, options) => {
       .doc(user.uidvalue);
     invitesBatch.set(docRef, {
       timestamp: firestore.FieldValue.serverTimestamp(),
-      inviter: user.handle,
+      inviter: user.firstName + ' ' + user.lastName,
       isDuo: members.length <= 1,
       status: user.uidvalue == doc.uidvalue ? "accepted" : "pending",
       imagePath: user.imageUrl,
