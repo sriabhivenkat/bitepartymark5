@@ -3,11 +3,14 @@ import { View, Image, StyleSheet, FlatList,KeyboardAvoidingView,Keyboard,Touchab
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { Text, Button } from "galio-framework";
 import {Modal, Portal, Provider, Avatar} from "react-native-paper";
-import {ListItem, Input} from 'react-native-elements';
+import {ListItem} from 'react-native-elements';
+import {Input} from 'galio-framework'
 import LinearGradient from 'react-native-linear-gradient';
 import TouchableScale from 'react-native-touchable-scale';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AuthContext } from "../navigation/AuthProvider.js";
+
+
 
 const AddFriendsViewController = () => {
   const [query, setQuery] = useState("");
@@ -81,37 +84,30 @@ const AddFriendsViewController = () => {
 
     <View style={styles.container}>
       <Text h3 style={styles.text}>
-        Add <B>Friends</B>
+        Add Friends
       </Text>
       <Input
         placeholder="Enter a handle"
         onChangeText={(txt) => setQuery(txt)}
+        left
+        icon="search"
+        family="ionicons"
+        iconSize={25}
         autoCapitalize="none"
         style={styles.searchbar}
         value={query}
       />
       {data.map((item) => (
         <View style={styles.queryView}>
-            <TouchableOpacity onPress={showPanel} >
-                <ListItem
-                    Component={TouchableScale}
-                    friction={90}
-                    tension={100}
-                    activeScale={0.95}
-                    linearGradientProps= {{
-                        colors: ["#FF9800", "#F44336"],
-                        start: {x:1, y:0},
-                        end: {x: 0.2, y:0},
-                    }} 
-                    ViewComponent = {LinearGradient}
-                >
+          <TouchableOpacity onPress={showPanel} style={{backgroundColor: "white", paddingHorizontal: "4%", marginTop: "-3%"}}>
+                <ListItem containerStyle={{borderWidth: 1, borderRadius: 20, backgroundColor: "white", paddingHorizontal: "4%"}}>
                     <Avatar.Image size={45} source={{uri: item.imageUrl}}/>
                     <ListItem.Content style={styles.queryContent}>                    
                         <ListItem.Title style={styles.querytitle}>{"@"+item.handle}</ListItem.Title>
-                        <ListItem.Subtitle style={styles.querysubtitle}>{item.firstName+" "+item.lastName}</ListItem.Subtitle>                   
+                        <ListItem.Subtitle style={styles.querysubtitle}>{item.firstName+" "+item.lastName}</ListItem.Subtitle>                
                     </ListItem.Content>
                 </ListItem>
-            </TouchableOpacity>
+          </TouchableOpacity>   
         </View>
       ))}
 
@@ -166,7 +162,7 @@ const styles = StyleSheet.create({
   },
   queryView: {
     flex: 0.13,
-    backgroundColor: "#16335e",
+    backgroundColor: "white",
     marginTop: 20
   },
   modalContainer: {
@@ -174,14 +170,21 @@ const styles = StyleSheet.create({
   },
   text: {
     padding: 20,
-    color: "#f76f6d",
-    fontSize: 45,
+    color: "black",
+    fontSize: 36,
     marginTop: "20%",
     fontFamily: "Kollektif",
   },
   searchbar: {
-    marginLeft: 20,
-    marginRight: 40,
+    width: "92.5%",
+    borderColor: "black",
+    borderWidth: 1.5,
+    marginLeft: "4%",
+    alignItems: "center",
+    shadowColor: "black",
+    shadowRadius: 30,
+    borderRadius: 14,
+    marginTop: "-5%",
   },
   queryResults: {
       marginTop: 20,
@@ -193,10 +196,15 @@ const styles = StyleSheet.create({
   },
   querytitle: {
     fontWeight: "bold",
-    color: "white"
+    color: "black",
+    fontSize: 20,
+    marginBottom: "1%",
+    fontFamily: "Kollektif"
   },
   querysubtitle: {
-    color: "white"
+    color: "black",
+    fontFamily: "Kollektif",
+    fontSize: 18,
   },
   modalStyling: {
     display: "flex",
