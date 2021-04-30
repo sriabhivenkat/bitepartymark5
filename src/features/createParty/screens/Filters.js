@@ -117,13 +117,13 @@ const Filters = ({ route, navigation }) => {
         >
           Time
         </Text>
-        <DateTimePicker 
+        {/* <DateTimePicker 
           value={time}
           mode='time'
           display='spinner'
           onChange={onChange}
           style={{alignItems: "center"}}
-        />
+        /> */}
       </View>
       <Divider />
         <Text 

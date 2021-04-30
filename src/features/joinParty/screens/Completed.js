@@ -13,7 +13,10 @@ import { Divider } from "react-native-elements";
 import { usePartyData, usePartyMembers } from "lib";
 import { TitleText, SubtitleText } from "components";
 import Ionicons from "react-native-vector-icons/Ionicons";
+
 const Completed = ({ route, navigation }) => {
+
+  
   const { partyID } = route.params;
   // const { party, partyMeta } = useParty(partyID);
   const { partyMembers } = usePartyMembers(partyID);
