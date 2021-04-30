@@ -3,7 +3,7 @@ import { View, StyleSheet, Dimensions, Animated } from "react-native";
 import { Text } from "galio-framework";
 import { Card, Avatar, Chip } from "react-native-paper";
 
-const MemberCard = ({ onPress, data, selected, status }) => {
+export const MemberCard = ({ onPress, data, selected, status, ...rest }) => {
   const AnimatedCard = Animated.createAnimatedComponent(Card);
 
   const statusMap = {
@@ -31,7 +31,7 @@ const MemberCard = ({ onPress, data, selected, status }) => {
 
   return (
     <View style={styles.container}>
-      <AnimatedCard
+      <Card
         style={[
           styles.card,
           { maxHeight: 250, marginBottom: 15 },
@@ -41,6 +41,7 @@ const MemberCard = ({ onPress, data, selected, status }) => {
         ]}
         elevation={1}
         onPress={onPress}
+        accessible={false}
       >
         <Card.Content style={styles.innerCard}>
           <View
@@ -86,7 +87,7 @@ const MemberCard = ({ onPress, data, selected, status }) => {
             )}
           </View>
         </Card.Content>
-      </AnimatedCard>
+      </Card>
     </View>
   );
 };
@@ -112,19 +113,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   subText: {
-    fontFamily: "PingFangHK-Semibold",
+    fontFamily: "Kollektif",
     color: "#f76f6d",
     // marginBottom: "7%",
   },
   text: {
-    fontFamily: "PingFangHK-Light",
+    fontFamily: "Kollektif",
     // marginTop: "5%",
     fontSize: 17,
-    fontWeight: "300",
+    fontWeight: "bold",
   },
   handle: {},
   name: {
-    fontWeight: "600",
+    // fontWeight: "700",
   },
   nameContainer: {
     marginHorizontal: 15,
