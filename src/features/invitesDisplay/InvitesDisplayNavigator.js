@@ -11,6 +11,12 @@ const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
 
+const LogoTitle = () => (
+  <Image
+    style={{ width: 100, height: 75, alignItems: "center" }}
+    source={require("assets/images/headerlogo.png")}
+  />
+);
 
 export default () => (
 

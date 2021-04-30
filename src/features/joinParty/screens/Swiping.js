@@ -127,9 +127,9 @@ const Swiping = ({ navigation, route, data }) => {
             marginBottom={20}
             cardVerticalMargin={0}
             // onSwipedAll={handleComplete}
-            verticalSwipe={false}
-            disableBottomSwipe
+            verticalSwipe={true}
             disableTopSwipe
+            disableBottomSwipe
             useViewOverflow={false}
             keyExtractor={(item) => item.id}
             onSwipedLeft={(idx) => handleNo(party.restaurants[idx])}
