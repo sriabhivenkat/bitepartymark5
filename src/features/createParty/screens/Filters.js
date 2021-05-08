@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { Divider, Switch, List } from "react-native-paper";
+import { Divider, Switch, List, ToggleButton } from "react-native-paper";
 import { Text } from "galio-framework";
 import { Slider } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
@@ -9,18 +9,21 @@ import { useParty, getUserLocation } from "lib";
 import { ScrollView } from "react-native";
 import Geocoder from 'react-native-geocoding';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { GradientButton } from "components/GradientButton.js";
+import { Alert } from "react-native";
 
 const Filters = ({ route, navigation }) => {
   const [radius, setRadius] = useState(5);
   const [count, setCount] = useState(10);
   const [isFamily, setIsFamily] = useState(false);
   const [isFastFood, setIsFastFood] = useState(false);
-  const [currentLat, setCurrentLat] = useState(0);
-  const [currentLong, setCurrentLong] = useState(0);
+  const [locval, setLocVal] = useState([]);
   const [longName, setName] = useState("");
   const [time, setTime] = useState(new Date());
   const [filters, setFilters] = useState([]);
   const [restriction, setRestrictions] = useState([]);
+  const [pricingvalue, setPricingValue] = useState([]);
+  const [buttonPressed, setButtonPressed] = useState(false)
 
   const handleTap = (value) => {
     const exists = filters.find(
@@ -35,6 +38,7 @@ const Filters = ({ route, navigation }) => {
       setFilters([value, ...filters]);
     }
   }
+
 
   const handleRestricts = (value) => {
     const exists = restriction.find(
@@ -55,57 +59,81 @@ const Filters = ({ route, navigation }) => {
     console.log(time)
   };
 
-  Geocoder.init("AIzaSyBA1ZXfKjDXPiHrT3L2Hnut3ez38_Ww4S8", {language : "en"});
+  Geocoder.init("AIzaSyBudsRFHgcT7lqUV3xQ9oiM0MquRynmGzI", {language : "en"});
   const { selectedFriends, partyId } = route.params;
+
+  const [selectionval, setSelectionVal] = useState("");
+  //passing data back from changelocation screen
+  useEffect(() => {
+    if(route.params?.selection) {
+      setSelectionVal(route.params?.selection)
+      console.log(selectionval)
+    }
+  }, [route.params?.selection])
+
+  
+
   console.log({ partyId });
 
   const { createParty } = useParty(partyId);
 
   const toggleSwitch1 = () => setIsFamily((previousState) => !previousState);
   const toggleSwitch2 = () => setIsFastFood((previousState) => !previousState);
-  
+  const [pricing, setPricing] = useState(0)
 
-  useEffect(() => {
-    const main = async() => {
-      const position = await getUserLocation();
-      console.log(position);
-      setCurrentLat(position[0]);
-      setCurrentLong(position[1]);
-      Geocoder.from(currentLat, currentLong)
-        .then(json => {
-                var addressComponent = json.results[2].formatted_address;
-          setName(addressComponent)
-        })
-        .catch(error => console.warn(error))
-    };
-    main();
-  }, [currentLat, currentLong]);
+  
 
   const handlePress = async () => {
     try {
-      const loc = await getUserLocation();
-      const id = await createParty(selectedFriends, {
-        loc,
-        count,
-        radius,
-        isFamily,
-        isFastFood,
-        filters,
-        restriction,
-        time,
-      });
-      navigation.navigate("joinParty", {
-        screen: "joinParty/swiping",
-        params: { partyID: id },
-      });
+      if(selectionval===""){
+        const loc = await getUserLocation();
+        const id = await createParty(selectedFriends, {
+          loc,
+          count,
+          radius,
+          isFamily,
+          isFastFood,
+          filters,
+          restriction,
+          pricingvalue,
+          time,
+        });
+        navigation.navigate("joinParty", {
+          screen: "joinParty/swiping",
+          params: { partyID: id },
+        });
+      } else {
+        Geocoder.from(selectionval).then(json => {
+          var location = json.results[0].geometry.location;
+          var loca = [location.lat, location.lng];
+          setLocVal(loca);
+        }).catch(error => console.warn(error));
+        const loc = locval;
+        const id = await createParty(selectedFriends, {
+          loc,
+          count,
+          radius,
+          isFamily,
+          isFastFood,
+          filters,
+          restriction,
+          pricingvalue,
+          time,
+        });
+        navigation.navigate("joinParty", {
+          screen: "joinParty/swiping",
+          params: { partyID: id },
+        });
+        Alert.alert(loc)
+      }
     } catch (err) {
       console.error(err);
     }
   };
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Party Details</Text>
-      <Divider />
+      <Text style={styles.title}>Filters</Text>
+      
       <View style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
         <Text 
           style={{
@@ -115,17 +143,135 @@ const Filters = ({ route, navigation }) => {
             fontFamily: "Kollektif",
           }}
         >
-          Time
+          Price
         </Text>
-        {/* <DateTimePicker 
-          value={time}
-          mode='time'
-          display='spinner'
-          onChange={onChange}
-          style={{alignItems: "center"}}
-        /> */}
+        <View style={{display: "flex", flexDirection: "row", marginLeft: 5}}>
+          <TouchableOpacity 
+            onPress={() => {handleTap("1")}}
+            style={[filters.includes("1") && {backgroundColor: "lightgray",}, {padding: 0.5, borderWidth: 1, borderColor: "gray", width: 80, height:40, borderRadius: 25, left: 30, marginTop: 15, alignItems: "center", justifyContent: "center", marginRight: 8}]}
+          >
+            <Text p style={[filters.includes("1") && {color: "black"}]}>$</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            onPress={() => {handleTap("2")}}
+            style={[filters.includes("2") && {backgroundColor: "lightgray"}, {padding: 0.5, borderWidth: 1, borderColor: "gray", width: 80, height:40, borderRadius: 25, left: 30, marginTop: 15, alignItems: "center", justifyContent: "center", marginRight: 8}]}
+          >
+            <Text p>$$</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            onPress={() => {handleTap("3")}}
+            style={[filters.includes("3") && {backgroundColor: "lightgray"}, {padding: 0.5, borderWidth: 1, borderColor: "gray", width: 80, height:40, borderRadius: 25, left: 30, marginTop: 15, alignItems: "center", justifyContent: "center", marginRight: 8}]}
+          >
+            <Text p>$$$</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            onPress={() => {handleTap("4")}}
+            style={[filters.includes("4") && {backgroundColor: "lightgray"}, {padding: 0.5, borderWidth: 1, borderColor: "gray", width: 80, height:40, borderRadius: 25, left: 30, marginTop: 15, alignItems: "center", justifyContent: "center", marginRight: 8}]}
+          >
+            <Text p>$$$$</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <Divider />
+      <Divider style={{marginTop: 10}}/>
+        <View style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
+          <Text 
+            style={{
+              marginLeft: "10%",
+              marginTop: "3%",
+              fontSize: 22.5,
+              fontFamily: "Kollektif",
+            }}
+          >
+            Location
+          </Text>
+          {selectionval==="" &&
+            <View style={{alignItems: "center"}}>
+              <Text 
+                style={{
+                  marginTop: "3%",
+                  fontSize: 19,
+                  fontFamily: "Kollektif",
+                }}
+              >
+                Use my current location
+              </Text>
+              <Text
+                style={{top: 3, fontFamily: "Kollektif", fontSize: 17,}}
+              >
+                or
+              </Text>
+              <GradientButton
+                style={{minWidth: 30, marginVertical: 10, width: "80%", }}
+                onPress={() => {
+                  navigation.navigate("createParty/filters/changeLocation")
+              }}
+              >
+                Change my location!
+              </GradientButton>
+            </View>
+          }
+          {selectionval != "" &&
+            <View style={{alignItems: "center", marginTop: 10}}>
+              <Text 
+                style={{
+                  fontFamily: "Kollektif",
+                  fontSize: 20
+                }}
+              >
+                Find restaurants in
+              </Text>
+              <Text p
+                style={{
+                  fontFamily: "Kollektif",
+                  paddingVertical: 5
+                }}
+              >
+                {selectionval}
+              </Text>
+              <GradientButton
+                style={{minWidth: 30, marginVertical: 10, width: "80%", }}
+                onPress={() => {
+                  navigation.navigate("createParty/filters/changeLocation")
+                }}
+              >
+                Change my location!
+              </GradientButton>
+            </View>
+          }
+        </View>
+      <Divider style={{marginTop: 10}}/>
+        <View style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
+          <Text 
+            style={{
+              marginLeft: "10%",
+              marginTop: "3%",
+              fontSize: 22.5,
+              fontFamily: "Kollektif",
+            }}
+          >
+            Time
+          </Text>
+          <View style={{display: "flex", flexDirection: "row", marginBottom: "2%"}}>
+            <Text
+              style={{
+                fontFamily: "Kollektif",
+                fontSize: 17.5,
+                marginTop: "3%",
+                marginLeft: "10%",
+              }}
+            >
+              Select a time:
+            </Text>
+            <DateTimePicker 
+              value={time}
+              mode='time'
+              display="default"
+              onChange={onChange}
+              style={{right: 40, position: "absolute", width: "25%",}}
+            />
+          </View>
+        </View>
+      <Divider style={{marginTop: 10,}}/>
         <Text 
           style={{
             marginLeft: "10%",
@@ -175,29 +321,6 @@ const Filters = ({ route, navigation }) => {
             <List.Item title="Kosher" value="kosher" onPress={() => {handleRestricts("kosher")}} style={restriction.includes("kosher") && {backgroundColor: "lightgray"}}/>
           </List.Accordion>
         </List.Section>
-      <Divider />
-      <Text 
-        style={{
-          marginLeft: "10%",
-          marginTop: "3%",
-          fontSize: 22.5,
-          fontFamily: "Kollektif",
-        }}
-      >
-        Location
-      </Text>
-      <Text
-        style={{
-          fontSize: 17.5,
-          textAlign: "center",
-          fontFamily:"Kollektif",
-          padding: "3%",
-          paddingBottom: "4%"
-        }}
-        numberOfLines={2}
-      >
-        {longName}
-      </Text>
       <Divider />
       <View style={{ marginTop: "5%", }}>
         <View style={{display: "flex", flexDirection: "row"}}>
@@ -359,5 +482,17 @@ const styles = StyleSheet.create({
     fontFamily: "Kollektif",
     color: "#f76f6d",
     textAlign: "center",
+  },
+  chip: {
+    justifyContent: "center", 
+    alignItems: "center", 
+    marginTop: "1.5%", 
+    paddingHorizontal: 20, 
+    paddingVertical: 5, 
+    bottom: 10
+  },
+  buttonStyle: {
+    minWidth: 30,
+    marginVertical: 10,
   },
 });

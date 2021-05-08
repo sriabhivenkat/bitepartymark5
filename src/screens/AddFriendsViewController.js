@@ -9,7 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import TouchableScale from 'react-native-touchable-scale';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AuthContext } from "../navigation/AuthProvider.js";
-
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 
 const AddFriendsViewController = () => {
@@ -24,6 +24,7 @@ const AddFriendsViewController = () => {
   const [friendssize, setFriendsSize] = useState(0);
   const [buttonMessage, setButtonMessage] = useState("Add Friend");
   const [errorMessage, setErrorMessage] = useState("Friend added");
+
 
   useEffect(() => {
     const main = async() => {
