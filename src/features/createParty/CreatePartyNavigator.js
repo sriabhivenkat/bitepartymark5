@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Filters from "./screens/Filters";
 import SelectFriends from "./screens/SelectFriends";
 import Start from "./screens/Start";
+import ChangeLocation from './screens/ChangeLocation';
 
 const Stack = createStackNavigator();
 
@@ -50,6 +51,14 @@ export default () => (
         headerStyle: {
           height: 120,
         },
+      }}
+    />
+    <Stack.Screen 
+      name="createParty/filters/changeLocation"
+      component={ChangeLocation}
+      options={{
+        title: "ChangeLocation",
+        headerShown: false
       }}
     />
   </Stack.Navigator>

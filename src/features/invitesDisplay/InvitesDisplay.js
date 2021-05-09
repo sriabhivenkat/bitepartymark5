@@ -34,12 +34,13 @@ const InvitesDisplay = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
 
 
-
+    <View style={{flex:1, alignItems: "center", justifyContent: "center"}}>
       {pendingInvites?.length <= 0 && (
-        <SubtitleText style={styles.subtitle}>
+        <SubtitleText style={[styles.subtitle, {textAlign: "center"}]}>
           No pending invites, invite some friends to BiteParty to get started!
         </SubtitleText>
       )}
+    </View>
       <View>
         <FlatList
           data={pendingInvites && pendingInvites}
@@ -70,11 +71,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: "#fff",
     flex: 1,
+    fontFamily: "Kollektif"
   },
   title: {
     marginTop: 30,
   },
   subtitle: {
     color: "#ee0979",
+    fontFamily: "Kollektif",
+
   },
 });

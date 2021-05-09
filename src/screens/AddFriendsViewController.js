@@ -14,15 +14,38 @@ import { Modal, Portal, Provider, Avatar } from "react-native-paper";
 import { ListItem } from "react-native-elements";
 import { Input } from "galio-framework";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { TitleText, MemberCard } from "components";
-import { SafeAreaView } from "react-native";
-import { useFriends, useUser } from "lib";
-import { times } from "lodash";
-import { Alert } from "react-native";
+import { AuthContext } from "../navigation/AuthProvider.js";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 const AddFriendsViewController = () => {
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const { user } = useContext(AuthContext);
+  const showPanel = () => setVisible(true);
+  const hidePanel = () => setVisible(false);
+  const [userHandle, setUserHandle] = useState("");
+  const [checkHandle, setCheckHandle] = useState([]);
+  const [friendssize, setFriendsSize] = useState(0);
+  const [buttonMessage, setButtonMessage] = useState("Add Friend");
+  const [errorMessage, setErrorMessage] = useState("Friend added");
+
+  useEffect(() => {
+    const main = async () => {
+      const refVal = firestore().collection("Users").doc(user.uid);
+      const doc = await refVal.get();
+      const { handle } = doc.data();
+
+      refVal
+        .collection("friends")
+        .get()
+        .then(function (querySnapshot) {
+          setFriendsSize(querySnapshot.docs.length);
+        });
+      setUserHandle(handle);
+    };
+    main();
+  }, []);
 
   const { friends } = useFriends();
   const { user } = useUser();
