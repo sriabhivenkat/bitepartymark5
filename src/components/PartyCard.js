@@ -9,13 +9,9 @@ import { useNavigation } from "@react-navigation/native";
 export const PartyCard = ({ invite = {}, onPress }) => {
   const navigation = useNavigation();
   return (
-    <Card
-      style={[styles.card, { maxHeight: 250, marginBottom: 20 }]}
-
-    >
-
+    <Card style={[styles.card, { maxHeight: 250, marginBottom: 20 }]}>
       <Card.Content style={styles.innerCard}>
-        <View style={{ flexDirection: "row", justifyContent: 'center' }}>
+        <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <Avatar.Image
             size={65}
             source={{ uri: invite.imagePath }}
@@ -25,36 +21,50 @@ export const PartyCard = ({ invite = {}, onPress }) => {
             <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text}>
               {invite.inviter}
             </Text>
-            <View
-              style={{ flexDirection: "row" }}
-            >
+            <View style={{ flexDirection: "row" }}>
               <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text}>
-                {invite.timestamp.toDate().getMonth() + 1}/{invite.timestamp.toDate().getDate()} at
-            </Text>
-              {(invite.timestamp.toDate().getHours() + 12) % 12 == 0 && (
-                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text2}>
-                  {invite.timestamp.toDate().getHours() % 12 + 12}:{invite.timestamp.toDate().getMinutes()}
+                {invite?.timestamp.toDate().getMonth() + 1}/
+                {invite.timestamp.toDate().getDate()} at
+              </Text>
+              {(invite?.timestamp.toDate().getHours() + 12) % 12 == 0 && (
+                <Text
+                  adjustsFontSizeToFit
+                  numberOfLines={1}
+                  style={styles.text2}
+                >
+                  {(invite?.timestamp.toDate().getHours() % 12) + 12}:
+                  {invite.timestamp.toDate().getMinutes()}
                 </Text>
               )}
-              {(invite.timestamp.toDate().getHours() + 12) % 12 != 0 && (
-                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text2}>
-                  {invite.timestamp.toDate().getHours() % 12}:{invite.timestamp.toDate().getMinutes()}
+              {(invite?.timestamp.toDate().getHours() + 12) % 12 != 0 && (
+                <Text
+                  adjustsFontSizeToFit
+                  numberOfLines={1}
+                  style={styles.text2}
+                >
+                  {invite.timestamp.toDate().getHours() % 12}:
+                  {invite.timestamp.toDate().getMinutes()}
                 </Text>
               )}
-              {invite.timestamp.toDate().getHours() >= 12 && (
-                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text2}>
+              {invite?.timestamp.toDate().getHours() >= 12 && (
+                <Text
+                  adjustsFontSizeToFit
+                  numberOfLines={1}
+                  style={styles.text2}
+                >
                   PM
                 </Text>
               )}
-              {invite.timestamp.toDate().getHours() < 12 && (
-                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text2}>
+              {invite?.timestamp.toDate().getHours() < 12 && (
+                <Text
+                  adjustsFontSizeToFit
+                  numberOfLines={1}
+                  style={styles.text2}
+                >
                   AM
                 </Text>
               )}
-
             </View>
-
-
           </View>
         </View>
 
@@ -71,10 +81,9 @@ export const PartyCard = ({ invite = {}, onPress }) => {
             }
           >
             Go!
-            </GradientButton>
+          </GradientButton>
         </View>
       </Card.Content>
-
     </Card>
   );
 };
@@ -114,14 +123,14 @@ const styles = StyleSheet.create({
     // marginTop: "5%",
     fontSize: 20,
     marginLeft: 15,
-    fontWeight: "500"
+    fontWeight: "500",
   },
   text2: {
     fontFamily: "PingFangHK-Light",
     // marginTop: "5%",
     fontSize: 20,
     marginLeft: 5,
-    fontWeight: "500"
+    fontWeight: "500",
   },
   buttonStyle: {
     minWidth: 70,
