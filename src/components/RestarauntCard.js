@@ -122,7 +122,7 @@ export const RestarauntCard = ({ data }) => {
           </View>
           <View style={styles.chevron}>
             <Ionicons 
-              name="chevron-down-outline"
+              name="chevron-up-outline"
               color="white"
               size={35}
             />

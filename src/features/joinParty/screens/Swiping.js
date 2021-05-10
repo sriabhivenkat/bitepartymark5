@@ -53,7 +53,7 @@ const Swiping = ({ navigation, route, data }) => {
   }, [partyMember]);
 
   const handleYes = (item) => {
-    setCardIdx((val) => +1);
+    setCardIdx((val) => val+1);
     setSelection((val) => ({
       ...val,
       [item.id]: 1,
@@ -61,7 +61,7 @@ const Swiping = ({ navigation, route, data }) => {
   };
 
   const handleNo = (item) => {
-    setCardIdx((val) => +1);
+    setCardIdx((val) => val+1);
     setSelection((val) => ({
       ...val,
       [item.id]: 0,
@@ -79,7 +79,7 @@ const Swiping = ({ navigation, route, data }) => {
     // setModalData(item);
   };
   const containerStyle = {
-    flex: 0.95,
+    flex: 0.85,
     backgroundColor: "white",
     borderRadius: 15,
     borderWidth: 1,
@@ -104,7 +104,7 @@ const Swiping = ({ navigation, route, data }) => {
             contentContainerStyle={containerStyle}
           >
             {/* <Image
-              source={{ uri: modalData.image_url }}
+              source={{ uri: party?.restaurants[cardIdx].image_url }}
               style={[styles.image, { marginTop: 10 }]}
             /> */}
             <Text>{JSON.stringify(party?.restaurants[cardIdx], null, 2)}</Text>
@@ -258,25 +258,19 @@ const Swiping = ({ navigation, route, data }) => {
           <BottomSheetScrollView style={styles.bottomSheetContainer}>
             <View style={{top: 10, left: 22, marginBottom: 30, marginTop: 10}}>
                 <Text h4 style={{fontFamily: "Kollektif", color: "#f76f6d"}}>Address</Text>
-                <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{modalData.location.address1}</Text>
-                <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{modalData.location.city+", "+modalData.location.state+" "+modalData.location.zip_code}</Text>
-              </View>
-              <Divider />
-              <View style={{top: 10, left: 22, marginBottom: 22.5, }}>
-                <Text h4 style={{fontFamily: "Kollektif", color: "#f76f6d"}}>Hours</Text>
-                <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{modalData.location.address1}</Text>
-                <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{modalData.location.city+", "+modalData.location.state+" "+modalData.location.zip_code}</Text>
+                <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{party?.restaurants[cardIdx].location.address1}</Text>
+                <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{party?.restaurants[cardIdx].location.city+", "+party?.restaurants[cardIdx].location.state+" "+party?.restaurants[cardIdx].location.zip_code}</Text>
               </View>
               <Divider />
               <View style={{top: 10, left: 22, marginBottom: 22.5, marginTop: 10}}>
                 <Text h4 style={{fontFamily: "Kollektif", color: "#f76f6d"}}>Phone</Text>
-                <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{modalData.display_phone}</Text>
+                <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{party?.restaurants[cardIdx].display_phone}</Text>
               </View>
               <Divider />
               <View style={{top: 10, left: 22, marginBottom: 22.5, marginTop: 10}}>
                 <Text h4 style={{fontFamily: "Kollektif", color: "#f76f6d"}}>Filters</Text>
                 <View flexDirection="row" flexWrap="wrap-reverse" style={{marginTop: 5}}>
-                  {modalData.categories.map((item, i) => (
+                  {party?.restaurants[cardIdx].categories.map((item, i) => (
                     <Chip
                       key={i}
                       textAlign="center"
@@ -291,7 +285,7 @@ const Swiping = ({ navigation, route, data }) => {
                   ))}
                 </View>
                 <View flexDirection="row" flexWrap="wrap-reverse" >
-                  {modalData.price != " " && 
+                  {party?.restaurants[cardIdx].price != " " && 
                     <Chip
                       textAlign="center"
                       marginRight={10}
@@ -300,7 +294,7 @@ const Swiping = ({ navigation, route, data }) => {
                       style={{ justifyContent: "center", alignItems: "center", marginTop: "1.5%",}}
                       textStyle={{ fontSize: 17, fontWeight: "bold", fontFamily: "Kollektif" }}
                     >
-                      {modalData.price}
+                      {party?.restaurants[cardIdx].price}
                     </Chip>
                   }
                 </View>
