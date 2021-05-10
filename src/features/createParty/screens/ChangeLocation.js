@@ -62,6 +62,7 @@ const ChangeLocation = ({ route, navigation }) => {
                 minLength={3}
                 autoFocus={false}
                 returnKeyType={'default'}
+                isRowScrollable={true}
                 currentLocation={true}
                 enablePoweredByContainer={false}
                 onPress={(data=null) => {
@@ -95,14 +96,14 @@ const ChangeLocation = ({ route, navigation }) => {
                     },
                     row: {
                         backgroundColor: 'white',
-                        height: 44,
+                        height: 50,
                         flexDirection: 'row',
+                        alignItems: "center"
                     },
                     description: {
                         fontFamily: "Kollektif",
                         display: "flex",
                         fontSize: 17,
-                        flexWrap: "wrap"
                     }
                 }}
             />

@@ -43,10 +43,11 @@ export const RestarauntCard = ({ data }) => {
       <Provider>
         <Portal>
           <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-            <Image 
+            {/* <Image 
               source={{ uri: data.image_url }}
               style={[styles.image, {marginTop: 10}]}
-            />
+            /> */}
+            <Text h1>hi</Text>
           </Modal>
         </Portal>
       <ImageBackground
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     top: 575,
-    left: 140,
+    left: 135,
     flex: 0.1,
     justifyContent: "center",
     alignItems: "center",

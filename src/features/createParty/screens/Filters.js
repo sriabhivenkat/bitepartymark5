@@ -17,7 +17,7 @@ const Filters = ({ route, navigation }) => {
   const [count, setCount] = useState(10);
   const [isFamily, setIsFamily] = useState(false);
   const [isFastFood, setIsFastFood] = useState(false);
-  const [locval, setLocVal] = useState([]);
+  const [loc, setLocVal] = useState([]);
   const [longName, setName] = useState("");
   const [time, setTime] = useState(new Date());
   const [filters, setFilters] = useState([]);
@@ -108,7 +108,6 @@ const Filters = ({ route, navigation }) => {
           var loca = [location.lat, location.lng];
           setLocVal(loca);
         }).catch(error => console.warn(error));
-        const loc = locval;
         const id = await createParty(selectedFriends, {
           loc,
           count,
