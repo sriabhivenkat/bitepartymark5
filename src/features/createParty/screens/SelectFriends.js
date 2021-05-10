@@ -157,7 +157,7 @@ const SelectFriends = ({ route, navigation }) => {
             </LinearGradient>
           </TouchableOpacity>
         </View>
-        <ScrollView marginBottom={80} marginTop={20} paddingTop={10}>
+        <ScrollView marginBottom={80} marginTop={10} paddingTop={10}>
           {friends &&
             friends
               .filter(
