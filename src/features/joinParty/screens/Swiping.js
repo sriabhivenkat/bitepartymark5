@@ -11,7 +11,7 @@ import {
 import SwipeCards from "react-native-swipe-cards-deck";
 import LinearGradient from "react-native-linear-gradient";
 import { RestarauntCard } from "components";
-import {Text} from 'galio-framework';
+import { Text } from "galio-framework";
 import { useParty } from "lib";
 import Swiper from "react-native-deck-swiper";
 import { Modal, Portal, Provider, Divider, Chip } from "react-native-paper";
@@ -21,8 +21,8 @@ import { DeckSwiper, Block } from "galio-framework";
 import { Alert } from "react-native";
 
 const Swiping = ({ navigation, route, data }) => {
-  const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
+  const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
   const [selections, setSelection] = useState({});
   const { partyID } = route.params;
   const { party, partyMember, partyMeta, addPartySelections } = useParty(
@@ -37,7 +37,7 @@ const Swiping = ({ navigation, route, data }) => {
   const [visible, setVisible] = useState(false);
   const [infoVisible, setInfoVisible] = useState(false);
   const [modalData, setModalData] = useState({});
-  
+
   // // // handle swiping complete
   useEffect(() => {
     addPartySelections(selections)
@@ -75,7 +75,7 @@ const Swiping = ({ navigation, route, data }) => {
   const handleSwipeUp = (item) => {
     setInfoVisible(true);
     setModalData(item);
-  }
+  };
   const containerStyle = {
     flex: 0.95,
     backgroundColor: "white",
@@ -102,7 +102,7 @@ const Swiping = ({ navigation, route, data }) => {
             contentContainerStyle={containerStyle}
           >
             {/* <Image
-              source={{uri: modalData.image_url}}
+              source={{ uri: modalData.image_url }}
               style={[styles.image, { marginTop: 10 }]}
             /> */}
             <Text>{JSON.stringify(modalData, null, 2)}</Text>

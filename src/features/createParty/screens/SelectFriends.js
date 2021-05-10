@@ -5,16 +5,20 @@ import { Avatar } from "react-native-paper";
 import { ListItem } from "react-native-elements";
 import LinearGradient from "react-native-linear-gradient";
 import TouchableScale from "react-native-touchable-scale";
+import { Input } from "galio-framework";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
 import { useFriends, useParty } from "lib";
 import MemberCard from "components/MemberCard";
 import { ScrollView } from "react-native";
 import { Alert } from "react-native";
+import { TitleText } from "../../../components";
+import { SafeAreaView } from "react-native";
 
 const SelectFriends = ({ route, navigation }) => {
   const { friends } = useFriends();
   const { partyId } = useParty();
+  const [query, setQuery] = useState("");
   const [selectedFriends, setSelectedFriends] = useState([]);
 
   const generateLink = async (groupId) => {
@@ -59,62 +63,64 @@ const SelectFriends = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text h3 style={styles.title}>
-        {`Who's coming?`}
-      </Text>
-
-      {/* {friends.map((item) => (
-        <View style={{ marginTop: "-2%" }} key={item.uidvalue}>
-          <ListItem
-            Component={TouchableScale}
-            friction={90}
-            tension={100}
-            containerStyle={
-              selectedFriends.some(
-                (friend) => friend.uidvalue == item.uidvalue
-              ) && {
-                backgroundColor: "#edf0f5",
-              }
-            }
-            activeScale={1.05}
-            onPress={() => toggleSelection(item)}
-            style={{
-              borderBottomColor: "lightgray",
-              borderBottomWidth: 1,
-              borderTopColor: "lightgray",
-              borderTopWidth: 1,
-            }}
-          >
-            <Avatar.Image size={45} source={{ uri: item.imageUrlPath }} />
-            <ListItem.Content style={styles.queryContent}>
-              <ListItem.Title style={styles.querytitle}>
-                {"@" + item.handle}
-              </ListItem.Title>
-              <ListItem.Subtitle style={styles.querysubtitle}>
-                {item.firstName + " " + item.lastName}
-              </ListItem.Subtitle>
-            </ListItem.Content>
-          </ListItem>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        <View
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <TitleText marginTop={30}>Invite Friends</TitleText>
+          {selectedFriends.length > 0 && (
+            <TouchableOpacity
+              style={styles.button}
+              activeOpacity={0.9}
+              onPress={() => {
+                navigation.navigate("createParty/filters", {
+                  partyId,
+                  selectedFriends,
+                });
+              }}
+              // style={{ height: 50, marginHorizontal: "20%", marginVertical: 15 }}
+            >
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={["#ee0979", "#f76f6d", "#ff6a00"]}
+                style={{
+                  height: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 15,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontFamily: "Kollektif",
+                    fontSize: 17,
+                  }}
+                >
+                  Done
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          )}
         </View>
-      ))} */}
-      <ScrollView marginBottom={80}>
-        {friends &&
-          friends.map((item) => (
-            <MemberCard
-              key={item.uidvalue}
-              data={item}
-              onPress={() => toggleSelection(item)}
-              selected={selectedFriends.some(
-                (friend) => friend.uidvalue == item.uidvalue
-              )}
-            />
-          ))}
-      </ScrollView>
-      <View style={[styles.buttonContainer]}>
-        {selectedFriends.length != 0 && (
+
+        <Input
+          placeholder="Enter a handle"
+          onChangeText={(txt) => setQuery(txt)}
+          left
+          icon="search"
+          family="ionicons"
+          iconSize={25}
+          autoCapitalize="none"
+          style={styles.searchbar}
+          value={query}
+        />
+        <View style={[styles.buttonContainer]}>
           <TouchableOpacity
-            style={styles.button}
             activeOpacity={0.9}
             onPress={() => {
               navigation.navigate("createParty/filters", {
@@ -122,7 +128,11 @@ const SelectFriends = ({ route, navigation }) => {
                 selectedFriends,
               });
             }}
-            // style={{ height: 50, marginHorizontal: "20%", marginVertical: 15 }}
+            style={{
+              height: 50,
+              marginHorizontal: "20%",
+              marginVertical: 15,
+            }}
           >
             <LinearGradient
               start={{ x: 0, y: 0 }}
@@ -146,46 +156,26 @@ const SelectFriends = ({ route, navigation }) => {
               </Text>
             </LinearGradient>
           </TouchableOpacity>
-        )}
-        {/* <GradientButton>
-          Foo
-         </GradientButton> */}
-        <TouchableOpacity
-          activeOpacity={0.9}
-          onPress={() =>
-            Alert.alert(
-              "Unable to Share Link",
-              "We're still working this feature, check back later!"
-            )
-          }
-          // onPress={async () => onShare({ url: await generateLink() })}
-          style={{ height: 50, marginHorizontal: "20%", marginVertical: 15 }}
-        >
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            colors={["#ee0979", "#f76f6d", "#ff6a00"]}
-            style={{
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 15,
-            }}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontFamily: "Kollektif",
-                fontWeight: "300",
-                fontSize: 17,
-              }}
-            >
-              Share link 🔗
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
+        </View>
+        <ScrollView marginBottom={80} marginTop={20} paddingTop={10}>
+          {friends &&
+            friends
+              .filter(
+                (item) => item?.handle?.indexOf(query) >= 0 || query.length < 2
+              )
+              .map((item) => (
+                <MemberCard
+                  key={item.uidvalue}
+                  data={item}
+                  onPress={() => toggleSelection(item)}
+                  selected={selectedFriends.some(
+                    (friend) => friend.uidvalue == item.uidvalue
+                  )}
+                />
+              ))}
+        </ScrollView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -193,9 +183,10 @@ export default SelectFriends;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: "white",
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
   },
   queryView: {
     flex: 0.13,
@@ -216,7 +207,7 @@ const styles = StyleSheet.create({
     fontFamily: "Kollektif",
     paddingBottom: "10%",
     color: "#f76f6d",
-    marginTop: "5%"
+    marginTop: "5%",
   },
   queryResults: {
     marginTop: 20,
@@ -253,10 +244,20 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    // backgroundColor: "red",
   },
   button: {
     height: 50,
-    marginHorizontal: "20%",
+    width: 100,
+    // marginHorizontal: "20%",
     marginVertical: 15,
+  },
+  searchbar: {
+    borderColor: "black",
+    borderWidth: 1.5,
+    alignItems: "center",
+    shadowColor: "black",
+    shadowRadius: 30,
+    borderRadius: 14,
   },
 });

@@ -4,3 +4,4 @@ export * from "./PartyCard";
 export * from "./GradientButton";
 export * from "./RestarauntCard";
 export * from "./YelpRating";
+export * from "./MemberCard";
