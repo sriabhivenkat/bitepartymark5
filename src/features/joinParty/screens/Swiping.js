@@ -253,7 +253,7 @@ const Swiping = ({ navigation, route, data }) => {
           </View> */}
         <BottomSheet ref={bottomSheetRef} index={1} snapPoints={snapPoints}>
           <BottomSheetScrollView style={styles.bottomSheetContainer}>
-            {/* <View style={{top: 10, left: 22, marginBottom: 30, marginTop: 10}}>
+            <View style={{top: 10, left: 22, marginBottom: 30, marginTop: 10}}>
                 <Text h4 style={{fontFamily: "Kollektif", color: "#f76f6d"}}>Address</Text>
                 <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{modalData.location.address1}</Text>
                 <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{modalData.location.city+", "+modalData.location.state+" "+modalData.location.zip_code}</Text>
@@ -286,6 +286,8 @@ const Swiping = ({ navigation, route, data }) => {
                       {item.title}
                     </Chip>
                   ))}
+                </View>
+                <View flexDirection="row" flexWrap="wrap-reverse" >
                   {modalData.price != " " && 
                     <Chip
                       textAlign="center"
@@ -299,7 +301,7 @@ const Swiping = ({ navigation, route, data }) => {
                     </Chip>
                   }
                 </View>
-              </View> */}
+              </View>
           </BottomSheetScrollView>
         </BottomSheet>
       </Provider>
