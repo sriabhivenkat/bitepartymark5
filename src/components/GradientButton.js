@@ -4,7 +4,9 @@ import LinearGradient from "react-native-linear-gradient";
 import { Text } from "galio-framework";
 
 export const GradientButton = ({
-  style,
+  innerStyle,
+  containerStyle,
+  textStyle,
   children,
   onPress,
   outline,
@@ -15,7 +17,8 @@ export const GradientButton = ({
     // style={styles.button}
     activeOpacity={0.5}
     onPress={onPress}
-    style={[style]}
+    style={[{ flexDirection: "row" }, containerStyle]}
+    backgroundColor="red"
     {...rest}
   >
     <LinearGradient
@@ -29,22 +32,29 @@ export const GradientButton = ({
           alignItems: "center",
           borderRadius: 15,
           backgroundColor: bg ? bg : "#ffffff00",
+          alignSelf: "stretch",
+          flex: 1,
+          flexDirection: "row",
         },
         outline && {
           borderWidth: 1,
           borderColor: "#ee0979",
         },
+        innerStyle,
       ]}
     >
       <Text
-        style={{
-          fontFamily: "Kollektif",
-          fontSize: 15,
-          textTransform: "uppercase",
-          letterSpacing: 1,
-          fontWeight: "500",
-          color: outline ? "#ee0979" : "#fff",
-        }}
+        style={[
+          {
+            fontFamily: "Kollektif",
+            fontSize: 18,
+            // textTransform: "uppercase",
+            letterSpacing: 1,
+            fontWeight: "500",
+            color: outline ? "#ee0979" : "#fff",
+          },
+          textStyle,
+        ]}
       >
         {children}
       </Text>
