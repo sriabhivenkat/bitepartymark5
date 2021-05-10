@@ -16,7 +16,7 @@ import { useParty } from "lib";
 import Swiper from "react-native-deck-swiper";
 import { Modal, Portal, Provider, Divider, Chip } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import BottomSheet, {BottomSheetScrollView} from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { DeckSwiper, Block } from "galio-framework";
 import { Alert } from "react-native";
 
@@ -29,8 +29,7 @@ const Swiping = ({ navigation, route, data }) => {
     partyID
   );
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ['1%', '75%'], []);
-  
+  const snapPoints = useMemo(() => ["1%", "75%"], []);
 
   const hasNavigated = useRef(false);
 
@@ -69,7 +68,7 @@ const Swiping = ({ navigation, route, data }) => {
   const handleTap = (item) => {
     setVisible(true);
     setModalData(item);
-    console.log(modalData)
+    console.log(modalData);
   };
 
   const handleSwipeUp = (item) => {
@@ -117,118 +116,122 @@ const Swiping = ({ navigation, route, data }) => {
             <Text h2>chortle my balls</Text>
           </Modal>
         </Portal>
-          <View justifyContent="center" alignItems="center">
-            <Image
-              style={{ width: 100, height: 75, alignItems: "center" }}
-              source={require("assets/images/headerlogo.png")}
-            />
-          </View>
-          
-          {!partyMeta.isLoading && partyMember && (
-              <Swiper
-                backgroundColor="#fff"
-                borderWidth={2}
-                borderWidth="black"
-                marginTop={150}
-                marginBottom={20}
-                cardVerticalMargin={0}
-                // onSwipedAll={handleComplete}
-                verticalSwipe={true}
-                disableTopSwipe
-                disableBottomSwipe
-                useViewOverflow={false}
-                keyExtractor={(item) => item.id}
-                onSwipedLeft={(idx) => handleNo(party.restaurants[idx])}
-                onSwipedRight={(idx) => handleYes(party.restaurants[idx])}
-                onSwipedTop={(idx) => handleSwipeUp(party.restaurants[idx])}
-                // onSwiped={() => this.onSwiped("general")}
-                // onSwipedLeft={() => this.onSwiped("left")}
-                // onSwipedRight={() => this.onSwiped("right")}
-                // onSwipedTop={() => this.onSwiped("top")}
-                // onSwipedBottom={() => this.onSwiped("bottom")}
-                onTapCard={(idx) => handleTap(party.restaurants[idx])}
-                cards={party.restaurants}
-                // cardIndex={this.state.cardIndex}
-                // cardVerticalMargin={80}
-                renderCard={(item) => <RestarauntCard data={item} key={item.id} />}
-                containerStyle={{position: "absolute", backgroundColor: "white", marginBottom: "10%"}}
-                // onSwipedAll={this.onSwipedAllCards}
-                stackSize={party.restaurants.length}
-                // stackAnimationTension={100}
-                // stackAnimationFriction={1}
-                stackScale={0}
-                stackSeparation={0}
-                // stackAnimationTension={10}
-                overlayLabels={{
-                  bottom: {
-                    title: "BLEAH",
-                    style: {
-                      label: {
-                        backgroundColor: "black",
-                        borderColor: "black",
-                        color: "white",
-                        borderWidth: 1,
-                      },
-                      wrapper: {
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      },
-                    },
+        <View justifyContent="center" alignItems="center">
+          <Image
+            style={{ width: 100, height: 75, alignItems: "center" }}
+            source={require("assets/images/headerlogo.png")}
+          />
+        </View>
+
+        {!partyMeta.isLoading && partyMember && (
+          <Swiper
+            backgroundColor="#fff"
+            borderWidth={2}
+            borderWidth="black"
+            marginTop={150}
+            marginBottom={20}
+            cardVerticalMargin={0}
+            // onSwipedAll={handleComplete}
+            verticalSwipe={true}
+            disableTopSwipe
+            disableBottomSwipe
+            useViewOverflow={false}
+            keyExtractor={(item) => item.id}
+            onSwipedLeft={(idx) => handleNo(party.restaurants[idx])}
+            onSwipedRight={(idx) => handleYes(party.restaurants[idx])}
+            onSwipedTop={(idx) => handleSwipeUp(party.restaurants[idx])}
+            // onSwiped={() => this.onSwiped("general")}
+            // onSwipedLeft={() => this.onSwiped("left")}
+            // onSwipedRight={() => this.onSwiped("right")}
+            // onSwipedTop={() => this.onSwiped("top")}
+            // onSwipedBottom={() => this.onSwiped("bottom")}
+            onTapCard={(idx) => handleTap(party.restaurants[idx])}
+            cards={party.restaurants}
+            // cardIndex={this.state.cardIndex}
+            // cardVerticalMargin={80}
+            renderCard={(item) => <RestarauntCard data={item} key={item.id} />}
+            containerStyle={{
+              position: "absolute",
+              backgroundColor: "white",
+              marginBottom: "10%",
+            }}
+            // onSwipedAll={this.onSwipedAllCards}
+            stackSize={party.restaurants.length}
+            // stackAnimationTension={100}
+            // stackAnimationFriction={1}
+            stackScale={0}
+            stackSeparation={0}
+            // stackAnimationTension={10}
+            overlayLabels={{
+              bottom: {
+                title: "BLEAH",
+                style: {
+                  label: {
+                    backgroundColor: "black",
+                    borderColor: "black",
+                    color: "white",
+                    borderWidth: 1,
                   },
-                  left: {
-                    title: "NOPE",
-                    style: {
-                      label: {
-                        backgroundColor: "black",
-                        borderColor: "black",
-                        color: "white",
-                        borderWidth: 1,
-                      },
-                      wrapper: {
-                        flexDirection: "column",
-                        alignItems: "flex-end",
-                        justifyContent: "flex-start",
-                        marginTop: 30,
-                        marginLeft: -30,
-                      },
-                    },
+                  wrapper: {
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
                   },
-                  right: {
-                    title: "LIKE",
-                    style: {
-                      label: {
-                        backgroundColor: "black",
-                        borderColor: "black",
-                        color: "white",
-                        borderWidth: 1,
-                      },
-                      wrapper: {
-                        flexDirection: "column",
-                        alignItems: "flex-start",
-                        justifyContent: "flex-start",
-                        marginTop: 30,
-                        marginLeft: 30,
-                      },
-                    },
+                },
+              },
+              left: {
+                title: "NOPE",
+                style: {
+                  label: {
+                    backgroundColor: "black",
+                    borderColor: "black",
+                    color: "white",
+                    borderWidth: 1,
                   },
-                }}
-                animateOverlayLabelsOpacity
-                animateCardOpacity
-                // swipeBackCard
-              >
-                <></>
-              </Swiper>
-          )}
-          {/* </View> */}
-          {/* {!partyMeta.isLoading && partyMember && (
+                  wrapper: {
+                    flexDirection: "column",
+                    alignItems: "flex-end",
+                    justifyContent: "flex-start",
+                    marginTop: 30,
+                    marginLeft: -30,
+                  },
+                },
+              },
+              right: {
+                title: "LIKE",
+                style: {
+                  label: {
+                    backgroundColor: "black",
+                    borderColor: "black",
+                    color: "white",
+                    borderWidth: 1,
+                  },
+                  wrapper: {
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    justifyContent: "flex-start",
+                    marginTop: 30,
+                    marginLeft: 30,
+                  },
+                },
+              },
+            }}
+            animateOverlayLabelsOpacity
+            animateCardOpacity
+            // swipeBackCard
+          >
+            <></>
+          </Swiper>
+        )}
+        {/* </View> */}
+        {/* {!partyMeta.isLoading && partyMember && (
             <DeckSwiper
               components={party.restaurants.map((item) => (
                 <RestarauntCard data={item} />
               ))}
             />
           )} */}
-          {/* <View style={styles.buttonContainer}>
+        {/* <View style={styles.buttonContainer}>
             <FAB
               style={[styles.fab, { backgroundColor: "red" }]}
               large
@@ -248,15 +251,9 @@ const Swiping = ({ navigation, route, data }) => {
               }}
             />
           </View> */}
-          <BottomSheet
-            ref={bottomSheetRef}
-            index={1}
-            snapPoints={snapPoints}
-          >
-            <BottomSheetScrollView
-              style={styles.bottomSheetContainer}
-            >
-              <View style={{top: 10, left: 22, marginBottom: 30, marginTop: 10}}>
+        <BottomSheet ref={bottomSheetRef} index={1} snapPoints={snapPoints}>
+          <BottomSheetScrollView style={styles.bottomSheetContainer}>
+            {/* <View style={{top: 10, left: 22, marginBottom: 30, marginTop: 10}}>
                 <Text h4 style={{fontFamily: "Kollektif", color: "#f76f6d"}}>Address</Text>
                 <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{modalData.location.address1}</Text>
                 <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{modalData.location.city+", "+modalData.location.state+" "+modalData.location.zip_code}</Text>
@@ -302,9 +299,9 @@ const Swiping = ({ navigation, route, data }) => {
                     </Chip>
                   }
                 </View>
-              </View>
-            </BottomSheetScrollView>
-          </BottomSheet>
+              </View> */}
+          </BottomSheetScrollView>
+        </BottomSheet>
       </Provider>
     </SafeAreaView>
   );
@@ -329,6 +326,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   bottomSheetContainer: {
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
 });
