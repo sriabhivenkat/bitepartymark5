@@ -35,7 +35,8 @@ const Swiping = ({ navigation, route, data }) => {
 
   const [visible, setVisible] = useState(false);
   const [infoVisible, setInfoVisible] = useState(false);
-  const [modalData, setModalData] = useState({});
+  // const [modalData, setModalData] = useState({});
+  const [cardIdx, setCardIdx] = useState(0);
 
   // // // handle swiping complete
   useEffect(() => {
@@ -52,6 +53,7 @@ const Swiping = ({ navigation, route, data }) => {
   }, [partyMember]);
 
   const handleYes = (item) => {
+    setCardIdx((val) => +1);
     setSelection((val) => ({
       ...val,
       [item.id]: 1,
@@ -59,6 +61,7 @@ const Swiping = ({ navigation, route, data }) => {
   };
 
   const handleNo = (item) => {
+    setCardIdx((val) => +1);
     setSelection((val) => ({
       ...val,
       [item.id]: 0,
@@ -67,13 +70,13 @@ const Swiping = ({ navigation, route, data }) => {
 
   const handleTap = (item) => {
     setVisible(true);
-    setModalData(item);
-    console.log(modalData);
+    // setModalData(item);
+    // console.log(modalData);
   };
 
   const handleSwipeUp = (item) => {
     setInfoVisible(true);
-    setModalData(item);
+    // setModalData(item);
   };
   const containerStyle = {
     flex: 0.95,
@@ -104,7 +107,7 @@ const Swiping = ({ navigation, route, data }) => {
               source={{ uri: modalData.image_url }}
               style={[styles.image, { marginTop: 10 }]}
             /> */}
-            <Text>{JSON.stringify(modalData, null, 2)}</Text>
+            <Text>{JSON.stringify(party?.restaurants[cardIdx], null, 2)}</Text>
           </Modal>
         </Portal>
         <Portal>
