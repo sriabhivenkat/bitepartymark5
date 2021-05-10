@@ -21,7 +21,6 @@ const AddFriendsViewController = () => {
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
   const [visible, setVisible] = useState(false);
-  const { user } = useContext(AuthContext);
   const showPanel = () => setVisible(true);
   const hidePanel = () => setVisible(false);
   const [userHandle, setUserHandle] = useState("");
