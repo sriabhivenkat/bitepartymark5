@@ -26,16 +26,22 @@ const InvitesDisplay = ({ navigation }) => {
 
 
 
-  const handleAccept = (invite) =>
-    acceptInvite(invite)
-      .then(() =>
-        navigation.navigate("joinParty", {
-          screen: "joinParty/swiping",
-          params: { partyID: invite.docID },
-        })
-      )
-      .catch((err) => console.error(err));
+  const handleAccept = (invite) => {
+    if (acceptedInvites.length <= 0) {
+      acceptInvite(invite)
+        .then(() =>
+          navigation.navigate("joinParty", {
+            screen: "joinParty/swiping",
+            params: { partyID: invite.docID },
+          })
+        )
+        .catch((err) => console.error(err));
+    }
+    else {
+      alert("Please finish your active party before starting a new one!")
 
+    }
+  }
   const handleReject = (invite) => {
     rejectInvite(invite).catch((err) => console.error(err));
   };
@@ -103,12 +109,16 @@ const InvitesDisplay = ({ navigation }) => {
           renderItem={({ item }) => (
             <InviteCard
               invite={item}
-              onAccept={handleAccept}
+              onAccept=
+              {handleAccept}
+
               onReject={handleReject}
             />
           )}
           keyExtractor={(item) => item.docID}
         />
+
+
       </View>
     </SafeAreaView>
   );
