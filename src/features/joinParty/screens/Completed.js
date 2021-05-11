@@ -5,18 +5,20 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Text,
 } from "react-native";
-import { Text } from "galio-framework";
 import { FlatList, Dimensions } from "react-native";
+
 import MemberCard from "components/MemberCard";
-import { Divider } from "react-native-elements";
+import { Divider } from "react-native-paper";
 import { usePartyData, usePartyMembers } from "lib";
 import { TitleText, SubtitleText } from "components";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { ImageBackground } from "react-native";
+import { GradientButton, PartyCard, RestarauntCard } from "../../../components";
+import LinearGradient from "react-native-linear-gradient";
 
 const Completed = ({ route, navigation }) => {
-
-  
   const { partyID } = route.params;
   // const { party, partyMeta } = useParty(partyID);
   const { partyMembers } = usePartyMembers(partyID);
@@ -29,70 +31,141 @@ const Completed = ({ route, navigation }) => {
       party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <ScrollView>
-          <View style={{ height: 50 }} />
-
-          <View style={{ flex: 0.4 }}>
-            {/* <Button onPress={() => setFoo()} title="Press Me!" /> */}
+    <SafeAreaView backgroundColor="#fff" flex={1}>
+      {party && !party?.winner && (
+        <View>
+          <ImageBackground
+            style={{
+              height: 230,
+              width: Dimensions.get("screen").width,
+              paddingHorizontal: 50,
+              paddingVertical: 10,
+              justifyContent: "space-around",
+            }}
+            source={{ uri: currentWinner?.image_url }}
+          >
+            <View
+              style={{
+                ...StyleSheet.absoluteFillObject,
+                backgroundColor: "rgba(0,0,0,0.65)",
+              }}
+            />
             <View>
-              <TitleText>
-                {party?.winner ? "Winner" : "Running Winner"}
-              </TitleText>
-              {!party.winner && (
-                <SubtitleText>
-                  Your friends are still voting, but here's what's in the
-                  lead...
-                </SubtitleText>
-              )}
+              <Text
+                numberOfLines={2}
+                adjustsFontSizeToFit
+                style={[
+                  styles.text,
+                  {
+                    color: "#fff",
+                    fontSize: 50,
+                    fontWeight: "700",
+                    textAlign: "center",
+                  },
+                ]}
+              >
+                {currentWinner?.name}
+              </Text>
+              <Text
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                style={[
+                  styles.text,
+                  {
+                    color: "#fff",
+                    fontSize: 25,
+                    textAlign: "center",
+                    marginTop: 5,
+                  },
+                ]}
+              >
+                is currently in the lead!
+              </Text>
             </View>
-            {party && (
-              <View
+            <GradientButton>View Restaurant Details</GradientButton>
+          </ImageBackground>
+        </View>
+      )}
+
+      <View style={styles.container}>
+        {party && party.winner && (
+          <>
+            <View marginTop={10}>
+              <TitleText
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                style={{ color: "#F76F6D", fontSize: 60, textAlign: "center" }}
+              >
+                Cheers!
+              </TitleText>
+              <SubtitleText
+                numberOfLines={1}
+                adjustsFontSizeToFit
                 style={{
-                  flex: 0.2,
-                  justifyContent: "center",
-                  paddingVertical: 50,
-                  marginVertical: 50,
-                  borderWidth: 3,
-                  borderRadius: 25,
-                  paddingHorizontal: 15,
-                  borderColor: "#ee0979",
-                  // paddingVertical: 20,
+                  fontSize: 30,
+                  textAlign: "center",
+                  position: "relative",
+                  bottom: 10,
                 }}
               >
-                <Text h3 style={{ textAlign: "center", color: "#ee0979" }}>
-                  {currentWinner?.name}
-                </Text>
-              </View>
-            )}
-            {/* <Divider /> */}
-            <TitleText>Members</TitleText>
+                Restaraunt Chosen
+              </SubtitleText>
+            </View>
+            <View flex={1} marginTop={25} position="relative" top={30}>
+              <RestarauntCard style={{ flexShrink: 0 }} data={currentWinner} />
+            </View>
+            <GradientButton
+              containerStyle={{
+                position: "relative",
+                top: -5,
+              }}
+              innerStyle={{ paddingVertical: 20 }}
+              textStyle={{ fontSize: 22 }}
+            >
+              View Restaurant Details
+            </GradientButton>
+          </>
+        )}
 
-            <FlatList
-              data={partyMembers}
-              style={{ paddingTop: 5 }}
-              snapToInterval={Dimensions.get("window").width}
-              decelerationRate="fast"
-              indicatorStyle="black"
-              renderItem={({ item }) => <MemberCard data={item} />}
-              keyExtractor={(item) => item.docId}
+        {party && partyMembers && !party.winner && (
+          <>
+            <TitleText
+              style={{
+                marginTop: 20,
+                marginBottom: 15,
+                textAlign: "center",
+                fontSize: 25,
+              }}
+            >
+              Party Members
+            </TitleText>
+            <View backgroundColor="#00000050" height={1} marginBottom={15} />
+
+            <ScrollView>
+              {/* <Divider style={{ borderWidth: 0.8, marginBottom: 15 }} /> */}
+
+              <FlatList
+                data={partyMembers}
+                style={{ paddingTop: 5 }}
+                snapToInterval={Dimensions.get("window").width}
+                decelerationRate="fast"
+                indicatorStyle="black"
+                renderItem={({ item }) => <MemberCard data={item} />}
+                keyExtractor={(item) => item.docId}
+              />
+            </ScrollView>
+            <LinearGradient
+              style={{
+                position: "absolute",
+                bottom: 0,
+                width: Dimensions.get("screen").width,
+                height: 20,
+              }}
+              colors={["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 1)"]}
+              pointerEvents={"none"}
             />
-          </View>
-          <View style={{ height: 40 }} />
-
-          {/* <Text>{JSON.stringify(party.restaurants, null, 2)}</Text> */}
-          {/* {winner1 &&
-                <Image source={require('../images/waitingPic.png')} >
-
-                <Text h3 style={{ color: "#f76f6d", fontFamily: "PingFangHK-Medium" }}>{winner1.nameR} Selected!</Text>
-                </Image>
-            }
-            {!winner1 &&
-             <Image source={require('../images/waitingPic.png')} >
-                <Text h3 style={{ color: "#f76f6d", fontFamily: "PingFangHK-Medium" }}>Keep waiting!</Text>
-            </Image>} */}
-        </ScrollView>
+          </>
+        )}
       </View>
       <View justifyContent="center" alignItems="center" marginVertical={10}>
         <TouchableOpacity
@@ -134,6 +207,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     minHeight: 40,
     borderRadius: 15,
+  },
+  text: {
+    fontFamily: "Kollektif",
   },
   subText: {
     fontFamily: "PingFangHK-Semibold",
