@@ -24,8 +24,6 @@ export const useInvites = () => {
   };
 };
 
-
-
 export const useCurrentParty = () => {
   const { user } = useUser();
   const { data, error } = useCollection(`Users/${user?.uidvalue}/currentParty`);
@@ -36,7 +34,6 @@ export const useCurrentParty = () => {
       error,
       isLoading: !error && !data,
     },
-
   };
 };
 

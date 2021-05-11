@@ -59,7 +59,7 @@ const InvitesDisplay = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ paddingTop: 5, flexDirection: "row" }}>
-        {currParties?.length != 0 && (
+        {acceptInvite?.length > 0 && (
           <FlatList
             data={acceptedInvites}
             style={{ paddingTop: 5 }}

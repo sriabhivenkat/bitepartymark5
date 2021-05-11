@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useMemo } from "react";
 import {
   SafeAreaView,
   View,
@@ -7,21 +7,25 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { FlatList, Dimensions } from "react-native";
-
 import MemberCard from "components/MemberCard";
-import { Divider } from "react-native-paper";
-import { usePartyData, usePartyMembers } from "lib";
+import { Divider, Chip } from "react-native-paper";
+import { usePartyData, usePartyMembers, useParty, useUser } from "lib";
 import { TitleText, SubtitleText } from "components";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { ImageBackground } from "react-native";
 import { GradientButton, PartyCard, RestarauntCard } from "../../../components";
 import LinearGradient from "react-native-linear-gradient";
+import { Alert } from "react-native";
 
 const Completed = ({ route, navigation }) => {
   const { partyID } = route.params;
-  // const { party, partyMeta } = useParty(partyID);
+  const { resolveParty, endParty, leaveParty } = useParty(partyID);
   const { partyMembers } = usePartyMembers(partyID);
+  const { user } = useUser();
+  const bottomSheetRef = useRef(null);
+  const snapPoints = useMemo(() => ["1%", "75%"], []);
 
   const { party } = usePartyData(partyID);
 
@@ -82,7 +86,9 @@ const Completed = ({ route, navigation }) => {
                 is currently in the lead!
               </Text>
             </View>
-            <GradientButton>View Restaurant Details</GradientButton>
+            <GradientButton onPress={() => bottomSheetRef.current.expand()}>
+              View Restaurant Details
+            </GradientButton>
           </ImageBackground>
         </View>
       )}
@@ -119,13 +125,81 @@ const Completed = ({ route, navigation }) => {
                 position: "relative",
                 top: -5,
               }}
-              innerStyle={{ paddingVertical: 20 }}
+              innerStyle={{ paddingVertical: 15 }}
               textStyle={{ fontSize: 22 }}
+              onPress={() => bottomSheetRef.current.expand()}
             >
               View Restaurant Details
             </GradientButton>
           </>
         )}
+        {party &&
+          partyMembers &&
+          party.winner &&
+          user &&
+          user.uidvalue == party.admin && (
+            <View alignItems="center">
+              <GradientButton
+                // containerStyle={{ maxWidth: 200, marginBottom: 10 }}
+                containerStyle={{
+                  // position: "relative",
+                  // top: -5,
+                  marginTop: 10,
+                }}
+                innerStyle={{ paddingVertical: 15 }}
+                textStyle={{ fontSize: 22 }}
+                outline
+                onPress={() =>
+                  endParty()
+                    .then(() => navigation.navigate({ name: "home" }))
+                    .catch((err) => console.error(err))
+                }
+              >
+                End Party
+              </GradientButton>
+            </View>
+          )}
+        {party &&
+          partyMembers &&
+          party.winner &&
+          user &&
+          user.uidvalue != party.admin && (
+            <View alignItems="center">
+              <GradientButton
+                // containerStyle={{ maxWidth: 200, marginBottom: 10 }}
+                containerStyle={{
+                  // position: "relative",
+                  // top: -5,
+                  marginTop: 10,
+                }}
+                innerStyle={{ paddingVertical: 15 }}
+                textStyle={{ fontSize: 22 }}
+                outline
+                onPress={() =>
+                  Alert.alert(
+                    "Leave Party?",
+                    "This will remove you from the party with no way to get back!",
+                    [
+                      {
+                        text: "Nope!",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel",
+                      },
+                      {
+                        text: "Leave",
+                        onPress: () =>
+                          leaveParty()
+                            .then(() => navigation.navigate({ name: "home" }))
+                            .catch((err) => console.error(err)),
+                      },
+                    ]
+                  )
+                }
+              >
+                Leave Party
+              </GradientButton>
+            </View>
+          )}
 
         {party && partyMembers && !party.winner && (
           <>
@@ -167,6 +241,54 @@ const Completed = ({ route, navigation }) => {
           </>
         )}
       </View>
+      {party &&
+        partyMembers &&
+        !party.winner &&
+        user &&
+        user.uidvalue == party.admin && (
+          <View alignItems="center">
+            <GradientButton
+              containerStyle={{ maxWidth: 200, marginBottom: 10 }}
+              onPress={() => resolveParty().catch((err) => console.error(err))}
+            >
+              Pick Winner!
+            </GradientButton>
+          </View>
+        )}
+
+      {party &&
+        partyMembers &&
+        !party.winner &&
+        user &&
+        user.uidvalue != party.admin && (
+          <View alignItems="center">
+            <GradientButton
+              containerStyle={{ maxWidth: 200, marginBottom: 10 }}
+              onPress={() =>
+                Alert.alert(
+                  "Leave Party?",
+                  "This will remove you from the party with no way to get back!",
+                  [
+                    {
+                      text: "Nope!",
+                      onPress: () => console.log("Cancel Pressed"),
+                      style: "cancel",
+                    },
+                    {
+                      text: "Leave",
+                      onPress: () =>
+                        leaveParty()
+                          .then(() => navigation.navigate({ name: "home" }))
+                          .catch((err) => console.error(err)),
+                    },
+                  ]
+                )
+              }
+            >
+              Leave Party!
+            </GradientButton>
+          </View>
+        )}
       <View justifyContent="center" alignItems="center" marginVertical={10}>
         <TouchableOpacity
           justifyContent="center"
@@ -175,6 +297,100 @@ const Completed = ({ route, navigation }) => {
           <Ionicons name="home" size={25} />
         </TouchableOpacity>
       </View>
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={1}
+        snapPoints={snapPoints}
+        enableHandlePanningGesture={false}
+        handleComponent={null}
+        // handleHeight={0}
+      >
+        <BottomSheetScrollView style={styles.bottomSheetContainer}>
+          <View style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}>
+            <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
+              Address
+            </Text>
+            <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
+              {currentWinner?.location.address1}
+            </Text>
+            <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
+              {currentWinner?.location.city +
+                ", " +
+                currentWinner?.location.state +
+                " " +
+                currentWinner?.location?.zip_code}
+            </Text>
+          </View>
+          <Divider />
+          <View
+            style={{ top: 10, left: 22, marginBottom: 22.5, marginTop: 10 }}
+          >
+            <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
+              Phone
+            </Text>
+            <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
+              {currentWinner?.display_phone}
+            </Text>
+          </View>
+          <Divider />
+          <View
+            style={{ top: 10, left: 22, marginBottom: 22.5, marginTop: 10 }}
+          >
+            <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
+              Filters
+            </Text>
+            <View
+              flexDirection="row"
+              flexWrap="wrap-reverse"
+              style={{ marginTop: 5 }}
+            >
+              {currentWinner?.categories.map((item, i) => (
+                <Chip
+                  key={i}
+                  textAlign="center"
+                  marginRight={10}
+                  flex={0}
+                  marginVertical={2}
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "1.5%",
+                  }}
+                  textStyle={{
+                    fontSize: 17,
+                    fontWeight: "bold",
+                    fontFamily: "Kollektif",
+                  }}
+                >
+                  {item.title}
+                </Chip>
+              ))}
+            </View>
+            <View flexDirection="row" flexWrap="wrap-reverse">
+              {currentWinner?.price != " " && (
+                <Chip
+                  textAlign="center"
+                  marginRight={10}
+                  flex={0}
+                  marginVertical={2}
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "1.5%",
+                  }}
+                  textStyle={{
+                    fontSize: 17,
+                    fontWeight: "bold",
+                    fontFamily: "Kollektif",
+                  }}
+                >
+                  {currentWinner?.price}
+                </Chip>
+              )}
+            </View>
+          </View>
+        </BottomSheetScrollView>
+      </BottomSheet>
     </SafeAreaView>
   );
 };

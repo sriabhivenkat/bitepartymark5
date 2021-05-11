@@ -53,7 +53,7 @@ const Swiping = ({ navigation, route, data }) => {
   }, [partyMember]);
 
   const handleYes = (item) => {
-    setCardIdx((val) => val+1);
+    setCardIdx((val) => val + 1);
     setSelection((val) => ({
       ...val,
       [item.id]: 1,
@@ -61,7 +61,7 @@ const Swiping = ({ navigation, route, data }) => {
   };
 
   const handleNo = (item) => {
-    setCardIdx((val) => val+1);
+    setCardIdx((val) => val + 1);
     setSelection((val) => ({
       ...val,
       [item.id]: 0,
@@ -256,49 +256,91 @@ const Swiping = ({ navigation, route, data }) => {
           </View> */}
         <BottomSheet ref={bottomSheetRef} index={1} snapPoints={snapPoints}>
           <BottomSheetScrollView style={styles.bottomSheetContainer}>
-            <View style={{top: 10, left: 22, marginBottom: 30, marginTop: 10}}>
-                <Text h4 style={{fontFamily: "Kollektif", color: "#f76f6d"}}>Address</Text>
-                <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{party?.restaurants[cardIdx].location.address1}</Text>
-                <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{party?.restaurants[cardIdx].location.city+", "+party?.restaurants[cardIdx].location.state+" "+party?.restaurants[cardIdx].location.zip_code}</Text>
+            <View
+              style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}
+            >
+              <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
+                Address
+              </Text>
+              <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
+                {party?.restaurants[cardIdx]?.location.address1}
+              </Text>
+              <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
+                {party?.restaurants[cardIdx]?.location.city +
+                  ", " +
+                  party?.restaurants[cardIdx]?.location.state +
+                  " " +
+                  party?.restaurants[cardIdx]?.location?.zip_code}
+              </Text>
+            </View>
+            <Divider />
+            <View
+              style={{ top: 10, left: 22, marginBottom: 22.5, marginTop: 10 }}
+            >
+              <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
+                Phone
+              </Text>
+              <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
+                {party?.restaurants[cardIdx]?.display_phone}
+              </Text>
+            </View>
+            <Divider />
+            <View
+              style={{ top: 10, left: 22, marginBottom: 22.5, marginTop: 10 }}
+            >
+              <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
+                Filters
+              </Text>
+              <View
+                flexDirection="row"
+                flexWrap="wrap-reverse"
+                style={{ marginTop: 5 }}
+              >
+                {party?.restaurants[cardIdx]?.categories.map((item, i) => (
+                  <Chip
+                    key={i}
+                    textAlign="center"
+                    marginRight={10}
+                    flex={0}
+                    marginVertical={2}
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "1.5%",
+                    }}
+                    textStyle={{
+                      fontSize: 17,
+                      fontWeight: "bold",
+                      fontFamily: "Kollektif",
+                    }}
+                  >
+                    {item.title}
+                  </Chip>
+                ))}
               </View>
-              <Divider />
-              <View style={{top: 10, left: 22, marginBottom: 22.5, marginTop: 10}}>
-                <Text h4 style={{fontFamily: "Kollektif", color: "#f76f6d"}}>Phone</Text>
-                <Text style={{fontFamily: "Kollektif", top: 5, fontSize: 25}}>{party?.restaurants[cardIdx].display_phone}</Text>
+              <View flexDirection="row" flexWrap="wrap-reverse">
+                {party?.restaurants[cardIdx]?.price != " " && (
+                  <Chip
+                    textAlign="center"
+                    marginRight={10}
+                    flex={0}
+                    marginVertical={2}
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "1.5%",
+                    }}
+                    textStyle={{
+                      fontSize: 17,
+                      fontWeight: "bold",
+                      fontFamily: "Kollektif",
+                    }}
+                  >
+                    {party?.restaurants[cardIdx]?.price}
+                  </Chip>
+                )}
               </View>
-              <Divider />
-              <View style={{top: 10, left: 22, marginBottom: 22.5, marginTop: 10}}>
-                <Text h4 style={{fontFamily: "Kollektif", color: "#f76f6d"}}>Filters</Text>
-                <View flexDirection="row" flexWrap="wrap-reverse" style={{marginTop: 5}}>
-                  {party?.restaurants[cardIdx].categories.map((item, i) => (
-                    <Chip
-                      key={i}
-                      textAlign="center"
-                      marginRight={10}
-                      flex={0}
-                      marginVertical={2}
-                      style={{ justifyContent: "center", alignItems: "center", marginTop: "1.5%",}}
-                      textStyle={{ fontSize: 17, fontWeight: "bold", fontFamily: "Kollektif" }}
-                    >
-                      {item.title}
-                    </Chip>
-                  ))}
-                </View>
-                <View flexDirection="row" flexWrap="wrap-reverse" >
-                  {party?.restaurants[cardIdx].price != " " && 
-                    <Chip
-                      textAlign="center"
-                      marginRight={10}
-                      flex={0}
-                      marginVertical={2}
-                      style={{ justifyContent: "center", alignItems: "center", marginTop: "1.5%",}}
-                      textStyle={{ fontSize: 17, fontWeight: "bold", fontFamily: "Kollektif" }}
-                    >
-                      {party?.restaurants[cardIdx].price}
-                    </Chip>
-                  }
-                </View>
-              </View>
+            </View>
           </BottomSheetScrollView>
         </BottomSheet>
       </Provider>
