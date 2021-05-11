@@ -114,13 +114,9 @@ const LoginViewController = ({ navigation }) => {
           //   disabled
           style={[styles.button]}
           onPress={
-            () =>
-              Alert.alert(
-                "Unable to login",
-                "Please use email/password. Social login coming soon!"
-              )
-            // onGoogleButtonPress().then(() => console.log("suck my dick"))
-          }
+            () =>{
+            onGoogleButtonPress().then(() => console.log("suck my dick"))
+          }}
           color="white"
         >
           Log In with Google
@@ -130,14 +126,10 @@ const LoginViewController = ({ navigation }) => {
           mode="outlined"
           style={[styles.button, { marginBottom: "3%" }]}
           onPress={
-            () =>
-              Alert.alert(
-                "Unable to login",
-                "Please use email/password. Social login coming soon!"
-              )
-            // onAppleButtonPress()
-            //   .then(() => console.log("suck my nuts"))
-            //   .catch((err) => console.error(err))
+            () => {
+            onAppleButtonPress()
+              .then(() => console.log("suck my nuts"))
+              .catch((err) => console.error(err))}
           }
           color="white"
         >

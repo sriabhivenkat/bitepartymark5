@@ -8,6 +8,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../navigation/AuthProvider.js';
 import {GradientButton} from '../components';
 import {Card} from 'react-native-paper';
+import { Alert } from 'react-native';
 
 const AuthenticateViewController = () => {
     const [email, setEmail] = useState('');
@@ -23,17 +24,18 @@ const AuthenticateViewController = () => {
         behavior = "padding"
         style = {styles.container} 
         >
-        <SafeAreaView style={{alignItems: "center"}}>
         <View style={styles.container}>
-            <View style={{flex: 0.5, top: 50, alignItems: "flex-start", left: 10}}>
-                <View style={{alignItems: "flex-start"}}>
-                    <Text style={{fontSize: 30, fontFamily: "Kollektif", left: 5}}>Email</Text>
+            <View style={{flex: 0.5, top: 50, alignItems: "flex-start", left: 10, marginTop: 150}}>
+                <Text style={{fontSize: 30, fontFamily: "Kollektif", left: 5}}>Email</Text>
+                <View style={{alignItems: "center"}}>
                     <Input
                         placeholder="Email"
                         placeholderTextColor="gray"
                         onChangeText={email => setEmail(email)}
                         style={styles.input1}
                         autoCapitalize="none"
+                        color="black"
+                        fontSize={17}
                         value={email}
                     />
                 </View>
@@ -44,26 +46,31 @@ const AuthenticateViewController = () => {
                         placeholderTextColor="gray"
                         secureTextEntry={true}
                         onChangeText={pass => setPass(pass)}
+                        color="black"
+                        fontSize={17}
                         style={styles.input1}
                         value={pass}
                     />
-                    {/* <Button
-                        mode="filled"
-                        onPress={() => login(email, pass)}
-                        style={styles.button}
-                        color="white"
-                    >
-                        Log In
-                    </Button> */}
                 </View>
-                <View flex={1} style={{alignItems: "flex-start",}}>
-                    <GradientButton >
-                        hola 
-                    </GradientButton>
+                <View style={{flex: 0.6, borderWidth: 2, borderColor: "black", width: "100%", flexDirection: "column"}}>
+                    {(email != '' && pass != "") &&
+                        <GradientButton
+                            onPress={async() => {
+                                try{
+                                    login(email, pass)
+                                }catch(err){
+                                    Alert.alert(err);
+                                }
+                            }}
+                            style={styles.button}
+                            innerStyle={{paddingVertical: 10}}
+                        >
+                                Login
+                        </GradientButton>
+                    }
                 </View>
             </View>
         </View>
-        </SafeAreaView>
         </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
     );
@@ -95,7 +102,9 @@ const styles = StyleSheet.create({
     input1: {
         width: '90%',
         height: 45,
-        borderRadius: 25,
+        borderRadius: 15,
+        borderColor: "black",
+        borderWidth: 1,
         backgroundColor: "#e3e3e3"
     },
     logo: {

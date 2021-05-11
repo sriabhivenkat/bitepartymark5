@@ -4,6 +4,7 @@ import { AuthContext } from '../navigation/AuthProvider.js';
 import { useContext } from 'react';
 import {Text, Input} from 'galio-framework';
 import {Button, Card} from 'react-native-paper'
+import {GradientButton} from '../components';
 
 const SignUp2ViewController = ({route}) => {
     const [handle, setHandle] = useState('');
@@ -20,23 +21,30 @@ const SignUp2ViewController = ({route}) => {
         style = {styles.container}>
 
         <View style={styles.container}>
-            <Text h2 style={[styles.text, {paddingBottom: "10%", padding: 14}]}>Almost there!</Text>
-            <Input 
-                placeholder="Enter a handle"
-                placeholderTextColor="gray"
-                autoCapitalize="none"
-                onChangeText={(userHandle) => setHandle(userHandle)}
-                style={styles.input1}
-                value={handle}
-            />
+            <Text h2 style={[styles.text, {paddingBottom: "5%", padding: 14, color: "#f76f6d"}]}>Almost there!</Text>
+            
+            <Text style={{left: 15, fontSize: 30, fontFamily: "Kollektif"}}>Set a Username</Text>
+            <View style={{alignItems: "center"}}>
+                <Input 
+                    placeholder="Enter a handle"
+                    placeholderTextColor="gray"
+                    autoCapitalize="none"
+                    onChangeText={(userHandle) => setHandle(userHandle)}
+                    style={styles.input1}
+                    color="black"
+                    fontSize={17}
+                    value={handle}
+                />
+            </View>
             {handle!="" &&
-                <Button
-                    mode="contained"
-                    onPress={() => register(electronicmail, password, firstname, lastname, handle)}
-                    style={styles.button}
-                >
-                    Sign Up!
-                </Button>
+                <View style={{alignItems: "center"}}>
+                    <GradientButton
+                        onPress={() => register(electronicmail, password, firstname, lastname, handle)}
+                        style={styles.button}
+                    >
+                        LET'S GO
+                    </GradientButton>
+                </View>
             }
         </View>
         </KeyboardAvoidingView>
@@ -50,9 +58,7 @@ export default SignUp2ViewController;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "black"
+        backgroundColor: "white"
     },
     input: {
         padding: 10,
@@ -62,23 +68,24 @@ const styles = StyleSheet.create({
         borderRadius: 25,
     },
     input1: {
-        width: '70%',
+        width: '95%',
         height: 45,
-        borderRadius: 20,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: "black",
     },
     button: {
         marginTop: 20,
         height: 37,
-        width:"50%",
+        width:"80%",
         backgroundColor: "#F76F6D",
         borderRadius: 15
     },
     text: {
-        marginTop: "30%",
+        marginTop: 150,
         textAlign: "center",
         fontWeight: "bold",
-        fontSize: 32,
-        color: "white",
+        fontSize: 30,
         fontFamily: "Kollektif"
     },
 })

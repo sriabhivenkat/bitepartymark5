@@ -7,7 +7,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Text, Input} from 'galio-framework';
 import { AuthContext } from '../navigation/AuthProvider.js';
 import { useContext } from 'react';
-
+import {GradientButton} from '../components';
 
 const SignUpViewController = ({navigation}) => {
     const [email, setEmail] = useState('');
@@ -25,20 +25,16 @@ const SignUpViewController = ({navigation}) => {
         );
 
     return(
-   
         <TouchableWithoutFeedback 
         accessible = {false}
         onPress={() => Keyboard.dismiss()}> 
-        <KeyboardAvoidingView 
-        behavior = "padding"
-        style = {styles.container} 
-        >
-            
-          
-        <View style={styles.container}>
-            <Text h2 style={[styles.text, {padding: 10, marginBottom: "5%"}]}>Enter email and password.</Text>
- 
-
+            <KeyboardAvoidingView 
+            behavior = "padding"
+            style = {styles.container} 
+            >
+                <View style={styles.container}>
+                    <Text style={{marginTop: 150, left: 15, fontSize: 30, fontFamily: "Kollektif"}}>Email</Text>
+                    <View style={{alignItems: "center"}}>
                         <Input
                             placeholder="Email"
                             placeholderTextColor="grey"
@@ -47,11 +43,13 @@ const SignUpViewController = ({navigation}) => {
                             keyboardType="email-address"
                             autoCapitalize="none"
                             autoCorrect={false}
+                            color="black"
+                            fontSize={17}
                             value={email}
                         />
-
-
-
+                    </View>
+                    <Text style={{marginTop: 20, left: 15, fontSize: 30, fontFamily: "Kollektif"}}>Password</Text>
+                    <View style={{alignItems: "center"}}>
                         <Input 
                             placeholder="Password"
                             placeholderTextColor="grey"
@@ -60,20 +58,23 @@ const SignUpViewController = ({navigation}) => {
                             secureTextEntry={true}
                             style={styles.input1}
                             value={pass}
+                            color="black"
+                            fontSize={17}
                         />
-                {(email != '' && pass != "") &&
-                    <Button
-                        mode="contained"
-                        onPress={() => navigation.navigate("Sign Up 1", {electronicmail: email, password: pass})}
-                        style={styles.button}
-                    >
-                            Next
-                    </Button>
-                }
-        </View>
-        
-       
-        </KeyboardAvoidingView>
+                    </View>
+                    <View style={{alignItems: "center"}}>
+                        {(email != '' && pass != "") &&
+                            <GradientButton
+                                onPress={() => navigation.navigate("Sign Up 1", {electronicmail: email, password: pass})}
+                                style={styles.button}
+                                innerStyle={{paddingVertical: 15}}
+                            >
+                                    NEXT
+                            </GradientButton>
+                        }
+                    </View>
+                </View>
+            </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
 
 
@@ -87,9 +88,7 @@ export default SignUpViewController;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "black"
+        backgroundColor: "white",
     },
     card: {
         height: "50%",
@@ -109,15 +108,17 @@ const styles = StyleSheet.create({
     },
     input: {
         padding: 10,
-        width: '90%',
+        width: '95%',
         marginLeft: "5%",
         height: 45,
         borderRadius: 25,
     },
     input1: {
-        width: '70%',
+        width: '95%',
         height: 45,
-        borderRadius: 25,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: "black",
     },
     text: {
         marginTop: "30%",
@@ -134,9 +135,9 @@ const styles = StyleSheet.create({
     button: {
         marginTop: 20,
         height: 37,
-        width:"50%",
+        width:"80%",
         backgroundColor: "#F76F6D",
-        borderRadius: 15
+        borderRadius: 15,
     },
     forgotPass: {
         marginVertical: 25,
