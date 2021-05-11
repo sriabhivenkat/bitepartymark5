@@ -12,7 +12,7 @@ import { useFriends, useParty } from "lib";
 import MemberCard from "components/MemberCard";
 import { ScrollView } from "react-native";
 import { Alert } from "react-native";
-import { TitleText } from "../../../components";
+import { GradientButton, TitleText } from "../../../components";
 import { SafeAreaView } from "react-native";
 
 const SelectFriends = ({ route, navigation }) => {
@@ -71,95 +71,24 @@ const SelectFriends = ({ route, navigation }) => {
           justifyContent="space-between"
         >
           <TitleText marginTop={30}>Invite Friends</TitleText>
-          {selectedFriends.length > 0 && (
-            <TouchableOpacity
-              style={styles.button}
-              activeOpacity={0.9}
-              onPress={() => {
-                navigation.navigate("createParty/filters", {
-                  partyId,
-                  selectedFriends,
-                });
-              }}
-              // style={{ height: 50, marginHorizontal: "20%", marginVertical: 15 }}
-            >
-              <LinearGradient
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                colors={["#ee0979", "#f76f6d", "#ff6a00"]}
-                style={{
-                  height: "100%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 15,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontFamily: "Kollektif",
-                    fontSize: 17,
-                  }}
-                >
-                  Done
-                </Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          )}
         </View>
-
-        <Input
-          placeholder="Enter a handle"
-          onChangeText={(txt) => setQuery(txt)}
-          left
-          icon="search"
-          family="ionicons"
-          iconSize={25}
-          autoCapitalize="none"
-          style={styles.searchbar}
-          value={query}
-        />
-        <View style={[styles.buttonContainer]}>
-          <TouchableOpacity
-            activeOpacity={0.9}
-            onPress={() => {
-              navigation.navigate("createParty/filters", {
-                partyId,
-                selectedFriends,
-              });
-            }}
-            style={{
-              height: 50,
-              marginHorizontal: "20%",
-              marginVertical: 15,
-            }}
-          >
-            <LinearGradient
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              colors={["#ee0979", "#f76f6d", "#ff6a00"]}
-              style={{
-                height: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 15,
-              }}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  fontFamily: "Kollektif",
-                  fontSize: 17,
-                }}
-              >
-                Done
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
+        <View>
+          <Input
+            placeholder="Enter a handle"
+            onChangeText={(txt) => setQuery(txt)}
+            left
+            icon="search"
+            family="ionicons"
+            iconSize={25}
+            autoCapitalize="none"
+            style={styles.searchbar}
+            value={query}
+            placeholderTextColor="rgba(0,0,0,0.5)"
+          />
         </View>
-        <ScrollView marginBottom={80} marginTop={10} paddingTop={10}>
+        <ScrollView>
           {friends &&
-            friends
+            [...friends, ...friends]
               .filter(
                 (item) => item?.handle?.indexOf(query) >= 0 || query.length < 2
               )
@@ -174,6 +103,22 @@ const SelectFriends = ({ route, navigation }) => {
                 />
               ))}
         </ScrollView>
+
+        <View alignItems="center" justifyContent="center" paddingTop={10}>
+          <GradientButton
+            // style={{ backgroundColor: "red" }}
+            innerStyle={{ paddingVertical: 15 }}
+            containerStyle={{ maxWidth: 250 }}
+            onPress={() =>
+              navigation.navigate("createParty/filters", {
+                partyId,
+                selectedFriends,
+              })
+            }
+          >
+            Done
+          </GradientButton>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -183,7 +128,7 @@ export default SelectFriends;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     backgroundColor: "white",
     paddingHorizontal: 10,
     paddingVertical: 10,
@@ -259,5 +204,6 @@ const styles = StyleSheet.create({
     shadowColor: "black",
     shadowRadius: 30,
     borderRadius: 14,
+    fontFamily: "Kollektif",
   },
 });

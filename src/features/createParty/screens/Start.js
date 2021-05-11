@@ -5,14 +5,27 @@ import TouchableScale from "react-native-touchable-scale";
 import { ImageBackground } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { startImages } from "../startImages";
+import { useInvites } from "lib/invites.js";
+import { Alert } from "react-native";
 
 const Start = ({ navigation }) => {
   const hour = new Date().getHours();
+  const { invites, rejectInvite, acceptInvite } = useInvites();
+  const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.image}
-        onPress={() => navigation.navigate("createParty/selectFriends")}
+        onPress={() => {
+          if (acceptedInvites?.length > 0) {
+            navigation.navigate("createParty/selectFriends");
+          } else {
+            Alert.alert(
+              "You have an active Party!",
+              "Complete it before starting a new one!"
+            );
+          }
+        }}
         Component={TouchableScale}
         tension={100}
         activeScale={0.95}

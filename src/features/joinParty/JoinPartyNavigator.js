@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 
 const LogoTitle = () => (
   <Image
-    style={{ width: 100, height: 75, alignItems: "center" }}
+    style={{ height: 55, aspectRatio: 1.5, alignItems: "center" }}
     source={require("assets/images/headerlogo.png")}
   />
 );
@@ -37,8 +37,12 @@ export default ({ route }) => {
         component={Completed}
         options={{
           title: "Party",
-          headerShown: false,
-
+          // headerShown: false,
+          headerLeft: null,
+          headerTitle: (props) => <LogoTitle {...props} />,
+          headerStyle: {
+            height: 110,
+          },
           animationEnabled: false,
         }}
       />

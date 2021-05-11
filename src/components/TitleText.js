@@ -26,5 +26,6 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 22,
     fontWeight: "400",
+    fontFamily: "Kollektif",
   },
 });

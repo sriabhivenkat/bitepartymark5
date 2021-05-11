@@ -24,6 +24,22 @@ export const useInvites = () => {
   };
 };
 
+
+
+export const useCurrentParty = () => {
+  const { user } = useUser();
+  const { data, error } = useCollection(`Users/${user?.uidvalue}/currentParty`);
+
+  return {
+    currParties: data,
+    invitesMeta: {
+      error,
+      isLoading: !error && !data,
+    },
+
+  };
+};
+
 /*
 Helper Methods
 */
