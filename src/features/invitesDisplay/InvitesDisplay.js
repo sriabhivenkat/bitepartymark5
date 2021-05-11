@@ -27,7 +27,7 @@ const InvitesDisplay = ({ navigation }) => {
 
 
   const handleAccept = (invite) => {
-    if (acceptedInvites.length <= 0) {
+    if (acceptedInvites?.length <= 0) {
       acceptInvite(invite)
         .then(() =>
           navigation.navigate("joinParty", {

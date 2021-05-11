@@ -13,7 +13,7 @@ const Start = ({ navigation }) => {
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   return (
     <View style={styles.container}>
-      {acceptedInvites.length == 0 && (<TouchableOpacity
+      {acceptedInvites?.length == 0 && (<TouchableOpacity
         style={styles.image}
         onPress={() => navigation.navigate("createParty/selectFriends")}
         Component={TouchableScale}
@@ -64,7 +64,7 @@ const Start = ({ navigation }) => {
           </LinearGradient>
         </ImageBackground>
       </TouchableOpacity>)}
-      {acceptedInvites.length > 0 && (<TouchableOpacity
+      {acceptedInvites?.length > 0 && (<TouchableOpacity
         style={styles.image}
         onPress={() => alert("You have an active party! Please finish that before staring a new one")}
         Component={TouchableScale}
