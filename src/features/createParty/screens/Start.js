@@ -6,6 +6,7 @@ import { ImageBackground } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { startImages } from "../startImages";
 import { useInvites } from "lib/invites.js";
+import { Alert } from "react-native";
 
 const Start = ({ navigation }) => {
   const hour = new Date().getHours();
@@ -13,9 +14,18 @@ const Start = ({ navigation }) => {
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   return (
     <View style={styles.container}>
-      {acceptedInvites.length == 0 && (<TouchableOpacity
+      <TouchableOpacity
         style={styles.image}
-        onPress={() => navigation.navigate("createParty/selectFriends")}
+        onPress={() => {
+          if (acceptedInvites?.length > 0) {
+            navigation.navigate("createParty/selectFriends");
+          } else {
+            Alert.alert(
+              "You have an active Party!",
+              "Complete it before starting a new one!"
+            );
+          }
+        }}
         Component={TouchableScale}
         tension={100}
         activeScale={0.95}
@@ -63,58 +73,7 @@ const Start = ({ navigation }) => {
             </View>
           </LinearGradient>
         </ImageBackground>
-      </TouchableOpacity>)}
-      {acceptedInvites.length > 0 && (<TouchableOpacity
-        style={styles.image}
-        onPress={() => alert("You have an active party! Please finish that before staring a new one")}
-        Component={TouchableScale}
-        tension={100}
-        activeScale={0.95}
-      >
-        <ImageBackground
-          source={startImages.find(({ end }) => hour < end).image}
-          style={styles.image}
-          borderRadius={15}
-          marginHorizontal={20}
-          marginBottom={15}
-          blurRadius={5}
-        >
-          <LinearGradient
-            style={styles.image}
-            marginHorizontal={20}
-            marginBottom={15}
-            locations={[0.5]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            colors={["rgba(0,0,0,0)", "rgba(0,0,0,1)"]}
-          >
-            <View style={styles.textContainer}>
-              <Text
-                h2
-                style={{
-                  fontFamily: "Kollektif",
-                  fontWeight: "800",
-                  color: "white",
-                  textAlign: "center",
-                }}
-              >
-                Let's Party
-              </Text>
-              <Text
-                h5
-                style={{
-                  fontFamily: "Kollektif",
-                  fontWeight: "bold",
-                  color: "#f76f6d",
-                  textAlign: "center",
-                }}
-              >
-                Start partying with friends!
-              </Text>
-            </View>
-          </LinearGradient>
-        </ImageBackground>
-      </TouchableOpacity>)}
+      </TouchableOpacity>
     </View>
   );
 };
