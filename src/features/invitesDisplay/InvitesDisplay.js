@@ -9,22 +9,26 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
-import { TitleText, InviteCard, PartyCard, SubtitleText, resumeCard, GradientButton } from "components";
+import {
+  TitleText,
+  InviteCard,
+  PartyCard,
+  SubtitleText,
+  resumeCard,
+  GradientButton,
+} from "components";
 import { SafeAreaView } from "react-native";
 import { useInvites } from "lib/invites.js";
-import { Card } from "react-native-paper"
+import { Card } from "react-native-paper";
 import { useCurrentParty } from "../../lib/invites";
 
 const InvitesDisplay = ({ navigation }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
-  const { currParties } = useCurrentParty()
-  console.log("Current Party is", currParties)
+  const { currParties } = useCurrentParty();
+  console.log("Current Party is", currParties);
 
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const pendingInvites = invites?.filter((item) => item.status == "pending");
-
-
-
 
   const handleAccept = (invite) => {
     if (acceptedInvites?.length <= 0) {
@@ -36,60 +40,62 @@ const InvitesDisplay = ({ navigation }) => {
           })
         )
         .catch((err) => console.error(err));
+    } else {
+      alert("Please finish your active party before starting a new one!");
     }
-    else {
-      alert("Please finish your active party before starting a new one!")
-
-    }
-  }
+  };
   const handleReject = (invite) => {
     rejectInvite(invite).catch((err) => console.error(err));
   };
 
   const handleResume = (invite) => {
-
-
-    navigation.navigate("joinParty/swiping", {
-      partyID: invite.docID,
-    }
-    )
+    navigation
+      .navigate("joinParty/swiping", {
+        partyID: invite.docID,
+      })
       .catch((err) => console.error(err));
     // console.log({ pendingInvites });
-  }
+  };
   return (
-
     <SafeAreaView style={styles.container}>
       <View style={{ paddingTop: 5, flexDirection: "row" }}>
-        {currParties?.length != 0 && (<FlatList
-          data={acceptedInvites}
-          style={{ paddingTop: 5 }}
-          scrollEnabled="false"
-          snapToInterval={Dimensions.get("window").width}
-          indicatorStyle="black"
-          decelerationRate="fast"
-          renderItem={({ item }) => (
-            <View style={{ flexDirection: "row", alignItems: 'center', height: 45 }}>
-              <Text style={{ fontWeight: "400", fontSize: 22, paddingLeft: 10 }}>
-                You have an active party!
-             </Text>
-              <GradientButton onPress={() =>
-                navigation.navigate("joinParty", {
-                  screen: "joinParty/swiping",
-                  params: { partyID: item.docID },
-                })
-              } style={{ paddingLeft: 25 }}>
-                <Text>
-                  Resume
-              </Text>
-
-              </GradientButton>
-
-            </View>
-          )}
-
-
-          keyExtractor={(item) => item.partyID}
-        />)}
+        {currParties?.length != 0 && (
+          <FlatList
+            data={acceptedInvites}
+            style={{ paddingTop: 5 }}
+            scrollEnabled="false"
+            snapToInterval={Dimensions.get("window").width}
+            indicatorStyle="black"
+            decelerationRate="fast"
+            renderItem={({ item }) => (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  height: 45,
+                }}
+              >
+                <Text
+                  style={{ fontWeight: "400", fontSize: 22, paddingLeft: 10 }}
+                >
+                  You have an active party!
+                </Text>
+                <GradientButton
+                  onPress={() =>
+                    navigation.navigate("joinParty", {
+                      screen: "joinParty/swiping",
+                      params: { partyID: item.docID },
+                    })
+                  }
+                  style={{ paddingLeft: 25 }}
+                >
+                  <Text>Resume</Text>
+                </GradientButton>
+              </View>
+            )}
+            keyExtractor={(item) => item.partyID}
+          />
+        )}
       </View>
 
       <TitleText style={[styles.subtitle, styles.title]}>Invites</TitleText>
@@ -109,16 +115,12 @@ const InvitesDisplay = ({ navigation }) => {
           renderItem={({ item }) => (
             <InviteCard
               invite={item}
-              onAccept=
-              {handleAccept}
-
+              onAccept={handleAccept}
               onReject={handleReject}
             />
           )}
           keyExtractor={(item) => item.docID}
         />
-
-
       </View>
     </SafeAreaView>
   );
