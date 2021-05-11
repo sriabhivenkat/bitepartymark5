@@ -5,6 +5,8 @@ import { useContext } from 'react';
 import {Text, Input} from 'galio-framework';
 import {Button, Card} from 'react-native-paper'
 import {DismissKeyboard} from '../components/DismissKeyboard'
+import {GradientButton} from '../components';
+
 
 const SignUp1ViewController = ({route, navigation}) => {
     const [first, setFirst] = useState('');
@@ -21,31 +23,42 @@ const SignUp1ViewController = ({route, navigation}) => {
         style = {styles.container}>
            
         <View style={styles.container}>
-            <Text h2 style={[styles.text, {paddingBottom: "10%", padding: 14}]}>Enter your first and last name.</Text>
-            <Input 
-                placeholder="Enter your first name"
-                placeholderTextColor="gray"
-                onChangeText={(userFirst) => setFirst(userFirst)}
-                style={styles.input1}
-                autoCorrect={false}
-                value={first}
-            />
-            <Input 
-                placeholder="Enter your last name"
-                placeholderTextColor="gray"
-                onChangeText={(userLast) => setLast(userLast)}
-                style={styles.input1}
-                autoCorrect={false}
-                value={last}
-            />
+            <Text style={{marginTop: 150, left: 15, fontSize: 30, fontFamily: "Kollektif"}}>First Name</Text>
+            <View style={{alignItems: "center"}}>
+                <Input 
+                    placeholder="Enter your first name"
+                    placeholderTextColor="gray"
+                    onChangeText={(userFirst) => setFirst(userFirst)}
+                    style={styles.input1}
+                    autoCorrect={false}
+                    color="black"
+                    fontSize={17}
+                    value={first}
+                />
+            </View>
+            <Text style={{marginTop: 20, left: 15, fontSize: 30, fontFamily: "Kollektif"}}>Last Name</Text>
+            <View style={{alignItems: "center"}}>
+                <Input 
+                    placeholder="Enter your last name"
+                    placeholderTextColor="gray"
+                    onChangeText={(userLast) => setLast(userLast)}
+                    style={styles.input1}
+                    color="black"
+                    fontSize={17}
+                    autoCorrect={false}
+                    value={last}
+                />
+            </View>
             {(first != '' && last != "") &&
-                <Button
-                    mode="contained"
-                    onPress={() => navigation.navigate("Sign Up 2", {firstname: first, lastname: last, electronicmail, password})}
-                    style={styles.button}
-                >
-                    Next
-                </Button>
+                <View style={{alignItems: "center"}}>
+                    <GradientButton
+                        mode="contained"
+                        onPress={() => navigation.navigate("Sign Up 2", {firstname: first, lastname: last, electronicmail, password})}
+                        style={styles.button}
+                    >
+                        NEXT
+                    </GradientButton>
+                </View>
             }
         </View>
       
@@ -60,9 +73,7 @@ export default SignUp1ViewController;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "black"
+        backgroundColor: "white"
     },
     input: {
         padding: 10,
@@ -72,14 +83,16 @@ const styles = StyleSheet.create({
         borderRadius: 25,
     },
     input1: {
-        width: '70%',
+        width: '95%',
         height: 45,
-        borderRadius: 20,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: "black",
     },
     button: {
         marginTop: 20,
         height: 37,
-        width:"50%",
+        width:"80%",
         backgroundColor: "#F76F6D",
         borderRadius: 15
     },
