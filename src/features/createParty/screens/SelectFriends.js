@@ -21,32 +21,32 @@ const SelectFriends = ({ route, navigation }) => {
   const [query, setQuery] = useState("");
   const [selectedFriends, setSelectedFriends] = useState([]);
 
-  const generateLink = async (groupId) => {
-    const link = await dynamicLinks().buildShortLink({
-      link: `https://biteparty.app/join?id=${partyId}`,
-      domainUriPrefix: "https://biteparty.page.link",
-      androidInfo: {
-        androidPackageName: "com.kastech.biteparty",
-      },
-      iosInfo: {
-        iosBundleId: "com.kastech.biteparty",
-      },
-    });
-    // alert(link)
-    console.log(link);
+  // const generateLink = async (groupId) => {
+  //   const link = await dynamicLinks().buildShortLink({
+  //     link: `https://biteparty.app/join?id=${partyId}`,
+  //     domainUriPrefix: "https://biteparty.page.link",
+  //     androidInfo: {
+  //       androidPackageName: "com.kastech.biteparty",
+  //     },
+  //     iosInfo: {
+  //       iosBundleId: "com.kastech.biteparty",
+  //     },
+  //   });
+  //   // alert(link)
+  //   console.log(link);
 
-    return link;
-  };
+  //   return link;
+  // };
 
-  const onShare = async ({ url }) => {
-    try {
-      const result = await Share.share({
-        message: `BiteParty | Join the party! ${url}`,
-      });
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+  // const onShare = async ({ url }) => {
+  //   try {
+  //     const result = await Share.share({
+  //       message: `BiteParty | Join the party! ${url}`,
+  //     });
+  //   } catch (error) {
+  //     alert(error.message);
+  //   }
+  // };
 
   const toggleSelection = (friend) => {
     const exists = selectedFriends.find(

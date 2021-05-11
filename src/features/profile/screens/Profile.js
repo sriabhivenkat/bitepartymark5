@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
   StatusBar,
   Dimensions,
+  Text,
 } from "react-native";
-import { Text, Card } from "galio-framework";
+// import { Text, Card } from "galio-framework";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { Title, Caption } from "react-native-paper";
 import { Modal, Portal, Provider, Button } from "react-native-paper";
@@ -15,6 +16,31 @@ import ImagePicker from "react-native-image-crop-picker";
 import storage from "@react-native-firebase/storage";
 import { SafeAreaView } from "react-native";
 import { useFriends, useUser, useInvites } from "lib";
+
+const ProfileButton = ({ children, ...rest }) => (
+  <TouchableOpacity
+    style={{
+      borderRadius: 10,
+      borderWidth: 1,
+      alignSelf: "stretch",
+      justifyContent: "center",
+      alignItems: "center",
+      paddingVertical: 10,
+      marginVertical: 10,
+    }}
+    {...rest}
+  >
+    <Text
+      style={{
+        fontSize: 20,
+        textTransform: "uppercase",
+        fontFamily: "Kollektif",
+      }}
+    >
+      {children}
+    </Text>
+  </TouchableOpacity>
+);
 
 const ProfileDisplay = ({ navigation }) => {
   const { user } = useUser();
@@ -137,7 +163,13 @@ const ProfileDisplay = ({ navigation }) => {
               >
                 {friends?.length}
               </Title>
-              <Caption style={{ color: "black", fontSize: 20, fontFamily: "Kollektif", }}>
+              <Caption
+                style={{
+                  color: "black",
+                  fontSize: 20,
+                  fontFamily: "Kollektif",
+                }}
+              >
                 Friends
               </Caption>
             </View>
@@ -153,58 +185,30 @@ const ProfileDisplay = ({ navigation }) => {
               >
                 {invites?.filter(({ status }) => status == "accepted").length}
               </Title>
-              <Caption style={{ color: "black", fontSize: 20, fontFamily: "Kollektif",}}>
+              <Caption
+                style={{
+                  color: "black",
+                  fontSize: 20,
+                  fontFamily: "Kollektif",
+                }}
+              >
                 Parties
               </Caption>
             </View>
           </View>
         </View>
         <View style={styles.containercolumn}>
-          <Button
-            mode="outlined"
-            style={styles.button}
-            activeOpacity={0.9}
-            onPress={() => navigation.navigate("Add Friends")}
-          >
-            <Text
-              style={{
-                color: "black",
-                fontFamily: "Kollektif",
-                fontSize: 17,
-              }}
-            >
-              Add Friends
-            </Text>
-          </Button>
-
-          <Button mode="outlined" style={styles.button} activeOpacity={0.9}>
-            <Text
-              style={{
-                color: "black",
-                fontFamily: "Kollektif",
-                fontSize: 17,
-              }}
-            >
-              Edit Profile
-            </Text>
-          </Button>
-
-          <Button
-            mode="outlined"
-            style={styles.button}
-            activeOpacity={0.9}
+          <ProfileButton onPress={() => navigation.navigate("Add Friends")}>
+            Add Friends
+          </ProfileButton>
+          <ProfileButton onPress={() => navigation.navigate("profile/edit")}>
+            Edit Profile
+          </ProfileButton>
+          <ProfileButton
             onPress={() => navigation.navigate("profile/settings")}
           >
-            <Text
-              style={{
-                color: "black",
-                fontFamily: "Kollektif",
-                fontSize: 17,
-              }}
-            >
-              Settings
-            </Text>
-          </Button>
+            Settings
+          </ProfileButton>
         </View>
       </View>
 
@@ -290,6 +294,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 50,
     // backgroundColor: 'purple'
     // marginTop: "25%",
   },
