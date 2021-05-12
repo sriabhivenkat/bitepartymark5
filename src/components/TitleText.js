@@ -18,10 +18,11 @@ const styles = StyleSheet.create({
   title: {
     color: "black",
     justifyContent: "center",
-    fontSize: 43,
+    fontSize: 36,
     fontFamily: "Kollektif",
     letterSpacing: 0.1,
     marginBottom: 10,
+    marginTop: 30,
   },
   subtitle: {
     fontSize: 22,

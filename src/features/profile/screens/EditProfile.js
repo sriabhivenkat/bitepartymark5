@@ -174,6 +174,7 @@ const EditProfile = ({ navigation }) => {
       const storageRef = firebase.storage().ref(user.uidvalue);
       storageRef.getDownloadURL().then((url) => {
         firestore().collection("Users").doc(user.uidvalue).update({
+          // My Profile
           imageUrl: url,
         });
       });
@@ -184,9 +185,7 @@ const EditProfile = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.container}>
-        <TitleText style={{ marginTop: 30, fontSize: 36 }}>
-          Edit Profile
-        </TitleText>
+        <TitleText>Edit Profile</TitleText>
         <Divider style={styles.divider} />
         <View
           style={styles.profileContainer}

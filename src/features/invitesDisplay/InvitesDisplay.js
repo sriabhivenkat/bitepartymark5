@@ -58,44 +58,71 @@ const InvitesDisplay = ({ navigation }) => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ paddingTop: 5, flexDirection: "row" }}>
+      <View style={{ flexDirection: "row" }}>
         {acceptInvite?.length > 0 && (
-          <FlatList
-            data={acceptedInvites}
-            style={{ paddingTop: 5 }}
-            scrollEnabled="false"
-            snapToInterval={Dimensions.get("window").width}
-            indicatorStyle="black"
-            decelerationRate="fast"
-            renderItem={({ item }) => (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  height: 45,
-                }}
-              >
-                <Text
-                  style={{ fontWeight: "400", fontSize: 22, paddingLeft: 10 }}
+
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              // height: 45,
+              // borderTopWidth: 1,
+              // borderBottomWidth: 2,
+              backgroundColor: "rgba(0,0,0,0.05)",
+              paddingVertical: 20,
+              paddingHorizontal: 20,
+              width: Dimensions.get("screen").width,
+              // ...StyleSheet.absoluteFill,
+              // borderColor: "rgba(0,0,0,0.1)",
+              position: "relative",
+              right: 20,
+              marginBottom: 10,
+              top: -2,
+            }}
+          >
+
+            <FlatList
+              data={acceptedInvites}
+              style={{ paddingTop: 5 }}
+              scrollEnabled="false"
+              snapToInterval={Dimensions.get("window").width}
+              indicatorStyle="black"
+              decelerationRate="fast"
+              renderItem={({ item }) => (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    height: 45,
+                  }}
                 >
-                  You have an active party!
+                  <Text
+                    style={{ fontWeight: "400", fontSize: 22 }}
+                  >
+                    You have an active party!
                 </Text>
-                <GradientButton
-                  onPress={() =>
-                    navigation.navigate("joinParty", {
-                      screen: "joinParty/swiping",
-                      params: { partyID: item.docID },
-                    })
-                  }
-                  style={{ paddingLeft: 25 }}
-                >
-                  <Text>Resume</Text>
-                </GradientButton>
-              </View>
-            )}
-            keyExtractor={(item) => item.partyID}
-          />
+                  <GradientButton
+                    onPress={() =>
+                      navigation.navigate("joinParty", {
+                        screen: "joinParty/swiping",
+                        params: { partyID: item.docID },
+                      })
+                    }
+                    style={{ paddingLeft: 25 }}
+                    containerStyle={{ width: 100 }}
+                    innerStyle={{ borderRadius: 7, paddingVertical: 15 }}
+                    textStyle={{ fontSize: 19 }}
+                  >
+                    <Text>Resume</Text>
+                  </GradientButton>
+                </View>
+              )}
+              keyExtractor={(item) => item.partyID}
+            />
+          </View>
         )}
+
       </View>
 
       <TitleText style={[styles.title]}>Invites</TitleText>
@@ -140,7 +167,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: "black",
-    left: 2.5
+    left: 2.5,
   },
   card: {
     borderRadius: 25,

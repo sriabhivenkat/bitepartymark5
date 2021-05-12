@@ -59,19 +59,7 @@ export default () => (
 
       </Stack.Screen>
     }
-   {windowHeight === 667 && <Stack.Screen
-      name="createParty/selectFriends"
-      component={SelectFriends}
-      options={{
-        title: "Friends",
-        headerShown: true,
-        headerTitle: (props) => <LogoTitle2 {...props} />,
-        headerStyle: {
-          height: 80,
-        },
-      }}
-    />}
-    {windowHeight != 667 && <Stack.Screen
+    <Stack.Screen
       name="createParty/selectFriends"
       component={SelectFriends}
       options={{
@@ -82,7 +70,7 @@ export default () => (
           height: 120,
         },
       }}
-    />}
+    />
    {windowHeight != 667 && <Stack.Screen
       name="createParty/filters"
       component={Filters}
