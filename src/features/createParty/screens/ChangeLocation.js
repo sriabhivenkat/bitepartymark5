@@ -81,6 +81,7 @@ const ChangeLocation = ({ route, navigation }) => {
                     width: "92.5%",
                     borderColor: "black",
                     borderWidth: 2,
+                    color: "black",
                     marginLeft: "2%",
                     marginRight: "5%",
                     left: 5,
@@ -104,6 +105,9 @@ const ChangeLocation = ({ route, navigation }) => {
                         fontFamily: "Kollektif",
                         display: "flex",
                         fontSize: 17,
+                    },
+                    textInput: {
+                        color: "black"
                     }
                 }}
             />

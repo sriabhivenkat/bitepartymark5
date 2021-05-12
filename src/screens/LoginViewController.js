@@ -94,7 +94,7 @@ const LoginViewController = ({ navigation }) => {
               textAlign: "center",
               fontWeight: "bold",
               color: "white",
-              marginBottom: "15%",
+              marginBottom: 25,
               fontFamily: "Kollektif",
             }}
           >
