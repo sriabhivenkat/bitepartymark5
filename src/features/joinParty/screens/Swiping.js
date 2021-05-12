@@ -80,7 +80,7 @@ const Swiping = ({ navigation, route, data }) => {
   };
   const containerStyle = {
     flex: 0.85,
-    backgroundColor: "white",
+    backgroundColor: "black",
     borderRadius: 15,
     borderWidth: 1,
     borderColor: "black",
@@ -102,12 +102,14 @@ const Swiping = ({ navigation, route, data }) => {
             visible={visible}
             onDismiss={() => setVisible(false)}
             contentContainerStyle={containerStyle}
+            animationType="fade" 
+            transparent={true}
           >
-            {/* <Image
+            <Image
               source={{ uri: party?.restaurants[cardIdx].image_url }}
               style={[styles.image, { marginTop: 10 }]}
-            /> */}
-            <Text>{JSON.stringify(party?.restaurants[cardIdx], null, 2)}</Text>
+            /> 
+            {/* <Text>{JSON.stringify(party?.restaurants[cardIdx], null, 2)}</Text> */}
           </Modal>
         </Portal>
         <Portal>
@@ -262,10 +264,10 @@ const Swiping = ({ navigation, route, data }) => {
               <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
                 Address
               </Text>
-              <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
+              <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}>
                 {party?.restaurants[cardIdx]?.location.address1}
               </Text>
-              <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
+              <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}>
                 {party?.restaurants[cardIdx]?.location.city +
                   ", " +
                   party?.restaurants[cardIdx]?.location.state +
@@ -280,7 +282,7 @@ const Swiping = ({ navigation, route, data }) => {
               <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
                 Phone
               </Text>
-              <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
+              <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}>
                 {party?.restaurants[cardIdx]?.display_phone}
               </Text>
             </View>

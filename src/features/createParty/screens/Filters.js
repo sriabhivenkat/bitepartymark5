@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { Divider, Switch, List, ToggleButton } from "react-native-paper";
 import { Text } from "galio-framework";
 import { Slider } from "react-native-elements";
@@ -33,6 +33,9 @@ const Filters = ({ route, navigation }) => {
       setFilters([value, ...filters]);
     }
   };
+
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
 
   const handleRestricts = (value) => {
     const exists = restriction.find((item) => item == value);
@@ -138,7 +141,106 @@ const Filters = ({ route, navigation }) => {
         >
           Price
         </Text>
-        <View style={{ display: "flex", flexDirection: "row", marginLeft: 5 }}>
+        {windowHeight===667 &&
+          <View style={{ display: "flex", flexDirection: "row", marginLeft: -15}}>
+                 <TouchableOpacity
+                   onPress={() => {
+                     handleTap("1");
+                   }}
+                   style={[
+                     filters.includes("1") && { backgroundColor: "lightgray" },
+                     {
+                       padding: 0.5,
+                       borderWidth: 1,
+                       borderColor: "gray",
+                       width: 80,
+                       height: 40,
+                       borderRadius: 25,
+                       left: 30,
+                       marginTop: 15,
+                       alignItems: "center",
+                       justifyContent: "center",
+                       marginRight: 8,
+                     },
+                   ]}
+                 >
+                   <Text p style={[filters.includes("1") && { color: "black" }]}>
+                     $
+                   </Text>
+                 </TouchableOpacity>
+                 <TouchableOpacity
+                   onPress={() => {
+                     handleTap("2");
+                   }}
+                   style={[
+                     filters.includes("2") && { backgroundColor: "lightgray" },
+                     {
+                       padding: 0.5,
+                       borderWidth: 1,
+                       borderColor: "gray",
+                       width: 80,
+                       height: 40,
+                       borderRadius: 25,
+                       left: 30,
+                       marginTop: 15,
+                       alignItems: "center",
+                       justifyContent: "center",
+                       marginRight: 8,
+                     },
+                   ]}
+                 >
+                   <Text p>$$</Text>
+                 </TouchableOpacity>
+                 <TouchableOpacity
+                   onPress={() => {
+                     handleTap("3");
+                   }}
+                   style={[
+                     filters.includes("3") && { backgroundColor: "lightgray" },
+                     {
+                       padding: 0.5,
+                       borderWidth: 1,
+                       borderColor: "gray",
+                       width: 80,
+                       height: 40,
+                       borderRadius: 25,
+                       left: 30,
+                       marginTop: 15,
+                       alignItems: "center",
+                       justifyContent: "center",
+                       marginRight: 8,
+                     },
+                   ]}
+                 >
+                   <Text p>$$$</Text>
+                 </TouchableOpacity>
+                 <TouchableOpacity
+                   onPress={() => {
+                     handleTap("4");
+                   }}
+                   style={[
+                     filters.includes("4") && { backgroundColor: "lightgray" },
+                     {
+                       padding: 0.5,
+                       borderWidth: 1,
+                       borderColor: "gray",
+                       width: 80,
+                       height: 40,
+                       borderRadius: 25,
+                       left: 30,
+                       marginTop: 15,
+                       alignItems: "center",
+                       justifyContent: "center",
+                       marginRight: 8,
+                     },
+                   ]}
+                 >
+                   <Text p>$$$$</Text>
+                 </TouchableOpacity>
+               </View>
+        }
+        {windowHeight != 667 &&
+        <View style={{ display: "flex", flexDirection: "row",}}>
           <TouchableOpacity
             onPress={() => {
               handleTap("1");
@@ -234,6 +336,7 @@ const Filters = ({ route, navigation }) => {
             <Text p>$$$$</Text>
           </TouchableOpacity>
         </View>
+      }
       </View>
       <Divider style={{ marginTop: 10 }} />
       <View
@@ -262,7 +365,7 @@ const Filters = ({ route, navigation }) => {
                 fontFamily: "Kollektif",
               }}
             >
-              Use my current location
+              Use current location
             </Text>
             <Text style={{ top: 3, fontFamily: "Kollektif", fontSize: 17 }}>
               or
@@ -634,7 +737,7 @@ const Filters = ({ route, navigation }) => {
           <LinearGradient
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
-            colors={["#7f00ff", "#e100ff", "#ffaf7b"]}
+            colors={["#ee0979", "#f76f6d", "#ff6a00"]}
             style={{
               height: "100%",
               justifyContent: "center",
