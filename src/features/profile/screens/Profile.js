@@ -16,24 +16,25 @@ import ImagePicker from "react-native-image-crop-picker";
 import storage from "@react-native-firebase/storage";
 import { SafeAreaView } from "react-native";
 import { useFriends, useUser, useInvites } from "lib";
+import { TitleText } from "../../../components";
 
 const ProfileButton = ({ children, ...rest }) => (
   <TouchableOpacity
     style={{
-      borderRadius: 10,
-      borderWidth: 1,
+      borderRadius: 14,
+      borderWidth: 1.5,
       alignSelf: "stretch",
       justifyContent: "center",
       alignItems: "center",
       paddingVertical: 10,
-      marginVertical: 10,
+      marginVertical: 7,
     }}
     {...rest}
   >
     <Text
       style={{
-        fontSize: 20,
-        textTransform: "uppercase",
+        fontSize: 18,
+        textTransform: "capitalize",
         fontFamily: "Kollektif",
       }}
     >
@@ -101,103 +102,108 @@ const ProfileDisplay = ({ navigation }) => {
       console.log(e);
     }
   };
-
+  const height = Dimensions.get("screen").height;
+  const isSmall = height < 700;
+  console.log({ height });
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar translucent={true} />
-
-      <Text h2 style={styles.title}>
-        My Profile
-      </Text>
-      <View
-        style={{
-          justifyContent: "space-between",
-          flexGrow: 1,
-          paddingTop: 35,
-          paddingBottom: 50,
-        }}
-      >
-        <View>
-          <View style={styles.profileContainer}>
-            <TouchableOpacity onPress={showModal}>
-              <Image
-                source={{ uri: user?.imageUrl }}
-                style={{
-                  width: Dimensions.get("screen").width * 0.4,
-                  height: Dimensions.get("screen").width * 0.4,
-                  backgroundColor: "yellow",
-                  borderRadius: 120,
-                  resizeMode: "cover",
-                  // marginRight: "2.5%",
-                  // marginTop: "50%",
-                }}
-              />
-            </TouchableOpacity>
-            <View style={styles.column}>
-              <Text
-                h5
-                style={{
-                  color: "black",
-                  textAlign: "center",
-                  fontFamily: "Kollektif",
-                  marginVertical: 20,
-                  fontSize: 26,
-                  fontWeight: "normal",
-                }}
-              >
-                @{user?.handle}
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.infoBoxWrapper}>
-            <View style={[styles.infoBox]}>
-              <Title
-                style={{
-                  fontWeight: "bold",
-                  color: "black",
-                  fontFamily: "Kollektif",
-                  fontSize: 22,
-                  fontWeight: "normal",
-                }}
-              >
-                {friends?.length}
-              </Title>
-              <Caption
-                style={{
-                  color: "black",
-                  fontSize: 20,
-                  fontFamily: "Kollektif",
-                }}
-              >
-                Friends
-              </Caption>
-            </View>
-            <View style={styles.infoBox}>
-              <Title
-                style={{
-                  fontWeight: "bold",
-                  color: "black",
-                  fontSize: 22,
-                  fontWeight: "normal",
-                  fontFamily: "Kollektif",
-                }}
-              >
-                {invites?.filter(({ status }) => status == "accepted").length}
-              </Title>
-              <Caption
-                style={{
-                  color: "black",
-                  fontSize: 20,
-                  fontFamily: "Kollektif",
-                }}
-              >
-                Parties
-              </Caption>
-            </View>
+      <View paddingHorizontal={20}>
+        <TitleText>@{user?.handle}</TitleText>
+      </View>
+      <View backgroundColor="" marginTop={15}>
+        <View alignItems="center">
+          <TouchableOpacity onPress={showModal}>
+            <Image
+              source={{ uri: user?.imageUrl }}
+              style={{
+                width: 150,
+                height: 150,
+                backgroundColor: "yellow",
+                borderRadius: 500,
+                resizeMode: "cover",
+              }}
+            />
+          </TouchableOpacity>
+          <View>
+            <Text
+              h5
+              style={{
+                color: "black",
+                textAlign: "center",
+                fontFamily: "Kollektif",
+                // marginVertical: 20,
+                marginTop: 20,
+                fontSize: 30,
+                fontWeight: "normal",
+              }}
+            >
+              {`${user?.firstName} ${user?.lastName}`}
+            </Text>
           </View>
         </View>
-        <View style={styles.containercolumn}>
+        <View
+          marginTop={0}
+          flexDirection="row"
+          justifyContent="space-around"
+          marginTop={20}
+          marginBottom={15}
+          // justifyContent="center"
+          // backgroundColor="blue"
+          // alignItems="space-around"
+        >
+          <View alignItems="center">
+            <Title
+              style={{
+                fontWeight: "bold",
+                color: "black",
+                fontFamily: "Kollektif",
+                fontSize: height < 700 ? 25 : 30,
+                fontWeight: "normal",
+              }}
+            >
+              {friends?.length}
+            </Title>
+            <Caption
+              style={{
+                color: "black",
+                fontSize: 20,
+                fontFamily: "Kollektif",
+              }}
+            >
+              Friends
+            </Caption>
+          </View>
+          <View alignItems="center">
+            <Title
+              style={{
+                fontWeight: "bold",
+                color: "black",
+                fontSize: height < 700 ? 25 : 30,
+                fontWeight: "normal",
+                fontFamily: "Kollektif",
+              }}
+            >
+              {invites?.filter(({ status }) => status == "accepted").length}
+            </Title>
+            <Caption
+              style={{
+                color: "black",
+                fontSize: 20,
+                fontFamily: "Kollektif",
+              }}
+            >
+              Parties
+            </Caption>
+          </View>
+        </View>
+        <View
+          // style={styles.containercolumn}
+          // marginTop={10}
+          paddingHorizontal={40}
+          justifyContent="space-around"
+          // backgroundColor="red"
+        >
           <ProfileButton onPress={() => navigation.navigate("Add Friends")}>
             Add Friends
           </ProfileButton>
@@ -211,41 +217,6 @@ const ProfileDisplay = ({ navigation }) => {
           </ProfileButton>
         </View>
       </View>
-
-      {modalVisible && (
-        <Provider>
-          <Portal>
-            <Modal
-              visible={modalVisible}
-              onDismiss={hideModal}
-              contentContainerStyle={styles.modalStyling}
-            >
-              <Text h5 style={{ textAlign: "center", fontWeight: "bold" }}>
-                Choose Profile Image
-              </Text>
-              <Text p style={{ textAlign: "center", fontSize: 15 }}>
-                So that your friends recognize you.
-              </Text>
-              <Button
-                color="#f76f6d"
-                uppercase
-                size="large"
-                onPress={() => selectFromPhone()}
-              >
-                Select from phone
-              </Button>
-              <Button
-                color="#f76f6d"
-                uppercase
-                size="large"
-                onPress={() => openCamera()}
-              >
-                Take a picture
-              </Button>
-            </Modal>
-          </Portal>
-        </Provider>
-      )}
     </SafeAreaView>
   );
 };
@@ -260,12 +231,13 @@ const styles = StyleSheet.create({
   profileContainer: {
     // flex: 0.5,
     flexDirection: "column",
-    justifyContent: "center",
+    // justifyContent: "space-around",
     alignItems: "center",
     // marginTop: "10%",
   },
   text: {
-    marginBottom: "5%",
+    // marginBottom: "5%",
+    fontFamily: "Kollektif",
     marginLeft: "5%",
     color: "black",
     fontWeight: "bold",
@@ -294,7 +266,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 50,
+    paddingHorizontal: 20,
     // backgroundColor: 'purple'
     // marginTop: "25%",
   },
@@ -308,14 +280,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: -5,
+    // marginTop: -5,
     // backgroundColor: "blue"
   },
   infoBox: {
     width: "37.5%",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: "5%",
+    // marginBottom: "5%",
     // marginTop: "23%",
     // backgroundColor:"green"
   },
@@ -323,7 +295,7 @@ const styles = StyleSheet.create({
     width: "37.5%",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: "5%",
+    // marginBottom: "5%",
     // marginTop: "23%",
     // backgroundColor:"purple"
   },
