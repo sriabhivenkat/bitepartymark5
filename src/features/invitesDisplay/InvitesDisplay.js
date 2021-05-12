@@ -59,7 +59,8 @@ const InvitesDisplay = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ flexDirection: "row" }}>
-        {acceptedInvites?.length > 0 && (
+        {acceptInvite?.length > 0 && (
+
           <View
             style={{
               flexDirection: "row",
@@ -80,24 +81,48 @@ const InvitesDisplay = ({ navigation }) => {
               top: -2,
             }}
           >
-            <Text style={{ fontWeight: "400", fontSize: 22 }}>
-              You have an active party!
-            </Text>
-            <GradientButton
-              onPress={() =>
-                navigation.navigate("joinParty", {
-                  screen: "joinParty/swiping",
-                  params: { partyID: acceptedInvites[0].item.docID },
-                })
-              }
-              containerStyle={{ width: 100 }}
-              innerStyle={{ borderRadius: 7, paddingVertical: 15 }}
-              textStyle={{ fontSize: 19 }}
-            >
-              <Text>Resume</Text>
-            </GradientButton>
+
+            <FlatList
+              data={acceptedInvites}
+              style={{ paddingTop: 5 }}
+              scrollEnabled="false"
+              snapToInterval={Dimensions.get("window").width}
+              indicatorStyle="black"
+              decelerationRate="fast"
+              renderItem={({ item }) => (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    height: 45,
+                  }}
+                >
+                  <Text
+                    style={{ fontWeight: "400", fontSize: 22 }}
+                  >
+                    You have an active party!
+                </Text>
+                  <GradientButton
+                    onPress={() =>
+                      navigation.navigate("joinParty", {
+                        screen: "joinParty/swiping",
+                        params: { partyID: item.docID },
+                      })
+                    }
+                    style={{ paddingLeft: 25 }}
+                    containerStyle={{ width: 100 }}
+                    innerStyle={{ borderRadius: 7, paddingVertical: 15 }}
+                    textStyle={{ fontSize: 19 }}
+                  >
+                    <Text>Resume</Text>
+                  </GradientButton>
+                </View>
+              )}
+              keyExtractor={(item) => item.partyID}
+            />
           </View>
         )}
+
       </View>
 
       <TitleText style={[styles.title]}>Invites</TitleText>
