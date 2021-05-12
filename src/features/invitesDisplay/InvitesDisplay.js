@@ -98,10 +98,10 @@ const InvitesDisplay = ({ navigation }) => {
         )}
       </View>
 
-      <TitleText style={[styles.subtitle, styles.title]}>Invites</TitleText>
+      <TitleText style={[styles.title]}>Invites</TitleText>
       {pendingInvites?.length <= 0 && (
         <SubtitleText style={styles.subtitle}>
-          No pending invites, invite some friends to BiteParty to get started!
+          No pending invites. Start a party!
         </SubtitleText>
       )}
       <View>
@@ -135,10 +135,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    marginTop: 30,
+    marginTop: 7.5,
+    fontSize: 37,
   },
   subtitle: {
-    color: "#ee0979",
+    color: "black",
+    left: 2.5
   },
   card: {
     borderRadius: 25,
