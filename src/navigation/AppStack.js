@@ -141,7 +141,7 @@ const AppStack = () => {
       <Stack.Screen
         name="Add Friends"
         component={AddFriendsViewController}
-        options={{ header: () => null }}
+        options={{ title: "" }}
       />
     </Stack.Navigator>
   );

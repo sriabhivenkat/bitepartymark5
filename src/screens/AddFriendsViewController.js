@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     paddingHorizontal: 20,
+    paddingTop: 30,
   },
   queryView: {
     flex: 0.13,

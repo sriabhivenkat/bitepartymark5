@@ -15,7 +15,7 @@ import { AuthContext } from "../navigation/AuthProvider.js";
 import auth, { firebase } from "@react-native-firebase/auth";
 import { appleAuth } from "@invertase/react-native-apple-authentication";
 import { GoogleSignin } from "@react-native-community/google-signin";
-import { headerlogo } from '../assets/images/headerlogo.png'
+import { headerlogo } from "../assets/images/headerlogo.png";
 import { Alert } from "react-native";
 // import { LoginManager, AccessToken } from 'react-native-fbsdk';
 
