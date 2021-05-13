@@ -74,6 +74,7 @@ export const RestarauntCard = ({ data, style, compact }) => {
             },
             styles.card,
             styles.background,
+            compact && { paddingBottom: 10 },
           ]}
           // marginHorizontal={20}
           // marginBottom={15}
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     color: "#fff",
     // paddingVertical: 20,
-    paddingBottom: compact ? 10 : 40,
+    paddingBottom: 40,
     maxHeight: 650,
     paddingHorizontal: 30,
   },

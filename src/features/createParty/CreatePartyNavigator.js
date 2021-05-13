@@ -7,19 +7,6 @@ import Start from "./screens/Start";
 import ChangeLocation from "./screens/ChangeLocation";
 import { logoHeaderOptions } from "components";
 const Stack = createStackNavigator();
-// const windowHeight = Dimensions.get("window").height;
-
-// const logoHeader = {
-//   headerTitle: (props) => (
-//     <Image
-//       style={{ aspectRatio: 10 / 7, height: 70, alignItems: "center" }}
-//       source={require("assets/images/headerlogo.png")}
-//     />
-//   ),
-//   headerStyle: {
-//     height: height < 700 ? 90 : 120,
-//   },
-// };
 
 export default () => (
   <Stack.Navigator>
@@ -41,16 +28,13 @@ export default () => (
         ...logoHeaderOptions,
       }}
     />
+
     <Stack.Screen
       name="createParty/filters"
       component={Filters}
       options={{
         title: "Filters",
         headerShown: true,
-        // headerTitle: (props) => <LogoTitle {...props} />,
-        // headerStyle: {
-        //   height: 120,
-        // },
         ...logoHeaderOptions,
       }}
     />

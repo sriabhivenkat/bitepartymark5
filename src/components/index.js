@@ -5,3 +5,5 @@ export * from "./GradientButton";
 export * from "./RestarauntCard";
 export * from "./YelpRating";
 export * from "./MemberCard";
+export * from "./logoHeaderOptions";
+export * from "./PricingSelector";
