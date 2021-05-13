@@ -98,7 +98,7 @@ const Filters = ({ route, navigation }) => {
             });
           })
           .then((id) =>
-            navigation.navigate("joinParty", {
+            navigation.replace("joinParty", {
               screen: "joinParty/swiping",
               params: { partyID: id },
             })
