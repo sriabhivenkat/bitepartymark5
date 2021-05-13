@@ -184,13 +184,14 @@ const EditProfile = ({ navigation }) => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.container}>
+      <ScrollView>
         <TitleText>Edit Profile</TitleText>
         <Divider style={styles.divider} />
         <View
           style={styles.profileContainer}
           justifyContent="center"
           alignItems="center"
+          marginTop={20}
         >
           <TouchableOpacity
             onPress={showModal}

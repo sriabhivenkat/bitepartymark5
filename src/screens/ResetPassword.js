@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { Text, Input } from "galio-framework";
 import LinearGradient from "react-native-linear-gradient";
+import auth from "@react-native-firebase/auth";
+import firebase from "@react-native-firebase/app";
 import { Headline, TextInput, Button } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useContext } from "react";
@@ -19,12 +21,11 @@ import { GradientButton } from "../components";
 import { Card } from "react-native-paper";
 import { Alert, Dimensions } from "react-native";
 
-const AuthenticateViewController = ({ navigation }) => {
+const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
 
   const windowWidth = Dimensions.get("window").width;
-  const windowHeight = Dimensions.get("window").height;
 
   const { login } = useContext(AuthContext);
   return (
@@ -44,7 +45,7 @@ const AuthenticateViewController = ({ navigation }) => {
             <View
               style={{
                 alignItems: "flex-start",
-                marginTop: "2%",
+                // marginTop: "2%",
                 justifyContent: "center",
               }}
             >
@@ -72,35 +73,6 @@ const AuthenticateViewController = ({ navigation }) => {
                 />
               </View>
             </View>
-            <View
-              style={{
-                alignItems: "flex-start",
-                marginTop: "2%",
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ fontSize: 30, fontFamily: "Kollektif" }}>
-                Password
-              </Text>
-              <Input
-                placeholder="Password"
-                placeholderTextColor="gray"
-                secureTextEntry={true}
-                onChangeText={(pass) => setPass(pass)}
-                color="black"
-                fontSize={17}
-                fontFamily="Kollektif"
-                style={styles.input1}
-                value={pass}
-              />
-            </View>
-            <TouchableOpacity onPress={() => navigation.navigate("auth/reset")}>
-              <Text
-                style={{ fontSize: 20, fontFamily: "Kollektif", marginTop: 10 }}
-              >
-                Forgot Password?
-              </Text>
-            </TouchableOpacity>
 
             <View
               style={{
@@ -110,19 +82,20 @@ const AuthenticateViewController = ({ navigation }) => {
                 paddingTop: 20,
               }}
             >
-              {email != "" && pass != "" && (
+              {email != "" && (
                 <GradientButton
-                  onPress={async () => {
-                    try {
-                      login(email, pass);
-                    } catch (err) {
-                      Alert.alert(err);
-                    }
-                  }}
+                  onPress={() =>
+                    firebase
+                      .auth()
+                      .sendPasswordResetEmail(email)
+                      .catch((err) =>
+                        Alert.alert("Couldn't reset", err.message)
+                      )
+                  }
                   style={{ width: "50%" }}
                   innerStyle={{ paddingVertical: 10 }}
                 >
-                  Login
+                  Reset
                 </GradientButton>
               )}
             </View>
@@ -133,7 +106,7 @@ const AuthenticateViewController = ({ navigation }) => {
   );
 };
 
-export default AuthenticateViewController;
+export default ResetPassword;
 
 const styles = StyleSheet.create({
   container: {

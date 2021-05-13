@@ -1,40 +1,40 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Image, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
-import {Subheading} from 'react-native-paper';
-import {TextInput} from 'react-native-paper';
-import {Button, Card} from 'react-native-paper'
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Text, Input} from 'galio-framework';
+import { Subheading } from 'react-native-paper';
+import { TextInput } from 'react-native-paper';
+import { Button, Card } from 'react-native-paper'
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Text, Input } from 'galio-framework';
 import { AuthContext } from '../navigation/AuthProvider.js';
 import { useContext } from 'react';
-import {GradientButton} from '../components';
+import { GradientButton } from '../components';
 
-const SignUpViewController = ({navigation}) => {
+const SignUpViewController = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
-    const {register} = useContext(AuthContext);
+    const { register } = useContext(AuthContext);
 
-    
+
 
     const DismissKeyboard = ({ children }) => (
-        <TouchableWithoutFeedback 
-    
-        onPress={() => Keyboard.dismiss()}> 
-        {children}
-        </TouchableWithoutFeedback>
-        );
+        <TouchableWithoutFeedback
 
-    return(
-        <TouchableWithoutFeedback 
-        accessible = {false}
-        onPress={() => Keyboard.dismiss()}> 
-            <KeyboardAvoidingView 
-            behavior = "padding"
-            style = {styles.container} 
+            onPress={() => Keyboard.dismiss()}>
+            {children}
+        </TouchableWithoutFeedback>
+    );
+
+    return (
+        <TouchableWithoutFeedback
+            accessible={false}
+            onPress={() => Keyboard.dismiss()}>
+            <KeyboardAvoidingView
+                behavior="padding"
+                style={styles.container}
             >
                 <View style={styles.container}>
-                    <Text style={{marginTop: 150, left: 15, fontSize: 30, fontFamily: "Kollektif"}}>Email</Text>
-                    <View style={{alignItems: "center"}}>
+                    <Text style={{ marginTop: 150, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Email</Text>
+                    <View style={{ alignItems: "center" }}>
                         <Input
                             placeholder="Email"
                             placeholderTextColor="grey"
@@ -48,9 +48,9 @@ const SignUpViewController = ({navigation}) => {
                             value={email}
                         />
                     </View>
-                    <Text style={{marginTop: 20, left: 15, fontSize: 30, fontFamily: "Kollektif"}}>Password</Text>
-                    <View style={{alignItems: "center"}}>
-                        <Input 
+                    <Text style={{ marginTop: 20, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Password</Text>
+                    <View style={{ alignItems: "center" }}>
+                        <Input
                             placeholder="Password"
                             placeholderTextColor="grey"
                             onChangeText={(userPass) => setPass(userPass)}
@@ -62,20 +62,20 @@ const SignUpViewController = ({navigation}) => {
                             fontSize={17}
                         />
                     </View>
-                    <View style={{alignItems: "center"}}>
+                    <View style={{ alignItems: "center" }}>
                         {(email != '' && pass != "") &&
                             <GradientButton
                                 onPress={() => {
                                     try {
-                                        navigation.navigate("Sign Up 1", {electronicmail: email, password: pass})
-                                    } catch(err) {
+                                        navigation.navigate("Sign Up 1", { electronicmail: email, password: pass })
+                                    } catch (err) {
                                         Alert.alert(err);
                                     }
                                 }}
                                 style={styles.button}
-                                innerStyle={{paddingVertical: 10}}
+                                innerStyle={{ paddingVertical: 10 }}
                             >
-                                    NEXT
+                                NEXT
                             </GradientButton>
                         }
                     </View>
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         marginBottom: "3%",
         marginTop: "8%",
         backgroundColor: "#D7D5ED"
-    }, 
+    },
     image: {
         flex: 1,
         resizeMode: "cover",
@@ -136,12 +136,12 @@ const styles = StyleSheet.create({
     },
     subheading: {
         color: '#f7a146',
-        
+
     },
     button: {
         marginTop: 20,
         height: 37,
-        width:"80%",
+        width: "80%",
         backgroundColor: "#F76F6D",
         borderRadius: 15,
     },

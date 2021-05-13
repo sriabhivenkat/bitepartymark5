@@ -20,7 +20,13 @@ import ProfileNavigator from "features/profile/ProfileNavigator";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
+const tabBarListeners = ({ navigation, route }) => ({
+  tabPress: () =>
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "home" }],
+    }),
+});
 const BottomTabNavigator = () => (
   <Tab.Navigator
     tabBarOptions={{
@@ -63,6 +69,7 @@ const BottomTabNavigator = () => (
     <Tab.Screen
       name="home"
       component={CreatePartyNavigator}
+      listeners={tabBarListeners}
       options={{
         tabBarIcon: ({ focused }) => (
           <Ionicons name="home" color={focused ? "black" : "gray"} size={25} />
@@ -141,7 +148,7 @@ const AppStack = () => {
       <Stack.Screen
         name="Add Friends"
         component={AddFriendsViewController}
-        options={{ header: () => null }}
+        options={{ title: "" }}
       />
     </Stack.Navigator>
   );

@@ -3,6 +3,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Completed from "./screens/Completed";
 import Swiping from "./screens/Swiping";
 import { Image } from "react-native";
+import { GradientButton } from "../../components";
+
 // import Start from "./screens/Start";
 
 const Stack = createStackNavigator();

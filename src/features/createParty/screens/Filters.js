@@ -19,7 +19,7 @@ const Filters = ({ route, navigation }) => {
   const [time, setTime] = useState(new Date());
   const [filters, setFilters] = useState([]);
   const [restriction, setRestrictions] = useState([]);
-  const [price, setPrice] = useState([]);
+  const [price, setPrice] = useState([1, 2, 3, 4]);
 
   const handleTap = (value) => {
     const exists = filters.find((item) => item == value);
@@ -89,8 +89,7 @@ const Filters = ({ route, navigation }) => {
               loc,
               count,
               radius,
-              isFamily,
-              isFastFood,
+
               filters,
               restriction,
               price,
@@ -103,9 +102,18 @@ const Filters = ({ route, navigation }) => {
               params: { partyID: id },
             })
           )
-          .catch((error) => console.warn(error));
+          .catch((error) =>
+            Alert.alert(
+              "No matches!",
+              "We couldn't find anything that matched your filters. Try again with less restrictive filters"
+            )
+          );
       }
     } catch (err) {
+      Alert.alert(
+        "No matches!",
+        "We couldn't find anything that matched your filters. Try again with less restrictive filters"
+      );
       console.error(err);
     }
   };
@@ -211,8 +219,10 @@ const Filters = ({ route, navigation }) => {
       <List.Section>
         <List.Accordion
           title="Select a cuisine"
-          left={(props) => <List.Icon {...props} icon="food" color={"#f76f6d"}/>}
-          titleStyle={{color: "#f76f6d"}}
+          left={(props) => (
+            <List.Icon {...props} icon="food" color={"#f76f6d"} />
+          )}
+          titleStyle={{ color: "#f76f6d" }}
         >
           <List.Item
             title="Alcohol"
@@ -359,8 +369,10 @@ const Filters = ({ route, navigation }) => {
       <List.Section>
         <List.Accordion
           title="Select a dietary restriction"
-          left={(props) => <List.Icon {...props} icon="tree" color={"#f76f6d"}/>}
-          titleStyle={{color: "#f76f6d"}}
+          left={(props) => (
+            <List.Icon {...props} icon="tree" color={"#f76f6d"} />
+          )}
+          titleStyle={{ color: "#f76f6d" }}
         >
           <List.Item
             title="Halal"

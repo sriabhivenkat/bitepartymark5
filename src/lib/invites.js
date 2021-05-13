@@ -1,5 +1,6 @@
 import { useCollection } from "@nandorojo/swr-firestore";
 import firestore from "@react-native-firebase/firestore";
+import { useEffect, useState } from "react";
 import { useUser } from "./user";
 
 /*
@@ -8,10 +9,47 @@ React Hooks
 
 export const useInvites = () => {
   const { user } = useUser();
-  const { data, error } = useCollection(`Users/${user?.uidvalue}/invitations`, {
-    orderBy: ["timestamp", "desc"],
-    listen: true,
-  });
+  // const { data, error } = useCollection(`Users/${user?.uidvalue}/invitations`, {
+  //   orderBy: ["timestamp", "desc"],
+  //   listen: true,
+  //   shouldRetryOnError: true,
+  // });
+
+  const [data, setData] = useState();
+  const [error, setError] = useState();
+  // useEffect(() => {
+  //   const unsubscribe = firestore()
+  //     .collection("Parties")
+  //     .doc(id)
+  //     .onSnapshot(
+  //       (snapshot) => setParty(snapshot.data()),
+  //       (err) => console.error(err)
+  //     );
+  //   return () => unsubscribe();
+  // }, [id]);
+  useEffect(() => {
+    console.log({ user });
+    const unsub = firestore()
+      .collection("Users")
+      .doc(user?.uidvalue)
+      .collection("invitations")
+      .onSnapshot(
+        (snap) => setData(snap.docs.map((x) => x.data())),
+        (err) => setError(err)
+      );
+    return unsub;
+  }, [user]);
+
+  // const members = (await partyRef.collection("members").get()).docs.map((x) =>
+  //   x.data()
+  // );
+
+  // await firestore()
+  //   .collection("Parties")
+  //   .doc(invite.docID)
+  //   .collection("members")
+  //   .doc(user.uidvalue)
+  //   .update({ status: "rejected" });
 
   return {
     invites: data,
@@ -26,7 +64,10 @@ export const useInvites = () => {
 
 export const useCurrentParty = () => {
   const { user } = useUser();
-  const { data, error } = useCollection(`Users/${user?.uidvalue}/currentParty`);
+  const { data, error } = useCollection(
+    `Users/${user?.uidvalue}/currentParty`,
+    { shouldRetryOnError: true }
+  );
 
   return {
     currParties: data,

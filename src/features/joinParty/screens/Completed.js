@@ -166,7 +166,12 @@ const Completed = ({ route, navigation }) => {
                 outline
                 onPress={() =>
                   endParty()
-                    .then(() => navigation.navigate({ name: "home" }))
+                    .then(
+                      navigation.reset({
+                        index: 0,
+                        routes: [{ name: "home" }],
+                      })
+                    )
                     .catch((err) => console.error(err))
                 }
               >
@@ -204,7 +209,12 @@ const Completed = ({ route, navigation }) => {
                         text: "Leave",
                         onPress: () =>
                           leaveParty()
-                            .then(() => navigation.navigate({ name: "home" }))
+                            .then(
+                              navigation.reset({
+                                index: 0,
+                                routes: [{ name: "home" }],
+                              })
+                            )
                             .catch((err) => console.error(err)),
                       },
                     ]
@@ -293,7 +303,12 @@ const Completed = ({ route, navigation }) => {
                       text: "Leave",
                       onPress: () =>
                         leaveParty()
-                          .then(() => navigation.navigate({ name: "home" }))
+                          .then(() =>
+                            navigation.reset({
+                              index: 0,
+                              routes: [{ name: "home" }],
+                            })
+                          )
                           .catch((err) => console.error(err)),
                     },
                   ]

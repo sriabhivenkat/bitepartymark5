@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
@@ -13,21 +13,22 @@
             <rect key="frame" x="0.0" y="0.0" width="533" height="695"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash2" translatesAutoresizingMaskIntoConstraints="NO" id="A5R-2J-1FB">
-                    <rect key="frame" x="0.0" y="558" width="533" height="128"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="128" id="myU-R1-Zeu"/>
-                    </constraints>
-                </imageView>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="updateSplash" translatesAutoresizingMaskIntoConstraints="NO" id="tK4-Zw-3gc">
-                    <rect key="frame" x="-50" y="179" width="632" height="337"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="tK4-Zw-3gc">
+                    <rect key="frame" x="56" y="233" width="420" height="229"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="632" id="2cE-ql-gan"/>
                         <constraint firstAttribute="height" constant="337" id="p9t-Ns-JJX"/>
                     </constraints>
                 </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="footer" translatesAutoresizingMaskIntoConstraints="NO" id="A5R-2J-1FB">
+                    <rect key="frame" x="169" y="615" width="194" height="46"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="128" id="myU-R1-Zeu"/>
+                    </constraints>
+                </imageView>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="tK4-Zw-3gc" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="66E-l2-sXQ"/>
                 <constraint firstItem="tK4-Zw-3gc" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="7re-kt-Mou"/>
@@ -44,7 +45,7 @@
         </view>
     </objects>
     <resources>
-        <image name="splash2" width="1554" height="312"/>
-        <image name="updateSplash" width="1566" height="1564"/>
+        <image name="footer" width="978" height="136"/>
+        <image name="splash" width="778" height="1084"/>
     </resources>
 </document>
