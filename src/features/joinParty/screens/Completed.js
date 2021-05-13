@@ -97,14 +97,14 @@ const Completed = ({ route, navigation }) => {
         {party && party.winner && (
           <>
             <View marginTop={10}>
-              <TitleText
+              {/* <TitleText
                 numberOfLines={1}
                 adjustsFontSizeToFit
                 style={{ color: "#F76F6D", fontSize: 60, textAlign: "center" }}
               >
                 Cheers!
-              </TitleText>
-              <SubtitleText
+              </TitleText> */}
+              {/* <SubtitleText
                 numberOfLines={1}
                 adjustsFontSizeToFit
                 style={{
@@ -115,10 +115,25 @@ const Completed = ({ route, navigation }) => {
                 }}
               >
                 Restaraunt Chosen
-              </SubtitleText>
+              </SubtitleText> */}
+              <TitleText
+                style={{
+                  marginTop: 10,
+                  marginBottom: 15,
+                  textAlign: "center",
+                  fontSize: 25,
+                }}
+              >
+                Restaraunt Chosen!
+              </TitleText>
+              {/* <View backgroundColor="#00000050" height={1} marginBottom={15} /> */}
             </View>
             <View flex={1} marginTop={25} position="relative" top={30}>
-              <RestarauntCard style={{ flexShrink: 0 }} data={currentWinner} />
+              <RestarauntCard
+                style={{ flexShrink: 0 }}
+                data={currentWinner}
+                compact
+              />
             </View>
             <GradientButton
               containerStyle={{
@@ -289,17 +304,11 @@ const Completed = ({ route, navigation }) => {
             </GradientButton>
           </View>
         )}
-      <View justifyContent="center" alignItems="center" marginVertical={10}>
-        <TouchableOpacity
-          justifyContent="center"
-          onPress={() => navigation.navigate({ name: "home" })}
-        >
-          <Ionicons name="home" size={25} />
-        </TouchableOpacity>
-      </View>
+      {party && party.winner && <View height={30} />}
+
       <BottomSheet
         ref={bottomSheetRef}
-        index={1}
+        index={0}
         snapPoints={snapPoints}
         enableHandlePanningGesture={false}
         handleComponent={null}

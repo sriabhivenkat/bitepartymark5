@@ -184,7 +184,7 @@ const ProfileDisplay = ({ navigation }) => {
                 fontFamily: "Kollektif",
               }}
             >
-              {invites?.filter(({ status }) => status == "accepted").length}
+              {invites?.filter(({ status }) => status == "completed").length}
             </Title>
             <Caption
               style={{

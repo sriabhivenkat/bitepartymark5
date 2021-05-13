@@ -102,13 +102,13 @@ const Swiping = ({ navigation, route, data }) => {
             visible={visible}
             onDismiss={() => setVisible(false)}
             contentContainerStyle={containerStyle}
-            animationType="fade" 
+            animationType="fade"
             transparent={true}
           >
             <Image
-              source={{ uri: party?.restaurants[cardIdx].image_url }}
+              source={{ uri: party?.restaurants[cardIdx]?.image_url }}
               style={[styles.image, { marginTop: 10 }]}
-            /> 
+            />
             {/* <Text>{JSON.stringify(party?.restaurants[cardIdx], null, 2)}</Text> */}
           </Modal>
         </Portal>
@@ -130,12 +130,9 @@ const Swiping = ({ navigation, route, data }) => {
 
         {!partyMeta.isLoading && partyMember && (
           <Swiper
-            backgroundColor="#fff"
-            borderWidth={2}
-            borderWidth="black"
-            marginTop={150}
-            marginBottom={20}
-            cardVerticalMargin={0}
+            marginTop={80}
+            marginBottom={Dimensions.get("screen").height < 700 ? 5 : 70}
+            // cardVerticalMargin={0}
             // onSwipedAll={handleComplete}
             verticalSwipe={true}
             disableTopSwipe
