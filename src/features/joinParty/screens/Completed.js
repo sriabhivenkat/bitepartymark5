@@ -376,7 +376,7 @@ const Completed = ({ route, navigation }) => {
               ))}
             </View>
             <View flexDirection="row" flexWrap="wrap-reverse">
-              {currentWinner?.price != " " && (
+              {currentWinner?.price != null && (
                 <Chip
                   textAlign="center"
                   marginRight={10}

@@ -65,7 +65,7 @@ const Settings = () => {
         >
           Log Out
         </SettingsButton>
-        <SettingsButton
+        {/* <SettingsButton
           style={{
             borderWidth: 1.5,
             borderRadius: 14,
@@ -76,7 +76,7 @@ const Settings = () => {
           textStyle={{ color: "red" }}
         >
           Delete Account
-        </SettingsButton>
+        </SettingsButton> */}
 
         {/* <TouchableOpacity>
                 <Text h5 style={{marginTop: "20%", fontFamily: "PingFangHK-Medium", textAlign: "center"}}>Privacy Policy</Text>
