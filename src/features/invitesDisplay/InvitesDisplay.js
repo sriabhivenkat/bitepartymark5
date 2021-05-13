@@ -26,6 +26,7 @@ const InvitesDisplay = ({ navigation }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
   const { currParties } = useCurrentParty();
   console.log("Current Party is", currParties);
+  console.log(invites);
 
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const pendingInvites = invites?.filter((item) => item.status == "pending");
@@ -59,88 +60,87 @@ const InvitesDisplay = ({ navigation }) => {
   console.log({ acceptedInvites });
   return (
     <SafeAreaView style={styles.container}>
-       {acceptedInvites?.length != 0 && (
-      <View style={{ flexDirection: "row" }}>
-        {acceptedInvites?.length > 0 && (
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              // height: 45,
-              // borderTopWidth: 1,
-              // borderBottomWidth: 2,
-              backgroundColor: "rgba(0,0,0,0.05)",
-              paddingVertical: 20,
-              paddingHorizontal: 20,
-              width: Dimensions.get("screen").width,
-              backgroundColor: "white",
-              borderWidth: 1,
-              borderColor: "lightgray",
-              // ...StyleSheet.absoluteFill,
-              // borderColor: "rgba(0,0,0,0.1)",
-              position: "relative",
-              right: 20,
-              marginBottom: 10,
-              top: -2,
-            }}
-          >
-            <FlatList
-              data={acceptedInvites}
-              style={{ paddingTop: 5 }}
-              scrollEnabled="false"
-              snapToInterval={Dimensions.get("window").width}
-              indicatorStyle="black"
-              decelerationRate="fast"
-              renderItem={({ item }) => (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    flex: 1,
-                    // height: 45,
-                  }}
-                >
-                  <View flex={1}>
-                    <Text
-                      style={{
-                        fontWeight: "400",
-                        fontSize: 22,
-                        fontFamily: "Kollektif",
-                      }}
-                      numberOfLines={1}
-                      adjustsFontSizeToFit
-                    >
-                      You have an active party!
-                    </Text>
-                  </View>
-                  <GradientButton
-                    onPress={() =>
-                      navigation.navigate("joinParty", {
-                        screen: "joinParty/swiping",
-                        params: { partyID: item.docID },
-                      })
-                    }
-                    containerStyle={{ width: 120, marginLeft: 15 }}
-                    innerStyle={{
-                      borderRadius: 7,
-                      paddingVertical: 12,
-                      paddingHorizontal: 5,
+      {acceptedInvites?.length != 0 && (
+        <View style={{ flexDirection: "row" }}>
+          {acceptedInvites?.length > 0 && (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                // height: 45,
+                // borderTopWidth: 1,
+                // borderBottomWidth: 2,
+                backgroundColor: "rgba(0,0,0,0.05)",
+                paddingVertical: 20,
+                paddingHorizontal: 20,
+                width: Dimensions.get("screen").width,
+                backgroundColor: "white",
+                borderWidth: 1,
+                borderColor: "lightgray",
+                // ...StyleSheet.absoluteFill,
+                // borderColor: "rgba(0,0,0,0.1)",
+                position: "relative",
+                right: 20,
+                marginBottom: 10,
+                top: -2,
+              }}
+            >
+              <FlatList
+                data={acceptedInvites}
+                style={{ paddingTop: 5 }}
+                scrollEnabled="false"
+                snapToInterval={Dimensions.get("window").width}
+                indicatorStyle="black"
+                decelerationRate="fast"
+                renderItem={({ item }) => (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      flex: 1,
+                      // height: 45,
                     }}
-                    textStyle={{ fontSize: 19 }}
                   >
-                    <Text>Resume</Text>
-                  </GradientButton>
-                </View>
-              )}
-              keyExtractor={(item) => item.partyID}
-            />
-          
-          </View>
-        )}
-      </View>
-       )}
+                    <View flex={1}>
+                      <Text
+                        style={{
+                          fontWeight: "400",
+                          fontSize: 22,
+                          fontFamily: "Kollektif",
+                        }}
+                        numberOfLines={1}
+                        adjustsFontSizeToFit
+                      >
+                        You have an active party!
+                      </Text>
+                    </View>
+                    <GradientButton
+                      onPress={() =>
+                        navigation.navigate("joinParty", {
+                          screen: "joinParty/swiping",
+                          params: { partyID: item.docID },
+                        })
+                      }
+                      containerStyle={{ width: 120, marginLeft: 15 }}
+                      innerStyle={{
+                        borderRadius: 7,
+                        paddingVertical: 12,
+                        paddingHorizontal: 5,
+                      }}
+                      textStyle={{ fontSize: 19 }}
+                    >
+                      <Text>Resume</Text>
+                    </GradientButton>
+                  </View>
+                )}
+                keyExtractor={(item) => item.partyID}
+              />
+            </View>
+          )}
+        </View>
+      )}
       <TitleText style={[styles.title, { marginTop: 15 }]}>Invites</TitleText>
       {pendingInvites?.length <= 0 && (
         <SubtitleText style={styles.subtitle}>

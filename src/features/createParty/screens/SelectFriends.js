@@ -12,7 +12,7 @@ import { useFriends, useParty } from "lib";
 import MemberCard from "components/MemberCard";
 import { ScrollView } from "react-native";
 import { Alert } from "react-native";
-import { GradientButton, TitleText } from "../../../components";
+import { GradientButton, SubtitleText, TitleText } from "../../../components";
 import { SafeAreaView } from "react-native";
 import { Dimensions } from "react-native";
 
@@ -86,6 +86,8 @@ const SelectFriends = ({ route, navigation }) => {
             autoCapitalize="none"
             style={styles.searchbar}
             value={query}
+            fontFamily="Kollektif"
+            fontSize={20}
             placeholderTextColor="rgba(0,0,0,0.5)"
           />
         </View>
@@ -99,6 +101,27 @@ const SelectFriends = ({ route, navigation }) => {
           colors={["rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 0.5)"]}
           pointerEvents={"none"}
         /> */}
+        {friends?.length < 1 && (
+          <>
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "Kollektif",
+                marginTop: 30,
+                textAlign: "center",
+                // lineHeigh: 50,
+              }}
+            >
+              <Text>{`You haven't added any friends. \n`}</Text>
+              <Text
+                onPress={() => navigation.navigate("Add Friends")}
+                style={{ color: "#f76f6d", textDecorationLine: "underline" }}
+              >{`Add some `}</Text>
+
+              <Text>to get started!</Text>
+            </Text>
+          </>
+        )}
         <ScrollView marginTop={10} paddingVertical={1}>
           {friends &&
             [...friends]

@@ -37,36 +37,36 @@ export const AuthProvider = ({ children }) => {
               })
               .then(() => {
                 var uidval = firebase.auth().currentUser.uid;
-                firestore()
-                  .collection("Users")
-                  .doc(uidval)
-                  .collection("friends")
-                  .doc("friend1")
-                  .set({
-                    uidvalue: "testuid",
-                    firstName: "TestFirst",
-                    lastName: "TestLastName",
-                    handleval: "testhandle",
-                  });
-                firestore()
-                  .collection("Users")
-                  .doc(uidval)
-                  .collection("pastParties")
-                  .doc("testParty")
-                  .set({
-                    partyMembers: [],
-                    location: "testLocation",
-                  });
-                firestore()
-                  .collection("Users")
-                  .doc(uidval)
-                  .collection("invitations")
-                  .doc("testInvitation")
-                  .set({
-                    inviter: "Potato Stalin",
-                    accepted: false,
-                    isDuo: true,
-                  });
+                // firestore()
+                //   .collection("Users")
+                //   .doc(uidval)
+                //   .collection("friends")
+                //   .doc("friend1")
+                //   .set({
+                //     uidvalue: "testuid",
+                //     firstName: "TestFirst",
+                //     lastName: "TestLastName",
+                //     handleval: "testhandle",
+                //   });
+                // firestore()
+                //   .collection("Users")
+                //   .doc(uidval)
+                //   .collection("pastParties")
+                //   .doc("testParty")
+                //   .set({
+                //     partyMembers: [],
+                //     location: "testLocation",
+                //   });
+                // firestore()
+                //   .collection("Users")
+                //   .doc(uidval)
+                //   .collection("invitations")
+                //   .doc("testInvitation")
+                //   .set({
+                //     inviter: "Potato Stalin",
+                //     accepted: false,
+                //     isDuo: true,
+                //   });
               })
               .catch(function (e) {
                 console.log(e);

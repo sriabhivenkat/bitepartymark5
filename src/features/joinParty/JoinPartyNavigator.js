@@ -3,7 +3,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Completed from "./screens/Completed";
 import Swiping from "./screens/Swiping";
 import { Image } from "react-native";
-import { logoHeaderOptions } from "../../components";
+import { GradientButton } from "../../components";
+
 // import Start from "./screens/Start";
 
 const Stack = createStackNavigator();
@@ -28,7 +29,6 @@ export default ({ route }) => {
           headerShown: false,
           // headerTitle: (props) => <LogoTitle {...props} />,
           headerLeft: null,
-
           // headerStyle: {
           //   height: 80,
           // },
@@ -41,11 +41,10 @@ export default ({ route }) => {
           title: "Party",
           // headerShown: false,
           headerLeft: null,
-          // headerTitle: (props) => <LogoTitle {...props} />,
-          // headerStyle: {
-          //   height: 110,
-          // },
-          ...logoHeaderOptions,
+          headerTitle: (props) => <LogoTitle {...props} />,
+          headerStyle: {
+            height: 110,
+          },
           animationEnabled: false,
         }}
       />
