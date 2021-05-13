@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 
-const data = [
+const opts = [
   { value: 1, label: "$" },
   { value: 2, label: "$$" },
   { value: 3, label: "$$$" },
@@ -36,11 +36,17 @@ export const PricingSelector = ({ value, onChange }) => {
   const handleClick = (val) => {
     const doesExist = data.includes(val);
     if (doesExist) {
-      setData((old) => old.filter((item) => item != val));
+      // console.log(data);
+      // console.log(data.filter((item) => item != val));
+      setData((old) => old.filter((e) => e != val));
     } else {
-      setData((old) => [...old, value]);
+      setData((old) => [...old, val]);
     }
   };
+
+  useEffect(() => onChange(data), [data]);
+
+  console.log(data);
   return (
     <View
       flexDirection="row"
@@ -50,8 +56,13 @@ export const PricingSelector = ({ value, onChange }) => {
       paddingHorizontal={30}
       marginVertical={10}
     >
-      {data.map((item, i) => (
-        <PriceButton key={i} selected={value.includes(item.value)} {...item} />
+      {opts.map((item, i) => (
+        <PriceButton
+          key={i}
+          onPress={() => handleClick(item.value)}
+          selected={data.includes(item.value)}
+          {...item}
+        />
       ))}
     </View>
   );
