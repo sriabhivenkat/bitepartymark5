@@ -25,9 +25,8 @@ const Swiping = ({ navigation, route, data }) => {
   const windowHeight = Dimensions.get("window").height;
   const [selections, setSelection] = useState({});
   const { partyID } = route.params;
-  const { party, partyMember, partyMeta, addPartySelections } = useParty(
-    partyID
-  );
+  const { party, partyMember, partyMeta, addPartySelections } =
+    useParty(partyID);
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["1%", "75%"], []);
 
@@ -253,7 +252,7 @@ const Swiping = ({ navigation, route, data }) => {
               }}
             />
           </View> */}
-        <BottomSheet ref={bottomSheetRef} index={1} snapPoints={snapPoints}>
+        <BottomSheet ref={bottomSheetRef} index={0} snapPoints={snapPoints}>
           <BottomSheetScrollView style={styles.bottomSheetContainer}>
             <View
               style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}
