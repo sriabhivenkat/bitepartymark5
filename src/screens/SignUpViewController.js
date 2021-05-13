@@ -65,9 +65,15 @@ const SignUpViewController = ({navigation}) => {
                     <View style={{alignItems: "center"}}>
                         {(email != '' && pass != "") &&
                             <GradientButton
-                                onPress={() => navigation.navigate("Sign Up 1", {electronicmail: email, password: pass})}
+                                onPress={() => {
+                                    try {
+                                        navigation.navigate("Sign Up 1", {electronicmail: email, password: pass})
+                                    } catch(err) {
+                                        Alert.alert(err);
+                                    }
+                                }}
                                 style={styles.button}
-                                innerStyle={{paddingVertical: 15}}
+                                innerStyle={{paddingVertical: 10}}
                             >
                                     NEXT
                             </GradientButton>

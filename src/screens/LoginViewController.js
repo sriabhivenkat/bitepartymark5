@@ -14,6 +14,7 @@ import { AuthContext } from "../navigation/AuthProvider.js";
 import auth, { firebase } from "@react-native-firebase/auth";
 import { appleAuth } from "@invertase/react-native-apple-authentication";
 import { GoogleSignin } from "@react-native-community/google-signin";
+import {headerlogo} from '../assets/images/headerlogo.png'
 import { Alert } from "react-native";
 // import { LoginManager, AccessToken } from 'react-native-fbsdk';
 
@@ -73,7 +74,7 @@ const LoginViewController = ({ navigation }) => {
     <DismissKeyboard>
       <View style={styles.container}>
         <Image
-          source={require("../assets/images/logo.png")}
+          source={require("../assets/images/headerlogo.png")}
           style={styles.logo}
         />
         <View style={{ flex: 0.4, borderColor: "white" }}>
@@ -82,8 +83,9 @@ const LoginViewController = ({ navigation }) => {
             style={{
               textAlign: "center",
               fontWeight: "bold",
-              color: "white",
+              color: "black",
               fontFamily: "Kollektif",
+              marginTop: 50,
             }}
           >
             Thousands of choices,
@@ -93,7 +95,7 @@ const LoginViewController = ({ navigation }) => {
             style={{
               textAlign: "center",
               fontWeight: "bold",
-              color: "white",
+              color: "black",
               marginBottom: 25,
               fontFamily: "Kollektif",
             }}
@@ -105,10 +107,11 @@ const LoginViewController = ({ navigation }) => {
           mode="contained"
           onPress={() => navigation.navigate("Sign Up")}
           style={styles.button1}
+          labelStyle={{fontFamily: "Kollektif"}}
         >
           Sign Up
         </Button>
-        <Button
+        {/* <Button
           icon="google"
           mode="outlined"
           //   disabled
@@ -134,13 +137,15 @@ const LoginViewController = ({ navigation }) => {
           color="white"
         >
           Log In with Apple
-        </Button>
-        <TouchableOpacity
-          style={styles.forgotPass}
+        </Button> */}
+        <Button
+          mode="contained"
           onPress={() => navigation.navigate("Authenticate")}
+          style={[styles.button1, {marginBottom: 100}]}
+          labelStyle={{fontFamily: "Kollektif"}}
         >
-          <Text style={styles.navButton}>Log In</Text>
-        </TouchableOpacity>
+          Log In
+        </Button>
       </View>
     </DismissKeyboard>
   );
@@ -153,7 +158,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "black",
+    backgroundColor: "white",
   },
   image: {
     flex: 1,
@@ -170,8 +175,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#D7D5ED",
   },
   logo: {
-    height: "33%",
-    width: "50%",
+    height: "20%",
+    width: "65%",
     resizeMode: "cover",
     position: "relative",
     marginBottom: "-5%",
@@ -198,10 +203,10 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   button1: {
-    paddingVertical: 15,
+    paddingVertical: 10,
     width: "80%",
     backgroundColor: "#F76F6D",
-    borderRadius: 25,
+    borderRadius: 20,
     marginBottom: "2.5%",
   },
   forgotPass: {
