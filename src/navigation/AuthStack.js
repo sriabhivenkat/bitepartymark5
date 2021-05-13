@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {View, Image} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
+import React, { useState, useEffect } from 'react';
+import { View, Image } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
 import SignUpViewController from '../screens/SignUpViewController.js';
 import LoginViewController from '../screens/LoginViewController.js';
 import OnboardingViewController from '../screens/OnboardingViewController';
@@ -13,62 +13,62 @@ import SignUp2ViewController from '../screens/SignUp2ViewController.js';
 const Stack = createStackNavigator();
 
 
-const AuthStack = ({navigation}) => {
+const AuthStack = ({ navigation }) => {
     const [isFirstLaunch, setIsFirstLaunch] = useState(null);
     let routeName;
 
     useEffect(() => {
         AsyncStorage.getItem('alreadyLaunched').then((value) => {
-            if(value==null) {
+            if (value == null) {
                 AsyncStorage.setItem('alreadyLaunched', 'true');
                 setIsFirstLaunch(true);
-            }else{
+            } else {
                 setIsFirstLaunch(false);
             }
         });
 
-        
+
     }, []);
 
-    if (isFirstLaunch==null){
+    if (isFirstLaunch == null) {
         return null;
-    } else if (isFirstLaunch==true) {
-        routeName='Onboarding';
+    } else if (isFirstLaunch == true) {
+        routeName = 'Onboarding';
     } else {
-        routeName="Login";
+        routeName = "Login";
     }
 
-    return(
+    return (
         <Stack.Navigator initialRouteName={routeName}>
-            <Stack.Screen 
+            <Stack.Screen
                 name="Onboarding"
                 component={OnboardingViewController}
-                options={{header: () => null}}
+                options={{ header: () => null }}
             />
-            <Stack.Screen 
+            <Stack.Screen
                 name="Login"
                 component={LoginViewController}
-                options={{header: () => null}}
+                options={{ header: () => null }}
             />
-            <Stack.Screen 
+            <Stack.Screen
                 name="Sign Up"
                 component={SignUpViewController}
-                options={{header: () => null}}
+                options={{ headerShown: true, headerBackTitle: "Back", title: "Sign Up" }}
             />
-            <Stack.Screen 
+            <Stack.Screen
                 name="Authenticate"
                 component={AuthenticateViewController}
-                options={{header: () => null}}
+                options={{ headerShown: true, headerBackTitle: "Back", title: "Login" }}
             />
-            <Stack.Screen 
+            <Stack.Screen
                 name="Sign Up 1"
                 component={SignUp1ViewController}
-                options={{header: () => null}}
+                options={{ headerShown: true, title: "Sign Up" }}
             />
-            <Stack.Screen 
+            <Stack.Screen
                 name="Sign Up 2"
                 component={SignUp2ViewController}
-                options={{header: () => null}}
+                options={{ headerShown: true, title: "Sign Up" }}
             />
         </Stack.Navigator>
     );

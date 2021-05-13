@@ -1,27 +1,30 @@
-import React, {useState} from 'react';
-import {createContext} from 'react';
+import React, { useState } from 'react';
+import { createContext } from 'react';
 import firebase from '@react-native-firebase/app';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import { Alert } from 'react-native';
 export const AuthContext = createContext();
 
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    return(
+    return (
         <AuthContext.Provider
             value={{
                 user,
                 setUser,
-                login: async(email, password) => {
+                login: async (email, password) => {
                     try {
                         await auth().signInWithEmailAndPassword(email, password);
 
-                    } catch(e) {
+                    } catch (e) {
                         console.log(e);
+                        Alert.alert("Invalid email/password")
+
                     }
                 },
-                register: async(email, password, first, last, handle) => {
+                register: async (email, password, first, last, handle) => {
                     try {
                         await auth().createUserWithEmailAndPassword(email, password)
                             .then(() => {
@@ -50,7 +53,7 @@ export const AuthProvider = ({children}) => {
                                         lastName: "TestLastName",
                                         handleval: "testhandle"
                                     });
-                                    firestore()
+                                firestore()
                                     .collection("Users")
                                     .doc(uidval)
                                     .collection("pastParties")
@@ -59,29 +62,30 @@ export const AuthProvider = ({children}) => {
                                         partyMembers: [],
                                         location: "testLocation",
                                     });
-                                    firestore()
-                                        .collection("Users")
-                                        .doc(uidval)
-                                        .collection("invitations")
-                                        .doc("testInvitation")
-                                        .set({
-                                            inviter: "Potato Stalin",
-                                            accepted: false,
-                                            isDuo: true,
-                                        });
+                                firestore()
+                                    .collection("Users")
+                                    .doc(uidval)
+                                    .collection("invitations")
+                                    .doc("testInvitation")
+                                    .set({
+                                        inviter: "Potato Stalin",
+                                        accepted: false,
+                                        isDuo: true,
+                                    });
                             })
                             .catch(function (e) {
                                 console.log(e)
+                                Alert.alert("There was a problem signing you up! Please check to make sure all the fields are correctly filled in")
                             })
-                    } catch(e) {
+                    } catch (e) {
                         console.log(e);
                     }
                 },
 
-                logout: async() => {
-                    try{
+                logout: async () => {
+                    try {
                         await auth().signOut();
-                    } catch(e) {
+                    } catch (e) {
                         console.log(e);
                     }
                 },
