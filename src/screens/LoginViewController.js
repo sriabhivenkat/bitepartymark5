@@ -3,8 +3,9 @@ import {
   View,
   Image,
   StyleSheet,
-  TouchableWithoutFeedback,
   Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Text } from "galio-framework";
 import { Button } from "react-native-paper";

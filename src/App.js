@@ -52,6 +52,8 @@ class CustomFuego {
 const fuego = new CustomFuego();
 
 const App = () => {
+  // console.disableYellowBox = true;
+
   useEffect(() => requestUserPermission(), []);
   useEffect(() => {
     // Get the device token

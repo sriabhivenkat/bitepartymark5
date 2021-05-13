@@ -12,7 +12,7 @@ export const startImages = [
     end: 12,
   },
   {
-    image: require("assets/images/lunch1.jpg"),
+    image: require("assets/images/bfast3.jpg"),
     end: 15,
   },
   {
