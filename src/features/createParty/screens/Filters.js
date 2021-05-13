@@ -11,18 +11,15 @@ import Geocoder from "react-native-geocoding";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { GradientButton } from "components/GradientButton.js";
 import { Alert } from "react-native";
+import { PricingSelector, TitleText } from "../../../components";
 
 const Filters = ({ route, navigation }) => {
   const [radius, setRadius] = useState(5);
   const [count, setCount] = useState(10);
-  const [isFamily, setIsFamily] = useState(false);
-  const [isFastFood, setIsFastFood] = useState(false);
-  const [longName, setName] = useState("");
   const [time, setTime] = useState(new Date());
   const [filters, setFilters] = useState([]);
   const [restriction, setRestrictions] = useState([]);
-  const [pricingvalue, setPricingValue] = useState([]);
-  const [buttonPressed, setButtonPressed] = useState(false);
+  const [price, setPrice] = useState([]);
 
   const handleTap = (value) => {
     const exists = filters.find((item) => item == value);
@@ -33,9 +30,6 @@ const Filters = ({ route, navigation }) => {
       setFilters([value, ...filters]);
     }
   };
-
-  const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
 
   const handleRestricts = (value) => {
     const exists = restriction.find((item) => item == value);
@@ -68,11 +62,7 @@ const Filters = ({ route, navigation }) => {
 
   const { createParty } = useParty(partyId);
 
-  const toggleSwitch1 = () => setIsFamily((previousState) => !previousState);
-  const toggleSwitch2 = () => setIsFastFood((previousState) => !previousState);
-  const [pricing, setPricing] = useState(0);
-
-  const handlePress = async () => {
+  const startParty = async () => {
     try {
       if (selectionval === "") {
         const loc = await getUserLocation();
@@ -80,11 +70,9 @@ const Filters = ({ route, navigation }) => {
           loc,
           count,
           radius,
-          isFamily,
-          isFastFood,
           filters,
           restriction,
-          pricingvalue,
+          // pricing,
           time,
         });
         navigation.navigate("joinParty", {
@@ -120,242 +108,19 @@ const Filters = ({ route, navigation }) => {
       console.error(err);
     }
   };
+
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Filters</Text>
-
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-      >
-        <Text
-          style={{
-            marginLeft: "10%",
-            marginTop: "3%",
-            fontSize: 22.5,
-            fontFamily: "Kollektif",
-          }}
-        >
-          Price
-        </Text>
-        {windowHeight===667 &&
-          <View style={{ display: "flex", flexDirection: "row", marginLeft: -15}}>
-                 <TouchableOpacity
-                   onPress={() => {
-                     handleTap("1");
-                   }}
-                   style={[
-                     filters.includes("1") && { backgroundColor: "lightgray" },
-                     {
-                       padding: 0.5,
-                       borderWidth: 1,
-                       borderColor: "gray",
-                       width: 80,
-                       height: 40,
-                       borderRadius: 25,
-                       left: 30,
-                       marginTop: 15,
-                       alignItems: "center",
-                       justifyContent: "center",
-                       marginRight: 8,
-                     },
-                   ]}
-                 >
-                   <Text p style={[filters.includes("1") && { color: "black" }]}>
-                     $
-                   </Text>
-                 </TouchableOpacity>
-                 <TouchableOpacity
-                   onPress={() => {
-                     handleTap("2");
-                   }}
-                   style={[
-                     filters.includes("2") && { backgroundColor: "lightgray" },
-                     {
-                       padding: 0.5,
-                       borderWidth: 1,
-                       borderColor: "gray",
-                       width: 80,
-                       height: 40,
-                       borderRadius: 25,
-                       left: 30,
-                       marginTop: 15,
-                       alignItems: "center",
-                       justifyContent: "center",
-                       marginRight: 8,
-                     },
-                   ]}
-                 >
-                   <Text p>$$</Text>
-                 </TouchableOpacity>
-                 <TouchableOpacity
-                   onPress={() => {
-                     handleTap("3");
-                   }}
-                   style={[
-                     filters.includes("3") && { backgroundColor: "lightgray" },
-                     {
-                       padding: 0.5,
-                       borderWidth: 1,
-                       borderColor: "gray",
-                       width: 80,
-                       height: 40,
-                       borderRadius: 25,
-                       left: 30,
-                       marginTop: 15,
-                       alignItems: "center",
-                       justifyContent: "center",
-                       marginRight: 8,
-                     },
-                   ]}
-                 >
-                   <Text p>$$$</Text>
-                 </TouchableOpacity>
-                 <TouchableOpacity
-                   onPress={() => {
-                     handleTap("4");
-                   }}
-                   style={[
-                     filters.includes("4") && { backgroundColor: "lightgray" },
-                     {
-                       padding: 0.5,
-                       borderWidth: 1,
-                       borderColor: "gray",
-                       width: 80,
-                       height: 40,
-                       borderRadius: 25,
-                       left: 30,
-                       marginTop: 15,
-                       alignItems: "center",
-                       justifyContent: "center",
-                       marginRight: 8,
-                     },
-                   ]}
-                 >
-                   <Text p>$$$$</Text>
-                 </TouchableOpacity>
-               </View>
-        }
-        {windowHeight != 667 &&
-        <View style={{ display: "flex", flexDirection: "row",}}>
-          <TouchableOpacity
-            onPress={() => {
-              handleTap("1");
-            }}
-            style={[
-              filters.includes("1") && { backgroundColor: "lightgray" },
-              {
-                padding: 0.5,
-                borderWidth: 1,
-                borderColor: "gray",
-                width: 80,
-                height: 40,
-                borderRadius: 25,
-                left: 30,
-                marginTop: 15,
-                alignItems: "center",
-                justifyContent: "center",
-                marginRight: 8,
-              },
-            ]}
-          >
-            <Text p style={[filters.includes("1") && { color: "black" }]}>
-              $
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              handleTap("2");
-            }}
-            style={[
-              filters.includes("2") && { backgroundColor: "lightgray" },
-              {
-                padding: 0.5,
-                borderWidth: 1,
-                borderColor: "gray",
-                width: 80,
-                height: 40,
-                borderRadius: 25,
-                left: 30,
-                marginTop: 15,
-                alignItems: "center",
-                justifyContent: "center",
-                marginRight: 8,
-              },
-            ]}
-          >
-            <Text p>$$</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              handleTap("3");
-            }}
-            style={[
-              filters.includes("3") && { backgroundColor: "lightgray" },
-              {
-                padding: 0.5,
-                borderWidth: 1,
-                borderColor: "gray",
-                width: 80,
-                height: 40,
-                borderRadius: 25,
-                left: 30,
-                marginTop: 15,
-                alignItems: "center",
-                justifyContent: "center",
-                marginRight: 8,
-              },
-            ]}
-          >
-            <Text p>$$$</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              handleTap("4");
-            }}
-            style={[
-              filters.includes("4") && { backgroundColor: "lightgray" },
-              {
-                padding: 0.5,
-                borderWidth: 1,
-                borderColor: "gray",
-                width: 80,
-                height: 40,
-                borderRadius: 25,
-                left: 30,
-                marginTop: 15,
-                alignItems: "center",
-                justifyContent: "center",
-                marginRight: 8,
-              },
-            ]}
-          >
-            <Text p>$$$$</Text>
-          </TouchableOpacity>
-        </View>
-      }
+      <View paddingHorizontal={20}>
+        <TitleText>Filters</TitleText>
+      </View>
+      <View display="flex" flexDirection="column" justifyContent="center">
+        <SectionLabel label="Price" />
+        <PricingSelector value={price} onChange={(val) => setPrice(val)} />
       </View>
       <Divider style={{ marginTop: 10 }} />
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-      >
-        <Text
-          style={{
-            marginLeft: "10%",
-            marginTop: "3%",
-            fontSize: 22.5,
-            fontFamily: "Kollektif",
-          }}
-        >
-          Location
-        </Text>
+      <View flexDirection="column" justifyContent="center">
+        <SectionLabel label="Location" />
         {selectionval === "" && (
           <View style={{ alignItems: "center" }}>
             <Text
@@ -418,16 +183,7 @@ const Filters = ({ route, navigation }) => {
           justifyContent: "center",
         }}
       >
-        <Text
-          style={{
-            marginLeft: "10%",
-            marginTop: "3%",
-            fontSize: 22.5,
-            fontFamily: "Kollektif",
-          }}
-        >
-          Time
-        </Text>
+        <SectionLabel label="Time" />
         <View
           style={{ display: "flex", flexDirection: "row", marginBottom: "2%" }}
         >
@@ -451,16 +207,7 @@ const Filters = ({ route, navigation }) => {
         </View>
       </View>
       <Divider style={{ marginTop: 10 }} />
-      <Text
-        style={{
-          marginLeft: "10%",
-          marginTop: "3%",
-          fontSize: 22.5,
-          fontFamily: "Kollektif",
-        }}
-      >
-        Food
-      </Text>
+      <SectionLabel label="Food" />
       <List.Section>
         <List.Accordion
           title="Select a cuisine"
@@ -571,16 +318,7 @@ const Filters = ({ route, navigation }) => {
         </List.Accordion>
       </List.Section>
       <Divider />
-      <Text
-        style={{
-          marginLeft: "10%",
-          marginTop: "3%",
-          fontSize: 22.5,
-          fontFamily: "Kollektif",
-        }}
-      >
-        Restrictions
-      </Text>
+      <SectionLabel label="Location" />
       <List.Section>
         <List.Accordion
           title="Select a dietary restriction"
@@ -633,130 +371,76 @@ const Filters = ({ route, navigation }) => {
       <Divider />
       <View style={{ marginTop: "5%" }}>
         <View style={{ display: "flex", flexDirection: "row" }}>
-          <Text
-            p
-            style={{
-              marginLeft: "10%",
-              marginTop: "1%",
-              fontWeight: "bold",
-              fontFamily: "Kollektif",
-            }}
-          >
-            Radius
-          </Text>
+          <SectionLabel label="Radius" />
+        </View>
+        <View>
           <Text
             p
             style={{
               position: "absolute",
-              right: "11%",
+              right: 40,
+              bottom: 60,
               fontWeight: "300",
               fontFamily: "Kollektif",
             }}
           >
             {Math.round(radius)} miles
           </Text>
+          <Slider
+            value={radius}
+            onValueChange={(value) => setRadius(value)}
+            minimumValue={1}
+            maximumValue={24}
+            animateTransitions={true}
+            thumbStyle={{ width: "9%", height: "72%" }}
+            thumbTintColor={"#f76f6d"}
+            style={{
+              width: "80%",
+              marginLeft: "10%",
+              marginTop: "2.5%",
+              color: "#f76f6d",
+              marginBottom: "5%",
+            }}
+          />
         </View>
-        <Slider
-          value={radius}
-          onValueChange={(value) => setRadius(value)}
-          minimumValue={1}
-          maximumValue={24}
-          animateTransitions={true}
-          thumbStyle={{ width: "9%", height: "72%" }}
-          thumbTintColor={"#f76f6d"}
-          style={{
-            width: "80%",
-            marginLeft: "10%",
-            marginTop: "2.5%",
-            color: "#f76f6d",
-            marginBottom: "5%",
-          }}
-        />
+
         <Divider />
         <View style={{ display: "flex", flexDirection: "row" }}>
+          <SectionLabel label="Count" />
+        </View>
+        <View>
           <Text
             p
             style={{
-              marginLeft: "10%",
-              fontWeight: "bold",
-              fontFamily: "Kollektif",
-              marginTop: "10%",
-            }}
-          >
-            Count
-          </Text>
-          <Text
-            p
-            style={{
-              marginTop: "10%",
               position: "absolute",
-              right: "11%",
+              right: 40,
+              bottom: 40,
               fontWeight: "300",
               fontFamily: "Kollektif",
             }}
           >
             {Math.round(count)} restaurants
           </Text>
-        </View>
-        <Slider
-          value={count}
-          onValueChange={(value) => setCount(value)}
-          minimumValue={3}
-          maximumValue={15}
-          animateTransitions={true}
-          thumbStyle={{ width: "9%", height: "72%" }}
-          thumbTintColor={"#f76f6d"}
-          style={{
-            width: "80%",
-            marginLeft: "10%",
-            marginTop: "2.5%",
-            color: "#f76f6d",
-          }}
-        />
-      </View>
-      <View
-        style={{
-          // flex: 0.3,
-          flexDirection: "row",
-          justifyContent: "center",
-          // marginTop: 80,
-        }}
-      ></View>
-
-      <View style={{ maxHeight: 150, alignItems: "center", marginTop: 20 }}>
-        <TouchableOpacity
-          activeOpacity={0.9}
-          onPress={() => {
-            handlePress();
-          }}
-          style={[
-            styles.button,
-            { width: "80%", height: "40%", marginBottom: "5%" },
-          ]}
-        >
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            colors={["#ee0979", "#f76f6d", "#ff6a00"]}
+          <Slider
+            value={count}
+            onValueChange={(value) => setCount(value)}
+            minimumValue={3}
+            maximumValue={15}
+            animateTransitions={true}
+            thumbStyle={{ width: "9%", height: "72%" }}
+            thumbTintColor={"#f76f6d"}
             style={{
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 15,
+              width: "80%",
+              marginLeft: "10%",
+              marginTop: "2.5%",
+              color: "#f76f6d",
             }}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontFamily: "Kollektif",
-                fontWeight: "300",
-                fontSize: 17,
-              }}
-            >
-              Start party!
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
+          />
+        </View>
+      </View>
+
+      <View flex={1} paddingHorizontal={40} paddingVertical={30}>
+        <GradientButton onPress={startParty}>Start Party!</GradientButton>
       </View>
     </ScrollView>
   );
@@ -764,39 +448,28 @@ const Filters = ({ route, navigation }) => {
 
 export default Filters;
 
+const SectionLabel = ({ label }) => (
+  <Text
+    style={{
+      marginLeft: 40,
+      marginTop: 20,
+      fontSize: 22.5,
+      fontFamily: "Kollektif",
+    }}
+  >
+    {label}
+  </Text>
+);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-  },
-  button: {
-    marginTop: 20,
-    height: 37,
-    width: "50%",
-    backgroundColor: "#F76F6D",
-    borderRadius: 15,
   },
   title: {
     padding: "5%",
     fontFamily: "Kollektif",
     color: "black",
     fontSize: 35,
-  },
-  subheading: {
-    fontFamily: "Kollektif",
-    color: "#f76f6d",
-    textAlign: "center",
-  },
-  chip: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: "1.5%",
-    paddingHorizontal: 20,
-    paddingVertical: 5,
-    bottom: 10,
-  },
-  buttonStyle: {
-    minWidth: 30,
-    marginVertical: 10,
   },
 });

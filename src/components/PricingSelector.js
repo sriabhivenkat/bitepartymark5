@@ -8,42 +8,50 @@ const data = [
   { value: 4, label: "$$$$" },
 ];
 
-const PriceButton = ({ value, label, style, textStyle, ...rest }) => (
+const PriceButton = ({ value, label, selected, style, textStyle, ...rest }) => (
   <TouchableOpacity
     onPress={() => {}}
     {...rest}
     style={[
-      //   filters.includes("4") && { backgroundColor: "lightgray" },
       {
-        padding: 0,
         borderWidth: 1,
-        borderColor: "gray",
-        width: 80,
+        alignSelf: "stretch",
+        flex: 1,
+        marginHorizontal: 5,
         height: 40,
         borderRadius: 25,
-        // left: 30,
-        // marginTop: 15,
         alignItems: "center",
         justifyContent: "center",
-        // marginRight: 8,
       },
+      selected && { backgroundColor: "rgba(0,0,0, 0.2)" },
     ]}
   >
-    <Text p>{label}</Text>
+    <Text p style={{ fontFamily: "Kollektif" }}>
+      {label}
+    </Text>
   </TouchableOpacity>
 );
-export const PricingSelector = () => {
-  const [values, setValues] = useState([]);
-
+export const PricingSelector = ({ value, onChange }) => {
+  const [data, setData] = useState(value);
+  const handleClick = (val) => {
+    const doesExist = data.includes(val);
+    if (doesExist) {
+      setData((old) => old.filter((item) => item != val));
+    } else {
+      setData((old) => [...old, value]);
+    }
+  };
   return (
     <View
       flexDirection="row"
-      backgroundColor="red"
+      // backgroundColor="red"
       alignItems="center"
       justifyContent="space-between"
+      paddingHorizontal={30}
+      marginVertical={10}
     >
-      {data.map((item) => (
-        <PriceButton {...item} />
+      {data.map((item, i) => (
+        <PriceButton key={i} selected={value.includes(item.value)} {...item} />
       ))}
     </View>
   );
