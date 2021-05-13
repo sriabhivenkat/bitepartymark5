@@ -58,9 +58,9 @@ const InvitesDisplay = ({ navigation }) => {
   };
   return (
     <SafeAreaView style={styles.container}>
+       {acceptedInvites?.length != 0 && (
       <View style={{ flexDirection: "row" }}>
-        {acceptInvite?.length > 0 && (
-
+     
           <View
             style={{
               flexDirection: "row",
@@ -73,6 +73,9 @@ const InvitesDisplay = ({ navigation }) => {
               paddingVertical: 20,
               paddingHorizontal: 20,
               width: Dimensions.get("screen").width,
+              backgroundColor: "white",
+              borderWidth: 1,
+              borderColor: "lightgray",
               // ...StyleSheet.absoluteFill,
               // borderColor: "rgba(0,0,0,0.1)",
               position: "relative",
@@ -81,7 +84,7 @@ const InvitesDisplay = ({ navigation }) => {
               top: -2,
             }}
           >
-
+          
             <FlatList
               data={acceptedInvites}
               style={{ paddingTop: 5 }}
@@ -120,11 +123,11 @@ const InvitesDisplay = ({ navigation }) => {
               )}
               keyExtractor={(item) => item.partyID}
             />
+          
           </View>
-        )}
-
+    
       </View>
-
+  )}
       <TitleText style={[styles.title]}>Invites</TitleText>
       {pendingInvites?.length <= 0 && (
         <SubtitleText style={styles.subtitle}>
@@ -162,7 +165,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    marginTop: 7.5,
+    marginTop: 17.5,
     fontSize: 37,
   },
   subtitle: {

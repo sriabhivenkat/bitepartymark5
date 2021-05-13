@@ -70,7 +70,7 @@ const SelectFriends = ({ route, navigation }) => {
           alignItems="center"
           justifyContent="space-between"
         >
-          <TitleText marginTop={30} style={{fontSize: 37}}>Invite Friends</TitleText>
+          <TitleText style={{fontSize: 37}}>Invite Friends</TitleText>
         </View>
         <View>
           <Input

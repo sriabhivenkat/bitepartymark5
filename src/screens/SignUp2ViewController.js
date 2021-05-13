@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import {Text, Input} from 'galio-framework';
 import {Button, Card} from 'react-native-paper'
 import {GradientButton} from '../components';
+import { Alert } from 'react-native';
 
 const SignUp2ViewController = ({route}) => {
     const [handle, setHandle] = useState('');
@@ -39,7 +40,20 @@ const SignUp2ViewController = ({route}) => {
             {handle!="" &&
                 <View style={{alignItems: "center"}}>
                     <GradientButton
-                        onPress={() => register(electronicmail, password, firstname, lastname, handle)}
+                        onPress={() => {
+                            register(electronicmail, password, firstname, lastname, handle)
+                            .then(error => {
+                                if (error.code === 'auth/email-already-in-use') {
+                                    Alert.alert('That email address is already in use!');
+                                  }
+                              
+                                  if (error.code === 'auth/invalid-email') {
+                                      Alert.alert('That email address is invalid!');
+                                  }
+                              
+                                  console.error(error);
+                              })
+                        }}
                         style={styles.button}
                     >
                         LET'S GO
