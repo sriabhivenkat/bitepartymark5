@@ -72,6 +72,7 @@ const Filters = ({ route, navigation }) => {
           radius,
           filters,
           restriction,
+          price,
           // pricing,
           time,
         });
@@ -92,7 +93,7 @@ const Filters = ({ route, navigation }) => {
               isFastFood,
               filters,
               restriction,
-              pricingvalue,
+              price,
               time,
             });
           })

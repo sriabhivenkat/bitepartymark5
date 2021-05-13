@@ -1,6 +1,7 @@
 import Geolocation from "@react-native-community/geolocation";
 
-export const getNearby = async ({ radius, count, loc, filters,}) => {
+export const getNearby = async ({ radius, count, loc, filters, price }) => {
+  console.log({ price: price.join(",") });
   const res = await fetch(
     `https://api.yelp.com/v3/businesses/search?latitude=${loc[0]}&longitude=${
       loc[1]
@@ -8,7 +9,7 @@ export const getNearby = async ({ radius, count, loc, filters,}) => {
       1609 * radius
     )}&open_now=true&term=restaurants&categories=${filters.join(
       ","
-    )}`,
+    )}&price=${price.join(",")}`,
     {
       headers: {
         Authorization:
@@ -27,19 +28,18 @@ export const getNearby = async ({ radius, count, loc, filters,}) => {
     .map((item) => ({ ...item, matches: 0 }));
 };
 
-export const reverseGeocode = async({latitude, longitude}) => {
+export const reverseGeocode = async ({ latitude, longitude }) => {
   const address = await fetch(
     `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude}&${longitude}&&key=AIzaSyBA1ZXfKjDXPiHrT3L2Hnut3ez38_Ww4S8`
-  )
+  );
 
   const results = await address.json();
-  console.log({results});
+  console.log({ results });
 
-  return results
-}
+  return results;
+};
 
-
-export const getUserLocation = () => 
+export const getUserLocation = () =>
   // Promisify Geolocation.getCurrentPosition since it relies on outdated callbacks
   new Promise((resolve, reject) => {
     Geolocation.getCurrentPosition(
