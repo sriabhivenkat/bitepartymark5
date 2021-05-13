@@ -175,8 +175,7 @@ const Filters = ({ route, navigation }) => {
           </View>
         )}
       </View>
-      <Divider style={{ marginTop: 10 }} />
-      <View
+      {/* <View
         style={{
           display: "flex",
           flexDirection: "column",
@@ -205,14 +204,27 @@ const Filters = ({ route, navigation }) => {
             style={{ right: 40, position: "absolute", width: "25%" }}
           />
         </View>
-      </View>
+      </View> */}
       <Divider style={{ marginTop: 10 }} />
       <SectionLabel label="Food" />
       <List.Section>
         <List.Accordion
           title="Select a cuisine"
-          left={(props) => <List.Icon {...props} icon="food" />}
+          left={(props) => <List.Icon {...props} icon="food" color={"#f76f6d"}/>}
+          titleStyle={{color: "#f76f6d"}}
         >
+          <List.Item
+            title="Alcohol"
+            value="bars"
+            onPress={() => {
+              handleTap("bars");
+            }}
+            style={
+              filters.includes("bars") && {
+                backgroundColor: "lightgray",
+              }
+            }
+          />
           <List.Item
             title="American"
             value="tradamerican"
@@ -236,16 +248,6 @@ const Filters = ({ route, navigation }) => {
             }
           />
           <List.Item
-            title="Food Trucks"
-            value="foodtrucks"
-            onPress={() => {
-              handleTap("foodtrucks");
-            }}
-            style={
-              filters.includes("foodtrucks") && { backgroundColor: "lightgray" }
-            }
-          />
-          <List.Item
             title="Breakfast"
             value="breakfast_brunch"
             onPress={() => {
@@ -265,6 +267,40 @@ const Filters = ({ route, navigation }) => {
             }}
             style={
               filters.includes("chinese") && { backgroundColor: "lightgray" }
+            }
+          />
+          <List.Item
+            title="Coffee and Tea"
+            value="coffee"
+            onPress={() => {
+              handleTap("coffee");
+            }}
+            style={
+              filters.includes("coffee") && {
+                backgroundColor: "lightgray",
+              }
+            }
+          />
+          <List.Item
+            title="Desserts"
+            value="desserts"
+            onPress={() => {
+              handleTap("desserts");
+            }}
+            style={
+              filters.includes("desserts") && {
+                backgroundColor: "lightgray",
+              }
+            }
+          />
+          <List.Item
+            title="Food Trucks"
+            value="foodtrucks"
+            onPress={() => {
+              handleTap("foodtrucks");
+            }}
+            style={
+              filters.includes("foodtrucks") && { backgroundColor: "lightgray" }
             }
           />
           <List.Item
@@ -318,11 +354,12 @@ const Filters = ({ route, navigation }) => {
         </List.Accordion>
       </List.Section>
       <Divider />
-      <SectionLabel label="Location" />
+      <SectionLabel label="Dietary Restrictions" />
       <List.Section>
         <List.Accordion
           title="Select a dietary restriction"
-          left={(props) => <List.Icon {...props} icon="tree" />}
+          left={(props) => <List.Icon {...props} icon="tree" color={"#f76f6d"}/>}
+          titleStyle={{color: "#f76f6d"}}
         >
           <List.Item
             title="Halal"
