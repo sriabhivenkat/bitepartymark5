@@ -26,7 +26,7 @@ const PriceButton = ({ value, label, selected, style, textStyle, ...rest }) => (
       selected && { backgroundColor: "rgba(0,0,0, 0.2)" },
     ]}
   >
-    <Text p style={{ fontFamily: "Kollektif" }}>
+    <Text p style={{ fontFamily: "Kollektif", fontSize: 20 }}>
       {label}
     </Text>
   </TouchableOpacity>
