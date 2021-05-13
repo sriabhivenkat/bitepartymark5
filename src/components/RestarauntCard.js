@@ -15,7 +15,7 @@ import { YelpRating } from "./YelpRating";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Modal, Portal, Provider } from "react-native-paper";
 
-export const RestarauntCard = ({ data, style }) => {
+export const RestarauntCard = ({ data, style, compact }) => {
   const [visible, setVisible] = useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
@@ -74,6 +74,7 @@ export const RestarauntCard = ({ data, style }) => {
             },
             styles.card,
             styles.background,
+            compact && { paddingBottom: 10 },
           ]}
           // marginHorizontal={20}
           // marginBottom={15}
@@ -132,7 +133,7 @@ export const RestarauntCard = ({ data, style }) => {
           >
             <Image
               style={{
-                height: 40,
+                height: 50,
                 width: undefined,
                 aspectRatio: 1000 / 637,
                 // position: "absolute",
@@ -144,9 +145,9 @@ export const RestarauntCard = ({ data, style }) => {
               // backgroundColor="yellow"
             />
           </View>
-          <View style={styles.chevron}>
+          {/* <View style={styles.chevron}>
             <Ionicons name="chevron-up-outline" color="white" size={35} />
-          </View>
+          </View> */}
         </LinearGradient>
       </ImageBackground>
     </View>
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "purple",
     borderRadius: 15,
     color: "#fff",
-    paddingVertical: 30,
+    // paddingVertical: 20,
     paddingBottom: 40,
     maxHeight: 650,
     paddingHorizontal: 30,
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
     fontFamily: "Kollektif",
   },
   textContainer: {
-    flex: 0.3,
+    // flex: 0.3,
     justifyContent: "flex-end",
     flexDirection: "column",
   },

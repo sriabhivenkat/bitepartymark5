@@ -56,11 +56,12 @@ const InvitesDisplay = ({ navigation }) => {
       .catch((err) => console.error(err));
     // console.log({ pendingInvites });
   };
+  console.log({ acceptedInvites });
   return (
     <SafeAreaView style={styles.container}>
        {acceptedInvites?.length != 0 && (
       <View style={{ flexDirection: "row" }}>
-     
+        {acceptedInvites?.length > 0 && (
           <View
             style={{
               flexDirection: "row",
@@ -84,7 +85,6 @@ const InvitesDisplay = ({ navigation }) => {
               top: -2,
             }}
           >
-          
             <FlatList
               data={acceptedInvites}
               style={{ paddingTop: 5 }}
@@ -97,14 +97,24 @@ const InvitesDisplay = ({ navigation }) => {
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    height: 45,
+                    justifyContent: "space-between",
+                    flex: 1,
+                    // height: 45,
                   }}
                 >
-                  <Text
-                    style={{ fontWeight: "400", fontSize: 22 }}
-                  >
-                    You have an active party!
-                </Text>
+                  <View flex={1}>
+                    <Text
+                      style={{
+                        fontWeight: "400",
+                        fontSize: 22,
+                        fontFamily: "Kollektif",
+                      }}
+                      numberOfLines={1}
+                      adjustsFontSizeToFit
+                    >
+                      You have an active party!
+                    </Text>
+                  </View>
                   <GradientButton
                     onPress={() =>
                       navigation.navigate("joinParty", {
@@ -112,9 +122,12 @@ const InvitesDisplay = ({ navigation }) => {
                         params: { partyID: item.docID },
                       })
                     }
-                    style={{ paddingLeft: 25 }}
-                    containerStyle={{ width: 100 }}
-                    innerStyle={{ borderRadius: 7, paddingVertical: 15 }}
+                    containerStyle={{ width: 120, marginLeft: 15 }}
+                    innerStyle={{
+                      borderRadius: 7,
+                      paddingVertical: 12,
+                      paddingHorizontal: 5,
+                    }}
                     textStyle={{ fontSize: 19 }}
                   >
                     <Text>Resume</Text>
@@ -125,10 +138,10 @@ const InvitesDisplay = ({ navigation }) => {
             />
           
           </View>
-    
+        )}
       </View>
-  )}
-      <TitleText style={[styles.title]}>Invites</TitleText>
+       )}
+      <TitleText style={[styles.title, { marginTop: 15 }]}>Invites</TitleText>
       {pendingInvites?.length <= 0 && (
         <SubtitleText style={styles.subtitle}>
           No pending invites. Start a party!

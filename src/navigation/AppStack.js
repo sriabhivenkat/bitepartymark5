@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { Alert } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  BottomTabBar,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 import dynamicLinks from "@react-native-firebase/dynamic-links";
@@ -29,7 +32,20 @@ const BottomTabNavigator = () => (
       },
       tintColor: "#f76f6d",
     }}
+    screenOptions={({ route }) => ({
+      tabBarButton: ["joinParty"].includes(route.name)
+        ? () => {
+            return null;
+          }
+        : undefined,
+    })}
     initialRouteName={"home"}
+    // tabBar={(props) => (
+    //   <BottomTabBar
+    //     {...props}
+    //     state={{ ...props.state, routes: props.state.routes.slice(0, 3) }}
+    //   ></BottomTabBar>
+    // )}
   >
     <Tab.Screen
       name="invites"
@@ -66,6 +82,23 @@ const BottomTabNavigator = () => (
         ),
       }}
     />
+    <Tab.Screen
+      name="joinParty"
+      component={JoinPartyNavigator}
+      // options={{
+      //   headerShown: false,
+      //   tabBarIcon: ({ focused }) => (
+      //     <Ionicons
+      //       name="person"
+      //       color={focused ? "black" : "gray"}
+      //       size={25}
+      //     />
+      //   ),
+      // }}
+      screenOptions={({ route }) => ({
+        tabBarButton: () => null,
+      })}
+    />
   </Tab.Navigator>
 );
 
@@ -100,11 +133,11 @@ const AppStack = () => {
         component={BottomTabNavigator}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="joinParty"
         component={JoinPartyNavigator}
         options={{ headerShown: false }}
-      />
+      /> */}
       <Stack.Screen
         name="Add Friends"
         component={AddFriendsViewController}

@@ -45,6 +45,7 @@
     "firebase-admin": "^9.4.2",
     "galio-framework": "^0.7.1",
     "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-hook-form": "^7.5.2",

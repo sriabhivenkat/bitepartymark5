@@ -14,6 +14,7 @@ import { ScrollView } from "react-native";
 import { Alert } from "react-native";
 import { GradientButton, TitleText } from "../../../components";
 import { SafeAreaView } from "react-native";
+import { Dimensions } from "react-native";
 
 const SelectFriends = ({ route, navigation }) => {
   const { friends } = useFriends();
@@ -70,7 +71,9 @@ const SelectFriends = ({ route, navigation }) => {
           alignItems="center"
           justifyContent="space-between"
         >
-          <TitleText style={{fontSize: 37}}>Invite Friends</TitleText>
+          <TitleText marginTop={30} style={{ fontSize: 37 }}>
+            Invite Friends
+          </TitleText>
         </View>
         <View>
           <Input
@@ -86,9 +89,19 @@ const SelectFriends = ({ route, navigation }) => {
             placeholderTextColor="rgba(0,0,0,0.5)"
           />
         </View>
-        <ScrollView>
+        {/* <LinearGradient
+          style={{
+            // position: "absolute",
+            // bottom: 0,
+            width: Dimensions.get("screen").width,
+            height: 20,
+          }}
+          colors={["rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 0.5)"]}
+          pointerEvents={"none"}
+        /> */}
+        <ScrollView marginTop={10} paddingVertical={1}>
           {friends &&
-            [...friends, ...friends]
+            [...friends]
               .filter(
                 (item) => item?.handle?.indexOf(query) >= 0 || query.length < 2
               )
@@ -103,7 +116,16 @@ const SelectFriends = ({ route, navigation }) => {
                 />
               ))}
         </ScrollView>
-
+        {/* <LinearGradient
+          style={{
+            // position: "absolute",
+            // bottom: 0,
+            width: Dimensions.get("screen").width,
+            height: 40,
+          }}
+          colors={["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.8)"]}
+          pointerEvents={"none"}
+        /> */}
         <View alignItems="center" justifyContent="center" paddingTop={10}>
           <GradientButton
             // style={{ backgroundColor: "red" }}

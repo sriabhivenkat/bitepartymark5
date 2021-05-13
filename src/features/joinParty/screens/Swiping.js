@@ -25,9 +25,8 @@ const Swiping = ({ navigation, route, data }) => {
   const windowHeight = Dimensions.get("window").height;
   const [selections, setSelection] = useState({});
   const { partyID } = route.params;
-  const { party, partyMember, partyMeta, addPartySelections } = useParty(
-    partyID
-  );
+  const { party, partyMember, partyMeta, addPartySelections } =
+    useParty(partyID);
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["1%", "75%"], []);
 
@@ -102,13 +101,13 @@ const Swiping = ({ navigation, route, data }) => {
             visible={visible}
             onDismiss={() => setVisible(false)}
             contentContainerStyle={containerStyle}
-            animationType="fade" 
+            animationType="fade"
             transparent={true}
           >
             <Image
-              source={{ uri: party?.restaurants[cardIdx].image_url }}
+              source={{ uri: party?.restaurants[cardIdx]?.image_url }}
               style={[styles.image, { marginTop: 10 }]}
-            /> 
+            />
             {/* <Text>{JSON.stringify(party?.restaurants[cardIdx], null, 2)}</Text> */}
           </Modal>
         </Portal>
@@ -130,12 +129,9 @@ const Swiping = ({ navigation, route, data }) => {
 
         {!partyMeta.isLoading && partyMember && (
           <Swiper
-            backgroundColor="#fff"
-            borderWidth={2}
-            borderWidth="black"
-            marginTop={150}
-            marginBottom={20}
-            cardVerticalMargin={0}
+            marginTop={80}
+            marginBottom={Dimensions.get("screen").height < 700 ? 5 : 70}
+            // cardVerticalMargin={0}
             // onSwipedAll={handleComplete}
             verticalSwipe={true}
             disableTopSwipe
@@ -256,7 +252,7 @@ const Swiping = ({ navigation, route, data }) => {
               }}
             />
           </View> */}
-        <BottomSheet ref={bottomSheetRef} index={1} snapPoints={snapPoints}>
+        <BottomSheet ref={bottomSheetRef} index={0} snapPoints={snapPoints}>
           <BottomSheetScrollView style={styles.bottomSheetContainer}>
             <View
               style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}
