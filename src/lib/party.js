@@ -131,6 +131,9 @@ const addPartySelections = async (id, user, party, selections) => {
 const createParty = async (id, user, members, options) => {
   const restaurants = await getNearby(options);
   console.log("restaurants");
+  if (restaurants.length < 2) {
+    throw Error("Too restrictive!");
+  }
   const partyRef = firestore().collection("Parties").doc(id);
   const usersRef = firestore().collection("Users");
 

@@ -14,7 +14,7 @@ import { AuthContext } from "../navigation/AuthProvider.js";
 import auth, { firebase } from "@react-native-firebase/auth";
 import { appleAuth } from "@invertase/react-native-apple-authentication";
 import { GoogleSignin } from "@react-native-community/google-signin";
-import {headerlogo} from '../assets/images/headerlogo.png'
+import { headerlogo } from "../assets/images/headerlogo.png";
 import { Alert } from "react-native";
 // import { LoginManager, AccessToken } from 'react-native-fbsdk';
 
@@ -107,7 +107,7 @@ const LoginViewController = ({ navigation }) => {
           mode="contained"
           onPress={() => navigation.navigate("Sign Up")}
           style={styles.button1}
-          labelStyle={{fontFamily: "Kollektif"}}
+          labelStyle={{ fontFamily: "Kollektif" }}
         >
           Sign Up
         </Button>
@@ -141,8 +141,8 @@ const LoginViewController = ({ navigation }) => {
         <Button
           mode="contained"
           onPress={() => navigation.navigate("Authenticate")}
-          style={[styles.button1, {marginBottom: 100}]}
-          labelStyle={{fontFamily: "Kollektif"}}
+          style={[styles.button1, { marginBottom: 100 }]}
+          labelStyle={{ fontFamily: "Kollektif" }}
         >
           Log In
         </Button>

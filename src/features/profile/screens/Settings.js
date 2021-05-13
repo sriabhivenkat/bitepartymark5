@@ -33,28 +33,29 @@ const Settings = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-        <TitleText style={{ marginTop: 30, fontSize: 36}}>Settings</TitleText>
+        <TitleText style={{ marginTop: 30, fontSize: 36 }}>Settings</TitleText>
         <Divider style={styles.divider} />
-        <SettingsButton right={<Switch />} style={{marginLeft: "-2%"}}>Push Notifications</SettingsButton>
-        <Divider style={styles.divider} />
+        {/* <SettingsButton right={<Switch />} style={{marginLeft: "-2%"}}>Push Notifications</SettingsButton> */}
+        {/* <Divider style={styles.divider} /> */}
         <SettingsButton
           onPress={() =>
             openLink("https://www.kas-tech.com/privacy").catch((err) =>
               console.error(err)
             )
           }
-          style={{marginLeft: "-2%"}}
+          style={{ marginLeft: "-2%" }}
         >
           Privacy
         </SettingsButton>
         <SettingsButton
           onPress={() => openLink("https://www.kas-tech.com/terms")}
-          style={{marginLeft: "-2%"}}
+          style={{ marginLeft: "-2%" }}
         >
           Terms of Service
         </SettingsButton>
         <Divider style={styles.divider} />
-        <SettingsButton onPress={logout}
+        <SettingsButton
+          onPress={logout}
           style={{
             borderWidth: 1.5,
             borderRadius: 14,
@@ -119,6 +120,6 @@ const styles = StyleSheet.create({
   },
   divider: {
     borderWidth: 0.3,
-    marginVertical: "1.5%"
+    marginVertical: "1.5%",
   },
 });
