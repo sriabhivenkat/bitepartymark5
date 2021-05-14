@@ -76,7 +76,7 @@ const Filters = ({ route, navigation }) => {
           // pricing,
           time,
         });
-        navigation.replace("joinParty", {
+        navigation.navigate("joinParty", {
           screen: "joinParty/swiping",
           params: { partyID: id },
         });

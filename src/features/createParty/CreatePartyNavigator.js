@@ -56,7 +56,8 @@ export default () => (
       component={ChangeLocation}
       options={{
         title: "ChangeLocation",
-        headerShown: false,
+        ...logoHeaderOptions,
+        // headerShown: false,
         // ...logoHeader,
       }}
     />

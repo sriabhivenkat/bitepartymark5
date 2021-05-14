@@ -3,7 +3,7 @@ import { View, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import SignUpViewController from "../screens/SignUpViewController.js";
 import LoginViewController from "../screens/LoginViewController.js";
-import OnboardingViewController from "../screens/OnboardingViewController";
+// import OnboardingViewController from "../screens/OnboardingViewController";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-community/async-storage";
 import AuthenticateViewController from "../screens/AuthenticateViewController.js";
@@ -15,35 +15,29 @@ import { logoHeaderOptions } from "../components/logoHeaderOptions.js";
 const Stack = createStackNavigator();
 
 const AuthStack = ({ navigation }) => {
-  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
-  let routeName;
-
   useEffect(() => {
     AsyncStorage.getItem("alreadyLaunched").then((value) => {
       if (value == null) {
         AsyncStorage.setItem("alreadyLaunched", "true");
-        setIsFirstLaunch(true);
-      } else {
-        setIsFirstLaunch(false);
       }
     });
   }, []);
 
-  if (isFirstLaunch == null) {
-    return null;
-  } else if (isFirstLaunch == true) {
-    routeName = "Onboarding";
-  } else {
-    routeName = "Login";
-  }
+  // if (isFirstLaunch == null) {
+  //   return null;
+  // } else if (isFirstLaunch == true) {
+  //   routeName = "Onboarding";
+  // } else {
+  //   routeName = "Login";
+  // }
 
   return (
-    <Stack.Navigator initialRouteName={routeName}>
-      <Stack.Screen
+    <Stack.Navigator initialRouteName={"Login"}>
+      {/* <Stack.Screen
         name="Onboarding"
         component={OnboardingViewController}
         options={{ header: () => null }}
-      />
+      /> */}
       <Stack.Screen
         name="Login"
         component={LoginViewController}
