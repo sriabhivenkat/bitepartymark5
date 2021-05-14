@@ -156,9 +156,11 @@ const Swiping = ({ navigation, route, data }) => {
               backgroundColor: "white",
               marginBottom: "10%",
             }}
-            onSwipedAll={() =>
-              navigation.replace("joinParty/completed", { partyID })
-            }
+            onSwipedAll={() => {
+              addPartySelections(selections, true).then(() =>
+                navigation.replace("joinParty/completed", { partyID })
+              );
+            }}
             stackSize={party.restaurants.length}
             // stackAnimationTension={100}
             // stackAnimationFriction={1}

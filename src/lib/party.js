@@ -44,11 +44,11 @@ export const useParty = (id) => {
       await createParty(partyId, user, members, options);
       return partyId;
     },
-    addPartySelections: async (selections) => {
+    addPartySelections: async (selections, override) => {
       if (!partyId) {
         throw new Error("Party Id not set!");
       }
-      await addPartySelections(partyId, user, party, selections);
+      await addPartySelections(partyId, user, party, selections, override);
       return partyId;
     },
     resolveParty: async () => {
@@ -111,9 +111,9 @@ export const usePartyMembers = (id) => {
 Helper Methods
 */
 
-const addPartySelections = async (id, user, party, selections) => {
-  console.log({ selections });
-  if (Object.keys(selections).length != party?.restaurants?.length)
+const addPartySelections = async (id, user, party, selections, override) => {
+  console.log({ selections, length: Object.keys(selections).length });
+  if (Object.keys(selections).length != party?.restaurants?.length || override)
     throw new Error("Not enough items yet");
 
   const partyRef = firestore().collection("Parties").doc(id);
