@@ -74,7 +74,7 @@ const Filters = ({ route, navigation }) => {
       console.log(currentLat, currentLong)
       Geocoder.from(currentLat, currentLong)
         .then(json => {
-                var addressComponent = json.results[4].formatted_address;
+                var addressComponent = json.results[4].formatted_address; // new comment
                 console.log(addressComponent)
           setName(addressComponent);
         })
