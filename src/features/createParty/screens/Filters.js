@@ -5,7 +5,7 @@ import { Text } from "galio-framework";
 import { Slider } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { useParty, getUserLocation, reverseGeocode } from "lib";
+import { useParty, getUserLocation } from "lib";
 import { ScrollView } from "react-native";
 import Geocoder from "react-native-geocoding";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -20,8 +20,6 @@ const Filters = ({ route, navigation }) => {
   const [filters, setFilters] = useState([]);
   const [restriction, setRestrictions] = useState([]);
   const [price, setPrice] = useState([1, 2, 3, 4]);
-  const [currentLat, setCurrentLat] = useState(0);
-  const [currentLong, setCurrentLong] = useState(0);
   const [longName, setName] = useState("");
 
   const handleTap = (value) => {
@@ -33,7 +31,21 @@ const Filters = ({ route, navigation }) => {
       setFilters([value, ...filters]);
     }
   };
-
+  useEffect(() => {
+    const main = async() => {
+      const position = await getUserLocation();
+      console.log(position);
+      console.log(position[0], position[1])
+      Geocoder.from(position[0], position[1])
+        .then(json => {
+                var addressComponent = json.results[4].formatted_address;
+                console.log(addressComponent)
+          setName(addressComponent);
+        })
+        .catch(error => console.warn(error))
+    };
+    main();
+  }, []);
   const handleRestricts = (value) => {
     const exists = restriction.find((item) => item == value);
 
@@ -65,24 +77,6 @@ const Filters = ({ route, navigation }) => {
 
   const { createParty } = useParty(partyId);
 
-  useEffect(() => {
-    const main = async () => {
-      const position = await getUserLocation();
-      console.log(position);
-      setCurrentLat(position[0]);
-      setCurrentLong(position[1]);
-      console.log(currentLat, currentLong);
-      Geocoder.from(currentLat, currentLong)
-        .then((json) => {
-          var addressComponent = json.results[4].formatted_address;
-          console.log(addressComponent);
-          setName(addressComponent);
-        })
-        .catch((error) => console.warn(error));
-    };
-    main();
-  }, [currentLat, currentLong]);
-
   const startParty = async () => {
     try {
       if (selectionval === "") {
@@ -97,7 +91,7 @@ const Filters = ({ route, navigation }) => {
           // pricing,
           time,
         });
-        navigation.navigate("joinParty", {
+        navigation.replace("joinParty", {
           screen: "joinParty/swiping",
           params: { partyID: id },
         });
@@ -110,7 +104,6 @@ const Filters = ({ route, navigation }) => {
               loc,
               count,
               radius,
-
               filters,
               restriction,
               price,
@@ -160,8 +153,7 @@ const Filters = ({ route, navigation }) => {
                 fontFamily: "Kollektif",
               }}
             >
-              {/* Search in {longName} */}
-              Current Location
+              Search in {longName}
             </Text>
             <Text style={{ top: 3, fontFamily: "Kollektif", fontSize: 17 }}>
               or
@@ -237,7 +229,7 @@ const Filters = ({ route, navigation }) => {
         </View>
       </View> */}
       <Divider style={{ marginTop: 10 }} />
-      <SectionLabel label="Cuisine" />
+      <SectionLabel label="Food" />
       <List.Section>
         <List.Accordion
           title="Select a cuisine"
