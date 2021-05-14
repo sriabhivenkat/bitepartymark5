@@ -20,6 +20,9 @@ const Filters = ({ route, navigation }) => {
   const [filters, setFilters] = useState([]);
   const [restriction, setRestrictions] = useState([]);
   const [price, setPrice] = useState([1, 2, 3, 4]);
+  const [currentLat, setCurrentLat] = useState(0);
+  const [currentLong, setCurrentLong] = useState(0);
+  const [longName, setName] = useState("");
 
   const handleTap = (value) => {
     const exists = filters.find((item) => item == value);
@@ -30,7 +33,23 @@ const Filters = ({ route, navigation }) => {
       setFilters([value, ...filters]);
     }
   };
-
+  useEffect(() => {
+    const main = async() => {
+      const position = await getUserLocation();
+      console.log(position);
+      setCurrentLat(position[0]);
+      setCurrentLong(position[1]);
+      console.log(currentLat, currentLong)
+      Geocoder.from(29.7174, -95.4018)
+        .then(json => {
+                var addressComponent = json.results[4].formatted_address;
+                console.log(addressComponent)
+          setName(addressComponent);
+        })
+        .catch(error => console.warn(error))
+    };
+    main();
+  }, [currentLat, currentLong]);
   const handleRestricts = (value) => {
     const exists = restriction.find((item) => item == value);
 
@@ -89,7 +108,6 @@ const Filters = ({ route, navigation }) => {
               loc,
               count,
               radius,
-
               filters,
               restriction,
               price,
@@ -139,7 +157,7 @@ const Filters = ({ route, navigation }) => {
                 fontFamily: "Kollektif",
               }}
             >
-              Use current location
+              Search in {longName}
             </Text>
             <Text style={{ top: 3, fontFamily: "Kollektif", fontSize: 17 }}>
               or
