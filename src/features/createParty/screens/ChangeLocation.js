@@ -25,7 +25,7 @@ const ChangeLocation = ({ route, navigation }) => {
           setCurrentLat(position[0]);
           setCurrentLong(position[1]);
           console.log(currentLat, currentLong)
-          Geocoder.from(29.7174, -95.4018)
+          Geocoder.from(currentLat, currentLong)
             .then(json => {
                     var addressComponent = json.results[4].formatted_address;
                     var fullAddress = json.results[0].formatted_address;
@@ -107,7 +107,8 @@ const ChangeLocation = ({ route, navigation }) => {
                         fontSize: 17,
                     },
                     textInput: {
-                        color: "black"
+                        fontSize: 16,
+                        color: "#f76f6d"
                     }
                 }}
             />
@@ -127,7 +128,6 @@ const styles = StyleSheet.create({
         padding: 20,
         color: "black",
         fontSize: 36,
-        marginTop: "20%",
         fontFamily: "Kollektif",
     },
     searchbar: {

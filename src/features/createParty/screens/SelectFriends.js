@@ -68,10 +68,12 @@ const SelectFriends = ({ route, navigation }) => {
       <View style={styles.container}>
         <View
           flexDirection="row"
+          display="flex"
           alignItems="center"
           justifyContent="space-between"
+          marginTop={-25}
         >
-          <TitleText marginTop={30} style={{ fontSize: 37 }}>
+          <TitleText style={{ fontSize: 37 }}>
             Invite Friends
           </TitleText>
         </View>
@@ -181,7 +183,6 @@ const styles = StyleSheet.create({
   queryView: {
     flex: 0.13,
     backgroundColor: "#16335e",
-    marginTop: 20,
   },
   queryContent: {
     width: "80%",
@@ -191,13 +192,13 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "15%",
+    // marginTop: "15%",
   },
   title: {
     fontFamily: "Kollektif",
     paddingBottom: "10%",
     color: "#f76f6d",
-    marginTop: "5%",
+    // marginTop: "5%",
   },
   queryResults: {
     marginTop: 20,

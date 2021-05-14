@@ -1,4 +1,6 @@
 import Geolocation from "@react-native-community/geolocation";
+import { useEffect } from "react";
+import Geocoder from "react-native-geocoding";
 
 export const getNearby = async ({ radius, count, loc, filters, price }) => {
   console.log({ price: price.join(",") });
@@ -28,15 +30,15 @@ export const getNearby = async ({ radius, count, loc, filters, price }) => {
     .map((item) => ({ ...item, matches: 0 }));
 };
 
-export const reverseGeocode = async ({ latitude, longitude }) => {
-  const address = await fetch(
-    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude}&${longitude}&&key=AIzaSyBA1ZXfKjDXPiHrT3L2Hnut3ez38_Ww4S8`
-  );
-
-  const results = await address.json();
-  console.log({ results });
-
-  return results;
+export const reverseGeocode = ({ latitude, longitude }) => {
+    Geocoder.init("AIzaSyBudsRFHgcT7lqUV3xQ9oiM0MquRynmGzI", {language : "en"});
+      Geocoder.from(latitude, longitude)
+        .then(json => {
+          var addressComponent = json.results[4].address_components[0];
+          console.log(addressComponent);
+        })
+        .catch(error => console.warn(error));
+  return addressComponent;
 };
 
 export const getUserLocation = () =>

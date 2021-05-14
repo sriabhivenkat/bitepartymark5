@@ -5,7 +5,7 @@ import { Text } from "galio-framework";
 import { Slider } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { useParty, getUserLocation } from "lib";
+import { useParty, getUserLocation, reverseGeocode } from "lib";
 import { ScrollView } from "react-native";
 import Geocoder from "react-native-geocoding";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -20,6 +20,9 @@ const Filters = ({ route, navigation }) => {
   const [filters, setFilters] = useState([]);
   const [restriction, setRestrictions] = useState([]);
   const [price, setPrice] = useState([1, 2, 3, 4]);
+  const [currentLat, setCurrentLat] = useState(0);
+  const [currentLong, setCurrentLong] = useState(0);
+  const [longName, setName] = useState("");
 
   const handleTap = (value) => {
     const exists = filters.find((item) => item == value);
@@ -62,6 +65,24 @@ const Filters = ({ route, navigation }) => {
 
   const { createParty } = useParty(partyId);
 
+  useEffect(() => {
+    const main = async() => {
+      const position = await getUserLocation();
+      console.log(position);
+      setCurrentLat(position[0]);
+      setCurrentLong(position[1]);
+      console.log(currentLat, currentLong)
+      Geocoder.from(currentLat, currentLong)
+        .then(json => {
+                var addressComponent = json.results[4].formatted_address;
+                console.log(addressComponent)
+          setName(addressComponent);
+        })
+        .catch(error => console.warn(error))
+    };
+    main();
+  }, [currentLat, currentLong]);
+  
   const startParty = async () => {
     try {
       if (selectionval === "") {
@@ -139,7 +160,7 @@ const Filters = ({ route, navigation }) => {
                 fontFamily: "Kollektif",
               }}
             >
-              Use current location
+              Search in {longName}
             </Text>
             <Text style={{ top: 3, fontFamily: "Kollektif", fontSize: 17 }}>
               or
@@ -215,7 +236,7 @@ const Filters = ({ route, navigation }) => {
         </View>
       </View> */}
       <Divider style={{ marginTop: 10 }} />
-      <SectionLabel label="Food" />
+      <SectionLabel label="Cuisine" />
       <List.Section>
         <List.Accordion
           title="Select a cuisine"
