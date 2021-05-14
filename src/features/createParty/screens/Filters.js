@@ -20,8 +20,6 @@ const Filters = ({ route, navigation }) => {
   const [filters, setFilters] = useState([]);
   const [restriction, setRestrictions] = useState([]);
   const [price, setPrice] = useState([1, 2, 3, 4]);
-  const [currentLat, setCurrentLat] = useState(0);
-  const [currentLong, setCurrentLong] = useState(0);
   const [longName, setName] = useState("");
 
   const handleTap = (value) => {
@@ -37,10 +35,8 @@ const Filters = ({ route, navigation }) => {
     const main = async() => {
       const position = await getUserLocation();
       console.log(position);
-      setCurrentLat(position[0]);
-      setCurrentLong(position[1]);
-      console.log(currentLat, currentLong)
-      Geocoder.from(29.7174, -95.4018)
+      console.log(position[0], position[1])
+      Geocoder.from(position[0], position[1])
         .then(json => {
                 var addressComponent = json.results[4].formatted_address;
                 console.log(addressComponent)
@@ -49,7 +45,7 @@ const Filters = ({ route, navigation }) => {
         .catch(error => console.warn(error))
     };
     main();
-  }, [currentLat, currentLong]);
+  }, []);
   const handleRestricts = (value) => {
     const exists = restriction.find((item) => item == value);
 
