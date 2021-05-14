@@ -51,7 +51,7 @@ const SelectFriends = ({ route, navigation }) => {
 
   const toggleSelection = (friend) => {
     const exists = selectedFriends.find(
-      (item) => item.uidvalue == friend.uidvalue
+      (item) => item.uidvalue == friend.uidvalue //potato
     );
 
     if (exists) {
@@ -73,7 +73,7 @@ const SelectFriends = ({ route, navigation }) => {
           justifyContent="space-between"
           marginTop={-25}
         >
-          <TitleText style={{ fontSize: 37 }}>
+          <TitleText marginTop={30} style={{ fontSize: 37 }}> 
             Invite Friends
           </TitleText>
         </View>
