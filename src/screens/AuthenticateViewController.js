@@ -31,14 +31,16 @@ const AuthenticateViewController = ({ navigation }) => {
     <TouchableWithoutFeedback
       accessible={false}
       onPress={() => Keyboard.dismiss()}
+
     >
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.container}>
           <View
             style={{
-              flex: 1,
+              flex: 0.4,
               alignItems: "center",
               justifyContent: "center",
+              backgroundColor: 'white'
             }}
           >
             <View
@@ -46,6 +48,7 @@ const AuthenticateViewController = ({ navigation }) => {
                 alignItems: "flex-start",
                 marginTop: "2%",
                 justifyContent: "center",
+                backgroundColor: 'white'
               }}
             >
               <Text
@@ -58,7 +61,7 @@ const AuthenticateViewController = ({ navigation }) => {
                 Email
               </Text>
 
-              <View style={{ alignItems: "center" }}>
+              <View style={{ alignItems: "center", backgroundColor: 'white' }}>
                 <Input
                   placeholder="Email"
                   placeholderTextColor="gray"
@@ -77,6 +80,7 @@ const AuthenticateViewController = ({ navigation }) => {
                 alignItems: "flex-start",
                 marginTop: "2%",
                 justifyContent: "center",
+                backgroundColor: 'white'
               }}
             >
               <Text style={{ fontSize: 30, fontFamily: "Kollektif" }}>
@@ -96,7 +100,7 @@ const AuthenticateViewController = ({ navigation }) => {
             </View>
             <TouchableOpacity onPress={() => navigation.navigate("auth/reset")}>
               <Text
-                style={{ fontSize: 20, fontFamily: "Kollektif", marginTop: 10 }}
+                style={{ fontSize: 20, fontFamily: "Kollektif", marginTop: 10, color: '#f76f6d' }}
               >
                 Forgot Password?
               </Text>
@@ -108,6 +112,7 @@ const AuthenticateViewController = ({ navigation }) => {
                 alignItems: "center",
                 justifyContent: "center",
                 paddingTop: 20,
+                backgroundColor: 'white'
               }}
             >
               {email != "" && pass != "" && (
@@ -138,8 +143,9 @@ export default AuthenticateViewController;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "flex-start",
+    backgroundColor: "white",
+    justifyContent: 'flex-start'
+
   },
   button: {
     // height: 37,
