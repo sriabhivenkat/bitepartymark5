@@ -1,6 +1,7 @@
 #import <Firebase.h>
 #import "AppDelegate.h"
 #import <React/RCTLinkingManager.h>
+#import <CodePush/CodePush.h>
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -92,7 +93,10 @@ static void InitializeFlipper(UIApplication *application) {
  #ifdef DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
  #else
-  return [[EXUpdatesAppController sharedInstance] launchAssetUrl];
+  return [CodePush bundleURL];
+
+  // return [[EXUpdatesAppController sharedInstance] launchAssetUrl];
+  
  #endif
 }
 
