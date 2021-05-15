@@ -6,7 +6,8 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Dimensions
+  Dimensions,
+  StatusBar
 } from "react-native";
 import { AuthContext } from "../navigation/AuthProvider.js";
 import { useContext } from "react";
@@ -38,6 +39,7 @@ const SignUp1ViewController = ({ route, navigation }) => {
 
 
       <View style={styles.container}>
+        <StatusBar barStyle='dark-content' />
         <Text style={{ marginTop: 30, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Password</Text>
         <View style={{ alignItems: "center" }}>
           <Input

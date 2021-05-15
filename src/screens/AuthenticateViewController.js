@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   SafeAreaView,
+  StatusBar
 } from "react-native";
 import { Text, Input } from "galio-framework";
 import LinearGradient from "react-native-linear-gradient";
@@ -35,6 +36,7 @@ const AuthenticateViewController = ({ navigation }) => {
     >
 
       <View style={styles.container}>
+        <StatusBar barStyle='dark-content' />
         <View
           style={{
             marginTop: 30,

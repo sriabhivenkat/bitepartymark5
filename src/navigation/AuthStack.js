@@ -96,7 +96,6 @@ const AuthStack = ({ navigation }) => {
         }}
       />
     </Stack.Navigator>
-
   );
 };
 

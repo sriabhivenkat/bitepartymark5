@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ImageBackground, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Dimensions } from 'react-native';
+import { View, StyleSheet, ImageBackground, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Dimensions, StatusBar } from 'react-native';
 import { AuthContext } from '../navigation/AuthProvider.js';
 import { useContext } from 'react';
 import { Text, Input } from 'galio-framework';
@@ -23,6 +23,7 @@ const SignUp4ViewController = ({ route }) => {
 
 
             <View style={styles.container}>
+                <StatusBar barStyle='dark-content' />
                 <Text h2 style={[styles.text, { paddingBottom: "5%", color: "#f76f6d", marginTop: 15 }]}>Almost there!</Text>
 
                 <Text style={{ left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Set a Username</Text>

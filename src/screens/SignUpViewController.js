@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Image, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Dimensions } from 'react-native';
+import { View, StyleSheet, Image, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Dimensions, StatusBar } from 'react-native';
 import { Subheading } from 'react-native-paper';
 import { TextInput } from 'react-native-paper';
 import { Button, Card } from 'react-native-paper'
@@ -32,6 +32,7 @@ const SignUpViewController = ({ navigation }) => {
 
 
             <View style={styles.container}>
+                <StatusBar barStyle='dark-content' />
                 <Text style={{ marginTop: 30, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Email</Text>
                 <View style={{ alignItems: "center" }}>
                     <Input
