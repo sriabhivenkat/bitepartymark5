@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Image } from "react-native";
+import { View, Image, StatusBar } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import SignUpViewController from "../screens/SignUpViewController.js";
 import LoginViewController from "../screens/LoginViewController.js";
@@ -34,6 +34,7 @@ const AuthStack = ({ navigation }) => {
   // }
 
   return (
+
     <Stack.Navigator initialRouteName={"Login"}>
       {/* <Stack.Screen
         name="Onboarding"
@@ -95,6 +96,7 @@ const AuthStack = ({ navigation }) => {
         }}
       />
     </Stack.Navigator>
+
   );
 };
 
