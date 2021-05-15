@@ -73,9 +73,9 @@ const Filters = ({ route, navigation }) => {
       setCurrentLong(position[1]);
       console.log(currentLat, currentLong);
       Geocoder.from(currentLat, currentLong)
-        .then((json) => {
-          var addressComponent = json.results[4].formatted_address;
-          console.log(addressComponent);
+        .then(json => {
+                var addressComponent = json.results[4].formatted_address; // new commen
+                console.log(addressComponent)
           setName(addressComponent);
         })
         .catch((error) => console.warn(error));
@@ -151,7 +151,7 @@ const Filters = ({ route, navigation }) => {
       <Divider style={{ marginTop: 10 }} />
       <View flexDirection="column" justifyContent="center">
         <SectionLabel label="Location" />
-        {selectionval === "" && (
+        {selectionval === "" && ( //what
           <View style={{ alignItems: "center" }}>
             <Text
               style={{

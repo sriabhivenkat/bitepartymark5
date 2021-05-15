@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Dimensions
 } from "react-native";
 import { AuthContext } from "../navigation/AuthProvider.js";
 import { useContext } from "react";
@@ -18,79 +19,158 @@ const SignUp1ViewController = ({ route, navigation }) => {
   const [first, setFirst] = useState("");
   const [last, setLast] = useState("");
   const { electronicmail, password } = route.params;
+
+
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
   return (
     <TouchableWithoutFeedback
       accessible={false}
       onPress={() => Keyboard.dismiss()}
     >
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <View style={styles.container}>
-          <Text
-            style={{
-              marginTop: 150,
-              left: 15,
-              fontSize: 30,
-              fontFamily: "Kollektif",
-            }}
-          >
-            First Name
+        {windowHeight <= 667 && (
+          <View style={styles.container}>
+            <Text
+              style={{
+                marginTop: 70,
+                left: 15,
+                fontSize: 30,
+                fontFamily: "Kollektif",
+              }}
+            >
+              First Name
           </Text>
-          <View style={{ alignItems: "center" }}>
-            <Input
-              placeholder="Enter your first name"
-              placeholderTextColor="gray"
-              onChangeText={(userFirst) => setFirst(userFirst)}
-              style={styles.input1}
-              autoCorrect={false}
-              color="black"
-              fontSize={17}
-              value={first}
-            />
-          </View>
-          <Text
-            style={{
-              marginTop: 20,
-              left: 15,
-              fontSize: 30,
-              fontFamily: "Kollektif",
-            }}
-          >
-            Last Name
-          </Text>
-          <View style={{ alignItems: "center" }}>
-            <Input
-              placeholder="Enter your last name"
-              placeholderTextColor="gray"
-              onChangeText={(userLast) => setLast(userLast)}
-              style={styles.input1}
-              color="black"
-              fontSize={17}
-              autoCorrect={false}
-              value={last}
-            />
-          </View>
-          {first != "" && last != "" && (
             <View style={{ alignItems: "center" }}>
-              <KeyboardAvoidingView behavior="padding" style={styles.container}>
-                <GradientButton
-                  mode="contained"
-                  onPress={() =>
-                    navigation.navigate("Sign Up 2", {
-                      firstname: first,
-                      lastname: last,
-                      electronicmail,
-                      password,
-                    })
-                  }
-                  style={styles.button}
-                  innerStyle={{ paddingHorizontal: 15 }}
-                >
-                  NEXT
-                </GradientButton>
-              </KeyboardAvoidingView>
+              <Input
+                placeholder="Enter your first name"
+                placeholderTextColor="gray"
+                onChangeText={(userFirst) => setFirst(userFirst)}
+                style={styles.input1}
+                autoCorrect={false}
+                color="black"
+                fontSize={17}
+                value={first}
+              />
             </View>
-          )}
-        </View>
+            <Text
+              style={{
+                marginTop: 20,
+                left: 15,
+                fontSize: 30,
+                fontFamily: "Kollektif",
+              }}
+            >
+              Last Name
+          </Text>
+            <View style={{ alignItems: "center" }}>
+              <Input
+                placeholder="Enter your last name"
+                placeholderTextColor="gray"
+                onChangeText={(userLast) => setLast(userLast)}
+                style={styles.input1}
+                color="black"
+                fontSize={17}
+                autoCorrect={false}
+                value={last}
+              />
+            </View>
+            {first != "" && last != "" && (
+              <View style={{ alignItems: "center" }}>
+                <KeyboardAvoidingView behavior="padding" style={styles.container}>
+                  <GradientButton
+                    mode="contained"
+                    onPress={() =>
+                      navigation.navigate("Sign Up 2", {
+                        firstname: first,
+                        lastname: last,
+                        electronicmail,
+                        password,
+                      })
+                    }
+                    style={styles.button}
+                    innerStyle={{ paddingHorizontal: 15 }}
+                  >
+                    NEXT
+                </GradientButton>
+                </KeyboardAvoidingView>
+              </View>
+            )}
+          </View>
+        )}
+
+        {windowHeight > 667 && (
+          <View style={styles.container}>
+            <Text
+              style={{
+                marginTop: 150,
+                left: 15,
+                fontSize: 30,
+                fontFamily: "Kollektif",
+              }}
+            >
+              First Name
+          </Text>
+            <View style={{ alignItems: "center" }}>
+              <Input
+                placeholder="Enter your first name"
+                placeholderTextColor="gray"
+                onChangeText={(userFirst) => setFirst(userFirst)}
+                style={styles.input1}
+                autoCorrect={false}
+                color="black"
+                fontSize={17}
+                value={first}
+              />
+            </View>
+            <Text
+              style={{
+                marginTop: 20,
+                left: 15,
+                fontSize: 30,
+                fontFamily: "Kollektif",
+              }}
+            >
+              Last Name
+          </Text>
+            <View style={{ alignItems: "center" }}>
+              <Input
+                placeholder="Enter your last name"
+                placeholderTextColor="gray"
+                onChangeText={(userLast) => setLast(userLast)}
+                style={styles.input1}
+                color="black"
+                fontSize={17}
+                autoCorrect={false}
+                value={last}
+              />
+            </View>
+            {first != "" && last != "" && (
+              <View style={{ alignItems: "center" }}>
+                <KeyboardAvoidingView behavior="padding" style={styles.container}>
+                  <GradientButton
+                    mode="contained"
+                    onPress={() =>
+                      navigation.navigate("Sign Up 2", {
+                        firstname: first,
+                        lastname: last,
+                        electronicmail,
+                        password,
+                      })
+                    }
+                    style={styles.button}
+                    innerStyle={{ paddingHorizontal: 15 }}
+                  >
+                    NEXT
+                </GradientButton>
+                </KeyboardAvoidingView>
+              </View>
+            )}
+          </View>
+        )}
+
+
+
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );

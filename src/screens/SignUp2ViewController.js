@@ -1,67 +1,115 @@
-import React, {useState} from 'react';
-import { View, StyleSheet, ImageBackground,Keyboard,KeyboardAvoidingView,TouchableWithoutFeedback } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, ImageBackground, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Dimensions } from 'react-native';
 import { AuthContext } from '../navigation/AuthProvider.js';
 import { useContext } from 'react';
-import {Text, Input} from 'galio-framework';
-import {Button, Card} from 'react-native-paper'
-import {GradientButton} from '../components';
+import { Text, Input } from 'galio-framework';
+import { Button, Card } from 'react-native-paper'
+import { GradientButton } from '../components';
 import { Alert } from 'react-native';
 
-const SignUp2ViewController = ({route}) => {
+const SignUp2ViewController = ({ route }) => {
     const [handle, setHandle] = useState('');
-    const {firstname, lastname, electronicmail, password} = route.params
-    const {register} = useContext(AuthContext);
-    return(
+    const { firstname, lastname, electronicmail, password } = route.params
+    const { register } = useContext(AuthContext);
 
-        <TouchableWithoutFeedback 
-        accessible = {false}
-        onPress={() => Keyboard.dismiss()}> 
+    const windowWidth = Dimensions.get('window').width;
+    const windowHeight = Dimensions.get('window').height;
+    return (
 
-        <KeyboardAvoidingView
-        behavior = "padding"
-        style = {styles.container}>
+        <TouchableWithoutFeedback
+            accessible={false}
+            onPress={() => Keyboard.dismiss()}>
 
-        <View style={styles.container}>
-            <Text h2 style={[styles.text, {paddingBottom: "5%", padding: 14, color: "#f76f6d"}]}>Almost there!</Text>
-            
-            <Text style={{left: 15, fontSize: 30, fontFamily: "Kollektif"}}>Set a Username</Text>
-            <View style={{alignItems: "center"}}>
-                <Input 
-                    placeholder="Enter a handle"
-                    placeholderTextColor="gray"
-                    autoCapitalize="none"
-                    onChangeText={(userHandle) => setHandle(userHandle)}
-                    style={styles.input1}
-                    color="black"
-                    fontSize={17}
-                    value={handle}
-                />
-            </View>
-            {handle!="" &&
-                <View style={{alignItems: "center"}}>
-                    <GradientButton
-                        onPress={() => {
-                            register(electronicmail, password, firstname, lastname, handle)
-                            .then(error => {
-                                if (error.code === 'auth/email-already-in-use') {
-                                    Alert.alert('That email address is already in use!');
-                                  }
-                              
-                                  if (error.code === 'auth/invalid-email') {
-                                      Alert.alert('That email address is invalid!');
-                                  }
-                              
-                                  console.error(error);
-                              })
-                        }}
-                        style={styles.button}
-                    >
-                        LET'S GO
+            <KeyboardAvoidingView
+                behavior="padding"
+                style={styles.container}>
+                {windowHeight <= 667 && (
+                    <View style={styles.container}>
+                        <Text h2 style={[styles.text, { paddingBottom: "5%", padding: 14, color: "#f76f6d", marginTop: 70 }]}>Almost there!</Text>
+
+                        <Text style={{ left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Set a Username</Text>
+                        <View style={{ alignItems: "center" }}>
+                            <Input
+                                placeholder="Enter a handle"
+                                placeholderTextColor="gray"
+                                autoCapitalize="none"
+                                onChangeText={(userHandle) => setHandle(userHandle)}
+                                style={styles.input1}
+                                color="black"
+                                fontSize={17}
+                                value={handle}
+                            />
+                        </View>
+                        {handle != "" &&
+                            <View style={{ alignItems: "center" }}>
+                                <GradientButton
+                                    onPress={() => {
+                                        register(electronicmail, password, firstname, lastname, handle)
+                                            .then(error => {
+                                                if (error.code === 'auth/email-already-in-use') {
+                                                    Alert.alert('That email address is already in use!');
+                                                }
+
+                                                if (error.code === 'auth/invalid-email') {
+                                                    Alert.alert('That email address is invalid!');
+                                                }
+
+                                                console.error(error);
+                                            })
+                                    }}
+                                    style={styles.button}
+                                >
+                                    LET'S GO
                     </GradientButton>
-                </View>
-            }
-        </View>
-        </KeyboardAvoidingView>
+                            </View>
+                        }
+                    </View>
+                )}
+
+
+                {windowHeight > 667 && (
+                    <View style={styles.container}>
+                        <Text h2 style={[styles.text, { paddingBottom: "5%", padding: 14, color: "#f76f6d" }]}>Almost there!</Text>
+
+                        <Text style={{ left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Set a Username</Text>
+                        <View style={{ alignItems: "center" }}>
+                            <Input
+                                placeholder="Enter a handle"
+                                placeholderTextColor="gray"
+                                autoCapitalize="none"
+                                onChangeText={(userHandle) => setHandle(userHandle)}
+                                style={styles.input1}
+                                color="black"
+                                fontSize={17}
+                                value={handle}
+                            />
+                        </View>
+                        {handle != "" &&
+                            <View style={{ alignItems: "center" }}>
+                                <GradientButton
+                                    onPress={() => {
+                                        register(electronicmail, password, firstname, lastname, handle)
+                                            .then(error => {
+                                                if (error.code === 'auth/email-already-in-use') {
+                                                    Alert.alert('That email address is already in use!');
+                                                }
+
+                                                if (error.code === 'auth/invalid-email') {
+                                                    Alert.alert('That email address is invalid!');
+                                                }
+
+                                                console.error(error);
+                                            })
+                                    }}
+                                    style={styles.button}
+                                >
+                                    LET'S GO
+                    </GradientButton>
+                            </View>
+                        }
+                    </View>
+                )}
+            </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
     )
 }
@@ -91,7 +139,7 @@ const styles = StyleSheet.create({
     button: {
         marginTop: 20,
         height: 37,
-        width:"80%",
+        width: "80%",
         backgroundColor: "#F76F6D",
         borderRadius: 15
     },

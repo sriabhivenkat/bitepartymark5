@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Image, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, Image, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Dimensions } from 'react-native';
 import { Subheading } from 'react-native-paper';
 import { TextInput } from 'react-native-paper';
 import { Button, Card } from 'react-native-paper'
@@ -14,7 +14,8 @@ const SignUpViewController = ({ navigation }) => {
     const [pass, setPass] = useState('');
     const { register } = useContext(AuthContext);
 
-
+    const windowWidth = Dimensions.get('window').width;
+    const windowHeight = Dimensions.get('window').height;
 
     const DismissKeyboard = ({ children }) => (
         <TouchableWithoutFeedback
@@ -32,54 +33,109 @@ const SignUpViewController = ({ navigation }) => {
                 behavior="padding"
                 style={styles.container}
             >
-                <View style={styles.container}>
-                    <Text style={{ marginTop: 150, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Email</Text>
-                    <View style={{ alignItems: "center" }}>
-                        <Input
-                            placeholder="Email"
-                            placeholderTextColor="grey"
-                            onChangeText={(userEmail) => setEmail(userEmail)}
-                            style={styles.input1}
-                            keyboardType="email-address"
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            color="black"
-                            fontSize={17}
-                            value={email}
-                        />
-                    </View>
-                    <Text style={{ marginTop: 20, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Password</Text>
-                    <View style={{ alignItems: "center" }}>
-                        <Input
-                            placeholder="Password"
-                            placeholderTextColor="grey"
-                            onChangeText={(userPass) => setPass(userPass)}
-                            autoCapitalize="none"
-                            secureTextEntry={true}
-                            style={styles.input1}
-                            value={pass}
-                            color="black"
-                            fontSize={17}
-                        />
-                    </View>
-                    <View style={{ alignItems: "center" }}>
-                        {(email != '' && pass != "") &&
-                            <GradientButton
-                                onPress={() => {
-                                    try {
-                                        navigation.navigate("Sign Up 1", { electronicmail: email, password: pass })
-                                    } catch (err) {
-                                        Alert.alert(err);
-                                    }
-                                }}
-                                style={styles.button}
-                                innerStyle={{ paddingVertical: 10 }}
-                            >
-                                NEXT
+
+                {windowHeight <= 667 && (
+                    <View style={styles.container}>
+                        <Text style={{ marginTop: 70, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Email</Text>
+                        <View style={{ alignItems: "center" }}>
+                            <Input
+                                placeholder="Email"
+                                placeholderTextColor="grey"
+                                onChangeText={(userEmail) => setEmail(userEmail)}
+                                style={styles.input1}
+                                keyboardType="email-address"
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                color="black"
+                                fontSize={17}
+                                value={email}
+                            />
+                        </View>
+                        <Text style={{ marginTop: 20, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Password</Text>
+                        <View style={{ alignItems: "center" }}>
+                            <Input
+                                placeholder="Password"
+                                placeholderTextColor="grey"
+                                onChangeText={(userPass) => setPass(userPass)}
+                                autoCapitalize="none"
+                                secureTextEntry={true}
+                                style={styles.input1}
+                                value={pass}
+                                color="black"
+                                fontSize={17}
+                            />
+                        </View>
+                        <View style={{ alignItems: "center" }}>
+                            {(email != '' && pass != "") &&
+                                <GradientButton
+                                    onPress={() => {
+                                        try {
+                                            navigation.navigate("Sign Up 1", { electronicmail: email, password: pass })
+                                        } catch (err) {
+                                            Alert.alert(err);
+                                        }
+                                    }}
+                                    style={styles.button}
+                                    innerStyle={{ paddingVertical: 10 }}
+                                >
+                                    NEXT
                             </GradientButton>
-                        }
+                            }
+                        </View>
                     </View>
-                </View>
+                )}
+
+
+                {windowHeight > 667 && (
+                    <View style={styles.container}>
+                        <Text style={{ marginTop: 150, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Email</Text>
+                        <View style={{ alignItems: "center" }}>
+                            <Input
+                                placeholder="Email"
+                                placeholderTextColor="grey"
+                                onChangeText={(userEmail) => setEmail(userEmail)}
+                                style={styles.input1}
+                                keyboardType="email-address"
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                color="black"
+                                fontSize={17}
+                                value={email}
+                            />
+                        </View>
+                        <Text style={{ marginTop: 20, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Password</Text>
+                        <View style={{ alignItems: "center" }}>
+                            <Input
+                                placeholder="Password"
+                                placeholderTextColor="grey"
+                                onChangeText={(userPass) => setPass(userPass)}
+                                autoCapitalize="none"
+                                secureTextEntry={true}
+                                style={styles.input1}
+                                value={pass}
+                                color="black"
+                                fontSize={17}
+                            />
+                        </View>
+                        <View style={{ alignItems: "center" }}>
+                            {(email != '' && pass != "") &&
+                                <GradientButton
+                                    onPress={() => {
+                                        try {
+                                            navigation.navigate("Sign Up 1", { electronicmail: email, password: pass })
+                                        } catch (err) {
+                                            Alert.alert(err);
+                                        }
+                                    }}
+                                    style={styles.button}
+                                    innerStyle={{ paddingVertical: 10 }}
+                                >
+                                    NEXT
+                            </GradientButton>
+                            }
+                        </View>
+                    </View>
+                )}
             </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
 
