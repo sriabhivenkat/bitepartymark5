@@ -33,107 +33,107 @@ const AuthenticateViewController = ({ navigation }) => {
       onPress={() => Keyboard.dismiss()}
 
     >
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <View style={styles.container}>
+
+      <View style={styles.container}>
+        <View
+          style={{
+            marginTop: 30,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: 'white'
+          }}
+        >
           <View
             style={{
-              marginTop: 30,
-              alignItems: "center",
+              alignItems: "flex-start",
+              marginTop: "2%",
               justifyContent: "center",
               backgroundColor: 'white'
             }}
           >
-            <View
+            <Text
               style={{
-                alignItems: "flex-start",
-                marginTop: "2%",
-                justifyContent: "center",
-                backgroundColor: 'white'
+                fontSize: 30,
+                fontFamily: "Kollektif",
+                textAlign: "left",
               }}
             >
-              <Text
-                style={{
-                  fontSize: 30,
-                  fontFamily: "Kollektif",
-                  textAlign: "left",
-                }}
-              >
-                Email
+              Email
               </Text>
 
-              <View style={{ alignItems: "center", backgroundColor: 'white' }}>
-                <Input
-                  placeholder="Email"
-                  placeholderTextColor="gray"
-                  onChangeText={(email) => setEmail(email)}
-                  style={styles.input1}
-                  autoCapitalize="none"
-                  color="black"
-                  fontSize={17}
-                  fontFamily="Kollektif"
-                  value={email}
-                />
-              </View>
-            </View>
-            <View
-              style={{
-                alignItems: "flex-start",
-                marginTop: "2%",
-                justifyContent: "center",
-                backgroundColor: 'white'
-              }}
-            >
-              <Text style={{ fontSize: 30, fontFamily: "Kollektif" }}>
-                Password
-              </Text>
+            <View style={{ alignItems: "center", backgroundColor: 'white' }}>
               <Input
-                placeholder="Password"
+                placeholder="Email"
                 placeholderTextColor="gray"
-                secureTextEntry={true}
-                onChangeText={(pass) => setPass(pass)}
+                onChangeText={(email) => setEmail(email)}
+                style={styles.input1}
+                autoCapitalize="none"
                 color="black"
                 fontSize={17}
                 fontFamily="Kollektif"
-                style={styles.input1}
-                value={pass}
+                value={email}
               />
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate("auth/reset")}>
-              <Text
-                style={{ fontSize: 20, fontFamily: "Kollektif", marginTop: 10, color: '#f76f6d' }}
-              >
-                Forgot Password?
+          </View>
+          <View
+            style={{
+              alignItems: "flex-start",
+              marginTop: "2%",
+              justifyContent: "center",
+              backgroundColor: 'white'
+            }}
+          >
+            <Text style={{ fontSize: 30, fontFamily: "Kollektif" }}>
+              Password
               </Text>
-            </TouchableOpacity>
-
-            <View
-              style={{
-                width: windowWidth,
-                alignItems: "center",
-                justifyContent: "center",
-                paddingTop: 20,
-                backgroundColor: 'white'
-              }}
+            <Input
+              placeholder="Password"
+              placeholderTextColor="gray"
+              secureTextEntry={true}
+              onChangeText={(pass) => setPass(pass)}
+              color="black"
+              fontSize={17}
+              fontFamily="Kollektif"
+              style={styles.input1}
+              value={pass}
+            />
+          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("auth/reset")}>
+            <Text
+              style={{ fontSize: 20, fontFamily: "Kollektif", marginTop: 10, color: '#f76f6d' }}
             >
-              {email != "" && pass != "" && (
-                <GradientButton
-                  onPress={async () => {
-                    try {
-                      login(email, pass);
-                    } catch (err) {
-                      Alert.alert(err);
-                    }
-                  }}
-                  style={{ width: "50%" }}
-                  innerStyle={{ paddingVertical: 10 }}
-                >
-                  Login
-                </GradientButton>
-              )}
-            </View>
+              Forgot Password?
+              </Text>
+          </TouchableOpacity>
+
+          <View
+            style={{
+              width: windowWidth,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingTop: 20,
+              backgroundColor: 'white'
+            }}
+          >
+            {email != "" && pass != "" && (
+              <GradientButton
+                onPress={async () => {
+                  try {
+                    login(email, pass);
+                  } catch (err) {
+                    Alert.alert(err);
+                  }
+                }}
+                style={{ width: "50%" }}
+                innerStyle={{ paddingVertical: 10 }}
+              >
+                Login
+              </GradientButton>
+            )}
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </View>
+
     </TouchableWithoutFeedback>
   );
 };

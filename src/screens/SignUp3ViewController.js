@@ -35,47 +35,44 @@ const SignUp3ViewController = ({ route, navigation }) => {
         <TouchableWithoutFeedback
             accessible={false}
             onPress={() => Keyboard.dismiss()}>
-            <KeyboardAvoidingView
-                behavior="padding"
-                style={styles.container}
-            >
 
-                <View style={styles.container}>
-                    <Text style={{ marginTop: 30, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Last Name</Text>
-                    <View style={{ alignItems: "center" }}>
-                        <Input
-                            placeholder="Password"
-                            placeholderTextColor="gray"
 
-                            onChangeText={(last) => setLast(last)}
-                            color="black"
-                            fontSize={17}
-                            fontFamily="Kollektif"
-                            style={styles.input1}
-                            value={last}
-                        />
-                    </View>
+            <View style={styles.container}>
+                <Text style={{ marginTop: 30, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Last Name</Text>
+                <View style={{ alignItems: "center" }}>
+                    <Input
+                        placeholder="Password"
+                        placeholderTextColor="gray"
 
-                    <View style={{ alignItems: "center" }}>
-                        {(last != '') &&
-                            <GradientButton
-                                onPress={() => {
-                                    try {
-                                        navigation.navigate("Sign Up 4", { lastName: last, firstName, password, electronicmail })
-                                    } catch (err) {
-                                        Alert.alert(err);
-                                    }
-                                }}
-                                style={styles.button}
-                                innerStyle={{ paddingVertical: 10 }}
-                            >
-                                NEXT
-                            </GradientButton>
-                        }
-                    </View>
+                        onChangeText={(last) => setLast(last)}
+                        color="black"
+                        fontSize={17}
+                        fontFamily="Kollektif"
+                        style={styles.input1}
+                        value={last}
+                    />
                 </View>
 
-            </KeyboardAvoidingView>
+                <View style={{ alignItems: "center" }}>
+                    {(last != '') &&
+                        <GradientButton
+                            onPress={() => {
+                                try {
+                                    navigation.navigate("Sign Up 4", { lastName: last, firstName, password, electronicmail })
+                                } catch (err) {
+                                    Alert.alert(err);
+                                }
+                            }}
+                            style={styles.button}
+                            innerStyle={{ paddingVertical: 10 }}
+                        >
+                            NEXT
+                            </GradientButton>
+                    }
+                </View>
+            </View>
+
+
         </TouchableWithoutFeedback>
 
 

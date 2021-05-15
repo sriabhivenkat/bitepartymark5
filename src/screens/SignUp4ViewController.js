@@ -20,52 +20,50 @@ const SignUp4ViewController = ({ route }) => {
             accessible={false}
             onPress={() => Keyboard.dismiss()}>
 
-            <KeyboardAvoidingView
-                behavior="padding"
-                style={styles.container}>
 
-                <View style={styles.container}>
-                    <Text h2 style={[styles.text, { paddingBottom: "5%", color: "#f76f6d", marginTop: 15 }]}>Almost there!</Text>
 
-                    <Text style={{ left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Set a Username</Text>
-                    <View style={{ alignItems: "center" }}>
-                        <Input
-                            placeholder="Enter a handle"
-                            placeholderTextColor="gray"
-                            autoCapitalize="none"
-                            onChangeText={(userHandle) => setHandle(userHandle)}
-                            style={styles.input1}
-                            color="black"
-                            fontSize={17}
-                            value={handle}
-                        />
-                    </View>
-                    {handle != "" &&
-                        <View style={{ alignItems: "center" }}>
-                            <GradientButton
-                                onPress={() => {
-                                    register(electronicmail, password, firstName, lastName, handle)
-                                        .then(error => {
-                                            if (error.code === 'auth/email-already-in-use') {
-                                                Alert.alert('That email address is already in use!');
-                                            }
+            <View style={styles.container}>
+                <Text h2 style={[styles.text, { paddingBottom: "5%", color: "#f76f6d", marginTop: 15 }]}>Almost there!</Text>
 
-                                            if (error.code === 'auth/invalid-email') {
-                                                Alert.alert('That email address is invalid!');
-                                            }
-
-                                            console.error(error);
-                                        })
-                                }}
-                                style={styles.button}
-                            >
-                                LET'S GO
-                    </GradientButton>
-                        </View>
-                    }
+                <Text style={{ left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Set a Username</Text>
+                <View style={{ alignItems: "center" }}>
+                    <Input
+                        placeholder="Enter a handle"
+                        placeholderTextColor="gray"
+                        autoCapitalize="none"
+                        onChangeText={(userHandle) => setHandle(userHandle)}
+                        style={styles.input1}
+                        color="black"
+                        fontSize={17}
+                        value={handle}
+                    />
                 </View>
+                {handle != "" &&
+                    <View style={{ alignItems: "center" }}>
+                        <GradientButton
+                            onPress={() => {
+                                register(electronicmail, password, firstName, lastName, handle)
+                                    .then(error => {
+                                        if (error.code === 'auth/email-already-in-use') {
+                                            Alert.alert('That email address is already in use!');
+                                        }
 
-            </KeyboardAvoidingView>
+                                        if (error.code === 'auth/invalid-email') {
+                                            Alert.alert('That email address is invalid!');
+                                        }
+
+                                        console.error(error);
+                                    })
+                            }}
+                            style={styles.button}
+                        >
+                            LET'S GO
+                    </GradientButton>
+                    </View>
+                }
+            </View>
+
+
         </TouchableWithoutFeedback>
     )
 }

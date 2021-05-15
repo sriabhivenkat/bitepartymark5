@@ -29,49 +29,46 @@ const SignUpViewController = ({ navigation }) => {
         <TouchableWithoutFeedback
             accessible={false}
             onPress={() => Keyboard.dismiss()}>
-            <KeyboardAvoidingView
-                behavior="padding"
-                style={styles.container}
-            >
 
-                <View style={styles.container}>
-                    <Text style={{ marginTop: 30, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Email</Text>
-                    <View style={{ alignItems: "center" }}>
-                        <Input
-                            placeholder="Email"
-                            placeholderTextColor="grey"
-                            onChangeText={(userEmail) => setEmail(userEmail)}
-                            style={styles.input1}
-                            keyboardType="email-address"
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            color="black"
-                            fontSize={17}
-                            value={email}
-                        />
-                    </View>
 
-                    <View style={{ alignItems: "center" }}>
-                        {(email != '') &&
-                            <GradientButton
-                                onPress={() => {
-                                    try {
-                                        navigation.navigate("Sign Up 1", { electronicmail: email })
-                                    } catch (err) {
-                                        Alert.alert(err);
-                                    }
-                                }}
-                                style={styles.button}
-                                innerStyle={{ paddingVertical: 10 }}
-                            >
-                                NEXT
-                            </GradientButton>
-                        }
-                    </View>
+            <View style={styles.container}>
+                <Text style={{ marginTop: 30, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Email</Text>
+                <View style={{ alignItems: "center" }}>
+                    <Input
+                        placeholder="Email"
+                        placeholderTextColor="grey"
+                        onChangeText={(userEmail) => setEmail(userEmail)}
+                        style={styles.input1}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        color="black"
+                        fontSize={17}
+                        value={email}
+                    />
                 </View>
 
-            </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
+                <View style={{ alignItems: "center" }}>
+                    {(email != '') &&
+                        <GradientButton
+                            onPress={() => {
+                                try {
+                                    navigation.navigate("Sign Up 1", { electronicmail: email })
+                                } catch (err) {
+                                    Alert.alert(err);
+                                }
+                            }}
+                            style={styles.button}
+                            innerStyle={{ paddingVertical: 10 }}
+                        >
+                            NEXT
+                            </GradientButton>
+                    }
+                </View>
+            </View>
+
+
+        </TouchableWithoutFeedback >
 
 
     );
