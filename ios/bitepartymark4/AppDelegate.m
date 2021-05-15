@@ -1,7 +1,9 @@
 #import <Firebase.h>
 #import "AppDelegate.h"
 #import <React/RCTLinkingManager.h>
+#import <CodePush/CodePush.h>
 
+#import <React/RCTLog.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -44,6 +46,8 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  RCTSetLogThreshold(RCTLogLevelInfo);
+
   if ([FIRApp defaultApp] == nil) {
       [FIRApp configure];
     }
@@ -92,7 +96,10 @@ static void InitializeFlipper(UIApplication *application) {
  #ifdef DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
  #else
-  return [[EXUpdatesAppController sharedInstance] launchAssetUrl];
+  return [CodePush bundleURL];
+
+  // return [[EXUpdatesAppController sharedInstance] launchAssetUrl];
+  
  #endif
 }
 

@@ -53,6 +53,12 @@ const Settings = () => {
         >
           Terms of Service
         </SettingsButton>
+        <SettingsButton
+          // onPress={() => openLink("https://www.kas-tech.com/terms")}
+          style={{ marginLeft: "-2%" }}
+        >
+          1.0.0
+        </SettingsButton>
         <Divider style={styles.divider} />
         <SettingsButton
           onPress={logout}

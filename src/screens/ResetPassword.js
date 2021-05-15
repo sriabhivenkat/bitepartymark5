@@ -37,7 +37,7 @@ const ResetPassword = () => {
         <View style={styles.container}>
           <View
             style={{
-              flex: 1,
+              flex: 0.22,
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -95,7 +95,7 @@ const ResetPassword = () => {
                   style={{ width: "50%" }}
                   innerStyle={{ paddingVertical: 10 }}
                 >
-                  Reset
+                  Reset Password
                 </GradientButton>
               )}
             </View>

@@ -36,7 +36,7 @@ const SignUpViewController = ({ navigation }) => {
 
                 {windowHeight <= 667 && (
                     <View style={styles.container}>
-                        <Text style={{ marginTop: 70, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Email</Text>
+                        <Text style={{ left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Email</Text>
                         <View style={{ alignItems: "center" }}>
                             <Input
                                 placeholder="Email"
@@ -51,7 +51,7 @@ const SignUpViewController = ({ navigation }) => {
                                 value={email}
                             />
                         </View>
-                        <Text style={{ marginTop: 20, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Password</Text>
+                        <Text style={{ left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Password</Text>
                         <View style={{ alignItems: "center" }}>
                             <Input
                                 placeholder="Password"
