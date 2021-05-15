@@ -57,7 +57,7 @@ const Settings = () => {
           // onPress={() => openLink("https://www.kas-tech.com/terms")}
           style={{ marginLeft: "-2%" }}
         >
-          1.0.1
+          1.0.2
         </SettingsButton>
         <Divider style={styles.divider} />
         <SettingsButton

@@ -3,6 +3,7 @@
 #import <React/RCTLinkingManager.h>
 #import <CodePush/CodePush.h>
 
+#import <React/RCTLog.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -45,6 +46,8 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  RCTSetLogThreshold(RCTLogLevelInfo);
+
   if ([FIRApp defaultApp] == nil) {
       [FIRApp configure];
     }
