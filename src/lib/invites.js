@@ -117,7 +117,7 @@ export const acceptInvite = async (user, invite) => {
     .collection("Users")
     .doc(user.uidvalue)
     .collection("invitations")
-    .doc(invite.id)
+    .doc(invite.docID)
     .update({
       status: "accepted",
     });
