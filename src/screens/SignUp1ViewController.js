@@ -35,47 +35,44 @@ const SignUp1ViewController = ({ route, navigation }) => {
     <TouchableWithoutFeedback
       accessible={false}
       onPress={() => Keyboard.dismiss()}>
-      <KeyboardAvoidingView
-        behavior="padding"
-        style={styles.container}
-      >
 
-        <View style={styles.container}>
-          <Text style={{ marginTop: 30, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Password</Text>
-          <View style={{ alignItems: "center" }}>
-            <Input
-              placeholder="Password"
-              placeholderTextColor="gray"
-              secureTextEntry={true}
-              onChangeText={(pass) => setPass(pass)}
-              color="black"
-              fontSize={17}
-              fontFamily="Kollektif"
-              style={styles.input1}
-              value={pass}
-            />
-          </View>
 
-          <View style={{ alignItems: "center" }}>
-            {(pass != '') &&
-              <GradientButton
-                onPress={() => {
-                  try {
-                    navigation.navigate("Sign Up 2", { password: pass, electronicmail })
-                  } catch (err) {
-                    Alert.alert(err);
-                  }
-                }}
-                style={styles.button}
-                innerStyle={{ paddingVertical: 10 }}
-              >
-                NEXT
-                            </GradientButton>
-            }
-          </View>
+      <View style={styles.container}>
+        <Text style={{ marginTop: 30, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Password</Text>
+        <View style={{ alignItems: "center" }}>
+          <Input
+            placeholder="Password"
+            placeholderTextColor="gray"
+            secureTextEntry={true}
+            onChangeText={(pass) => setPass(pass)}
+            color="black"
+            fontSize={17}
+            fontFamily="Kollektif"
+            style={styles.input1}
+            value={pass}
+          />
         </View>
 
-      </KeyboardAvoidingView>
+        <View style={{ alignItems: "center" }}>
+          {(pass != '') &&
+            <GradientButton
+              onPress={() => {
+                try {
+                  navigation.navigate("Sign Up 2", { password: pass, electronicmail })
+                } catch (err) {
+                  Alert.alert(err);
+                }
+              }}
+              style={styles.button}
+              innerStyle={{ paddingVertical: 10 }}
+            >
+              NEXT
+                            </GradientButton>
+          }
+        </View>
+      </View>
+
+
     </TouchableWithoutFeedback>
 
 
