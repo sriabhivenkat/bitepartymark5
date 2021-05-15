@@ -66,23 +66,23 @@ const Filters = ({ route, navigation }) => {
   const { createParty } = useParty(partyId);
 
   useEffect(() => {
-    const main = async() => {
+    const main = async () => {
       const position = await getUserLocation();
       console.log(position);
       setCurrentLat(position[0]);
       setCurrentLong(position[1]);
-      console.log(currentLat, currentLong)
+      console.log(currentLat, currentLong);
       Geocoder.from(currentLat, currentLong)
         .then(json => {
                 var addressComponent = json.results[4].formatted_address; // new commen
                 console.log(addressComponent)
           setName(addressComponent);
         })
-        .catch(error => console.warn(error))
+        .catch((error) => console.warn(error));
     };
     main();
   }, [currentLat, currentLong]);
-  
+
   const startParty = async () => {
     try {
       if (selectionval === "") {
@@ -160,7 +160,8 @@ const Filters = ({ route, navigation }) => {
                 fontFamily: "Kollektif",
               }}
             >
-              Search in {longName}
+              {/* Search in {longName} */}
+              Current Location
             </Text>
             <Text style={{ top: 3, fontFamily: "Kollektif", fontSize: 17 }}>
               or
