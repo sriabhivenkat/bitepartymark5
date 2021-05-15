@@ -151,7 +151,7 @@ const Filters = ({ route, navigation }) => {
       <Divider style={{ marginTop: 10 }} />
       <View flexDirection="column" justifyContent="center">
         <SectionLabel label="Location" />
-        {selectionval === "" && (
+        {selectionval === "" && ( //what
           <View style={{ alignItems: "center" }}>
             <Text
               style={{
