@@ -38,7 +38,7 @@ export const GradientButton = ({
         },
         outline && {
           borderWidth: 1,
-          borderColor: "#ee0979",
+          borderColor: "black",
         },
         innerStyle,
       ]}
@@ -51,7 +51,7 @@ export const GradientButton = ({
             // textTransform: "uppercase",
             letterSpacing: 1,
             fontWeight: "500",
-            color: outline ? "#ee0979" : "#fff",
+            color: outline ? "black" : "#fff",
           },
           textStyle,
         ]}
