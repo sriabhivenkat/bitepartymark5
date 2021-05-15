@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Image, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Dimensions, StatusBar } from 'react-native';
-import { Subheading } from 'react-native-paper';
-import { TextInput } from 'react-native-paper';
-import { Button, Card } from 'react-native-paper'
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Text, Input } from 'galio-framework';
-import { AuthContext } from '../navigation/AuthProvider.js';
-import { useContext } from 'react';
-import { GradientButton } from '../components';
+import React, { useState } from "react";
+import {
+    View,
+    StyleSheet,
+    ImageBackground,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    Keyboard,
+    Dimensions,
+    StatusBar
+} from "react-native";
+import { AuthContext } from "../navigation/AuthProvider.js";
+import { useContext } from "react";
+import { Text, Input } from "galio-framework";
+import { Button, Card } from "react-native-paper";
+import { DismissKeyboard } from "../components/DismissKeyboard";
+import { GradientButton } from "../components";
 
-const SignUpViewController = ({ navigation }) => {
-    const [email, setEmail] = useState('');
+const SignUp3ViewController = ({ route, navigation }) => {
 
-    const { register } = useContext(AuthContext);
+    const { firstName, password, electronicmail } = route.params;
+    const [last, setLast] = useState("");
 
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
@@ -33,28 +40,27 @@ const SignUpViewController = ({ navigation }) => {
 
             <View style={styles.container}>
                 <StatusBar barStyle='dark-content' />
-                <Text style={{ marginTop: 30, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Email</Text>
+                <Text style={{ marginTop: 30, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Last Name</Text>
                 <View style={{ alignItems: "center" }}>
                     <Input
-                        placeholder="Email"
-                        placeholderTextColor="grey"
-                        onChangeText={(userEmail) => setEmail(userEmail)}
-                        style={styles.input1}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        autoCorrect={false}
+                        placeholder="Password"
+                        placeholderTextColor="gray"
+
+                        onChangeText={(last) => setLast(last)}
                         color="black"
                         fontSize={17}
-                        value={email}
+                        fontFamily="Kollektif"
+                        style={styles.input1}
+                        value={last}
                     />
                 </View>
 
                 <View style={{ alignItems: "center" }}>
-                    {(email != '') &&
+                    {(last != '') &&
                         <GradientButton
                             onPress={() => {
                                 try {
-                                    navigation.navigate("Sign Up 1", { electronicmail: email })
+                                    navigation.navigate("Sign Up 4", { lastName: last, firstName, password, electronicmail })
                                 } catch (err) {
                                     Alert.alert(err);
                                 }
@@ -69,14 +75,14 @@ const SignUpViewController = ({ navigation }) => {
             </View>
 
 
-        </TouchableWithoutFeedback >
+        </TouchableWithoutFeedback>
 
 
     );
 };
 
 
-export default SignUpViewController;
+export default SignUp3ViewController;
 
 
 const styles = StyleSheet.create({

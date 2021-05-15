@@ -377,7 +377,7 @@
 				CODE_SIGN_ENTITLEMENTS = bitepartymark4/bitepartymark4.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = " 7";
+				CURRENT_PROJECT_VERSION = " 11";
 				DEVELOPMENT_TEAM = 2WY9J3483B;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -413,7 +413,7 @@
 				CODE_SIGN_ENTITLEMENTS = bitepartymark4/bitepartymark4.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = " 7";
+				CURRENT_PROJECT_VERSION = " 11";
 				DEVELOPMENT_TEAM = 2WY9J3483B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = bitepartymark4/Info.plist;

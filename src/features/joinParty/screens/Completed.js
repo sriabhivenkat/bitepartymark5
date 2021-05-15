@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Text,
+  StatusBar
 } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { FlatList, Dimensions } from "react-native";
@@ -32,10 +33,11 @@ const Completed = ({ route, navigation }) => {
   const currentWinner = party?.winner
     ? party?.winner
     : party?.restaurants &&
-      party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
+    party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
 
   return (
     <SafeAreaView backgroundColor="#fff" flex={1}>
+      <StatusBar barStyle='dark-content' />
       {party && !party?.winner && (
         <View>
           <ImageBackground
@@ -327,7 +329,7 @@ const Completed = ({ route, navigation }) => {
         snapPoints={snapPoints}
         enableHandlePanningGesture={false}
         handleComponent={null}
-        // handleHeight={0}
+      // handleHeight={0}
       >
         <BottomSheetScrollView style={styles.bottomSheetContainer}>
           <View style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}>

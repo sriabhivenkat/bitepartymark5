@@ -6,6 +6,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  StatusBar
 } from "react-native";
 import { Text } from "galio-framework";
 import { Button } from "react-native-paper";
@@ -72,8 +73,10 @@ const LoginViewController = ({ navigation }) => {
   //     return auth().signInWithCredential(facebookCred);
   // }
   return (
+
     <DismissKeyboard>
       <View style={styles.container}>
+        <StatusBar barStyle='dark-content' />
         <Image
           source={require("../assets/images/headerlogo.png")}
           style={styles.logo}
@@ -149,6 +152,7 @@ const LoginViewController = ({ navigation }) => {
         </Button>
       </View>
     </DismissKeyboard>
+
   );
 };
 

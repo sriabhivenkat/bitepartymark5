@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, StatusBar } from "react-native";
 import { Divider, Switch, List, ToggleButton } from "react-native-paper";
 import { Text } from "galio-framework";
 import { Slider } from "react-native-elements";
@@ -74,8 +74,8 @@ const Filters = ({ route, navigation }) => {
       console.log(currentLat, currentLong);
       Geocoder.from(currentLat, currentLong)
         .then(json => {
-                var addressComponent = json.results[4].formatted_address; // new commen
-                console.log(addressComponent)
+          var addressComponent = json.results[4].formatted_address; // new commen
+          console.log(addressComponent)
           setName(addressComponent);
         })
         .catch((error) => console.warn(error));
@@ -141,6 +141,7 @@ const Filters = ({ route, navigation }) => {
 
   return (
     <ScrollView style={styles.container}>
+      <StatusBar barStyle='dark-content' />
       <View paddingHorizontal={20}>
         <TitleText>Filters</TitleText>
       </View>

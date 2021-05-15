@@ -7,6 +7,7 @@ import {
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
+  StatusBar
 } from "react-native";
 import SwipeCards from "react-native-swipe-cards-deck";
 import LinearGradient from "react-native-linear-gradient";
@@ -95,6 +96,7 @@ const Swiping = ({ navigation, route, data }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle='dark-content' />
       <Provider>
         <Portal>
           <Modal
@@ -223,7 +225,7 @@ const Swiping = ({ navigation, route, data }) => {
             }}
             animateOverlayLabelsOpacity
             animateCardOpacity
-            // swipeBackCard
+          // swipeBackCard
           >
             <></>
           </Swiper>

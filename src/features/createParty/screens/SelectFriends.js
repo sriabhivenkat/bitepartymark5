@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Share } from "react-native";
+import { View, StyleSheet, Share, StatusBar } from "react-native";
 import { Text } from "galio-framework";
 import { Avatar } from "react-native-paper";
 import { ListItem } from "react-native-elements";
@@ -65,6 +65,7 @@ const SelectFriends = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle='dark-content' />
       <View style={styles.container}>
         <View
           flexDirection="row"

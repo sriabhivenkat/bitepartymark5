@@ -1,118 +1,86 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, ImageBackground, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Dimensions } from 'react-native';
-import { AuthContext } from '../navigation/AuthProvider.js';
-import { useContext } from 'react';
-import { Text, Input } from 'galio-framework';
-import { Button, Card } from 'react-native-paper'
-import { GradientButton } from '../components';
-import { Alert } from 'react-native';
+import React, { useState } from "react";
+import {
+    View,
+    StyleSheet,
+    ImageBackground,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    Keyboard,
+    Dimensions,
+    StatusBar
+} from "react-native";
+import { AuthContext } from "../navigation/AuthProvider.js";
+import { useContext } from "react";
+import { Text, Input } from "galio-framework";
+import { Button, Card } from "react-native-paper";
+import { DismissKeyboard } from "../components/DismissKeyboard";
+import { GradientButton } from "../components";
 
-const SignUp2ViewController = ({ route }) => {
-    const [handle, setHandle] = useState('');
-    const { firstname, lastname, electronicmail, password } = route.params
-    const { register } = useContext(AuthContext);
+const SignUp2ViewController = ({ route, navigation }) => {
+
+    const { password, electronicmail } = route.params;
+    const [first, setFirst] = useState("");
 
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
-    return (
 
+    const DismissKeyboard = ({ children }) => (
+        <TouchableWithoutFeedback
+
+            onPress={() => Keyboard.dismiss()}>
+            {children}
+        </TouchableWithoutFeedback>
+    );
+
+    return (
         <TouchableWithoutFeedback
             accessible={false}
             onPress={() => Keyboard.dismiss()}>
 
-            <KeyboardAvoidingView
-                behavior="padding"
-                style={styles.container}>
-                {windowHeight <= 667 && (
-                    <View style={styles.container}>
-                        <Text h2 style={[styles.text, { paddingBottom: "5%", padding: 14, color: "#f76f6d", marginTop: 70 }]}>Almost there!</Text>
 
-                        <Text style={{ left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Set a Username</Text>
-                        <View style={{ alignItems: "center" }}>
-                            <Input
-                                placeholder="Enter a handle"
-                                placeholderTextColor="gray"
-                                autoCapitalize="none"
-                                onChangeText={(userHandle) => setHandle(userHandle)}
-                                style={styles.input1}
-                                color="black"
-                                fontSize={17}
-                                value={handle}
-                            />
-                        </View>
-                        {handle != "" &&
-                            <View style={{ alignItems: "center" }}>
-                                <GradientButton
-                                    onPress={() => {
-                                        register(electronicmail, password, firstname, lastname, handle)
-                                            .then(error => {
-                                                if (error.code === 'auth/email-already-in-use') {
-                                                    Alert.alert('That email address is already in use!');
-                                                }
+            <View style={styles.container}>
+                <StatusBar barStyle='dark-content' />
+                <Text style={{ marginTop: 30, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>First Name</Text>
+                <View style={{ alignItems: "center" }}>
+                    <Input
+                        placeholder="First Name"
+                        placeholderTextColor="gray"
 
-                                                if (error.code === 'auth/invalid-email') {
-                                                    Alert.alert('That email address is invalid!');
-                                                }
+                        onChangeText={(first) => setFirst(first)}
+                        color="black"
+                        fontSize={17}
+                        fontFamily="Kollektif"
+                        style={styles.input1}
+                        value={first}
+                    />
+                </View>
 
-                                                console.error(error);
-                                            })
-                                    }}
-                                    style={styles.button}
-                                >
-                                    LET'S GO
-                    </GradientButton>
-                            </View>
-                        }
-                    </View>
-                )}
+                <View style={{ alignItems: "center" }}>
+                    {(first != '') &&
+                        <GradientButton
+                            onPress={() => {
+                                try {
+                                    navigation.navigate("Sign Up 3", { firstName: first, password, electronicmail })
+                                } catch (err) {
+                                    Alert.alert(err);
+                                }
+                            }}
+                            style={styles.button}
+                            innerStyle={{ paddingVertical: 10 }}
+                        >
+                            NEXT
+                            </GradientButton>
+                    }
+                </View>
+            </View>
 
 
-                {windowHeight > 667 && (
-                    <View style={styles.container}>
-                        <Text h2 style={[styles.text, { paddingBottom: "5%", padding: 14, color: "#f76f6d" }]}>Almost there!</Text>
-
-                        <Text style={{ left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Set a Username</Text>
-                        <View style={{ alignItems: "center" }}>
-                            <Input
-                                placeholder="Enter a handle"
-                                placeholderTextColor="gray"
-                                autoCapitalize="none"
-                                onChangeText={(userHandle) => setHandle(userHandle)}
-                                style={styles.input1}
-                                color="black"
-                                fontSize={17}
-                                value={handle}
-                            />
-                        </View>
-                        {handle != "" &&
-                            <View style={{ alignItems: "center" }}>
-                                <GradientButton
-                                    onPress={() => {
-                                        register(electronicmail, password, firstname, lastname, handle)
-                                            .then(error => {
-                                                if (error.code === 'auth/email-already-in-use') {
-                                                    Alert.alert('That email address is already in use!');
-                                                }
-
-                                                if (error.code === 'auth/invalid-email') {
-                                                    Alert.alert('That email address is invalid!');
-                                                }
-
-                                                console.error(error);
-                                            })
-                                    }}
-                                    style={styles.button}
-                                >
-                                    LET'S GO
-                    </GradientButton>
-                            </View>
-                        }
-                    </View>
-                )}
-            </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
-    )
-}
+
+
+    );
+};
+
 
 export default SignUp2ViewController;
 
@@ -120,11 +88,27 @@ export default SignUp2ViewController;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "white"
+        backgroundColor: "white",
+    },
+    card: {
+        height: "50%",
+        width: "80%",
+        borderRadius: 25,
+        shadowRadius: 40,
+        alignContent: "center",
+        marginBottom: "3%",
+        marginTop: "8%",
+        backgroundColor: "#D7D5ED"
+    },
+    image: {
+        flex: 1,
+        resizeMode: "cover",
+        alignItems: "center",
+        width: "100%"
     },
     input: {
         padding: 10,
-        width: '90%',
+        width: '95%',
         marginLeft: "5%",
         height: 45,
         borderRadius: 25,
@@ -136,18 +120,38 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "black",
     },
+    text: {
+        marginTop: "30%",
+        textAlign: "center",
+        fontWeight: "bold",
+        fontSize: 32,
+        color: "white",
+        fontFamily: "Kollektif"
+    },
+    subheading: {
+        color: '#f7a146',
+
+    },
     button: {
         marginTop: 20,
         height: 37,
         width: "80%",
         backgroundColor: "#F76F6D",
-        borderRadius: 15
+        borderRadius: 15,
     },
-    text: {
-        marginTop: 150,
-        textAlign: "center",
-        fontWeight: "bold",
-        fontSize: 30,
-        fontFamily: "Kollektif"
+    forgotPass: {
+        marginVertical: 25,
+        marginBottom: 100
     },
-})
+    navButton: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: "white"
+    },
+    logo: {
+        height: "33%",
+        width: "50%",
+        resizeMode: 'cover',
+        position: "relative",
+    },
+});

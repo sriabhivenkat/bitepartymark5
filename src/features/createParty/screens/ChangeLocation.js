@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { View, Image, StyleSheet, FlatList,KeyboardAvoidingView,Keyboard,TouchableWithoutFeedback } from "react-native";
+import { View, Image, StyleSheet, FlatList, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, StatusBar } from "react-native";
 import { Text, Input } from "galio-framework";
 import Geocoder from 'react-native-geocoding';
-import {getUserLocation } from "lib";
+import { getUserLocation } from "lib";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Alert } from "react-native";
 
@@ -15,34 +15,35 @@ const ChangeLocation = ({ route, navigation }) => {
     const [fullName, setFullName] = useState("");
     const ref = useRef();
     const [selection, setSelection] = useState("");
-    
 
-    Geocoder.init("AIzaSyBudsRFHgcT7lqUV3xQ9oiM0MquRynmGzI", {language : "en"});
+
+    Geocoder.init("AIzaSyBudsRFHgcT7lqUV3xQ9oiM0MquRynmGzI", { language: "en" });
     useEffect(() => {
-        const main = async() => {
-          const position = await getUserLocation();
-          console.log(position);
-          setCurrentLat(position[0]);
-          setCurrentLong(position[1]);
-          console.log(currentLat, currentLong)
-          Geocoder.from(currentLat, currentLong)
-            .then(json => {
+        const main = async () => {
+            const position = await getUserLocation();
+            console.log(position);
+            setCurrentLat(position[0]);
+            setCurrentLong(position[1]);
+            console.log(currentLat, currentLong)
+            Geocoder.from(currentLat, currentLong)
+                .then(json => {
                     var addressComponent = json.results[4].formatted_address;
                     var fullAddress = json.results[0].formatted_address;
                     console.log(addressComponent)
-              setName(addressComponent);
-              setFullName(fullAddress);
-            })
-            .catch(error => console.warn(error))
+                    setName(addressComponent);
+                    setFullName(fullAddress);
+                })
+                .catch(error => console.warn(error))
         };
         main();
-      }, [currentLat, currentLong]);
+    }, [currentLat, currentLong]);
 
-      useEffect(() => {
+    useEffect(() => {
         ref.current?.setAddressText(fullName)
-      }, [])
-    return(
+    }, [])
+    return (
         <View style={styles.container}>
+            <StatusBar barStyle='dark-content' />
             <Text h3 style={styles.text}>
                 Location
             </Text>
@@ -58,18 +59,18 @@ const ChangeLocation = ({ route, navigation }) => {
                 value={query}
             /> */}
             <GooglePlacesAutocomplete
-                placeholder={"You're in "+longName+" right now."}
+                placeholder={"You're in " + longName + " right now."}
                 minLength={3}
                 autoFocus={false}
                 returnKeyType={'default'}
                 isRowScrollable={true}
                 currentLocation={true}
                 enablePoweredByContainer={false}
-                onPress={(data=null) => {
+                onPress={(data = null) => {
                     console.log(data.description)
                     navigation.navigate({
                         name: "createParty/filters",
-                        params: {selection: data.description},
+                        params: { selection: data.description },
                         merge: true,
                     })
                 }}
