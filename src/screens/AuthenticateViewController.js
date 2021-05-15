@@ -37,7 +37,7 @@ const AuthenticateViewController = ({ navigation }) => {
         <View style={styles.container}>
           <View
             style={{
-              flex: 0.4,
+              marginTop: 30,
               alignItems: "center",
               justifyContent: "center",
               backgroundColor: 'white'
