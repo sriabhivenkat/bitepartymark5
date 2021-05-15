@@ -8,6 +8,7 @@ import {
   Text,
   Button,
   TouchableOpacity,
+
 } from "react-native";
 import {
   TitleText,
@@ -60,6 +61,7 @@ const InvitesDisplay = ({ navigation }) => {
   console.log({ acceptedInvites });
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle='dark-content' />
       {acceptedInvites?.length != 0 && (
         <View style={{ flexDirection: "row" }}>
           {acceptedInvites?.length > 0 && (

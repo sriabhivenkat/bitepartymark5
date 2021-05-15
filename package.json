@@ -1,5 +1,6 @@
 {
   "main": "index.js",
+  "name": "bitepartymark4",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -36,6 +37,10 @@
     "@reduxjs/toolkit": "^1.5.1",
     "algoliasearch": "^4.8.6",
     "android-platform-tools": "^3.0.2",
+    "appcenter": "4.1.0",
+    "appcenter-analytics": "4.1.0",
+    "appcenter-cli": "^2.9.0",
+    "appcenter-crashes": "4.1.0",
     "d3-shape": "^2.0.0",
     "expo": "~40.0.0",
     "expo-splash-screen": "~0.8.0",

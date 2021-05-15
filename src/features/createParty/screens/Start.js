@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity, StatusBar } from "react-native";
 import { Text } from "galio-framework";
 import TouchableScale from "react-native-touchable-scale";
 import { ImageBackground } from "react-native";
@@ -14,6 +14,7 @@ const Start = ({ navigation }) => {
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   return (
     <View style={styles.container}>
+      <StatusBar barStyle='dark-content' />
       <TouchableOpacity
         style={styles.image}
         onPress={() => {

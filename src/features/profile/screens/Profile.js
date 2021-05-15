@@ -107,7 +107,7 @@ const ProfileDisplay = ({ navigation }) => {
   console.log({ height });
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar translucent={true} />
+      <StatusBar translucent={true} barStyle='dark-content' />
       <View paddingHorizontal={20}>
         <TitleText>@{user?.handle}</TitleText>
       </View>
@@ -148,9 +148,9 @@ const ProfileDisplay = ({ navigation }) => {
           justifyContent="space-around"
           marginTop={20}
           marginBottom={15}
-          // justifyContent="center"
-          // backgroundColor="blue"
-          // alignItems="space-around"
+        // justifyContent="center"
+        // backgroundColor="blue"
+        // alignItems="space-around"
         >
           <View alignItems="center">
             <Title
@@ -202,7 +202,7 @@ const ProfileDisplay = ({ navigation }) => {
           // marginTop={10}
           paddingHorizontal={40}
           justifyContent="space-around"
-          // backgroundColor="red"
+        // backgroundColor="red"
         >
           <ProfileButton onPress={() => navigation.navigate("Add Friends")}>
             Add Friends

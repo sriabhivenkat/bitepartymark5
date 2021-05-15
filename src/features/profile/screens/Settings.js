@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Switch,
+  StatusBar
 } from "react-native";
 import { AuthContext } from "navigation/AuthProvider";
 import { Text } from "galio-framework";
@@ -32,6 +33,7 @@ const Settings = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle='dark-content' />
       <View style={styles.container}>
         <TitleText style={{ marginTop: 30, fontSize: 36 }}>Settings</TitleText>
         <Divider style={styles.divider} />
@@ -52,6 +54,12 @@ const Settings = () => {
           style={{ marginLeft: "-2%" }}
         >
           Terms of Service
+        </SettingsButton>
+        <SettingsButton
+          // onPress={() => openLink("https://www.kas-tech.com/terms")}
+          style={{ marginLeft: "-2%" }}
+        >
+          1.0.0
         </SettingsButton>
         <Divider style={styles.divider} />
         <SettingsButton

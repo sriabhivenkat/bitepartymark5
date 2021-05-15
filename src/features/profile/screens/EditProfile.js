@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Switch,
+  StatusBar
 } from "react-native";
 import { AuthContext } from "navigation/AuthProvider";
 import { Text } from "galio-framework";
@@ -184,6 +185,7 @@ const EditProfile = ({ navigation }) => {
   };
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle='dark-content' />
       <ScrollView>
         <TitleText>Edit Profile</TitleText>
         <Divider style={styles.divider} />

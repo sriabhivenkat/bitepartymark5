@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, StatusBar } from "react-native";
 import { Divider, Switch, List, ToggleButton } from "react-native-paper";
 import { Text } from "galio-framework";
 import { Slider } from "react-native-elements";
@@ -32,17 +32,17 @@ const Filters = ({ route, navigation }) => {
     }
   };
   useEffect(() => {
-    const main = async() => {
+    const main = async () => {
       const position = await getUserLocation();
       console.log(position);
-      console.log(position[0], position[1])
+      console.log(position[0], position[1]);
       Geocoder.from(position[0], position[1])
-        .then(json => {
-                var addressComponent = json.results[4].formatted_address;
-                console.log(addressComponent)
+        .then((json) => {
+          var addressComponent = json.results[4].formatted_address;
+          console.log(addressComponent);
           setName(addressComponent);
         })
-        .catch(error => console.warn(error))
+        .catch((error) => console.warn(error));
     };
     main();
   }, []);
@@ -134,6 +134,7 @@ const Filters = ({ route, navigation }) => {
 
   return (
     <ScrollView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       <View paddingHorizontal={20}>
         <TitleText>Filters</TitleText>
       </View>
@@ -144,7 +145,7 @@ const Filters = ({ route, navigation }) => {
       <Divider style={{ marginTop: 10 }} />
       <View flexDirection="column" justifyContent="center">
         <SectionLabel label="Location" />
-        {selectionval === "" && (
+        {selectionval === "" && ( //what
           <View style={{ alignItems: "center" }}>
             <Text
               style={{
