@@ -7049,8 +7049,6 @@
   "version" "4.0.0"
   dependencies:
     "graceful-fs" "^4.1.6"
-  optionalDependencies:
-    "graceful-fs" "^4.1.6"
 
 "jsonfile@^6.0.1":
   "integrity" "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ=="
@@ -8640,7 +8638,16 @@
   dependencies:
     "find-up" "^3.0.0"
 
-"plist@^3.0.1", "plist@^3.0.2":
+"plist@^3.0.1":
+  "integrity" "sha512-MSrkwZBdQ6YapHy87/8hDU8MnIcyxBKjeF+McXnr5A9MtffPewTs7G3hlpodT5TacyfIyFTaJEhh3GGcmasTgQ=="
+  "resolved" "https://registry.npmjs.org/plist/-/plist-3.0.2.tgz"
+  "version" "3.0.2"
+  dependencies:
+    "base64-js" "^1.5.1"
+    "xmlbuilder" "^9.0.7"
+    "xmldom" "^0.5.0"
+
+"plist@^3.0.2":
   "integrity" "sha512-MSrkwZBdQ6YapHy87/8hDU8MnIcyxBKjeF+McXnr5A9MtffPewTs7G3hlpodT5TacyfIyFTaJEhh3GGcmasTgQ=="
   "resolved" "https://registry.npmjs.org/plist/-/plist-3.0.2.tgz"
   "version" "3.0.2"
@@ -10298,7 +10305,7 @@
     "debug" "^3.1.0"
     "proxy-agent" "^4.0.0"
 
-"superagent@^5.3.1", "superagent@>= 0.15.4 || 1 || 2 || 3":
+"superagent@^5.3.1":
   "integrity" "sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ=="
   "resolved" "https://registry.npmjs.org/superagent/-/superagent-5.3.1.tgz"
   "version" "5.3.1"

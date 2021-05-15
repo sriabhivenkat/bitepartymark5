@@ -183,12 +183,15 @@ const EditProfile = ({ navigation }) => {
       console.log(e);
     }
   };
-  
+  //Dimensions of screen - Abhi
+  const height = Dimensions.get('window').height;
+  const width = Dimensions.get('window').width;
   //constants for bottom sheet opening - Abhi
-  const snapPoints = useMemo(() => ['0%','35%'])
+  const snapPoints = useMemo(() => ['0%','35%','45%'])
   const bottomSheetRef = useRef(null);
   const handleSnapPress = useCallback(index => {
     bottomSheetRef.current?.snapTo(index);
+    console.log(height, width)
   }, []);
   const handleClosePress = useCallback(index => {
     bottomSheetRef.current?.close();
@@ -224,6 +227,7 @@ const EditProfile = ({ navigation }) => {
             />
           </TouchableOpacity>
           <View style={styles.column}>
+            {height===896 &&
             <TouchableOpacity
               onPress={() => handleSnapPress(1)}
               style={{
@@ -243,6 +247,28 @@ const EditProfile = ({ navigation }) => {
                 Change profile image
               </Text>
             </TouchableOpacity>
+            }
+            {height===667 &&
+            <TouchableOpacity
+              onPress={() => handleSnapPress(2)}
+              style={{
+                marginVertical: 20,
+              }}
+            >
+              <Text 
+                h5
+                style={{
+                  color: "#f76f6d",
+                  textAlign: "center",
+                  fontFamily: "Kollektif",
+                  fontSize: 22,
+                  fontWeight: "normal",
+                }}
+              >
+                Change profile image
+              </Text>
+            </TouchableOpacity>
+            }
           </View>
         </View>
         <Input
@@ -329,31 +355,60 @@ const EditProfile = ({ navigation }) => {
         snapPoints={snapPoints}
         style={styles.contentContainer}
       >
-        <BottomSheetView style={{alignItems: "center", justifyContent: "center"}}>
-          <Text h4 style={{textAlign: "center", fontFamily: "Kollektif", }}>Edit Profile Picture</Text>
-          <GradientButton
-            containerStyle={{ marginTop: 10, width: "90%"}}
-            innerStyle={{ paddingVertical: 12 }}
-            onPress={() => selectFromPhone()}
-          >
-            Select from phone
-          </GradientButton>
-          <GradientButton
-            containerStyle={{ marginTop: 10, width: "90%"}}
-            innerStyle={{ paddingVertical: 12 }}
-            onPress={() => openCamera()}
-          >
-            Take a picture
-          </GradientButton>
-          <GradientButton
-            containerStyle={{ marginTop: 20, width: "90%",}}
-            innerStyle={{ paddingVertical: 12, color: "black" }}
-            onPress={() => handleClosePress()}
-            outline
-          >
-            Cancel
-          </GradientButton>
-        </BottomSheetView>
+        {height===896 &&
+          <BottomSheetView style={{alignItems: "center", justifyContent: "center"}}>
+            <Text h4 style={{textAlign: "center", fontFamily: "Kollektif", }}>Edit Profile Picture</Text>
+            <GradientButton
+              containerStyle={{ marginTop: 10, width: "90%"}}
+              innerStyle={{ paddingVertical: 12 }}
+              onPress={() => selectFromPhone()}
+            >
+              Select from phone
+            </GradientButton>
+            <GradientButton
+              containerStyle={{ marginTop: 10, width: "90%"}}
+              innerStyle={{ paddingVertical: 12 }}
+              onPress={() => openCamera()}
+            >
+              Take a picture
+            </GradientButton>
+            <GradientButton
+              containerStyle={{ marginTop: 20, width: "90%",}}
+              innerStyle={{ paddingVertical: 12, color: "black" }}
+              onPress={() => handleClosePress()}
+              outline
+            >
+              Cancel
+            </GradientButton>
+          </BottomSheetView>
+        }
+        {height===667 &&
+          <BottomSheetView style={{alignItems: "center", justifyContent: "center"}}>
+            <Text h4 style={{textAlign: "center", fontFamily: "Kollektif", }}>Edit Profile Picture</Text>
+            <GradientButton
+              containerStyle={{ marginTop: 10, width: "90%"}}
+              innerStyle={{ paddingVertical: 12 }}
+              onPress={() => selectFromPhone()}
+            >
+              Select from phone
+            </GradientButton>
+            <GradientButton
+              containerStyle={{ marginTop: 10, width: "90%"}}
+              innerStyle={{ paddingVertical: 12 }}
+              onPress={() => openCamera()}
+            >
+              Take a picture
+            </GradientButton>
+            <GradientButton
+              containerStyle={{ marginTop: 20, width: "90%",}}
+              innerStyle={{ paddingVertical: 12, color: "black" }}
+              onPress={() => handleClosePress()}
+              outline
+            >
+              Cancel
+            </GradientButton>
+          </BottomSheetView>
+        }
       </BottomSheet>
       {modalVisible && (
         <Provider>
