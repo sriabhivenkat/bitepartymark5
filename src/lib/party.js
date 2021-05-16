@@ -149,6 +149,7 @@ const createParty = async (id, user, members, options) => {
   // voodoo magic to add all members at once
   let membersBatch = firestore().batch();
   [...members, user].forEach((doc) => {
+    console.log({ doc });
     const docRef = partyRef.collection("members").doc(doc.uidvalue);
     membersBatch.set(docRef, {
       ...doc,
@@ -221,14 +222,18 @@ const endParty = async (partyId) => {
 
   let invitesBatch = firestore().batch();
   members.forEach((doc) => {
-    const docRef = firestore()
-      .collection("Users")
-      .doc(doc.uidvalue)
-      .collection("invitations")
-      .doc(partyId);
-    invitesBatch.update(docRef, {
-      status: "completed",
-    });
+    try {
+      const docRef = firestore()
+        .collection("Users")
+        .doc(doc.uidvalue)
+        .collection("invitations")
+        .doc(partyId);
+      invitesBatch.update(docRef, {
+        status: "completed",
+      });
+    } catch {
+      console.error("Couldn't add to batch");
+    }
   });
 
   invitesBatch.commit();

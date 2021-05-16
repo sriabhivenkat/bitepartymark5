@@ -10,8 +10,17 @@ exports.sendInviteNotification = functions.firestore
   .document("Users/{userId}/invitations/{inviteId}")
   .onWrite(async (change, context) => {
     const { userId, inviteId } = context.params;
-    const { inviter } = change.after.data();
+    const { inviter, notified } = change.after.data();
     try {
+      if (notified) return;
+
+      await db
+        .collection("Users")
+        .doc(userId)
+        .collection("invitations")
+        .doc(inviteId)
+        .update({ notified: true });
+
       var { tokens } = (await db.collection("Users").doc(userId).get()).data();
       const payload = {
         notification: {
