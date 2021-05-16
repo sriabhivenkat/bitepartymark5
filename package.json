@@ -74,6 +74,7 @@
     "react-native-refreshed-deck-swiper": "^1.0.1",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.15.0",
+    "react-native-sectioned-multi-select": "^0.8.1",
     "react-native-svg": "^12.1.0",
     "react-native-swipe-cards-deck": "^0.2.19",
     "react-native-tab-view": "^2.16.0",

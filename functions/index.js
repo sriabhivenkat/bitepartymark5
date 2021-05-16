@@ -48,9 +48,13 @@ exports.resolveParty = functions.firestore
         .every(({ status }) => status == "complete");
 
       if (isComplete) {
-        const { restaurants } = (
+        const { restaurants, winner } = (
           await db.collection("Parties").doc(partyID).get()
         ).data();
+
+        if (winner) {
+          return;
+        }
 
         const matchedRestaurant = restaurants
           .sort(() => 0.5 - Math.random())

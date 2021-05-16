@@ -1,11 +1,17 @@
-import React, { useCallback, useContext, useEffect, useState, useRef} from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 import {
   View,
   Image,
   StyleSheet,
   TouchableOpacity,
   Switch,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import { AuthContext } from "navigation/AuthProvider";
 import { Text } from "galio-framework";
@@ -24,7 +30,7 @@ import { useMemo } from "react";
 import { GradientButton } from "../../../components";
 import { Alert } from "react-native";
 import { ScrollView } from "react-native";
-import BottomSheet, {BottomSheetView} from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
 const SettingsButton = ({ children, right, style, textStyle, ...rest }) => (
   <TouchableOpacity {...rest} style={[styles.button, style]}>
@@ -184,20 +190,20 @@ const EditProfile = ({ navigation }) => {
       console.log(e);
     }
   };
-  
+
   //constants for bottom sheet opening - Abhi
-  const snapPoints = useMemo(() => ['0%','35%'])
+  const snapPoints = useMemo(() => ["0%", "35%"]);
   const bottomSheetRef = useRef(null);
-  const handleSnapPress = useCallback(index => {
+  const handleSnapPress = useCallback((index) => {
     bottomSheetRef.current?.snapTo(index);
   }, []);
-  const handleClosePress = useCallback(index => {
+  const handleClosePress = useCallback((index) => {
     bottomSheetRef.current?.close();
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle='dark-content' />
+      <StatusBar barStyle="dark-content" />
       <ScrollView>
         <TitleText>Edit Profile</TitleText>
         <Divider style={styles.divider} />
@@ -232,7 +238,7 @@ const EditProfile = ({ navigation }) => {
                 marginVertical: 20,
               }}
             >
-              <Text 
+              <Text
                 h5
                 style={{
                   color: "#f76f6d",
@@ -331,24 +337,28 @@ const EditProfile = ({ navigation }) => {
         snapPoints={snapPoints}
         style={styles.contentContainer}
       >
-        <BottomSheetView style={{alignItems: "center", justifyContent: "center"}}>
-          <Text h4 style={{textAlign: "center", fontFamily: "Kollektif", }}>Edit Profile Picture</Text>
+        <BottomSheetView
+          style={{ alignItems: "center", justifyContent: "center" }}
+        >
+          <Text h4 style={{ textAlign: "center", fontFamily: "Kollektif" }}>
+            Edit Profile Picture
+          </Text>
           <GradientButton
-            containerStyle={{ marginTop: 10, width: "90%"}}
+            containerStyle={{ marginTop: 10, width: "90%" }}
             innerStyle={{ paddingVertical: 12 }}
             onPress={() => selectFromPhone()}
           >
             Select from phone
           </GradientButton>
           <GradientButton
-            containerStyle={{ marginTop: 10, width: "90%"}}
+            containerStyle={{ marginTop: 10, width: "90%" }}
             innerStyle={{ paddingVertical: 12 }}
             onPress={() => openCamera()}
           >
             Take a picture
           </GradientButton>
           <GradientButton
-            containerStyle={{ marginTop: 20, width: "90%",}}
+            containerStyle={{ marginTop: 20, width: "90%" }}
             innerStyle={{ paddingVertical: 12, color: "black" }}
             onPress={() => handleClosePress()}
             outline
@@ -431,6 +441,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     borderWidth: 2,
     borderColor: "lightgray",
-    borderRadius: 20
-  }
+    borderRadius: 20,
+  },
 });

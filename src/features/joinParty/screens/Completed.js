@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Text,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { FlatList, Dimensions } from "react-native";
@@ -33,11 +33,11 @@ const Completed = ({ route, navigation }) => {
   const currentWinner = party?.winner
     ? party?.winner
     : party?.restaurants &&
-    party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
+      party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
 
   return (
     <SafeAreaView backgroundColor="#fff" flex={1}>
-      <StatusBar barStyle='dark-content' />
+      <StatusBar barStyle="dark-content" />
       {party && !party?.winner && (
         <View>
           <ImageBackground
@@ -126,7 +126,7 @@ const Completed = ({ route, navigation }) => {
                   fontSize: 25,
                 }}
               >
-                Restaraunt Chosen!
+                Restaurant Chosen!
               </TitleText>
               {/* <View backgroundColor="#00000050" height={1} marginBottom={15} /> */}
             </View>
@@ -200,7 +200,7 @@ const Completed = ({ route, navigation }) => {
                 onPress={() =>
                   Alert.alert(
                     "Leave Party?",
-                    "This will remove you from the party with no way to get back!",
+                    "If you leave before the host ends the party, it may affect the results, ",
                     [
                       {
                         text: "Nope!",
@@ -329,7 +329,7 @@ const Completed = ({ route, navigation }) => {
         snapPoints={snapPoints}
         enableHandlePanningGesture={false}
         handleComponent={null}
-      // handleHeight={0}
+        // handleHeight={0}
       >
         <BottomSheetScrollView style={styles.bottomSheetContainer}>
           <View style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}>

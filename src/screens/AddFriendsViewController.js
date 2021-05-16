@@ -24,7 +24,7 @@ const AddFriendsViewController = () => {
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
 
-  const { friends } = useFriends();
+  const { friends, addFriend } = useFriends();
   const { user } = useUser();
 
   useEffect(() => {
@@ -69,23 +69,25 @@ const AddFriendsViewController = () => {
   //     .includes("6P9FzWvSVoNZtz7TOQ6cs86UbJN2")
   // );
 
-  console.log(data.map((item) => item.uidvalue));
+  // console.log(data.map((item) => item.uidvalue));
 
-  const addFriend = (item) => {
-    firestore()
-      .collection("Users")
-      .doc(user.uidvalue)
-      .collection("friends")
-      .doc(item.uidvalue)
-      .set({
-        handle: item.handle,
-        firstName: item.firstName,
-        lastName: item.lastName,
-        imageUrlPath: item.imageUrl,
-        uidvalue: item.uidvalue,
-      });
-    Alert.alert("Added friend", `${item.handle} was added!`);
-  };
+  // const addFriend = (item) => {
+  //   firestore()
+  //     .collection("Users")
+  //     .doc(user.uidvalue)
+  //     .collection("friends")
+  //     .doc(item.uidvalue)
+  //     .set({
+  //       handle: item.handle,
+  //       firstName: item.firstName,
+  //       lastName: item.lastName,
+  //       imageUrlPath: item.imageUrl,
+  //       uidvalue: item.uidvalue,
+  //     });
+  //   Alert.alert("Added friend", `${item.handle} was added!`);
+  // };
+
+  //  add
 
   return (
     <SafeAreaView style={styles.container}>
@@ -111,7 +113,15 @@ const AddFriendsViewController = () => {
               <MemberCard
                 key={item.uidvalue}
                 data={item}
-                onPress={() => !isAdded && addFriend(item)}
+                onPress={() =>
+                  !isAdded &&
+                  addFriend(item)
+                    .then(() => {
+                      // console.log({ poop: item });
+                      Alert.alert("Added friend", `${item.handle} was added!`);
+                    })
+                    .catch((err) => err)
+                }
                 selected={isAdded}
                 disabled
               />

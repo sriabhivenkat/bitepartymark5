@@ -7,12 +7,17 @@ React Hooks
 
 export const useFriends = () => {
   const { user } = useUser();
-  const { data, error } = useCollection(`Users/${user?.uidvalue}/friends`, {
-    listen: true,
-  });
+  const { data, error, add } = useCollection(
+    `Users/${user?.uidvalue}/friends`,
+    {
+      listen: true,
+      shouldRetryOnError: true,
+    }
+  );
 
   return {
     friends: data,
+    addFriend: add,
     friendsMeta: {
       error,
       isLoading: !error && !data,

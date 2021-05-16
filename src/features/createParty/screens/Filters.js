@@ -19,7 +19,7 @@ const Filters = ({ route, navigation }) => {
   const [time, setTime] = useState(new Date());
   const [filters, setFilters] = useState([]);
   const [restriction, setRestrictions] = useState([]);
-  const [price, setPrice] = useState([1, 2, 3, 4]);
+  const [price, setPrice] = useState([]);
   const [currentLat, setCurrentLat] = useState(0);
   const [currentLong, setCurrentLong] = useState(0);
   const [longName, setName] = useState("");
@@ -73,9 +73,9 @@ const Filters = ({ route, navigation }) => {
       setCurrentLong(position[1]);
       console.log(currentLat, currentLong);
       Geocoder.from(currentLat, currentLong)
-        .then(json => {
+        .then((json) => {
           var addressComponent = json.results[4].formatted_address; // new commen
-          console.log(addressComponent)
+          console.log(addressComponent);
           setName(addressComponent);
         })
         .catch((error) => console.warn(error));
@@ -141,7 +141,7 @@ const Filters = ({ route, navigation }) => {
 
   return (
     <ScrollView style={styles.container}>
-      <StatusBar barStyle='dark-content' />
+      <StatusBar barStyle="dark-content" />
       <View paddingHorizontal={20}>
         <TitleText>Filters</TitleText>
       </View>
