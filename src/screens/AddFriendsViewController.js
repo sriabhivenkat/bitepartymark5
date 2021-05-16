@@ -25,7 +25,7 @@ const AddFriendsViewController = () => {
   const [data, setData] = useState([]);
 
   const { friends, addFriend } = useFriends();
-  const { user } = useUser();
+  // const { user } = useUser();
 
   useEffect(() => {
     if (query.length > 1) {
