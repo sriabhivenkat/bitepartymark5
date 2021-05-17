@@ -62,7 +62,7 @@ export const useParty = (id) => {
       if (!partyId) {
         throw new Error("Party Id not set!");
       }
-      await endParty(partyId);
+      await endParty(partyId, user);
       return partyId;
     },
     leaveParty: async () => {
@@ -219,6 +219,7 @@ const endParty = async (partyId, user) => {
     x.data()
   );
 
+  console.log({ members });
   let invitesBatch = firestore().batch();
   members.forEach((doc) => {
     try {
