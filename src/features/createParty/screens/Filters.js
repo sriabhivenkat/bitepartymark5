@@ -56,7 +56,7 @@ const Filters = ({ route, navigation }) => {
       console.log(position);
       Geocoder.from(position[0], position[1])
         .then((json) => {
-          var addressComponent = json.results[4].formatted_address;
+          var addressComponent = json.results[3].formatted_address;
           console.log(addressComponent);
           setName(addressComponent);
         })
@@ -88,7 +88,7 @@ const Filters = ({ route, navigation }) => {
       // console.log(currentLat, currentLong);
       Geocoder.from(currentLat, currentLong)
         .then((json) => {
-          var addressComponent = json.results[4].formatted_address; // new commen
+          var addressComponent = json.results[3].formatted_address; // new commen
           console.log(addressComponent);
           setName(addressComponent);
         })
