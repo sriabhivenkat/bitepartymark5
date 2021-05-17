@@ -181,10 +181,11 @@ const EditProfile = ({ navigation }) => {
       await storage().ref(filename).putFile(imagepath);
       const storageRef = firebase.storage().ref(user.uidvalue);
       storageRef.getDownloadURL().then((url) => {
-        firestore().collection("Users").doc(user.uidvalue).update({
-          // My Profile
-          imageUrl: url,
-        });
+        // firestore().collection("Users").doc(user.uidvalue).update({
+        //   // My Profile
+        //   imageUrl: url,
+        // });
+        updateUser({ imageUrl: url });
       });
     } catch (e) {
       console.error(e);

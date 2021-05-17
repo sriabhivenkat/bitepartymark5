@@ -71,6 +71,10 @@ exports.resolveParty = functions.firestore
 
         console.log({ membersList });
 
+        await db.collection("Parties").doc(partyID).update({
+          winner: matchedRestaurant,
+        });
+
         const userPromises = membersList.map((member) =>
           db.collection("Users").doc(member.uidvalue).get()
         );
@@ -78,10 +82,6 @@ exports.resolveParty = functions.firestore
         var tokens = (await Promise.all(userPromises)).flatMap(
           (item) => item.data().tokens
         );
-
-        await db.collection("Parties").doc(partyID).update({
-          winner: matchedRestaurant,
-        });
 
         const payload = {
           notification: {
