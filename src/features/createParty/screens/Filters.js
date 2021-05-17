@@ -21,6 +21,8 @@ const Filters = ({ route, navigation }) => {
   const [restriction, setRestrictions] = useState([]);
   const [price, setPrice] = useState([]);
   const [longName, setName] = useState("");
+  const [currentLat, setCurrentLat] = useState();
+  const [currentLong, setCurrentLong] = useState();
 
   const handleTap = (value) => {
     const exists = filters.find((item) => item == value);
