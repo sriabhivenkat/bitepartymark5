@@ -54,7 +54,7 @@ const Settings = () => {
         >
           Terms of Service
         </SettingsButton>
-        <SettingsButton style={{ marginLeft: "-2%" }}>1.2 e</SettingsButton>
+        <Text style={{fontFamily: "Kollektif", fontSize: 22, paddingHorizontal: 7, paddingVertical: 10, color: "darkgray"}}>Bite Party! Version 1.2.e</Text>
         <Divider style={styles.divider} />
         <SettingsButton
           onPress={logout}
