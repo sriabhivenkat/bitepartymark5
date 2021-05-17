@@ -65,7 +65,7 @@ const SelectFriends = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle='dark-content' />
+      <StatusBar barStyle="dark-content" />
       <View style={styles.container}>
         <View
           flexDirection="row"
@@ -74,9 +74,7 @@ const SelectFriends = ({ route, navigation }) => {
           justifyContent="space-between"
           marginTop={-25}
         >
-          <TitleText style={{ fontSize: 37 }}>
-            Invite Friends
-          </TitleText>
+          <TitleText style={{ fontSize: 37 }}>Invite Friends</TitleText>
         </View>
         <View>
           <Input
@@ -117,7 +115,7 @@ const SelectFriends = ({ route, navigation }) => {
             >
               <Text>{`You haven't added any friends. \n`}</Text>
               <Text
-                onPress={() => navigation.navigate("Add Friends")}
+                onPress={() => navigation.navigate("createParty/addFriends")}
                 style={{ color: "#f76f6d", textDecorationLine: "underline" }}
               >{`Add some `}</Text>
 

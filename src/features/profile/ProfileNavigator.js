@@ -3,6 +3,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Profile from "./screens/Profile";
 import Settings from "./screens/Settings";
 import EditProfile from "./screens/EditProfile";
+import AddFriends from "./screens/AddFriends";
+
 import { BackButton, logoHeaderOptions } from "../../components";
 const Stack = createStackNavigator();
 
@@ -29,6 +31,16 @@ export default () => (
     <Stack.Screen
       name="profile/edit"
       component={EditProfile}
+      options={{
+        title: "",
+        headerLeft: BackButton,
+
+        // headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="profile/addFriends"
+      component={AddFriends}
       options={{
         title: "",
         headerLeft: BackButton,

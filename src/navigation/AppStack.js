@@ -12,7 +12,6 @@ import messaging from "@react-native-firebase/messaging";
 
 import * as RootNavigation from "navigation/RootNavigation";
 
-import AddFriendsViewController from "../screens/AddFriendsViewController.js";
 import CreatePartyNavigator from "features/createParty/CreatePartyNavigator";
 import JoinPartyNavigator from "features/joinParty/JoinPartyNavigator";
 import InvitesDisplayNavigator from "features/invitesDisplay/InvitesDisplayNavigator";
@@ -143,14 +142,14 @@ const AppStack = () => {
         component={JoinPartyNavigator}
         options={{ headerShown: false }}
       /> */}
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Add Friends"
         component={AddFriendsViewController}
         options={{
           title: "",
           headerLeft: BackButton,
         }}
-      />
+      /> */}
     </Stack.Navigator>
   );
 };

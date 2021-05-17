@@ -19,8 +19,9 @@ import { SafeAreaView } from "react-native";
 import { useFriends, useUser } from "lib";
 import { times } from "lodash";
 import { Alert } from "react-native";
+import { Divider } from "react-native-elements";
 
-const AddFriendsViewController = () => {
+const AddFriends = () => {
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
 
@@ -92,7 +93,10 @@ const AddFriendsViewController = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-        <TitleText style={{ marginTop: 30 }}>Add Friends</TitleText>
+        <TitleText>Add Friends</TitleText>
+        <Divider style={styles.divider} />
+
+        {/* <TitleText style={{ marginTop: 30 }}>Add Friends</TitleText> */}
         <Input
           placeholder="Enter a handle"
           onChangeText={(txt) => setQuery(txt)}
@@ -103,8 +107,11 @@ const AddFriendsViewController = () => {
           autoCapitalize="none"
           style={styles.searchbar}
           value={query}
+          fontFamily="Kollektif"
+          fontSize={20}
+          placeholderTextColor="rgba(0,0,0,0.5)"
         />
-        <View marginTop={30}>
+        <View marginTop={15}>
           {data.map((item) => {
             const isAdded = friends
               .map(({ uidvalue }) => uidvalue)
@@ -133,14 +140,14 @@ const AddFriendsViewController = () => {
   );
 };
 
-export default AddFriendsViewController;
+export default AddFriends;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
     paddingHorizontal: 10,
-    paddingTop: 30,
+    // paddingTop: 30,
   },
   queryView: {
     flex: 0.13,
@@ -164,9 +171,10 @@ const styles = StyleSheet.create({
     shadowColor: "black",
     shadowRadius: 30,
     borderRadius: 14,
+    fontFamily: "Kollektif",
   },
   queryResults: {
-    marginTop: 20,
+    // marginTop: 20,
     backgroundColor: "#16335e",
   },
   pfp: {
@@ -188,5 +196,10 @@ const styles = StyleSheet.create({
     display: "flex",
     backgroundColor: "white",
     padding: 20,
+  },
+  divider: {
+    // borderWidth: 0,
+    marginVertical: "1.5%",
+    marginBottom: 15,
   },
 });

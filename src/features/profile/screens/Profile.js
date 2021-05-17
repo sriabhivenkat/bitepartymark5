@@ -202,7 +202,9 @@ const ProfileDisplay = ({ navigation }) => {
           justifyContent="space-around"
           // backgroundColor="red"
         >
-          <ProfileButton onPress={() => navigation.navigate("Add Friends")}>
+          <ProfileButton
+            onPress={() => navigation.navigate("profile/addFriends")}
+          >
             Add Friends
           </ProfileButton>
           <ProfileButton onPress={() => navigation.navigate("profile/edit")}>

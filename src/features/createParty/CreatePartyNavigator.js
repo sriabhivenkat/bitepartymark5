@@ -8,6 +8,7 @@ import ChangeLocation from "./screens/ChangeLocation";
 import { logoHeaderOptions } from "components";
 import { BackButton, GradientButton } from "../../components";
 import { View } from "react-native";
+import AddFriends from "features/profile/screens/AddFriends";
 const Stack = createStackNavigator();
 
 export default () => (
@@ -24,6 +25,27 @@ export default () => (
     <Stack.Screen
       name="createParty/selectFriends"
       component={SelectFriends}
+      options={{
+        title: "Friends",
+        headerShown: true,
+        headerLeft: BackButton,
+        // headerRight: () => (
+        //   <View marginRight={10}>
+        //     <GradientButton
+        //       innerStyle={{ paddingHorizontal: 20 }}
+        //       textStyle={{ fontSize: 16 }}
+        //     >
+        //       Add Friends
+        //     </GradientButton>
+        //   </View>
+        // ),
+
+        ...logoHeaderOptions,
+      }}
+    />
+    <Stack.Screen
+      name="createParty/addFriends"
+      component={AddFriends}
       options={{
         title: "Friends",
         headerShown: true,
