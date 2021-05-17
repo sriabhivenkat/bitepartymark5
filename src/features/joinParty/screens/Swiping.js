@@ -141,7 +141,7 @@ const Swiping = ({ navigation, route, data }) => {
               marginBottom={Dimensions.get("screen").height < 700 ? 5 : 70}
               // cardVerticalMargin={0}
               // onSwipedAll={handleComplete}
-              verticalSwipe={true}
+              verticalSwipe={false}
               disableTopSwipe
               disableBottomSwipe
               useViewOverflow={false}

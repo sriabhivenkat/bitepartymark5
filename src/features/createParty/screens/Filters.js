@@ -102,46 +102,100 @@ const Filters = ({ route, navigation }) => {
         params: { partyID: partyId },
       });
 
-      if (selectionval === "") {
-        const loc = await getUserLocation();
-        const id = await createParty(selectedFriends, {
-          loc,
-          count,
-          radius,
-          filters,
-          restriction,
-          price,
-          // pricing,
-          time,
-        });
+      // if (selectionval === "") {
+      let loc;
+      if (selectionval.length == 0) {
+        loc = await getUserLocation();
       } else {
-        Geocoder.from(selectionval)
-          .then((json) => {
-            var location = json.results[0].geometry.location;
-            var loc = [location.lat, location.lng];
-            return createParty(selectedFriends, {
-              loc,
-              count,
-              radius,
-
-              filters,
-              restriction,
-              price,
-              time,
-            });
-          })
-          .catch((error) =>
-            Alert.alert(
-              "No matches!",
-              "We couldn't find anything that matched your filters. Try again with less restrictive filters"
-            )
-          );
+        const res = await Geocoder.from(selectionval);
+        const data = res.results[0].geometry.location;
+        loc = [data.lat, data.lng];
       }
+      const id = await createParty(selectedFriends, {
+        loc,
+        count,
+        radius,
+        filters,
+        restriction,
+        price,
+        // pricing,
+        time,
+      });
+      // } else {
+      //   Geocoder.from(selectionval)
+      //     .then((json) => {
+      //       var location = json.results[0].geometry.location;
+      //       var loc = [location.lat, location.lng];
+      //       return createParty(selectedFriends, {
+      //         loc,
+      //         count,
+      //         radius,
+
+      //         filters,
+      //         restriction,
+      //         price,
+      //         time,
+      //       });
+      //     })
+      //     .catch(
+      //       (error) =>
+      //         navigation.navigate("joinParty/filters", {
+      //            partyID: partyId, selectedFriends
+      //         })
+      // navigation.replace("joinParty", {
+      //   screen: "joinParty/filters",
+      //   params: { partyID: partyId, selectedFriends },
+      // })
+      // );
+      // Alert.alert(
+      //   "No matches!",
+      //   "We couldn't find anything that matched your filters. Try again with less restrictive filters",
+      //   [
+      //     {
+      //       text: "Ok",
+      //       onPress: () =>
+      //         navigation.replace("joinParty", {
+      //           screen: "joinParty/filters",
+      //           params: { partyID: partyId, selectedFriends },
+      //         }),
+      //     },
+      //   ]
+      // )
+      // );
+      // }
     } catch (err) {
       Alert.alert(
         "No matches!",
-        "We couldn't find anything that matched your filters. Try again with less restrictive filters"
+        "We couldn't find anything that matched your filters. Try again with less restrictive filters",
+        [
+          {
+            text: "Ok",
+            onPress: () =>
+              navigation.navigate("createParty/filters", {
+                partyID: partyId,
+                selectedFriends,
+              }),
+          },
+        ]
       );
+      // navigation.navigate("joinParty/filters", {
+      //   partyID: partyId,
+      //   selectedFriends,
+      // });
+      // Alert.alert(
+      //   "No matches!",
+      //   "We couldn't find anything that matched your filters. Try again with less restrictive filters",
+      //   [
+      //     {
+      //       text: "Ok",
+      //       onPress: () =>
+      //         navigation.replace("joinParty", {
+      //           screen: "joinParty/filters",
+      //           params: { partyID: partyId, selectedFriends },
+      //         }),
+      //     },
+      //   ]
+      // );
       console.error(err);
     }
   };
