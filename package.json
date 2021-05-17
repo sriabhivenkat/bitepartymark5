@@ -36,6 +36,7 @@
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
     "@reduxjs/toolkit": "^1.5.1",
+    "add": "^2.0.6",
     "algoliasearch": "^4.8.6",
     "android-platform-tools": "^3.0.2",
     "appcenter": "4.1.0",
@@ -77,6 +78,7 @@
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.15.0",
     "react-native-sectioned-multi-select": "^0.8.1",
+    "react-native-shimmer-placeholder": "^2.0.7",
     "react-native-svg": "^12.1.0",
     "react-native-swipe-cards-deck": "^0.2.19",
     "react-native-tab-view": "^2.16.0",
@@ -86,7 +88,8 @@
     "react-native-web": "~0.13.12",
     "react-redux-firebase": "^3.10.0",
     "redux": "^4.0.5",
-    "tslib": "^2.0.3"
+    "tslib": "^2.0.3",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

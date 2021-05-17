@@ -62,7 +62,7 @@ export const useParty = (id) => {
       if (!partyId) {
         throw new Error("Party Id not set!");
       }
-      await endParty(partyId);
+      await endParty(partyId, user);
       return partyId;
     },
     leaveParty: async () => {
@@ -112,7 +112,6 @@ Helper Methods
 */
 
 const addPartySelections = async (id, user, party, selections, override) => {
-  console.log({ selections, length: Object.keys(selections).length });
   if (Object.keys(selections).length != party?.restaurants?.length || override)
     throw new Error("Not enough items yet");
 
@@ -130,7 +129,6 @@ const addPartySelections = async (id, user, party, selections, override) => {
 
 const createParty = async (id, user, members, options) => {
   const restaurants = await getNearby(options);
-  console.log("restaurants");
   if (restaurants.length < 2) {
     throw Error("Too restrictive!");
   }
@@ -149,7 +147,6 @@ const createParty = async (id, user, members, options) => {
   // voodoo magic to add all members at once
   let membersBatch = firestore().batch();
   [...members, user].forEach((doc) => {
-    console.log({ doc });
     const docRef = partyRef.collection("members").doc(doc.uidvalue);
     membersBatch.set(docRef, {
       ...doc,
@@ -195,7 +192,7 @@ const leaveParty = async (partyId, user) => {
 
 const resolveParty = async (partyId) => {
   const partyRef = firestore().collection("Parties").doc(partyId);
-  console.log(partyRef);
+
   const members = (await partyRef.collection("members").get()).docs.map((x) =>
     x.data()
   );
@@ -212,14 +209,17 @@ const resolveParty = async (partyId) => {
   await membersBatch.commit();
 };
 
-const endParty = async (partyId) => {
+const endParty = async (partyId, user) => {
   // voodoo magic to add all members at once
   const partyRef = firestore().collection("Parties").doc(partyId);
+
+  await leaveParty(partyId, user);
 
   const members = (await partyRef.collection("members").get()).docs.map((x) =>
     x.data()
   );
 
+  console.log({ members });
   let invitesBatch = firestore().batch();
   members.forEach((doc) => {
     try {

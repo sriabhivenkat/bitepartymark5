@@ -54,7 +54,7 @@ const Settings = () => {
         >
           Terms of Service
         </SettingsButton>
-        <SettingsButton style={{ marginLeft: "-2%" }}>1.2 d</SettingsButton>
+        <SettingsButton style={{ marginLeft: "-2%" }}>1.2 e</SettingsButton>
         <Divider style={styles.divider} />
         <SettingsButton
           onPress={logout}

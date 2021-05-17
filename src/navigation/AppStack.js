@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Alert } from "react-native";
+import { Alert, Text } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import {
   BottomTabBar,
@@ -17,15 +17,13 @@ import CreatePartyNavigator from "features/createParty/CreatePartyNavigator";
 import JoinPartyNavigator from "features/joinParty/JoinPartyNavigator";
 import InvitesDisplayNavigator from "features/invitesDisplay/InvitesDisplayNavigator";
 import ProfileNavigator from "features/profile/ProfileNavigator";
+import { TouchableOpacity } from "react-native";
+import { BackButton } from "../components/BackButton.js";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const tabBarListeners = ({ navigation, route }) => ({
-  tabPress: () =>
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "home" }],
-    }),
+  tabPress: () => navigation.replace("Home"),
 });
 const BottomTabNavigator = () => (
   <Tab.Navigator
@@ -112,8 +110,8 @@ const BottomTabNavigator = () => (
 const AppStack = () => {
   const handleMessage = (message) => {
     if (!message) return;
+
     const { partyId, type } = message.data;
-    console.log({ type });
     switch (type) {
       case "invite":
         RootNavigation.navigate("invites");
@@ -138,7 +136,7 @@ const AppStack = () => {
       <Stack.Screen
         name="Home"
         component={BottomTabNavigator}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, animationEnabled: false }}
       />
       {/* <Stack.Screen
         name="joinParty"
@@ -148,7 +146,10 @@ const AppStack = () => {
       <Stack.Screen
         name="Add Friends"
         component={AddFriendsViewController}
-        options={{ title: "" }}
+        options={{
+          title: "",
+          headerLeft: BackButton,
+        }}
       />
     </Stack.Navigator>
   );

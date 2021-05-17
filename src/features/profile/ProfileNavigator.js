@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Profile from "./screens/Profile";
 import Settings from "./screens/Settings";
 import EditProfile from "./screens/EditProfile";
-import { logoHeaderOptions } from "../../components";
+import { BackButton, logoHeaderOptions } from "../../components";
 const Stack = createStackNavigator();
 
 export default () => (
@@ -12,7 +12,7 @@ export default () => (
       name="profile"
       component={Profile}
       options={{
-        title: "",
+        title: "Profile",
         headerShown: false,
       }}
     />
@@ -21,6 +21,7 @@ export default () => (
       component={Settings}
       options={{
         title: "",
+        headerLeft: BackButton,
         // headerShown: false,
         // ...logoHeaderOptions,
       }}
@@ -30,6 +31,8 @@ export default () => (
       component={EditProfile}
       options={{
         title: "",
+        headerLeft: BackButton,
+
         // headerShown: false,
       }}
     />

@@ -7,9 +7,9 @@ import {
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
 } from "react-native";
-import Clipboard from '@react-native-community/clipboard'
+// import Clipboard from "@react-native-community/clipboard";
 import SwipeCards from "react-native-swipe-cards-deck";
 import LinearGradient from "react-native-linear-gradient";
 import { RestarauntCard } from "components";
@@ -21,6 +21,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { DeckSwiper, Block } from "galio-framework";
 import { Alert } from "react-native";
+import { LoadingRestarauntCard } from "../../../components";
 
 const Swiping = ({ navigation, route, data }) => {
   const windowWidth = Dimensions.get("window").width;
@@ -49,7 +50,7 @@ const Swiping = ({ navigation, route, data }) => {
   useEffect(() => {
     if (partyMember?.status == "complete" && !hasNavigated.current) {
       hasNavigated.current = true;
-      navigation.replace("joinParty/completed", { partyID });
+      navigation.navigate("joinParty/completed", { partyID });
     }
   }, [partyMember]);
 
@@ -95,26 +96,15 @@ const Swiping = ({ navigation, route, data }) => {
   //     .catch((err) => console.error(err));
   // };
 
+  let hasLoaded = party && party.restaurants && partyMember;
+  // hasLoaded = false;
+
+  console.log({ hasLoaded });
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle='dark-content' />
+      <StatusBar barStyle="dark-content" />
       <Provider>
-        <Portal>
-          <Modal
-            visible={visible}
-            onDismiss={() => setVisible(false)}
-            contentContainerStyle={containerStyle}
-            animationType="fade"
-            transparent={true}
-          >
-            <Image
-              source={{ uri: party?.restaurants[cardIdx]?.image_url }}
-              style={[styles.image, { marginTop: 10 }]}
-            />
-            {/* <Text>{JSON.stringify(party?.restaurants[cardIdx], null, 2)}</Text> */}
-          </Modal>
-        </Portal>
-        <Portal>
+        {/* <Portal>
           <Modal
             visible={infoVisible}
             onDismiss={() => setInfoVisible(false)}
@@ -122,7 +112,7 @@ const Swiping = ({ navigation, route, data }) => {
           >
             <Text h2>chortle my balls</Text>
           </Modal>
-        </Portal>
+        </Portal> */}
         <View justifyContent="center" alignItems="center">
           <Image
             style={{ width: 100, height: 75, alignItems: "center" }}
@@ -130,7 +120,251 @@ const Swiping = ({ navigation, route, data }) => {
           />
         </View>
 
-        {!partyMeta.isLoading && partyMember && (
+        {hasLoaded && (
+          <>
+            <Portal>
+              <Modal
+                visible={visible}
+                onDismiss={() => setVisible(false)}
+                contentContainerStyle={containerStyle}
+                animationType="fade"
+                transparent={true}
+              >
+                <Image
+                  source={{ uri: party?.restaurants[cardIdx]?.image_url }}
+                  style={[styles.image, { marginTop: 10 }]}
+                />
+                {/* <Text>{JSON.stringify(party?.restaurants[cardIdx], null, 2)}</Text> */}
+              </Modal>
+            </Portal>
+            <Swiper
+              marginTop={80}
+              marginBottom={Dimensions.get("screen").height < 700 ? 5 : 70}
+              // cardVerticalMargin={0}
+              // onSwipedAll={handleComplete}
+              verticalSwipe={false}
+              disableTopSwipe
+              disableBottomSwipe
+              useViewOverflow={false}
+              keyExtractor={(item) => item.id}
+              onSwipedLeft={(idx) => handleNo(party.restaurants[idx])}
+              onSwipedRight={(idx) => handleYes(party.restaurants[idx])}
+              onSwipedTop={(idx) => handleSwipeUp(party.restaurants[idx])}
+              // onSwiped={() => this.onSwiped("general")}
+              // onSwipedLeft={() => this.onSwiped("left")}
+              // onSwipedRight={() => this.onSwiped("right")}
+              // onSwipedTop={() => this.onSwiped("top")}
+              // onSwipedBottom={() => this.onSwiped("bottom")}
+              onTapCard={(idx) => handleTap(party.restaurants[idx])}
+              cards={party.restaurants}
+              // cardIndex={this.state.cardIndex}
+              // cardVerticalMargin={80}
+              renderCard={(item) => (
+                <RestarauntCard data={item} key={item.id} />
+              )}
+              containerStyle={{
+                position: "absolute",
+                backgroundColor: "white",
+                marginBottom: "10%",
+              }}
+              onSwipedAll={() => {
+                addPartySelections(selections, true)
+                  .then(() =>
+                    navigation.replace("joinParty/completed", { partyID })
+                  )
+                  .then(() => (hasNavigated.current = true));
+              }}
+              stackSize={party.restaurants.length}
+              // stackAnimationTension={100}
+              // stackAnimationFriction={1}
+              stackScale={0}
+              stackSeparation={0}
+              // stackAnimationTension={10}
+              overlayLabels={{
+                bottom: {
+                  title: "BLEAH",
+                  style: {
+                    label: {
+                      backgroundColor: "black",
+                      borderColor: "black",
+                      color: "white",
+                      borderWidth: 1,
+                    },
+                    wrapper: {
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    },
+                  },
+                },
+                left: {
+                  title: "NOPE",
+                  style: {
+                    label: {
+                      backgroundColor: "black",
+                      borderColor: "black",
+                      color: "white",
+                      borderWidth: 1,
+                    },
+                    wrapper: {
+                      flexDirection: "column",
+                      alignItems: "flex-end",
+                      justifyContent: "flex-start",
+                      marginTop: 30,
+                      marginLeft: -30,
+                    },
+                  },
+                },
+                right: {
+                  title: "LIKE",
+                  style: {
+                    label: {
+                      backgroundColor: "black",
+                      borderColor: "black",
+                      color: "white",
+                      borderWidth: 1,
+                    },
+                    wrapper: {
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      justifyContent: "flex-start",
+                      marginTop: 30,
+                      marginLeft: 30,
+                    },
+                  },
+                },
+              }}
+              animateOverlayLabelsOpacity
+              animateCardOpacity
+              // swipeBackCard
+            >
+              <></>
+            </Swiper>
+            <BottomSheet ref={bottomSheetRef} index={0} snapPoints={snapPoints}>
+              <BottomSheetScrollView style={styles.bottomSheetContainer}>
+                <View
+                  style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}
+                >
+                  <Text
+                    h4
+                    style={{ fontFamily: "Kollektif", color: "#f76f6d" }}
+                  >
+                    Address
+                  </Text>
+                  <TouchableOpacity
+                  // onPress={() =>
+                  //   Clipboard.setString(
+                  //     party?.restaurants[cardIdx]?.location.address1
+                  //   )
+                  // }
+                  >
+                    <Text
+                      style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}
+                    >
+                      {party?.restaurants[cardIdx]?.location.address1}
+                    </Text>
+                    <Text
+                      style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}
+                    >
+                      {party?.restaurants[cardIdx]?.location.city +
+                        ", " +
+                        party?.restaurants[cardIdx]?.location.state +
+                        " " +
+                        party?.restaurants[cardIdx]?.location?.zip_code}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <Divider />
+                <View
+                  style={{
+                    top: 10,
+                    left: 22,
+                    marginBottom: 22.5,
+                    marginTop: 10,
+                  }}
+                >
+                  <Text
+                    h4
+                    style={{ fontFamily: "Kollektif", color: "#f76f6d" }}
+                  >
+                    Phone
+                  </Text>
+                  <Text
+                    style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}
+                  >
+                    {party?.restaurants[cardIdx]?.display_phone}
+                  </Text>
+                </View>
+                <Divider />
+                <View
+                  style={{
+                    top: 10,
+                    left: 22,
+                    marginBottom: 22.5,
+                    marginTop: 10,
+                  }}
+                >
+                  <Text
+                    h4
+                    style={{ fontFamily: "Kollektif", color: "#f76f6d" }}
+                  >
+                    Filters
+                  </Text>
+                  <View
+                    flexDirection="row"
+                    flexWrap="wrap-reverse"
+                    style={{ marginTop: 5 }}
+                  >
+                    {party?.restaurants[cardIdx]?.categories.map((item, i) => (
+                      <Chip
+                        key={i}
+                        textAlign="center"
+                        marginRight={10}
+                        flex={0}
+                        marginVertical={2}
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          marginTop: "1.5%",
+                        }}
+                        textStyle={{
+                          fontSize: 17,
+                          fontWeight: "bold",
+                          fontFamily: "Kollektif",
+                        }}
+                      >
+                        {item.title}
+                      </Chip>
+                    ))}
+                  </View>
+                  <View flexDirection="row" flexWrap="wrap-reverse">
+                    {party?.restaurants[cardIdx]?.price != null && (
+                      <Chip
+                        textAlign="center"
+                        marginRight={10}
+                        flex={0}
+                        marginVertical={2}
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          marginTop: "1.5%",
+                        }}
+                        textStyle={{
+                          fontSize: 17,
+                          fontWeight: "bold",
+                          fontFamily: "Kollektif",
+                        }}
+                      >
+                        {party?.restaurants[cardIdx]?.price}
+                      </Chip>
+                    )}
+                  </View>
+                </View>
+              </BottomSheetScrollView>
+            </BottomSheet>
+          </>
+        )}
+        {!hasLoaded && (
           <Swiper
             marginTop={80}
             marginBottom={Dimensions.get("screen").height < 700 ? 5 : 70}
@@ -139,21 +373,22 @@ const Swiping = ({ navigation, route, data }) => {
             verticalSwipe={true}
             disableTopSwipe
             disableBottomSwipe
-            useViewOverflow={false}
-            keyExtractor={(item) => item.id}
-            onSwipedLeft={(idx) => handleNo(party.restaurants[idx])}
-            onSwipedRight={(idx) => handleYes(party.restaurants[idx])}
-            onSwipedTop={(idx) => handleSwipeUp(party.restaurants[idx])}
-            // onSwiped={() => this.onSwiped("general")}
-            // onSwipedLeft={() => this.onSwiped("left")}
-            // onSwipedRight={() => this.onSwiped("right")}
-            // onSwipedTop={() => this.onSwiped("top")}
-            // onSwipedBottom={() => this.onSwiped("bottom")}
-            onTapCard={(idx) => handleTap(party.restaurants[idx])}
-            cards={party.restaurants}
+            // useViewOverflow={false}
+            // keyExtractor={(item) => item.id}
+            // onSwipedLeft={(idx) => handleNo(party.restaurants[idx])}
+            // onSwipedRight={(idx) => handleYes(party.restaurants[idx])}
+            // onSwipedTop={(idx) => handleSwipeUp(party.restaurants[idx])}
+            // // onSwiped={() => this.onSwiped("general")}
+            // // onSwipedLeft={() => this.onSwiped("left")}
+            // // onSwipedRight={() => this.onSwiped("right")}
+            // // onSwipedTop={() => this.onSwiped("top")}
+            // // onSwipedBottom={() => this.onSwiped("bottom")}
+            cards={[{ id: 0 }]}
             // cardIndex={this.state.cardIndex}
             // cardVerticalMargin={80}
-            renderCard={(item) => <RestarauntCard data={item} key={item.id} />}
+            renderCard={(item) => (
+              <LoadingRestarauntCard data={item} key={item.id} />
+            )}
             containerStyle={{
               position: "absolute",
               backgroundColor: "white",
@@ -161,75 +396,19 @@ const Swiping = ({ navigation, route, data }) => {
             }}
             onSwipedAll={() => {
               addPartySelections(selections, true).then(() =>
-                navigation.replace("joinParty/completed", { partyID })
+                navigation.navigate("joinParty/completed", { partyID })
               );
             }}
-            stackSize={party.restaurants.length}
+            stackSize={1}
             // stackAnimationTension={100}
             // stackAnimationFriction={1}
             stackScale={0}
             stackSeparation={0}
-            // stackAnimationTension={10}
-            overlayLabels={{
-              bottom: {
-                title: "BLEAH",
-                style: {
-                  label: {
-                    backgroundColor: "black",
-                    borderColor: "black",
-                    color: "white",
-                    borderWidth: 1,
-                  },
-                  wrapper: {
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  },
-                },
-              },
-              left: {
-                title: "NOPE",
-                style: {
-                  label: {
-                    backgroundColor: "black",
-                    borderColor: "black",
-                    color: "white",
-                    borderWidth: 1,
-                  },
-                  wrapper: {
-                    flexDirection: "column",
-                    alignItems: "flex-end",
-                    justifyContent: "flex-start",
-                    marginTop: 30,
-                    marginLeft: -30,
-                  },
-                },
-              },
-              right: {
-                title: "LIKE",
-                style: {
-                  label: {
-                    backgroundColor: "black",
-                    borderColor: "black",
-                    color: "white",
-                    borderWidth: 1,
-                  },
-                  wrapper: {
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    justifyContent: "flex-start",
-                    marginTop: 30,
-                    marginLeft: 30,
-                  },
-                },
-              },
-            }}
-            animateOverlayLabelsOpacity
-            animateCardOpacity
-          // swipeBackCard
-          >
-            <></>
-          </Swiper>
+            // // stackAnimationTension={10}
+
+            // animateOverlayLabelsOpacity
+            // animateCardOpacity
+          />
         )}
         {/* </View> */}
         {/* {!partyMeta.isLoading && partyMember && (
@@ -259,97 +438,6 @@ const Swiping = ({ navigation, route, data }) => {
               }}
             />
           </View> */}
-        <BottomSheet ref={bottomSheetRef} index={0} snapPoints={snapPoints}>
-          <BottomSheetScrollView style={styles.bottomSheetContainer}>
-            <View
-              style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}
-            >
-              <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
-                Address
-              </Text>
-              <TouchableOpacity onPress={() => Clipboard.setString(party?.restaurants[cardIdx]?.location.address1)}>
-                <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}>
-                  {party?.restaurants[cardIdx]?.location.address1}
-                </Text>
-                <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}>
-                  {party?.restaurants[cardIdx]?.location.city +
-                    ", " +
-                    party?.restaurants[cardIdx]?.location.state +
-                    " " +
-                    party?.restaurants[cardIdx]?.location?.zip_code}
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <Divider />
-            <View
-              style={{ top: 10, left: 22, marginBottom: 22.5, marginTop: 10 }}
-            >
-              <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
-                Phone
-              </Text>
-              <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}>
-                {party?.restaurants[cardIdx]?.display_phone}
-              </Text>
-            </View>
-            <Divider />
-            <View
-              style={{ top: 10, left: 22, marginBottom: 22.5, marginTop: 10 }}
-            >
-              <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
-                Filters
-              </Text>
-              <View
-                flexDirection="row"
-                flexWrap="wrap-reverse"
-                style={{ marginTop: 5 }}
-              >
-                {party?.restaurants[cardIdx]?.categories.map((item, i) => (
-                  <Chip
-                    key={i}
-                    textAlign="center"
-                    marginRight={10}
-                    flex={0}
-                    marginVertical={2}
-                    style={{
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginTop: "1.5%",
-                    }}
-                    textStyle={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      fontFamily: "Kollektif",
-                    }}
-                  >
-                    {item.title}
-                  </Chip>
-                ))}
-              </View>
-              <View flexDirection="row" flexWrap="wrap-reverse">
-                {party?.restaurants[cardIdx]?.price != null && (
-                  <Chip
-                    textAlign="center"
-                    marginRight={10}
-                    flex={0}
-                    marginVertical={2}
-                    style={{
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginTop: "1.5%",
-                    }}
-                    textStyle={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      fontFamily: "Kollektif",
-                    }}
-                  >
-                    {party?.restaurants[cardIdx]?.price}
-                  </Chip>
-                )}
-              </View>
-            </View>
-          </BottomSheetScrollView>
-        </BottomSheet>
       </Provider>
     </SafeAreaView>
   );

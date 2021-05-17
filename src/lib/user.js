@@ -8,10 +8,7 @@ React Hooks
 
 export const useUser = () => {
   const { user: ctxUser } = useContext(AuthContext);
-  console.log(ctxUser.uid);
   const { data, error, update } = useDocument(`Users/${ctxUser.uid}`);
-
-  console.log({ data, error });
 
   return {
     user: data,

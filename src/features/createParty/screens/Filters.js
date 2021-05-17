@@ -21,6 +21,8 @@ const Filters = ({ route, navigation }) => {
   const [restriction, setRestrictions] = useState([]);
   const [price, setPrice] = useState([]);
   const [longName, setName] = useState("");
+  const [currentLat, setCurrentLat] = useState();
+  const [currentLong, setCurrentLong] = useState();
 
   const handleTap = (value) => {
     const exists = filters.find((item) => item == value);
@@ -44,24 +46,24 @@ const Filters = ({ route, navigation }) => {
   const onChange = (event, selectedTime) => {
     const currentDate = selectedTime || time;
     setTime(currentDate);
-    console.log(time);
+    // console.log(time);
   };
 
   Geocoder.init("AIzaSyBudsRFHgcT7lqUV3xQ9oiM0MquRynmGzI", { language: "en" });
   useEffect(() => {
     const main = async () => {
-        const position = await getUserLocation();
-        console.log(position);
-        Geocoder.from(position[0], position[1])
-            .then(json => {
-                var addressComponent = json.results[4].formatted_address;
-                console.log(addressComponent)
-                setName(addressComponent);
-            })
-            .catch(error => console.warn(error))
+      const position = await getUserLocation();
+      console.log(position);
+      Geocoder.from(position[0], position[1])
+        .then((json) => {
+          var addressComponent = json.results[4].formatted_address;
+          console.log(addressComponent);
+          setName(addressComponent);
+        })
+        .catch((error) => console.warn(error));
     };
     main();
-}, []);
+  }, []);
   const { selectedFriends, partyId } = route.params;
 
   const [selectionval, setSelectionVal] = useState("");
@@ -69,67 +71,133 @@ const Filters = ({ route, navigation }) => {
   useEffect(() => {
     if (route.params?.selection) {
       setSelectionVal(route.params?.selection);
-      console.log(selectionval);
+      // console.log(selectionval);
     }
   }, [route.params?.selection]);
 
-  console.log({ partyId });
+  // console.log({ partyId });
 
   const { createParty } = useParty(partyId);
 
+  useEffect(() => {
+    const main = async () => {
+      const position = await getUserLocation();
+      // console.log(position);
+      setCurrentLat(position[0]);
+      setCurrentLong(position[1]);
+      // console.log(currentLat, currentLong);
+      Geocoder.from(currentLat, currentLong)
+        .then((json) => {
+          var addressComponent = json.results[4].formatted_address; // new commen
+          console.log(addressComponent);
+          setName(addressComponent);
+        })
+        .catch((error) => console.warn(error));
+    };
+    main();
+  }, [currentLat, currentLong]);
 
   const startParty = async () => {
     try {
-      if (selectionval === "") {
-        const loc = await getUserLocation();
-        const id = await createParty(selectedFriends, {
-          loc,
-          count,
-          radius,
-          filters,
-          restriction,
-          price,
-          // pricing,
-          time,
-        });
-        navigation.navigate("joinParty", {
-          screen: "joinParty/swiping",
-          params: { partyID: id },
-        });
-      } else {
-        Geocoder.from(selectionval)
-          .then((json) => {
-            var location = json.results[0].geometry.location;
-            var loc = [location.lat, location.lng];
-            return createParty(selectedFriends, {
-              loc,
-              count,
-              radius,
+      navigation.navigate("joinParty", {
+        screen: "joinParty/swiping",
+        params: { partyID: partyId },
+      });
 
-              filters,
-              restriction,
-              price,
-              time,
-            });
-          })
-          .then((id) =>
-            navigation.replace("joinParty", {
-              screen: "joinParty/swiping",
-              params: { partyID: id },
-            })
-          )
-          .catch((error) =>
-            Alert.alert(
-              "No matches!",
-              "We couldn't find anything that matched your filters. Try again with less restrictive filters"
-            )
-          );
+      // if (selectionval === "") {
+      let loc;
+      if (selectionval.length == 0) {
+        loc = await getUserLocation();
+      } else {
+        const res = await Geocoder.from(selectionval);
+        const data = res.results[0].geometry.location;
+        loc = [data.lat, data.lng];
       }
+      const id = await createParty(selectedFriends, {
+        loc,
+        count,
+        radius,
+        filters,
+        restriction,
+        price,
+        // pricing,
+        time,
+      });
+      // } else {
+      //   Geocoder.from(selectionval)
+      //     .then((json) => {
+      //       var location = json.results[0].geometry.location;
+      //       var loc = [location.lat, location.lng];
+      //       return createParty(selectedFriends, {
+      //         loc,
+      //         count,
+      //         radius,
+
+      //         filters,
+      //         restriction,
+      //         price,
+      //         time,
+      //       });
+      //     })
+      //     .catch(
+      //       (error) =>
+      //         navigation.navigate("joinParty/filters", {
+      //            partyID: partyId, selectedFriends
+      //         })
+      // navigation.replace("joinParty", {
+      //   screen: "joinParty/filters",
+      //   params: { partyID: partyId, selectedFriends },
+      // })
+      // );
+      // Alert.alert(
+      //   "No matches!",
+      //   "We couldn't find anything that matched your filters. Try again with less restrictive filters",
+      //   [
+      //     {
+      //       text: "Ok",
+      //       onPress: () =>
+      //         navigation.replace("joinParty", {
+      //           screen: "joinParty/filters",
+      //           params: { partyID: partyId, selectedFriends },
+      //         }),
+      //     },
+      //   ]
+      // )
+      // );
+      // }
     } catch (err) {
       Alert.alert(
         "No matches!",
-        "We couldn't find anything that matched your filters. Try again with less restrictive filters"
+        "We couldn't find anything that matched your filters. Try again with less restrictive filters",
+        [
+          {
+            text: "Ok",
+            onPress: () =>
+              navigation.navigate("createParty/filters", {
+                partyID: partyId,
+                selectedFriends,
+              }),
+          },
+        ]
       );
+      // navigation.navigate("joinParty/filters", {
+      //   partyID: partyId,
+      //   selectedFriends,
+      // });
+      // Alert.alert(
+      //   "No matches!",
+      //   "We couldn't find anything that matched your filters. Try again with less restrictive filters",
+      //   [
+      //     {
+      //       text: "Ok",
+      //       onPress: () =>
+      //         navigation.replace("joinParty", {
+      //           screen: "joinParty/filters",
+      //           params: { partyID: partyId, selectedFriends },
+      //         }),
+      //     },
+      //   ]
+      // );
       console.error(err);
     }
   };

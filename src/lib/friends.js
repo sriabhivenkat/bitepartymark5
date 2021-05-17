@@ -20,7 +20,6 @@ export const useFriends = () => {
   const [error, setError] = useState();
 
   useEffect(() => {
-    console.log({ user });
     const unsub = firestore()
       .collection("Users")
       .doc(user?.uidvalue)
@@ -47,7 +46,6 @@ Helper Methods
 */
 
 const addFriend = async (user, data) => {
-  console.log({ data });
   const ref = firestore()
     .collection("Users")
     .doc(user?.uidvalue)
