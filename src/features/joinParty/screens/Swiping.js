@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   StatusBar
 } from "react-native";
+import Clipboard from '@react-native-community/clipboard'
 import SwipeCards from "react-native-swipe-cards-deck";
 import LinearGradient from "react-native-linear-gradient";
 import { RestarauntCard } from "components";
@@ -266,16 +267,18 @@ const Swiping = ({ navigation, route, data }) => {
               <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
                 Address
               </Text>
-              <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}>
-                {party?.restaurants[cardIdx]?.location.address1}
-              </Text>
-              <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}>
-                {party?.restaurants[cardIdx]?.location.city +
-                  ", " +
-                  party?.restaurants[cardIdx]?.location.state +
-                  " " +
-                  party?.restaurants[cardIdx]?.location?.zip_code}
-              </Text>
+              <TouchableOpacity onPress={() => Clipboard.setString(party?.restaurants[cardIdx]?.location.address1)}>
+                <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}>
+                  {party?.restaurants[cardIdx]?.location.address1}
+                </Text>
+                <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}>
+                  {party?.restaurants[cardIdx]?.location.city +
+                    ", " +
+                    party?.restaurants[cardIdx]?.location.state +
+                    " " +
+                    party?.restaurants[cardIdx]?.location?.zip_code}
+                </Text>
+              </TouchableOpacity>
             </View>
             <Divider />
             <View

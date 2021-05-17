@@ -2434,6 +2434,11 @@
     "sudo-prompt" "^9.0.0"
     "wcwidth" "^1.0.1"
 
+"@react-native-community/clipboard@^1.5.1":
+  "integrity" "sha512-AHAmrkLEH5UtPaDiRqoULERHh3oNv7Dgs0bTC0hO5Z2GdNokAMPT5w8ci8aMcRemcwbtdHjxChgtjbeA38GBdA=="
+  "resolved" "https://registry.npmjs.org/@react-native-community/clipboard/-/clipboard-1.5.1.tgz"
+  "version" "1.5.1"
+
 "@react-native-community/datetimepicker@^3.4.6":
   "integrity" "sha512-vE9YOL5w/H28YAYpWgT75HRPYP/JjdWyJEyFKfPntXtQC4YHsqueKYWsWydDN4vHVAf220/wEFkuj33gnFFZRA=="
   "resolved" "https://registry.npmjs.org/@react-native-community/datetimepicker/-/datetimepicker-3.4.6.tgz"
@@ -9686,7 +9691,7 @@
   dependencies:
     "side-channel" "^1.0.4"
 
-"query-string@^6.13.6":
+"query-string@^6.1.0", "query-string@^6.13.6":
   "integrity" "sha512-In3o+lUxlgejoVJgwEdYtdxrmlL0cQWJXj0+kkI7RWVo7hg5AhFtybeKlC9Dpgbr8eOC4ydpEh8017WwyfzqVQ=="
   "resolved" "https://registry.npmjs.org/query-string/-/query-string-6.14.0.tgz"
   "version" "6.14.0"
@@ -9882,6 +9887,13 @@
   dependencies:
     "tinycolor2" "^1.4.1"
 
+"react-native-open-maps@^0.3.6":
+  "integrity" "sha512-pP2Mj7h7/Addf46lRNc+hZGA9QW6DjEj0xyeCyPRk9dU49EDDDOL+9QUmSX8SITA2rtfl3wMuOuSgt5YlemeAg=="
+  "resolved" "https://registry.npmjs.org/react-native-open-maps/-/react-native-open-maps-0.3.6.tgz"
+  "version" "0.3.6"
+  dependencies:
+    "query-string" "^6.1.0"
+
 "react-native-paper@^4.5.0":
   "integrity" "sha512-37xJgCcTAELFBvE7+l9xcMW3wh2/dvrOs7TeRLIpnHsjfa+m4h+vvzb8q0YIUJOKtHcJ4cY77NHUr6JMGzNHFw=="
   "resolved" "https://registry.npmjs.org/react-native-paper/-/react-native-paper-4.7.1.tgz"
@@ -10039,7 +10051,7 @@
     "prop-types" "^15.6.0"
     "react-timer-mixin" "^0.13.4"
 
-"react-native@~0.63.4":
+"react-native@>=0.57.0", "react-native@>0.45.0", "react-native@~0.63.4":
   "integrity" "sha512-I4kM8kYO2mWEYUFITMcpRulcy4/jd+j9T6PbIzR0FuMcz/xwd+JwHoLPa1HmCesvR1RDOw9o4D+OFLwuXXfmGw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.63.4.tgz"
   "version" "0.63.4"
@@ -10101,7 +10113,7 @@
   "resolved" "https://registry.npmjs.org/react-timer-mixin/-/react-timer-mixin-0.13.4.tgz"
   "version" "0.13.4"
 
-"react@16.13.1":
+"react@*", "react@>=16.0", "react@16.13.1":
   "integrity" "sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.13.1.tgz"
   "version" "16.13.1"

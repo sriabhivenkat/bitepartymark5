@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Text,
   StatusBar,
+  Linking,
+  Platform
 } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { FlatList, Dimensions } from "react-native";
@@ -26,14 +28,21 @@ const Completed = ({ route, navigation }) => {
   const { partyMembers } = usePartyMembers(partyID);
   const { user } = useUser();
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ["1%", "75%"], []);
+  const snapPoints = useMemo(() => ["1%", "80%"], []);
 
   const { party } = usePartyData(partyID);
+
 
   const currentWinner = party?.winner
     ? party?.winner
     : party?.restaurants &&
       party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
+   
+      // links for opening maps
+  const url = Platform.select({
+    ios: `maps:0,0?q=${currentWinner?.location.display_address}`,
+    android: `geo:0,0?q=${currentWinner?.location.display_address}`,
+  })
 
   return (
     <SafeAreaView backgroundColor="#fff" flex={1}>
@@ -338,6 +347,7 @@ const Completed = ({ route, navigation }) => {
             </Text>
             <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
               {currentWinner?.location.address1}
+              {/* <Text>{JSON.stringify(currentWinner, null, 2)}</Text> */}
             </Text>
             <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
               {currentWinner?.location.city +
@@ -415,6 +425,24 @@ const Completed = ({ route, navigation }) => {
               )}
             </View>
           </View>
+          <Divider />
+            <View alignItems= "center" justifyContent="center">
+                <GradientButton
+                  containerStyle={{
+                    position: "relative",
+                    width: "95%",
+                    top: 15,
+                  }}
+                  innerStyle={{ paddingVertical: 15 }}
+                  textStyle={{ fontSize: 22 }}
+                  onPress={() => {
+                    Linking.openURL(url)
+                  }} 
+                >
+                  Take me here!
+                </GradientButton>
+                
+            </View>
         </BottomSheetScrollView>
       </BottomSheet>
     </SafeAreaView>
