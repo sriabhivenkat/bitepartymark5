@@ -14,8 +14,11 @@ import LinearGradient from "react-native-linear-gradient";
 import { YelpRating } from "./YelpRating";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Modal, Portal, Provider } from "react-native-paper";
+import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
 
-export const RestarauntCard = ({ data, style, compact }) => {
+const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient);
+
+export const LoadingRestarauntCard = ({ data, style, compact }) => {
   const [visible, setVisible] = useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
@@ -41,14 +44,15 @@ export const RestarauntCard = ({ data, style, compact }) => {
           // paddingBottom: 40,
           maxHeight: 650,
           bottom: 50,
-          backgroundColor: "#00000050",
+          backgroundColor: "#00000010",
           // paddingHorizontal: 30,
         },
         style,
       ]}
       // style={[styles.background]}
     >
-      <ImageBackground
+      {/* <ShimmerPlaceHolder height={100} width={50} /> */}
+      <View
         source={{ uri: data?.image_url }}
         style={[
           {
@@ -81,7 +85,7 @@ export const RestarauntCard = ({ data, style, compact }) => {
           locations={[0.4, 1]}
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 1 }}
-          colors={["rgba(0,0,0,0)", "rgba(0,0,0,1)"]}
+          colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.5)"]}
         >
           <View
             style={[styles.textContainer, { top: 40, right: 10 }]}
@@ -92,37 +96,55 @@ export const RestarauntCard = ({ data, style, compact }) => {
               flexWrap="wrap-reverse"
               style={{ alignItems: "flex-start" }}
             >
-              {data?.categories.map((item, i) => (
-                <Chip
-                  key={i}
-                  textAlign="center"
-                  marginRight={10}
-                  flex={0}
-                  marginVertical={2}
-                  style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "1.5%",
-                  }}
-                  textStyle={{
-                    fontSize: 17,
-                    fontWeight: "bold",
-                    fontFamily: "Kollektif",
-                  }}
-                >
-                  {item.title}
-                </Chip>
+              {[100, 110, 90].map((item, i) => (
+                <>
+                  <ShimmerPlaceHolder
+                    key={i}
+                    height={32}
+                    width={item}
+                    style={{
+                      borderRadius: 100,
+                      marginRight: 10,
+                      marginTop: "1.5%",
+                    }}
+                  />
+                </>
               ))}
             </View>
-            <Text h3 style={[styles.text, { marginTop: "2%" }]}>
-              {data?.name}
-            </Text>
-            <View flexDirection="row" marginTop="4%">
-              <YelpRating rating={data?.rating} />
-              <Text
+
+            <ShimmerPlaceHolder
+              height={40}
+              width={300}
+              style={[styles.text, { marginTop: "5%", borderRadius: 60 }]}
+            />
+            <ShimmerPlaceHolder
+              height={40}
+              width={200}
+              style={[styles.text, { marginTop: "1.5%", borderRadius: 60 }]}
+            />
+
+            <View flexDirection="row" marginTop="6%">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <ShimmerPlaceHolder
+                  key={i}
+                  height={18}
+                  width={18}
+                  style={{
+                    marginRight: 5,
+                    borderRadius: 5,
+                    position: "relative",
+                    left: 5,
+                  }}
+                />
+              ))}
+              {/* <Text
                 p
                 style={styles.reviews}
-              >{`${data?.review_count} Reviews`}</Text>
+              >{`${data?.review_count} Reviews`}</Text> */}
+              <ShimmerPlaceHolder
+                style={[styles.reviews, { borderRadius: 20 }]}
+                height={20}
+              />
             </View>
           </View>
           <View
@@ -141,7 +163,7 @@ export const RestarauntCard = ({ data, style, compact }) => {
                 // right: 100,
                 // left: 275,
               }}
-              source={require("assets/images/yelp/logo.png")}
+              //   source={require("assets/images/yelp/logo.png")}
               // backgroundColor="yellow"
             />
           </View>
@@ -149,7 +171,7 @@ export const RestarauntCard = ({ data, style, compact }) => {
             <Ionicons name="chevron-up-outline" color="white" size={35} />
           </View> */}
         </LinearGradient>
-      </ImageBackground>
+      </View>
     </View>
   );
 };
@@ -205,7 +227,7 @@ const styles = StyleSheet.create({
   },
   reviews: {
     fontSize: 20,
-    marginTop: 5,
+    marginTop: 3.5,
     color: "#fff",
     fontFamily: "Kollektif",
     position: "relative",
