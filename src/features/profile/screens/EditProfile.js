@@ -147,14 +147,14 @@ const EditProfile = ({ navigation }) => {
       cropping: true,
     })
       .then((image) => {
-        console.log(image);
+        // console.log(image);
         // setImage(image.path);
         uploadPfp(image.path);
 
         hideModal();
       })
       .catch((e) => {
-        console.log(e);
+        console.error(e);
       });
   };
 
@@ -165,13 +165,13 @@ const EditProfile = ({ navigation }) => {
       cropping: true,
     })
       .then((image) => {
-        console.log(image);
+        // console.log(image);
         // setImage(image.path);
         uploadPfp(image.path);
         hideModal();
       })
       .catch((e) => {
-        console.log(e);
+        console.error(e);
       });
   };
 
@@ -187,7 +187,7 @@ const EditProfile = ({ navigation }) => {
         });
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 

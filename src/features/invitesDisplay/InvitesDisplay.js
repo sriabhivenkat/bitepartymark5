@@ -8,7 +8,6 @@ import {
   Text,
   Button,
   TouchableOpacity,
-
 } from "react-native";
 import {
   TitleText,
@@ -21,13 +20,9 @@ import {
 import { SafeAreaView } from "react-native";
 import { useInvites } from "lib/invites.js";
 import { Card } from "react-native-paper";
-import { useCurrentParty } from "../../lib/invites";
 
 const InvitesDisplay = ({ navigation }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
-  const { currParties } = useCurrentParty();
-  console.log("Current Party is", currParties);
-  console.log(invites);
 
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const pendingInvites = invites?.filter((item) => item.status == "pending");
@@ -61,7 +56,7 @@ const InvitesDisplay = ({ navigation }) => {
   console.log({ acceptedInvites });
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle='dark-content' />
+      <StatusBar barStyle="dark-content" />
       {acceptedInvites?.length != 0 && (
         <View style={{ flexDirection: "row" }}>
           {acceptedInvites?.length > 0 && (
@@ -137,7 +132,7 @@ const InvitesDisplay = ({ navigation }) => {
                     </GradientButton>
                   </View>
                 )}
-                keyExtractor={(item) => item.partyID}
+                keyExtractor={(item) => item.docID}
               />
             </View>
           )}

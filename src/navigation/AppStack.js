@@ -112,8 +112,8 @@ const BottomTabNavigator = () => (
 const AppStack = () => {
   const handleMessage = (message) => {
     if (!message) return;
+
     const { partyId, type } = message.data;
-    console.log({ type });
     switch (type) {
       case "invite":
         RootNavigation.navigate("invites");
