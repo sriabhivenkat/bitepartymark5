@@ -22,6 +22,7 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { DeckSwiper, Block } from "galio-framework";
 import { Alert } from "react-native";
 import { LoadingRestarauntCard } from "../../../components";
+import InAppBrowser from "react-native-inappbrowser-reborn";
 
 const Swiping = ({ navigation, route, data }) => {
   const windowWidth = Dimensions.get("window").width;
@@ -69,9 +70,17 @@ const Swiping = ({ navigation, route, data }) => {
       [item.id]: 0,
     }));
   };
-
+  const openLink = async (url) => {
+    try {
+      await InAppBrowser.open();
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
   const handleTap = (item) => {
-    setVisible(true);
+    console.log(item.url);
+    InAppBrowser.open(item.url);
+    // openLink(item.url);
     // setModalData(item);
     // console.log(modalData);
   };
