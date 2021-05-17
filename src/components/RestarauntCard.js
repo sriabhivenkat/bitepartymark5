@@ -78,7 +78,7 @@ export const RestarauntCard = ({ data, style, compact }) => {
           ]}
           // marginHorizontal={20}
           // marginBottom={15}
-          locations={[0.5]}
+          locations={[0.4, 1]}
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 1 }}
           colors={["rgba(0,0,0,0)", "rgba(0,0,0,1)"]}

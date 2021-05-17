@@ -19,7 +19,7 @@ const theme = {
 async function requestUserPermission() {
   const authorizationStatus = await messaging().requestPermission();
   if (authorizationStatus) {
-    console.log("Permission status:", authorizationStatus);
+    // console.log("Permission status:", authorizationStatus);
   }
 }
 

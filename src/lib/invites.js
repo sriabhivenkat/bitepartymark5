@@ -28,7 +28,6 @@ export const useInvites = () => {
   //   return () => unsubscribe();
   // }, [id]);
   useEffect(() => {
-    console.log({ user });
     const unsub = firestore()
       .collection("Users")
       .doc(user?.uidvalue)
@@ -62,22 +61,6 @@ export const useInvites = () => {
   };
 };
 
-export const useCurrentParty = () => {
-  const { user } = useUser();
-  const { data, error } = useCollection(
-    `Users/${user?.uidvalue}/currentParty`,
-    { shouldRetryOnError: true }
-  );
-
-  return {
-    currParties: data,
-    invitesMeta: {
-      error,
-      isLoading: !error && !data,
-    },
-  };
-};
-
 /*
 Helper Methods
 */
@@ -102,7 +85,6 @@ export const rejectInvite = async (user, invite) => {
 };
 
 export const acceptInvite = async (user, invite) => {
-  console.log({ invite });
   // update my party status
   await firestore()
     .collection("Parties")
@@ -110,7 +92,6 @@ export const acceptInvite = async (user, invite) => {
     .collection("members")
     .doc(user.uidvalue)
     .update({ status: "accepted" });
-  console.log("foo");
 
   // update my invite status
   await firestore()
@@ -121,6 +102,4 @@ export const acceptInvite = async (user, invite) => {
     .update({
       status: "accepted",
     });
-
-  console.log("bar");
 };

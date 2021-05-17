@@ -44,24 +44,24 @@ const Filters = ({ route, navigation }) => {
   const onChange = (event, selectedTime) => {
     const currentDate = selectedTime || time;
     setTime(currentDate);
-    console.log(time);
+    // console.log(time);
   };
 
   Geocoder.init("AIzaSyBudsRFHgcT7lqUV3xQ9oiM0MquRynmGzI", { language: "en" });
   useEffect(() => {
     const main = async () => {
-        const position = await getUserLocation();
-        console.log(position);
-        Geocoder.from(position[0], position[1])
-            .then(json => {
-                var addressComponent = json.results[4].formatted_address;
-                console.log(addressComponent)
-                setName(addressComponent);
-            })
-            .catch(error => console.warn(error))
+      const position = await getUserLocation();
+      console.log(position);
+      Geocoder.from(position[0], position[1])
+        .then((json) => {
+          var addressComponent = json.results[4].formatted_address;
+          console.log(addressComponent);
+          setName(addressComponent);
+        })
+        .catch((error) => console.warn(error));
     };
     main();
-}, []);
+  }, []);
   const { selectedFriends, partyId } = route.params;
 
   const [selectionval, setSelectionVal] = useState("");
@@ -69,17 +69,39 @@ const Filters = ({ route, navigation }) => {
   useEffect(() => {
     if (route.params?.selection) {
       setSelectionVal(route.params?.selection);
-      console.log(selectionval);
+      // console.log(selectionval);
     }
   }, [route.params?.selection]);
 
-  console.log({ partyId });
+  // console.log({ partyId });
 
   const { createParty } = useParty(partyId);
 
+  useEffect(() => {
+    const main = async () => {
+      const position = await getUserLocation();
+      // console.log(position);
+      setCurrentLat(position[0]);
+      setCurrentLong(position[1]);
+      // console.log(currentLat, currentLong);
+      Geocoder.from(currentLat, currentLong)
+        .then((json) => {
+          var addressComponent = json.results[4].formatted_address; // new commen
+          console.log(addressComponent);
+          setName(addressComponent);
+        })
+        .catch((error) => console.warn(error));
+    };
+    main();
+  }, [currentLat, currentLong]);
 
   const startParty = async () => {
     try {
+      navigation.navigate("joinParty", {
+        screen: "joinParty/swiping",
+        params: { partyID: partyId },
+      });
+
       if (selectionval === "") {
         const loc = await getUserLocation();
         const id = await createParty(selectedFriends, {
@@ -91,10 +113,6 @@ const Filters = ({ route, navigation }) => {
           price,
           // pricing,
           time,
-        });
-        navigation.navigate("joinParty", {
-          screen: "joinParty/swiping",
-          params: { partyID: id },
         });
       } else {
         Geocoder.from(selectionval)
@@ -112,12 +130,6 @@ const Filters = ({ route, navigation }) => {
               time,
             });
           })
-          .then((id) =>
-            navigation.replace("joinParty", {
-              screen: "joinParty/swiping",
-              params: { partyID: id },
-            })
-          )
           .catch((error) =>
             Alert.alert(
               "No matches!",

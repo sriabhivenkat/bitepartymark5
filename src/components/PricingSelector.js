@@ -46,7 +46,6 @@ export const PricingSelector = ({ value, onChange }) => {
 
   useEffect(() => onChange(data), [data]);
 
-  console.log(data);
   return (
     <View
       flexDirection="row"
