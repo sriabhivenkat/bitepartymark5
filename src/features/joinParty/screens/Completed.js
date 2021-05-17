@@ -436,7 +436,7 @@ const Completed = ({ route, navigation }) => {
                   innerStyle={{ paddingVertical: 15 }}
                   textStyle={{ fontSize: 22 }}
                   onPress={() => {
-                    Linking.openURL(url)
+                    Linking.openURL(url) //idk comment
                   }} 
                 >
                   Take me here!
