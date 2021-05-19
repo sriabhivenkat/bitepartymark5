@@ -1,6 +1,12 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
 
+dependencies {
+    def appCenterSdkVersion = '4.1.0'
+    implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
+    implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
+}
+
 import com.android.build.OutputFile
 
 /**
@@ -84,6 +90,7 @@ project.ext.react = [
 
 apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 apply from: "../../node_modules/expo-constants/scripts/get-app-config-android.gradle"
 apply from: "../../node_modules/expo-updates/scripts/create-manifest-android.gradle"
 
