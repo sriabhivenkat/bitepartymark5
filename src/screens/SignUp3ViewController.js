@@ -43,7 +43,7 @@ const SignUp3ViewController = ({ route, navigation }) => {
                 <Text style={{ marginTop: 30, left: 15, fontSize: 30, fontFamily: "Kollektif" }}>Last Name</Text>
                 <View style={{ alignItems: "center" }}>
                     <Input
-                        placeholder="Password"
+                        placeholder="Last Name"
                         placeholderTextColor="gray"
 
                         onChangeText={(last) => setLast(last)}
