@@ -23,6 +23,7 @@ import { DeckSwiper, Block } from "galio-framework";
 import { Alert } from "react-native";
 import { LoadingRestarauntCard } from "../../../components";
 import InAppBrowser from "react-native-inappbrowser-reborn";
+import { Platform } from "react-native";
 
 const Swiping = ({ navigation, route, data }) => {
   const windowWidth = Dimensions.get("window").width;
@@ -457,7 +458,7 @@ export default Swiping;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: Platform.OS == "android" ? 0 : 20,
     backgroundColor: "white",
     // paddingBottom: 60,
     // paddingVertical: 15,

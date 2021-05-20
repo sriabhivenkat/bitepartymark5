@@ -8,7 +8,7 @@ import {
   Text,
   StatusBar,
   Linking,
-  Platform
+  Platform,
 } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { FlatList, Dimensions } from "react-native";
@@ -32,17 +32,16 @@ const Completed = ({ route, navigation }) => {
 
   const { party } = usePartyData(partyID);
 
-
   const currentWinner = party?.winner
     ? party?.winner
     : party?.restaurants &&
       party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
-   
-      // links for opening maps
+
+  // links for opening maps
   const url = Platform.select({
     ios: `maps:0,0?q=${currentWinner?.location.display_address}`,
     android: `geo:0,0?q=${currentWinner?.location.display_address}`,
-  })
+  });
 
   return (
     <SafeAreaView backgroundColor="#fff" flex={1}>
@@ -264,7 +263,7 @@ const Completed = ({ route, navigation }) => {
                 keyExtractor={(item) => item.docId}
               />
             </ScrollView>
-            <LinearGradient
+            {/* <LinearGradient
               style={{
                 position: "absolute",
                 bottom: 0,
@@ -273,7 +272,7 @@ const Completed = ({ route, navigation }) => {
               }}
               colors={["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 1)"]}
               pointerEvents={"none"}
-            />
+            /> */}
           </>
         )}
       </View>
@@ -338,7 +337,6 @@ const Completed = ({ route, navigation }) => {
         snapPoints={snapPoints}
         enableHandlePanningGesture={false}
         handleComponent={null}
-        // handleHeight={0}
       >
         <BottomSheetScrollView style={styles.bottomSheetContainer}>
           <View style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}>
@@ -426,23 +424,22 @@ const Completed = ({ route, navigation }) => {
             </View>
           </View>
           <Divider />
-            <View alignItems= "center" justifyContent="center">
-                <GradientButton
-                  containerStyle={{
-                    position: "relative",
-                    width: "95%",
-                    top: 15,
-                  }}
-                  innerStyle={{ paddingVertical: 15 }}
-                  textStyle={{ fontSize: 22 }}
-                  onPress={() => {
-                    Linking.openURL(url) //idk comment
-                  }} 
-                >
-                  Take me here!
-                </GradientButton>
-                
-            </View>
+          <View alignItems="center" justifyContent="center">
+            <GradientButton
+              containerStyle={{
+                position: "relative",
+                width: "95%",
+                top: 15,
+              }}
+              innerStyle={{ paddingVertical: 15 }}
+              textStyle={{ fontSize: 22 }}
+              onPress={() => {
+                Linking.openURL(url); //idk comme
+              }}
+            >
+              Take me here!
+            </GradientButton>
+          </View>
         </BottomSheetScrollView>
       </BottomSheet>
     </SafeAreaView>

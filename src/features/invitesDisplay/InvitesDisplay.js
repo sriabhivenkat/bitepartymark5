@@ -86,7 +86,7 @@ const InvitesDisplay = ({ navigation }) => {
               <FlatList
                 data={acceptedInvites}
                 style={{ paddingTop: 5 }}
-                scrollEnabled="false"
+                scrollEnabled={false}
                 snapToInterval={Dimensions.get("window").width}
                 indicatorStyle="black"
                 decelerationRate="fast"

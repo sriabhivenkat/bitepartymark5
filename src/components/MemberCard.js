@@ -36,14 +36,14 @@ export const MemberCard = ({ onPress, data, selected, status, ...rest }) => {
           styles.card,
           { maxHeight: 250, marginBottom: 15 },
           selected && {
-            backgroundColor: "#00000010",
+            backgroundColor: "#e0e0e0",
           },
         ]}
         elevation={1}
         onPress={onPress}
         accessible={false}
       >
-        <Card.Content style={styles.innerCard}>
+        <Card.Content style={[styles.innerCard]}>
           <View
             style={{
               flexDirection: "row",
