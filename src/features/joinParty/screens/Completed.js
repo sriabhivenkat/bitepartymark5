@@ -8,7 +8,7 @@ import {
   Text,
   StatusBar,
   Linking,
-  Platform
+  Platform,
 } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { FlatList, Dimensions } from "react-native";
@@ -21,14 +21,13 @@ import { ImageBackground } from "react-native";
 import { GradientButton, PartyCard, RestarauntCard } from "../../../components";
 import LinearGradient from "react-native-linear-gradient";
 import { Alert } from "react-native";
-import { Rating, AirbnbRating } from 'react-native-ratings';
-import { Icon } from 'react-native-elements'
-import InAppReview, { RequestInAppReview } from 'react-native-in-app-review';
-import uuid from 'react-native-uuid';
+import { Rating, AirbnbRating } from "react-native-ratings";
+import { Icon } from "react-native-elements";
+import InAppReview, { RequestInAppReview } from "react-native-in-app-review";
+import uuid from "react-native-uuid";
 import ImagePicker from "react-native-image-crop-picker";
 
-
-import firestore, { firebase } from "@react-native-firebase/firestore"
+import firestore, { firebase } from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
 import CustomRate from "components/CustomRate";
 import PricingSelector from "components/PricingSelector";
@@ -45,7 +44,7 @@ const Completed = ({ route, navigation }) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modal2Visible, setModal2Visible] = useState(false);
-  const [ratingVal, setRatingVal] = useState()
+  const [rating, setRating] = useState();
 
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
@@ -53,52 +52,45 @@ const Completed = ({ route, navigation }) => {
   const show2Modal = () => setModal2Visible(true);
   const hide2Modal = () => setModal2Visible(false);
 
-  const starImg = require("assets/images/StarImage.png")
+  const starImg = require("assets/images/StarImage.png");
   const currentWinner = party?.winner
     ? party?.winner
     : party?.restaurants &&
-    party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
+      party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
 
   // links for opening maps
   const url = Platform.select({
     ios: `maps:0,0?q=${currentWinner?.location.display_address}`,
     android: `geo:0,0?q=${currentWinner?.location.display_address}`,
-  })
+  });
 
   handleClick = () => {
-
     InAppReview.isAvailable();
 
     // trigger UI InAppreview
-    InAppReview.RequestInAppReview()
-      .then((hasFlowFinishedSuccessfully) => {
-        // when return true in android it means user finished or close review flow
-        console.log('InAppReview in android', hasFlowFinishedSuccessfully);
+    InAppReview.RequestInAppReview().then((hasFlowFinishedSuccessfully) => {
+      // when return true in android it means user finished or close review flow
+      console.log("InAppReview in android", hasFlowFinishedSuccessfully);
 
-        // when return true in ios it means review flow lanuched to user.
-        console.log(
-          'InAppReview in ios has lanuched successfully',
-          hasFlowFinishedSuccessfully,
-        );
+      // when return true in ios it means review flow lanuched to user.
+      console.log(
+        "InAppReview in ios has lanuched successfully",
+        hasFlowFinishedSuccessfully
+      );
 
-        // 1- you have option to do something ex: (navigate Home page) (in android).
-        // 2- you have option to do something,
-        // ex: (save date today to lanuch InAppReview after 15 days) (in android and ios).
+      // 1- you have option to do something ex: (navigate Home page) (in android).
+      // 2- you have option to do something,
+      // ex: (save date today to lanuch InAppReview after 15 days) (in android and ios).
 
-        // 3- another option:
-        if (hasFlowFinishedSuccessfully) {
-          // do something for ios
-          // do something for android
-          setModalVisible(false)
-          setModal2Visible(true)
-        }
-      })
-  }
-
-
-
-
-
+      // 3- another option:
+      if (hasFlowFinishedSuccessfully) {
+        // do something for ios
+        // do something for android
+        setModalVisible(false);
+        setModal2Visible(true);
+      }
+    });
+  };
 
   const openCamera = () => {
     ImagePicker.openCamera({
@@ -115,7 +107,6 @@ const Completed = ({ route, navigation }) => {
           "Submit another?",
           "If the menu has multiple pages, please submit them individually",
 
-
           [
             {
               text: "Nope!",
@@ -124,14 +115,10 @@ const Completed = ({ route, navigation }) => {
             },
             {
               text: "Yes!",
-              onPress: () =>
-                openCamera()
-
-            }]
-        )
-
-
-
+              onPress: () => openCamera(),
+            },
+          ]
+        );
       })
       .catch((e) => {
         console.error(e);
@@ -150,43 +137,33 @@ const Completed = ({ route, navigation }) => {
         //   imageUrl: url,
         // });
 
-        firestore().collection("Menu Images").doc(currentWinner?.location.address1).set(
-
-          {
+        firestore()
+          .collection("Menu Images")
+          .doc(currentWinner?.location.address1)
+          .set({
             restaurantName: currentWinner?.name,
             address: currentWinner?.location.address1,
             zip: currentWinner?.location.zip_code,
-          }
+          });
 
-        )
-
-        firestore().collection("Menu Images").doc(currentWinner?.location.address1).collection('Menu').doc().set(
-
-          {
-            imageUrl: url
-
-          }
-
-        )
-
-
-
+        firestore()
+          .collection("Menu Images")
+          .doc(currentWinner?.location.address1)
+          .collection("Menu")
+          .doc()
+          .set({
+            imageUrl: url,
+          });
       });
     } catch (e) {
       console.error(e);
     }
   };
 
-
-
-
   return (
     <SafeAreaView backgroundColor="#fff" flex={1}>
       <StatusBar barStyle="dark-content" />
       <View flex={1}>
-
-
-
         {party && !party?.winner && (
           <View>
             <ImageBackground
@@ -235,11 +212,11 @@ const Completed = ({ route, navigation }) => {
                   ]}
                 >
                   is currently in the lead!
-              </Text>
+                </Text>
               </View>
               <GradientButton onPress={() => bottomSheetRef.current.expand()}>
                 View Restaurant Details
-            </GradientButton>
+              </GradientButton>
             </ImageBackground>
           </View>
         )}
@@ -268,7 +245,6 @@ const Completed = ({ route, navigation }) => {
                 Restaraunt Chosen
               </SubtitleText> */}
 
-
                 <TitleText
                   style={{
                     marginTop: 10,
@@ -278,11 +254,10 @@ const Completed = ({ route, navigation }) => {
                   }}
                 >
                   Restaurant Chosen!
-              </TitleText>
+                </TitleText>
                 {/* <View backgroundColor="#00000050" height={1} marginBottom={15} /> */}
               </View>
               <View flex={1} marginTop={25} position="relative" top={30}>
-
                 <RestarauntCard
                   style={{ flexShrink: 0 }}
                   data={currentWinner}
@@ -300,71 +275,89 @@ const Completed = ({ route, navigation }) => {
                 onPress={() => bottomSheetRef.current.expand()}
               >
                 View Restaurant Details
-            </GradientButton>
+              </GradientButton>
 
-
-              <Modal style={{ padding: 30 }} visible={modalVisible} onDismiss={hideModal}>
-                <View style={{ backgroundColor: 'white', alignItems: 'center', borderRadius: 15 }}>
-                  <Text style={{ fontWeight: '600', fontSize: 20 }}>
+              <Modal
+                style={{ padding: 30 }}
+                visible={modalVisible}
+                onDismiss={hideModal}
+              >
+                <View
+                  style={{
+                    backgroundColor: "white",
+                    alignItems: "center",
+                    borderRadius: 15,
+                  }}
+                >
+                  <Text style={{ fontWeight: "600", fontSize: 20 }}>
                     Rate your party!
-</Text>
-                  <Rating
-                    type='custom'
+                  </Text>
+                  {/* <Rating
+                    type="custom"
                     ratingImage={starImg}
                     ratingCount={5}
                     imageSize={50}
                     onFinishRating={setRatingVal}
-                    ratingColor='#F76F6D'
-                    startingValue='0'
-                    jumpValue='1'
-
+                    ratingColor="#F76F6D"
+                    startingValue="0"
+                    jumpValue="1"
                   />
-                  <AirbnbRating selectedColor='#F76F6D' reviewColor='#F76F6D' starImage={starImg} starContainerStyle={{}}>
+                  <AirbnbRating
+                    selectedColor="#F76F6D"
+                    reviewColor="#F76F6D"
+                    starImage={starImg}
+                    starContainerStyle={{}}
+                  ></AirbnbRating> */}
 
-                  </AirbnbRating>
-
-                  <CustomRate />
-
-
-
-
-
+                  <CustomRate rating={rating} setRating={setRating} />
                 </View>
-                <GradientButton style={{ paddingTop: 20 }} onPress={() => handleClick()}>
-                  <Text>
-                    Submit
-                  </Text>
-                </GradientButton>
+                {/* <GradientButton
+                  style={{ paddingTop: 20 }}
+                  onPress={() => handleClick()}
+                >
+                  <Text>Submit</Text>
+                </GradientButton> */}
               </Modal>
 
-
-              <Modal style={{ padding: 30 }} visible={modal2Visible} onDismiss={hide2Modal}>
-                <View style={{ backgroundColor: 'white', alignItems: 'center', borderRadius: 15, }}>
-                  <Text style={{ fontWeight: '600', fontSize: 15 }}>
+              <Modal
+                style={{ padding: 30 }}
+                visible={modal2Visible}
+                onDismiss={hide2Modal}
+              >
+                <View
+                  style={{
+                    backgroundColor: "white",
+                    alignItems: "center",
+                    borderRadius: 15,
+                  }}
+                >
+                  <Text style={{ fontWeight: "600", fontSize: 15 }}>
                     Would you like to submit a photo of the menu?
-                </Text>
-                  <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => openCamera()}>
-                    <Ionicons name='camera' size={80} />
+                  </Text>
+                  <TouchableOpacity
+                    style={{ alignItems: "center" }}
+                    onPress={() => openCamera()}
+                  >
+                    <Ionicons name="camera" size={80} />
                     <Text>Add Image of Menu</Text>
                   </TouchableOpacity>
                 </View>
-                <GradientButton style={{ paddingTop: 20 }} onPress={() =>
-                  endParty()
-                    .then(
-                      navigation.reset({
-                        index: 0,
-                        routes: [{ name: "home" }],
-                      })
-                    )
-                    .catch((err) => console.error(err))
-                }
+                <GradientButton
+                  style={{ paddingTop: 20 }}
+                  onPress={() =>
+                    endParty()
+                      .then(
+                        navigation.reset({
+                          index: 0,
+                          routes: [{ name: "home" }],
+                        })
+                      )
+                      .catch((err) => console.error(err))
+                  }
                 >
                   Leave Party
-                  </GradientButton>
+                </GradientButton>
               </Modal>
-
-
-
             </>
           )}
           {party &&
@@ -383,12 +376,10 @@ const Completed = ({ route, navigation }) => {
                   innerStyle={{ paddingVertical: 15 }}
                   textStyle={{ fontSize: 22 }}
                   outline
-                  onPress={() =>
-                    showModal()
-                  }
+                  onPress={() => showModal()}
                 >
                   Next
-              </GradientButton>
+                </GradientButton>
               </View>
             )}
           {party &&
@@ -397,7 +388,6 @@ const Completed = ({ route, navigation }) => {
             user &&
             user.uidvalue != party.admin && (
               <View alignItems="center">
-
                 <GradientButton
                   // containerStyle={{ maxWidth: 200, marginBottom: 10 }}
                   containerStyle={{
@@ -408,16 +398,10 @@ const Completed = ({ route, navigation }) => {
                   innerStyle={{ paddingVertical: 15 }}
                   textStyle={{ fontSize: 22 }}
                   outline
-                  onPress={() =>
-                    showModal()
-                  }
+                  onPress={() => showModal()}
                 >
                   Next
-              </GradientButton>
-
-
-
-
+                </GradientButton>
               </View>
             )}
 
@@ -432,7 +416,7 @@ const Completed = ({ route, navigation }) => {
                 }}
               >
                 Party Members
-            </TitleText>
+              </TitleText>
               <View backgroundColor="#00000050" height={1} marginBottom={15} />
 
               <ScrollView>
@@ -469,10 +453,12 @@ const Completed = ({ route, navigation }) => {
             <View alignItems="center">
               <GradientButton
                 containerStyle={{ maxWidth: 200, marginBottom: 10 }}
-                onPress={() => resolveParty().catch((err) => console.error(err))}
+                onPress={() =>
+                  resolveParty().catch((err) => console.error(err))
+                }
               >
                 Pick Winner!
-            </GradientButton>
+              </GradientButton>
             </View>
           )}
 
@@ -511,10 +497,7 @@ const Completed = ({ route, navigation }) => {
                 }
               >
                 Leave Party!
-            </GradientButton>
-
-
-
+              </GradientButton>
             </View>
           )}
         {party && party.winner && <View height={30} />}
@@ -525,13 +508,15 @@ const Completed = ({ route, navigation }) => {
           snapPoints={snapPoints}
           enableHandlePanningGesture={false}
           handleComponent={null}
-        // handleHeight={0}
+          // handleHeight={0}
         >
           <BottomSheetScrollView style={styles.bottomSheetContainer}>
-            <View style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}>
+            <View
+              style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}
+            >
               <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
                 Address
-            </Text>
+              </Text>
               <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
                 {currentWinner?.location.address1}
                 {/* <Text>{JSON.stringify(currentWinner, null, 2)}</Text> */}
@@ -550,7 +535,7 @@ const Completed = ({ route, navigation }) => {
             >
               <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
                 Phone
-            </Text>
+              </Text>
               <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
                 {currentWinner?.display_phone}
               </Text>
@@ -561,7 +546,7 @@ const Completed = ({ route, navigation }) => {
             >
               <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
                 Filters
-            </Text>
+              </Text>
               <View
                 flexDirection="row"
                 flexWrap="wrap-reverse"
@@ -623,12 +608,11 @@ const Completed = ({ route, navigation }) => {
                 innerStyle={{ paddingVertical: 15 }}
                 textStyle={{ fontSize: 22 }}
                 onPress={() => {
-                  Linking.openURL(url) //idk comment
+                  Linking.openURL(url); //idk comment
                 }}
               >
                 Take me here!
-                </GradientButton>
-
+              </GradientButton>
             </View>
           </BottomSheetScrollView>
         </BottomSheet>

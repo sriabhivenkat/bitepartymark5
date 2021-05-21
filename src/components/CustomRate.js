@@ -1,41 +1,49 @@
-import React, { useState } from 'react'
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
+import React, { useState } from "react";
+import { TouchableWithoutFeedback } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+} from "react-native";
 
+export const CustomRate = ({ rating, setRating }) => {
+  const starImgFilled = require("assets/images/StarImage.png");
+  //   const starImgCorner = require("assets/images/logo.png");
 
-export const CustomRate = () => {
+  const vals = [1, 2, 3, 4, 5];
 
-    const [defaultRating, setDefaultRating] = useState(2)
-    const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5])
-
-
-
-    const starImgFilled = require("assets/images/StarImage.png")
-    const starImgCorner = require("assets/images/logo.png")
-
-    return (
-        <View style={{ flex: 1 }}>
-
-            {
-                maxRating.map((item, key) => {
-                    return (
-                        <TouchableOpacity
-                            key={item} onPress={() => setDefaultRating(item)}>
-
-                            <Image source={
-                                item <= defaultRating
-                                    ? { starImgFilled }
-                                    : { starImgCorner }
-
-                            } />
-                        </TouchableOpacity>
-
-
-                    )
-
-                }
-                )}
-        </View>
-    )
-
-}
-export default CustomRate
+  return (
+    <View flexDirection="row">
+      {vals.map((item, key) => (
+        <TouchableWithoutFeedback onPress={() => setRating(item)} key={key}>
+          {item <= rating ? (
+            <Image
+              source={starImgFilled}
+              style={{
+                aspectRatio: 1,
+                height: 40,
+                width: 40,
+                position: "relative",
+                marginHorizontal: 5,
+                // botttom: 10,
+              }}
+            />
+          ) : (
+            <View
+              height={40}
+              aspectRatio={1}
+              backgroundColor="#fff"
+              borderRadius={5}
+              borderWidth={1}
+              marginHorizontal={5}
+            />
+          )}
+        </TouchableWithoutFeedback>
+      ))}
+    </View>
+  );
+};
+export default CustomRate;
