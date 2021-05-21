@@ -23,6 +23,13 @@ import LinearGradient from "react-native-linear-gradient";
 import { Alert } from "react-native";
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { Icon } from 'react-native-elements'
+import InAppReview from 'react-native-in-app-review';
+import uuid from 'react-native-uuid';
+import ImagePicker from "react-native-image-crop-picker";
+
+
+import firestore, { firebase } from "@react-native-firebase/firestore"
+import storage from "@react-native-firebase/storage";
 
 const Completed = ({ route, navigation }) => {
   const { partyID } = route.params;
@@ -44,10 +51,50 @@ const Completed = ({ route, navigation }) => {
   const show2Modal = () => setModal2Visible(true);
   const hide2Modal = () => setModal2Visible(false);
 
+  const starImg = require("assets/images/StarImage.png")
+  const currentWinner = party?.winner
+    ? party?.winner
+    : party?.restaurants &&
+    party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
+
+  // links for opening maps
+  const url = Platform.select({
+    ios: `maps:0,0?q=${currentWinner?.location.display_address}`,
+    android: `geo:0,0?q=${currentWinner?.location.display_address}`,
+  })
+
   handleClick = () => {
-    setModalVisible(false)
-    setModal2Visible(true)
+
+    InAppReview.isAvailable();
+
+    // trigger UI InAppreview
+    InAppReview.RequestInAppReview()
+      .then((hasFlowFinishedSuccessfully) => {
+        // when return true in android it means user finished or close review flow
+        console.log('InAppReview in android', hasFlowFinishedSuccessfully);
+
+        // when return true in ios it means review flow lanuched to user.
+        console.log(
+          'InAppReview in ios has lanuched successfully',
+          hasFlowFinishedSuccessfully,
+        );
+
+        // 1- you have option to do something ex: (navigate Home page) (in android).
+        // 2- you have option to do something,
+        // ex: (save date today to lanuch InAppReview after 15 days) (in android and ios).
+
+        // 3- another option:
+        if (hasFlowFinishedSuccessfully) {
+          // do something for ios
+          // do something for android
+          setModalVisible(false)
+          setModal2Visible(true)
+        }
+      })
   }
+
+
+
 
 
 
@@ -60,8 +107,29 @@ const Completed = ({ route, navigation }) => {
       .then((image) => {
         // console.log(image);
         // setImage(image.path);
-        uploadPfp(image.path);
-        hideModal();
+        uploadMenu(image.path);
+
+        Alert.alert(
+          "Submit another?",
+          "If the menu has multiple pages, please submit them individually",
+
+
+          [
+            {
+              text: "Nope!",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel",
+            },
+            {
+              text: "Yes!",
+              onPress: () =>
+                openCamera()
+
+            }]
+        )
+
+
+
       })
       .catch((e) => {
         console.error(e);
@@ -69,16 +137,38 @@ const Completed = ({ route, navigation }) => {
   };
 
   const uploadMenu = async (imagepath) => {
-    let filename = user.uidvalue;
+    let filename = uuid.v4();
+
     try {
       await storage().ref(filename).putFile(imagepath);
-      const storageRef = firebase.storage().ref(user.uidvalue);
+      const storageRef = firebase.storage().ref(filename);
       storageRef.getDownloadURL().then((url) => {
         // firestore().collection("Users").doc(user.uidvalue).update({
         //   // My Profile
         //   imageUrl: url,
         // });
-        updateUser({ imageUrl: url });
+
+        firestore().collection("Menu Images").doc(currentWinner?.location.address1).set(
+
+          {
+            restaurantName: currentWinner?.name,
+            address: currentWinner?.location.address1,
+            zip: currentWinner?.location.zip_code,
+          }
+
+        )
+
+        firestore().collection("Menu Images").doc(currentWinner?.location.address1).collection('Menu').doc().set(
+
+          {
+            imageUrl: url
+
+          }
+
+        )
+
+
+
       });
     } catch (e) {
       console.error(e);
@@ -86,16 +176,7 @@ const Completed = ({ route, navigation }) => {
   };
 
 
-  const currentWinner = party?.winner
-    ? party?.winner
-    : party?.restaurants &&
-    party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
 
-  // links for opening maps
-  const url = Platform.select({
-    ios: `maps:0,0?q=${currentWinner?.location.display_address}`,
-    android: `geo:0,0?q=${currentWinner?.location.display_address}`,
-  })
 
   return (
     <SafeAreaView backgroundColor="#fff" flex={1}>
@@ -206,19 +287,39 @@ const Completed = ({ route, navigation }) => {
                   compact
                 />
               </View>
+
+              <GradientButton
+                containerStyle={{
+                  position: "relative",
+                  top: -5,
+                }}
+                innerStyle={{ paddingVertical: 15 }}
+                textStyle={{ fontSize: 22 }}
+                onPress={() => bottomSheetRef.current.expand()}
+              >
+                View Restaurant Details
+            </GradientButton>
+
+
               <Modal style={{ padding: 30 }} visible={modalVisible} onDismiss={hideModal}>
                 <View style={{ backgroundColor: 'white', alignItems: 'center', borderRadius: 15 }}>
                   <Text style={{ fontWeight: '600', fontSize: 20 }}>
                     Rate your party!
 </Text>
-                  <Rating
+                  {/* <Rating
                     type='custom'
+
                     ratingCount={5}
                     imageSize={50}
                     onFinishRating={setRatingVal}
                     ratingColor='#F76F6D'
                     startingValue='0'
-                  />
+                    jumpValue='1'
+                    
+                  /> */}
+                  <AirbnbRating selectedColor='#F76F6D' reviewColor='#F76F6D'>
+
+                  </AirbnbRating>
                 </View>
                 <GradientButton style={{ paddingTop: 20 }} onPress={() => handleClick()}>
                   <Text>
@@ -233,27 +334,28 @@ const Completed = ({ route, navigation }) => {
                   <Text style={{ fontWeight: '600', fontSize: 15 }}>
                     Would you like to submit a photo of the menu?
                 </Text>
-                  <TouchableOpacity style={{ alignItems: 'center' }}>
+                  <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => openCamera()}>
                     <Ionicons name='camera' size={80} />
                     <Text>Add Image of Menu</Text>
                   </TouchableOpacity>
                 </View>
-                <GradientButton style={{ paddingTop: 20 }}>
-                  End Party
+                <GradientButton style={{ paddingTop: 20 }} onPress={() =>
+                  endParty()
+                    .then(
+                      navigation.reset({
+                        index: 0,
+                        routes: [{ name: "home" }],
+                      })
+                    )
+                    .catch((err) => console.error(err))
+                }
+                >
+                  Leave Party
                   </GradientButton>
               </Modal>
 
-              <GradientButton
-                containerStyle={{
-                  position: "relative",
-                  top: -5,
-                }}
-                innerStyle={{ paddingVertical: 15 }}
-                textStyle={{ fontSize: 22 }}
-                onPress={() => bottomSheetRef.current.expand()}
-              >
-                View Restaurant Details
-            </GradientButton>
+
+
             </>
           )}
           {party &&
@@ -273,17 +375,10 @@ const Completed = ({ route, navigation }) => {
                   textStyle={{ fontSize: 22 }}
                   outline
                   onPress={() =>
-                    endParty()
-                      .then(
-                        navigation.reset({
-                          index: 0,
-                          routes: [{ name: "home" }],
-                        })
-                      )
-                      .catch((err) => console.error(err))
+                    showModal()
                   }
                 >
-                  End Party
+                  Next
               </GradientButton>
               </View>
             )}
