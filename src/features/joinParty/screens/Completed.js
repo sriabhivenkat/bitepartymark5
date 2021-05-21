@@ -14,15 +14,19 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { FlatList, Dimensions } from "react-native";
 import MemberCard from "components/MemberCard";
 import { Divider, Chip, Modal } from "react-native-paper";
-import { usePartyData, usePartyMembers, useParty, useUser } from "lib";
+import {
+  usePartyData,
+  usePartyMembers,
+  useParty,
+  useUser,
+  useAsyncStorage,
+} from "lib";
 import { TitleText, SubtitleText } from "components";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { ImageBackground } from "react-native";
 import { GradientButton, PartyCard, RestarauntCard } from "../../../components";
 import LinearGradient from "react-native-linear-gradient";
 import { Alert } from "react-native";
-import { Rating, AirbnbRating } from "react-native-ratings";
-import { Icon } from "react-native-elements";
 import InAppReview, { RequestInAppReview } from "react-native-in-app-review";
 import uuid from "react-native-uuid";
 import ImagePicker from "react-native-image-crop-picker";
@@ -30,7 +34,6 @@ import ImagePicker from "react-native-image-crop-picker";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
 import CustomRate from "components/CustomRate";
-import PricingSelector from "components/PricingSelector";
 
 const Completed = ({ route, navigation }) => {
   const { partyID } = route.params;
@@ -44,7 +47,12 @@ const Completed = ({ route, navigation }) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modal2Visible, setModal2Visible] = useState(false);
-  const [rating, setRating] = useState();
+  const [rating, setRating] = useState(1);
+
+  const [ratingHistory, setRatingHistory] = useAsyncStorage("ratingHistory", {
+    count: 0,
+    total: 0,
+  });
 
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
@@ -52,7 +60,6 @@ const Completed = ({ route, navigation }) => {
   const show2Modal = () => setModal2Visible(true);
   const hide2Modal = () => setModal2Visible(false);
 
-  const starImg = require("assets/images/StarImage.png");
   const currentWinner = party?.winner
     ? party?.winner
     : party?.restaurants &&
@@ -64,7 +71,18 @@ const Completed = ({ route, navigation }) => {
     android: `geo:0,0?q=${currentWinner?.location.display_address}`,
   });
 
-  handleClick = () => {
+  const handleClick = () => {
+    console.log({ ratingHistory });
+
+    if (ratingHistory.count == 4 && ratingHistory.total >= 4 * 3) {
+      return; // don't run the rest of the function
+    } else {
+      setRatingHistory((old) => ({
+        total: old.total + rating,
+        count: old.total + 1,
+      }));
+    }
+
     InAppReview.isAvailable();
 
     // trigger UI InAppreview
@@ -288,6 +306,7 @@ const Completed = ({ route, navigation }) => {
                     alignItems: "center",
                     borderRadius: 15,
                   }}
+                  padding={20}
                 >
                   <Text style={{ fontWeight: "600", fontSize: 20 }}>
                     Rate your party!
@@ -310,13 +329,13 @@ const Completed = ({ route, navigation }) => {
                   ></AirbnbRating> */}
 
                   <CustomRate rating={rating} setRating={setRating} />
+                  <GradientButton
+                    containerStyle={{ marginTop: 20 }}
+                    onPress={() => handleClick()}
+                  >
+                    <Text>Submit</Text>
+                  </GradientButton>
                 </View>
-                {/* <GradientButton
-                  style={{ paddingTop: 20 }}
-                  onPress={() => handleClick()}
-                >
-                  <Text>Submit</Text>
-                </GradientButton> */}
               </Modal>
 
               <Modal
