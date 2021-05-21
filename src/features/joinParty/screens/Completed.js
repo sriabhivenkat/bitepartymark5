@@ -338,7 +338,7 @@ const Completed = ({ route, navigation }) => {
         enableHandlePanningGesture={false}
         handleComponent={null}
       >
-        <BottomSheetScrollView style={styles.bottomSheetContainer}>
+        <BottomSheetScrollView>
           <View style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}>
             <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
               Address
@@ -424,11 +424,11 @@ const Completed = ({ route, navigation }) => {
             </View>
           </View>
           <Divider />
-          <View alignItems="center" justifyContent="center">
+          <View paddingHorizontal={20} height={80}>
             <GradientButton
               containerStyle={{
                 position: "relative",
-                width: "95%",
+                // width: "95%",
                 top: 15,
               }}
               innerStyle={{ paddingVertical: 15 }}

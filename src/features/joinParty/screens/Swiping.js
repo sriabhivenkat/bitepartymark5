@@ -149,7 +149,12 @@ const Swiping = ({ navigation, route, data }) => {
             </Portal>
             <Swiper
               marginTop={80}
-              marginBottom={Dimensions.get("screen").height < 700 ? 5 : 70}
+              marginBottom={
+                Dimensions.get("screen").height < 700 ||
+                Platform.OS == "android"
+                  ? 5
+                  : 70
+              }
               // cardVerticalMargin={0}
               // onSwipedAll={handleComplete}
               verticalSwipe={false}
@@ -377,7 +382,11 @@ const Swiping = ({ navigation, route, data }) => {
         {!hasLoaded && (
           <Swiper
             marginTop={80}
-            marginBottom={Dimensions.get("screen").height < 700 ? 5 : 70}
+            marginBottom={
+              Dimensions.get("screen").height < 700 || Platform.OS == "android"
+                ? 5
+                : 70
+            }
             // cardVerticalMargin={0}
             // onSwipedAll={handleComplete}
             verticalSwipe={true}
