@@ -74,7 +74,11 @@ const Completed = ({ route, navigation }) => {
   const handleClick = () => {
     console.log({ ratingHistory });
 
-    if (ratingHistory.count == 4 && ratingHistory.total >= 4 * 3) {
+    const shouldRate = ratingHistory.count == 4 && ratingHistory.total >= 4 * 3;
+
+    if (!shouldRate) {
+      setModalVisible(false);
+      setModal2Visible(true);
       return; // don't run the rest of the function
     } else {
       setRatingHistory((old) => ({
