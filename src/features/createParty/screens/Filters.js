@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Dimensions, StatusBar } from "react-native";
-import { Divider, Switch, List, ToggleButton } from "react-native-paper";
+import { View, StyleSheet, Dimensions, StatusBar, Image } from "react-native";
+import { Divider, Switch, List, ToggleButton, Chip } from "react-native-paper";
 import { Text } from "galio-framework";
 import { Slider } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
@@ -12,6 +12,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { GradientButton } from "components/GradientButton.js";
 import { Alert } from "react-native";
 import { PricingSelector, TitleText } from "../../../components";
+import Icon from 'react-native-vector-icons/Ionicons'
 
 const Filters = ({ route, navigation }) => {
   const [radius, setRadius] = useState(5);
@@ -78,7 +79,9 @@ const Filters = ({ route, navigation }) => {
   // console.log({ partyId });
 
   const { createParty } = useParty(partyId);
-
+  useEffect(() => {
+    console.log("data for selected friends is: ",selectedFriends)
+  }, [])
   useEffect(() => {
     const main = async () => {
       const position = await getUserLocation();
@@ -88,7 +91,7 @@ const Filters = ({ route, navigation }) => {
       // console.log(currentLat, currentLong);
       Geocoder.from(currentLat, currentLong)
         .then((json) => {
-          var addressComponent = json.results[3].formatted_address; // new commen
+          var addressComponent = json.results[5].formatted_address; // new commen
           console.log(addressComponent);
           setName(addressComponent);
         })
@@ -205,9 +208,29 @@ const Filters = ({ route, navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View paddingHorizontal={20}>
-        <TitleText>Filters</TitleText>
+      <View paddingHorizontal={20} alignItems="center">
+        <TitleText fontSize={21}>Filters</TitleText>
       </View>
+      <View display="flex" flexDirection="column" marginTop={-20}>
+        <SectionLabel label="Party with:" />
+        <View flexDirection="row" flexWrap="wrap-reverse" marginBottom={10} marginTop={10}>
+        {selectedFriends.map((item) => (
+          <Chip 
+            avatar={
+              <Image 
+                source={{uri: item?.imageUrlPath}} 
+                style={{height: 35, width: 35, borderRadius: 25, right: 2.5, borderColor: "black", borderWidth: 1, marginLeft: 3}}/>
+              }
+            style={{width: 125, left: 40, height: 50, alignItems: "center", marginRight: 4, marginVertical: 2.5}}
+            textStyle={{fontFamily: "Kollektif", fontSize: 15}}
+            mode="outlined"
+          >
+            {item?.firstName}
+          </Chip>
+        ))}
+        </View>
+      </View>
+      <Divider />
       <View display="flex" flexDirection="column" justifyContent="center">
         <SectionLabel label="Price" />
         <PricingSelector value={price} onChange={(val) => setPrice(val)} />
@@ -217,55 +240,35 @@ const Filters = ({ route, navigation }) => {
         <SectionLabel label="Location" />
         {selectionval === "" && ( //what
           <View style={{ alignItems: "center" }}>
-            <Text
-              style={{
-                marginTop: "3%",
-                fontSize: 19,
-                fontFamily: "Kollektif",
-              }}
-            >
-              Search in {longName}
-              {/* Current Location */}
-            </Text>
-            <Text style={{ top: 3, fontFamily: "Kollektif", fontSize: 17 }}>
-              or
-            </Text>
             <GradientButton
-              style={{ minWidth: 30, marginVertical: 10, width: "80%" }}
+              style={{ minWidth: 30, marginVertical: 10, width: "80%", alignItems: "flex-start", height: 34 }}
+              textStyle={{textAlign: "left", flex: 1, marginLeft: 10,}}
+              containerStyle={{height: 50}}
+              // containerStyle={{justifyContent: ""}}
+              outline
               onPress={() => {
                 navigation.navigate("createParty/filters/changeLocation");
               }}
             >
-              Change my location!
+              <Icon name="location-outline" size={20}/>
+              {longName}
             </GradientButton>
           </View>
         )}
         {selectionval != "" && (
           <View style={{ alignItems: "center", marginTop: 10 }}>
-            <Text
-              style={{
-                fontFamily: "Kollektif",
-                fontSize: 20,
-              }}
-            >
-              Find restaurants in
-            </Text>
-            <Text
-              p
-              style={{
-                fontFamily: "Kollektif",
-                paddingVertical: 5,
-              }}
-            >
-              {selectionval}
-            </Text>
             <GradientButton
-              style={{ minWidth: 30, marginVertical: 10, width: "80%" }}
+              style={{ minWidth: 30, marginVertical: 10, width: "80%", alignItems: "flex-start", height: 34 }}
+              textStyle={{textAlign: "left", flex: 1, marginLeft: 10,}}
+              containerStyle={{height: 50}}
+              // containerStyle={{justifyContent: ""}}
+              outline
               onPress={() => {
                 navigation.navigate("createParty/filters/changeLocation");
               }}
             >
-              Change my location!
+              <Icon name="location-outline" size={20}/>
+              {selectionval}
             </GradientButton>
           </View>
         )}

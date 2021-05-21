@@ -40,6 +40,7 @@ const ChangeLocation = ({ route, navigation }) => {
           // console.log(addressComponent)
           setName(addressComponent);
           setFullName(fullAddress);
+          console.log(addressComponent)
         })
         .catch((error) => console.warn(error));
     };

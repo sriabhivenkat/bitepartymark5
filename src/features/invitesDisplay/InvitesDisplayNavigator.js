@@ -10,16 +10,43 @@ const Stack = createStackNavigator();
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
+
+
 export default () => (
-  <Stack.Navigator>
-    <Stack.Screen
-      name="invitesDisplay"
-      component={InvitesDisplay}
-      options={{
-        title: "Invites",
-        headerShown: true,
-        ...logoHeaderOptions,
-      }}
-    />
+  <Stack.Navigator
+    screenOptions={{headerShown: "false"}}
+  >
+    {windowHeight === 667 &&
+      <Stack.Screen
+        name="invitesDisplay"
+        component={InvitesDisplay}
+        options={{
+          title: "Invites",
+          headerShown: true,
+          drawBehind: true,
+          headerTitle: (props) => <LogoTitle2 {...props} />,
+          headerStyle: {
+            height: 80,
+            backgroundColor: "black"
+          },
+        }}
+      />
+    }
+
+    {windowHeight != 667 &&
+      <Stack.Screen
+        name="invitesDisplay"
+        component={InvitesDisplay}
+        options={{
+          title: "Invites",
+          headerShown: true,
+          headerTitle: (props) => <LogoTitle1 {...props} />,
+          headerStyle: {
+            height: 120,
+          },
+        }}
+      />
+    }
+
   </Stack.Navigator>
 );

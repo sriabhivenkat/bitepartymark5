@@ -57,7 +57,7 @@ const InvitesDisplay = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      {acceptedInvites?.length != 0 && (
+      {/* {acceptedInvites?.length != 0 && (
         <View style={{ flexDirection: "row" }}>
           {acceptedInvites?.length > 0 && (
             <View
@@ -137,7 +137,7 @@ const InvitesDisplay = ({ navigation }) => {
             </View>
           )}
         </View>
-      )}
+      )} */}
       <TitleText style={[styles.title, { marginTop: 15 }]}>Invites</TitleText>
       {pendingInvites?.length <= 0 && (
         <SubtitleText style={styles.subtitle}>

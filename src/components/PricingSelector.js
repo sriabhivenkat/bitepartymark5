@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 
 const opts = [
   { value: 1, label: "$" },
@@ -23,10 +24,10 @@ const PriceButton = ({ value, label, selected, style, textStyle, ...rest }) => (
         alignItems: "center",
         justifyContent: "center",
       },
-      selected && { backgroundColor: "rgba(0,0,0, 0.2)" },
+      selected && { backgroundColor: "green"},
     ]}
   >
-    <Text p style={{ fontFamily: "Kollektif", fontSize: 20 }}>
+    <Text p style={[{ fontFamily: "Kollektif", fontSize: 20 }, selected && {color: "white"}]}>
       {label}
     </Text>
   </TouchableOpacity>

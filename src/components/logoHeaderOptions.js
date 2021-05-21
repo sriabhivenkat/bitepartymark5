@@ -10,7 +10,6 @@ export const logoHeaderOptions = {
       style={{
         aspectRatio: 10 / 7,
         height: isSmall ? 50 : 70,
-        alignItems: "center",
       }}
       source={require("assets/images/headerlogo.png")}
     />

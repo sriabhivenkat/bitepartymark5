@@ -73,8 +73,8 @@ const Completed = ({ route, navigation }) => {
                   {
                     color: "#fff",
                     fontSize: 50,
-                    fontWeight: "700",
                     textAlign: "center",
+                    fontFamily: "Kollektif"
                   },
                 ]}
               >

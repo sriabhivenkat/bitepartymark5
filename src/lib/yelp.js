@@ -31,16 +31,23 @@ export const getNearby = async ({ radius, count, loc, filters, price }) => {
     .map((item) => ({ ...item, matches: 0 }));
 };
 
-export const reverseGeocode = ({ latitude, longitude }) => {
-  Geocoder.init("AIzaSyBudsRFHgcT7lqUV3xQ9oiM0MquRynmGzI", { language: "en" });
-  Geocoder.from(latitude, longitude)
-    .then((json) => {
-      var addressComponent = json.results[4].address_components[0];
-      console.log(addressComponent);
-    })
-    .catch((error) => console.warn(error));
-  return addressComponent;
-};
+  export const timeToDestination = async(currentLat, currentLong, destLat, destLong) => {
+    const query = await fetch(
+      `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${
+        currentLat
+      },${
+        currentLong
+      }&destinations=${
+        destLat
+      }%2C${
+        destLong
+      }&key=AIzaSyBudsRFHgcT7lqUV3xQ9oiM0MquRynmGzI`
+    );
+    const data = await query.json()
+    console.log(data.rows[0].elements[0].duration.text)
+    return [data.rows[0].elements[0].duration.text, data.rows[0].elements[0].distance.text];
+  }
+
 
 export const getUserLocation = () =>
   // Promisify Geolocation.getCurrentPosition since it relies on outdated callbacks
