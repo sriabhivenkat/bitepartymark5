@@ -14,7 +14,7 @@ import SwipeCards from "react-native-swipe-cards-deck";
 import LinearGradient from "react-native-linear-gradient";
 import { RestarauntCard } from "components";
 import { Text } from "galio-framework";
-import { useParty } from "lib";
+import { useParty, timeToDestination, getUserLocation } from "lib";
 import Swiper from "react-native-deck-swiper";
 import { Modal, Portal, Provider, Divider, Chip } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -33,7 +33,8 @@ const Swiping = ({ navigation, route, data }) => {
     useParty(partyID);
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["1%", "75%"], []);
-
+  const [distance, setDistance] = useState("");
+  const [eta, setETA] = useState("")
   const hasNavigated = useRef(false);
 
   const [visible, setVisible] = useState(false);
@@ -48,6 +49,23 @@ const Swiping = ({ navigation, route, data }) => {
       .catch((err) => console.error(err));
   }, [selections]);
 
+  useEffect(() => {
+    const main = async() => {
+      const position = await getUserLocation();
+      console.log([position[0], position[1]])
+      console.log([party?.restaurants[cardIdx].coordinates.latitude, party?.restaurants[cardIdx].coordinates.longitude])
+      const time = await timeToDestination(
+        position[0], position[1], 
+        party?.restaurants[cardIdx].coordinates.latitude, 
+        party?.restaurants[cardIdx].coordinates.longitude
+      )
+      console.log("time to get there is:", time);
+      setETA(time[0]);
+      setDistance(time[1]);
+      // const time = await timeToDestination(29.7174, -95.4018, 29.539869, -95.597939)
+    }
+    main();
+  }, [cardIdx])
   useEffect(() => {
     if (partyMember?.status == "complete" && !hasNavigated.current) {
       hasNavigated.current = true;
@@ -249,7 +267,7 @@ const Swiping = ({ navigation, route, data }) => {
             >
               <></>
             </Swiper>
-            <BottomSheet ref={bottomSheetRef} index={0} snapPoints={snapPoints}>
+            <BottomSheet ref={bottomSheetRef} index={0} snapPoints={snapPoints} style={{width: "100%"}}>
               <BottomSheetScrollView style={styles.bottomSheetContainer}>
                 <View
                   style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}
@@ -259,6 +277,7 @@ const Swiping = ({ navigation, route, data }) => {
                     style={{ fontFamily: "Kollektif", color: "#f76f6d" }}
                   >
                     Address
+                    {/* <Text>{JSON.stringify(party?.restaurants[cardIdx], null, 2)}</Text> */}
                   </Text>
                   <TouchableOpacity
                   // onPress={() =>
@@ -284,6 +303,26 @@ const Swiping = ({ navigation, route, data }) => {
                   </TouchableOpacity>
                 </View>
                 <Divider />
+                <View
+                  style={{
+                    top: 10,
+                    left: 22,
+                    marginBottom: 22.5,
+                    marginTop: 10,
+                  }}
+                >
+                  <Text
+                    h4
+                    style={{ fontFamily: "Kollektif", color: "#f76f6d" }}
+                  >
+                    Distance
+                  </Text>
+                  <Text
+                    style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}
+                  >
+                    {distance}les ({eta} away)
+                  </Text>
+                </View>
                 <View
                   style={{
                     top: 10,
@@ -367,6 +406,24 @@ const Swiping = ({ navigation, route, data }) => {
                         {party?.restaurants[cardIdx]?.price}
                       </Chip>
                     )}
+                    <Chip
+                        textAlign="center"
+                        marginRight={10}
+                        flex={0}
+                        marginVertical={2}
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          marginTop: "1.5%",
+                        }}
+                        textStyle={{
+                          fontSize: 17,
+                          fontWeight: "bold",
+                          fontFamily: "Kollektif",
+                        }}
+                      >
+                        {distance}les away
+                      </Chip>
                   </View>
                 </View>
               </BottomSheetScrollView>

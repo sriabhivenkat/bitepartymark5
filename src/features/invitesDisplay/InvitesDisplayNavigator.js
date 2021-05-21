@@ -23,8 +23,12 @@ const LogoTitle2 = () => (
   />
 );
 
+
+
 export default () => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    screenOptions={{headerShown: "false"}}
+  >
     {windowHeight === 667 &&
       <Stack.Screen
         name="invitesDisplay"
@@ -32,9 +36,11 @@ export default () => (
         options={{
           title: "Invites",
           headerShown: true,
+          drawBehind: true,
           headerTitle: (props) => <LogoTitle2 {...props} />,
           headerStyle: {
             height: 80,
+            backgroundColor: "black"
           },
         }}
       />

@@ -151,19 +151,36 @@ const SelectFriends = ({ route, navigation }) => {
           pointerEvents={"none"}
         /> */}
         <View alignItems="center" justifyContent="center" paddingTop={10}>
-          <GradientButton
-            // style={{ backgroundColor: "red" }}
-            innerStyle={{ paddingVertical: 15 }}
-            containerStyle={{ maxWidth: 250 }}
-            onPress={() =>
-              navigation.navigate("createParty/filters", {
-                partyId,
-                selectedFriends,
-              })
-            }
-          >
-            Done
-          </GradientButton>
+          {selectedFriends.length===0 &&
+            <GradientButton
+              // style={{ backgroundColor: "red" }}
+              innerStyle={{ paddingVertical: 15 }}
+              containerStyle={{ width: "95%"}}
+              onPress={() =>
+                navigation.navigate("createParty/filters", {
+                  partyId,
+                  selectedFriends,
+                })
+              }
+            >
+              Or, go solo!
+            </GradientButton>
+          }
+          {selectedFriends.length!=0 &&
+            <GradientButton
+              // style={{ backgroundColor: "red" }}
+              innerStyle={{ paddingVertical: 15 }}
+              containerStyle={{ width: "95%" }}
+              onPress={() =>
+                navigation.navigate("createParty/filters", {
+                  partyId,
+                  selectedFriends,
+                })
+              }
+            >
+              Start Party!
+            </GradientButton>
+          }
         </View>
       </View>
     </SafeAreaView>
