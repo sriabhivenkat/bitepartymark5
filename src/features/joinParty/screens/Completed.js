@@ -63,7 +63,7 @@ const Completed = ({ route, navigation }) => {
   const currentWinner = party?.winner
     ? party?.winner
     : party?.restaurants &&
-      party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
+    party?.restaurants.sort((a, b) => b.matches - a.matches)[0];
 
   // links for opening maps
   const url = Platform.select({
@@ -175,6 +175,7 @@ const Completed = ({ route, navigation }) => {
           .doc()
           .set({
             imageUrl: url,
+            subbmittedBy: user.uidvalue
           });
       });
     } catch (e) {
@@ -312,7 +313,7 @@ const Completed = ({ route, navigation }) => {
                   }}
                   padding={20}
                 >
-                  <Text style={{ fontWeight: "600", fontSize: 20 }}>
+                  <Text style={{ fontWeight: "600", fontSize: 20, marginBottom: 10 }}>
                     Rate your party!
                   </Text>
                   {/* <Rating
@@ -354,9 +355,10 @@ const Completed = ({ route, navigation }) => {
                     borderRadius: 15,
                   }}
                 >
-                  <Text style={{ fontWeight: "600", fontSize: 15 }}>
+                  <Text style={{ fontWeight: "600", fontSize: 15, marginTop: 10, fontFamily: 'Kollektif' }}>
                     Would you like to submit a photo of the menu?
                   </Text>
+
                   <TouchableOpacity
                     style={{ alignItems: "center" }}
                     onPress={() => openCamera()}
@@ -364,22 +366,26 @@ const Completed = ({ route, navigation }) => {
                     <Ionicons name="camera" size={80} />
                     <Text>Add Image of Menu</Text>
                   </TouchableOpacity>
+
+                  <GradientButton
+                    containerStyle={{ marginTop: 10, paddingHorizontal: 10, marginBottom: 10 }}
+                    onPress={() =>
+                      endParty()
+                        .then(
+                          navigation.reset({
+                            index: 0,
+                            routes: [{ name: "home" }],
+                          })
+                        )
+                        .catch((err) => console.error(err))
+                    }
+                  >
+                    <Text>Leave Party</Text>
+                  </GradientButton>
+
+
                 </View>
-                <GradientButton
-                  style={{ paddingTop: 20 }}
-                  onPress={() =>
-                    endParty()
-                      .then(
-                        navigation.reset({
-                          index: 0,
-                          routes: [{ name: "home" }],
-                        })
-                      )
-                      .catch((err) => console.error(err))
-                  }
-                >
-                  Leave Party
-                </GradientButton>
+
               </Modal>
             </>
           )}
@@ -531,7 +537,7 @@ const Completed = ({ route, navigation }) => {
           snapPoints={snapPoints}
           enableHandlePanningGesture={false}
           handleComponent={null}
-          // handleHeight={0}
+        // handleHeight={0}
         >
           <BottomSheetScrollView style={styles.bottomSheetContainer}>
             <View
