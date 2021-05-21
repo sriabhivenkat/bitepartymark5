@@ -23,13 +23,15 @@ import LinearGradient from "react-native-linear-gradient";
 import { Alert } from "react-native";
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { Icon } from 'react-native-elements'
-import InAppReview from 'react-native-in-app-review';
+import InAppReview, { RequestInAppReview } from 'react-native-in-app-review';
 import uuid from 'react-native-uuid';
 import ImagePicker from "react-native-image-crop-picker";
 
 
 import firestore, { firebase } from "@react-native-firebase/firestore"
 import storage from "@react-native-firebase/storage";
+import CustomRate from "components/CustomRate";
+import PricingSelector from "components/PricingSelector";
 
 const Completed = ({ route, navigation }) => {
   const { partyID } = route.params;
@@ -43,7 +45,7 @@ const Completed = ({ route, navigation }) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modal2Visible, setModal2Visible] = useState(false);
-  const [ratingVal, setRatingVal] = useState('')
+  const [ratingVal, setRatingVal] = useState()
 
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
@@ -306,20 +308,27 @@ const Completed = ({ route, navigation }) => {
                   <Text style={{ fontWeight: '600', fontSize: 20 }}>
                     Rate your party!
 </Text>
-                  {/* <Rating
+                  <Rating
                     type='custom'
-
+                    ratingImage={starImg}
                     ratingCount={5}
                     imageSize={50}
                     onFinishRating={setRatingVal}
                     ratingColor='#F76F6D'
                     startingValue='0'
                     jumpValue='1'
-                    
-                  /> */}
-                  <AirbnbRating selectedColor='#F76F6D' reviewColor='#F76F6D'>
+
+                  />
+                  <AirbnbRating selectedColor='#F76F6D' reviewColor='#F76F6D' starImage={starImg} starContainerStyle={{}}>
 
                   </AirbnbRating>
+
+                  <CustomRate />
+
+
+
+
+
                 </View>
                 <GradientButton style={{ paddingTop: 20 }} onPress={() => handleClick()}>
                   <Text>
