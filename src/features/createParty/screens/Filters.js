@@ -12,9 +12,9 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { GradientButton } from "components/GradientButton.js";
 import { Alert } from "react-native";
 import { PricingSelector, TitleText } from "../../../components";
-import Icon from 'react-native-vector-icons/Ionicons'
-import DropDownPicker from 'react-native-dropdown-picker';
-
+import Icon from "react-native-vector-icons/Ionicons";
+import DropDownPicker from "react-native-dropdown-picker";
+import { filterOptions } from "../filterOptions";
 
 const Filters = ({ route, navigation }) => {
   const [radius, setRadius] = useState(5);
@@ -26,6 +26,7 @@ const Filters = ({ route, navigation }) => {
   const [currentLat, setCurrentLat] = useState();
   const [currentLong, setCurrentLong] = useState();
   const [titles, setTitles] = useState([]);
+  const [isDropdownOpen, setIsDropDownOpen] = useState(false);
 
   const handleTap = (value, title) => {
     const exists = filters.find((item) => item == value);
@@ -35,7 +36,7 @@ const Filters = ({ route, navigation }) => {
       setTitles(titles.filter((x) => x != title));
     } else {
       setFilters([value, ...filters]);
-      setTitles([title, ...titles])
+      setTitles([title, ...titles]);
     }
     // if (exists1) {
     //   setFilters(titles.filter((i) => i != title));
@@ -80,8 +81,8 @@ const Filters = ({ route, navigation }) => {
 
   const { createParty } = useParty(partyId);
   useEffect(() => {
-    console.log("data for selected friends is: ",selectedFriends)
-  }, [])
+    console.log("data for selected friends is: ", selectedFriends);
+  }, []);
   useEffect(() => {
     const main = async () => {
       const position = await getUserLocation();
@@ -210,100 +211,121 @@ const Filters = ({ route, navigation }) => {
       <View paddingHorizontal={20} alignItems="center">
         <TitleText fontSize={21}>Filters</TitleText>
       </View>
-      <View display="flex" flexDirection="column" marginTop={-25} paddingRight={30}>
-        {selectedFriends.length!=0 &&
-          <SectionLabel label="Party with:" />
-        }
-        <ScrollView 
-            flexDirection="row" 
-            marginBottom={10} 
-            marginTop={10} 
-            right={5} 
-            horizontal={true} 
-            showsHorizontalScrollIndicator={true}
-            paddingBottom={10}
-            width="100%"
-          >
-      {selectedFriends.length!=0 && selectedFriends.map((item) => (
-            <Chip 
-              avatar={
-                <Image 
-                  source={{uri: item?.imageUrlPath}} 
-                  style={
-                    {
-                      height: 35, 
-                      width: 35, 
-                      borderRadius: 25, 
-                      right: 1, 
-                      borderColor: "black", 
-                      borderWidth: 1, 
+      <View
+        display="flex"
+        flexDirection="column"
+        marginTop={-25}
+        paddingRight={30}
+      >
+        {selectedFriends.length != 0 && <SectionLabel label="Party with:" />}
+        <ScrollView
+          flexDirection="row"
+          marginBottom={10}
+          marginTop={10}
+          right={5}
+          horizontal={true}
+          showsHorizontalScrollIndicator={true}
+          paddingBottom={10}
+          width="100%"
+        >
+          {selectedFriends.length != 0 &&
+            selectedFriends.map((item) => (
+              <Chip
+                avatar={
+                  <Image
+                    source={{ uri: item?.imageUrlPath }}
+                    style={{
+                      height: 35,
+                      width: 35,
+                      borderRadius: 25,
+                      right: 1,
+                      borderColor: "black",
+                      borderWidth: 1,
                       backgroundColor: "purple",
-                      marginLeft: 3}
-                  }/>
+                      marginLeft: 3,
+                    }}
+                  />
                 }
-              style={{width: 125, left: 40, height: 50, alignItems: "center", marginRight: 4, marginVertical: 2.5}}
-              textStyle={{fontFamily: "Kollektif", fontSize: 15}}
-              mode="outlined"
-            >
-              {item?.firstName}
-            </Chip>
-      ))}
+                style={{
+                  width: 125,
+                  left: 40,
+                  height: 50,
+                  alignItems: "center",
+                  marginRight: 4,
+                  marginVertical: 2.5,
+                }}
+                textStyle={{ fontFamily: "Kollektif", fontSize: 15 }}
+                mode="outlined"
+              >
+                {item?.firstName}
+              </Chip>
+            ))}
         </ScrollView>
       </View>
-      {selectedFriends.length===0 &&
+      {selectedFriends.length === 0 && (
         <View display="flex" flexDirection="column" alignItems="center">
           <Text
             style={{
               fontFamily: "Kollektif",
               fontSize: 24,
-              color: "#f76f6d"
+              color: "#f76f6d",
             }}
           >
             Solo Mode
           </Text>
         </View>
-      }
+      )}
       <View display="flex" flexDirection="column" justifyContent="center">
         <SectionLabel label="Price" />
         <PricingSelector value={price} onChange={(val) => setPrice(val)} />
       </View>
       <Divider style={{ marginTop: 10 }} />
-      <View flexDirection="column" justifyContent="center">
+      <View flexDirection="column" flex={1}>
         <SectionLabel label="Location" />
-        {selectionval === "" && ( //what
-          <View style={{ alignItems: "center" }}>
-            <GradientButton
-              style={{ minWidth: 30, marginVertical: 10, width: "80%", alignItems: "flex-start", height: 34 }}
-              textStyle={{textAlign: "left", flex: 1, marginLeft: 10,}}
-              containerStyle={{height: 50}}
-              // containerStyle={{justifyContent: ""}}
-              outline
-              onPress={() => {
-                navigation.navigate("createParty/filters/changeLocation");
-              }}
+        <View
+          style={{ alignItems: "center", marginTop: 10 }}
+          flex={1}
+          // backgroundColor="red"
+          // paddingLeft={0}
+          // paddingRight={0}
+          paddingHorizontal={40}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("createParty/filters/changeLocation");
+            }}
+            style={{
+              height: 40,
+              borderWidth: 1,
+              borderRadius: 15,
+              paddingHorizontal: 20,
+              flex: 1,
+              alignSelf: "stretch",
+            }}
+          >
+            <View
+              flexDirection="row"
+              alignItems="center"
+              // position="relative"
+              flex={1}
+              // top={8}
             >
-              <Icon name="location-outline" size={20}/>
-              {longName}
-            </GradientButton>
-          </View>
-        )}
-        {selectionval != "" && (
-          <View style={{ alignItems: "center", marginTop: 10 }}>
-            <GradientButton
-              style={{ minWidth: 30, marginVertical: 10, width: "80%", alignItems: "flex-start", height: 34 }}
-              textStyle={{textAlign: "left", flex: 1, marginLeft: 10,}}
-              containerStyle={{height: 50}}
-              // containerStyle={{justifyContent: ""}}
-              outline
-              onPress={() => {
-                navigation.navigate("createParty/filters/changeLocation");
-              }}
-            >
-              <Icon name="location-outline" size={20}/>
-              {selectionval}
-            </GradientButton>
-          </View>
-        )}
+              <Icon name="location-outline" size={20} />
+
+              <Text
+                // style={{ }}
+                numberOfLines={1}
+                style={{
+                  marginLeft: 20,
+                  fontSize: 18,
+                  fontFamily: "Kollektif",
+                }}
+              >
+                {selectionval != "" ? selectionval : longName}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
       {/* <View
         style={{
@@ -345,378 +367,102 @@ const Filters = ({ route, navigation }) => {
           containerStyle={{width: "90%"}}
         />
       </View> */}
-      <List.Section>
-        <List.Accordion
-          title="Select a cuisine"
-          left={(props) => (
-            <List.Icon {...props} icon="food" color={"black"} />
-          )}
-          titleStyle={{ color: "black", fontSize: 15 }}
-          style={{
-            borderWidth: 1, 
-            borderColor: "black",
-            borderRadius: 15,
-            width: "80%",
-            maxHeight: 42.5,
-            left: 40,
-            justifyContent: "center"
-          }}
-        >
-          <List.Item
-            title="Alcohol"
-            value="bars"
-            onPress={() => {
-              handleTap("bars", "Alcohol");
+      <View padingLeft={10} paddingRight={80} marginTop={5}>
+        <List.Section>
+          <List.Accordion
+            expanded={isDropdownOpen}
+            onPress={() => setIsDropDownOpen((old) => !old)}
+            title="Select a cuisine"
+            left={(props) => (
+              <List.Icon {...props} icon="food" color={"black"} />
+            )}
+            titleStyle={{
+              color: "black",
+              fontSize: 18,
+              fontFamily: "Kollektif",
             }}
-            style={[
-              filters.includes("bars") && {
-                backgroundColor: "lightgray",
-              },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                left: 40,
-              }
-            ]}
-          />
-          <List.Item
-            title="American"
-            value="tradamerican"
-            onPress={() => {
-              handleTap("tradamerican", "American");
+            style={{
+              borderWidth: 1,
+              borderColor: "black",
+              borderRadius: 15,
+              borderBottomLeftRadius: isDropdownOpen ? 0 : 15,
+              borderBottomRightRadius: isDropdownOpen ? 0 : 15,
+
+              maxHeight: 40,
+              left: 40,
+              justifyContent: "center",
             }}
-            style={[
-              filters.includes("tradamerican") && {
-                backgroundColor: "lightgray",
-              },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                left: 40,
-              }
-            ]}
-          />
-          <List.Item
-            title="Boba"
-            value="bubbletea"
-            onPress={() => {
-              handleTap("bubbletea", "Boba");
-            }}
-            style={[
-              filters.includes("bubbletea") && { backgroundColor: "lightgray" },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                left: 40,
-              }
-            ]}
-          />
-          <List.Item
-            title="Breakfast"
-            value="breakfast_brunch"
-            onPress={() => {
-              handleTap("breakfast_brunch", "Breakfast");
-            }}
-            style={[
-              filters.includes("breakfast_brunch") && {
-                backgroundColor: "lightgray",
-              },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                left: 40,
-              }
-            ]}
-          />
-          <List.Item
-            title="Chinese"
-            value="chinese"
-            onPress={() => {
-              handleTap("chinese", "Chinese");
-            }}
-            style={[
-              filters.includes("chinese") && { backgroundColor: "lightgray" },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                left: 40,
-              }
-            ]}
-          />
-          <List.Item
-            title="Coffee and Tea"
-            value="coffee"
-            onPress={() => {
-              handleTap("coffee", "Coffee and Tea");
-            }}
-            style={
-              [filters.includes("coffee") && {
-                backgroundColor: "lightgray",
+          >
+            {filterOptions.map(({ label, value }) => (
+              <TouchableOpacity
+                key={value}
+                flex={1}
+                left={40}
+                style={{
+                  left: 40,
+                  borderWidth: 1,
+                  borderTopWidth: 0,
+                }}
+                onPress={() => {
+                  handleTap(value, label);
+                }}
+              >
+                <LinearGradient
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  colors={
+                    filters.includes(value)
+                      ? ["#ee0979", "#f76f6d", "#ff6a00"]
+                      : ["#fff", "#fff", "#fff"]
+                  }
+                  style={[
+                    {
+                      minHeight: 38,
+                      justifyContent: "center",
+                      paddingHorizontal: 60,
+                      flex: 1,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "Kollektif",
+                      fontSize: 18,
+                      textAlign: "left",
+                      color: filters.includes(value) ? "#fff" : "#000",
+                    }}
+                  >
+                    {label}
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            ))}
+            {/* <List.Item
+              title="Alcohol"
+              value="bars"
+              onPress={() => {
+                handleTap("bars", "Alcohol");
+              }}
+              style={[
+                filters.includes("bars") && {
+                  backgroundColor: "lightgray",
                 },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                left: 40,
-              }]}
-          />
-          <List.Item
-            title="Desserts"
-            value="desserts"
-            onPress={() => {
-              handleTap("desserts", "Desserts");
-            }}
-            style={[
-              filters.includes("desserts") && {
-                backgroundColor: "lightgray",
-              },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                left: 40,
-              }
-            ]}
-          />
-          <List.Item
-            title="Food Trucks"
-            value="foodtrucks"
-            onPress={() => {
-              handleTap("foodtrucks", "Food Trucks");
-            }}
-            style={[
-              filters.includes("foodtrucks") && { backgroundColor: "lightgray" },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                left: 40,
-              }
-            ]}
-          />
-          <List.Item
-            title="Fast Food"
-            value="hotdogs"
-            onPress={() => {
-              handleTap("hotdogs", "Fast Food");
-            }}
-            style={[
-              filters.includes("hotdogs") && { backgroundColor: "lightgray" },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                left: 40,
-              }
-            ]}
-          />
-          <List.Item
-            title="Indian"
-            value="indpak"
-            onPress={() => {
-              handleTap("indpak", "Indian");
-            }}
-            style={[
-              filters.includes("indpak") && { backgroundColor: "lightgray" },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                left: 40,
-              }
-            ]}
-          />
-          <List.Item
-            title="Japanese"
-            value="japanese"
-            onPress={() => {
-              handleTap("japanese", "Japanese");
-            }}
-            style={[
-              filters.includes("japanese") && { backgroundColor: "lightgray" },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                left: 40,
-              }
-            ]}
-          />
-          <List.Item
-            title="Mexican"
-            value="mexican"
-            onPress={() => {
-              handleTap("mexican", "Mexican");
-            }}
-            style={[
-              filters.includes("mexican") && { backgroundColor: "lightgray" }
-            ],
-            {
-              borderLeftWidth:1,
-              borderLeftColor: "black",
-              borderRightWidth:1,
-              borderRightColor: "black",
-              borderBottomColor: "black",
-              borderBottomWidth: 1,
-              width: "80%",
-              left: 40,
-            }
-          }
-          />
-          <List.Item
-            title="Thai"
-            value="thai"
-            onPress={() => {
-              handleTap("thai", "Thai");
-            }}
-            style={[filters.includes("thai") && { backgroundColor: "lightgray" },
-            {
-              borderLeftWidth:1,
-              borderLeftColor: "black",
-              borderRightWidth:1,
-              borderRightColor: "black",
-              borderBottomColor: "black",
-              borderBottomWidth: 1,
-              width: "80%",
-              left: 40,
-            }
-          ]}
-          />
-          <List.Item
-            title="Halal"
-            value="halal"
-            onPress={() => {
-              handleTap("halal", "Halal");
-            }}
-            style={[
-              filters.includes("halal") && { backgroundColor: "lightgray" },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                left: 40,
-              }
-            ]}
-          />
-          <List.Item
-            title="Vegan"
-            value="vegan"
-            onPress={() => {
-              handleTap("vegan", "Vegan");
-            }}
-            style={[
-              filters.includes("vegan") && { backgroundColor: "lightgray" },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                left: 40,
-              }
-            ]}
-          />
-          <List.Item
-            title="Vegetarian"
-            value="vegetarian"
-            onPress={() => {
-              handleTap("vegetarian", "Vegetarian");
-            }}
-            style={[
-              filters.includes("vegetarian") && {
-                backgroundColor: "lightgray",
-              },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                left: 40,
-              }
-            ]}
-          />
-          <List.Item
-            title="Kosher"
-            value="kosher"
-            onPress={() => {
-              handleTap("kosher", "Kosher");
-            }}
-            style={[
-              filters.includes("kosher") && { backgroundColor: "lightgray" },
-              {
-                borderLeftWidth:1,
-                borderLeftColor: "black",
-                borderRightWidth:1,
-                borderRightColor: "black",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                borderBottomLeftRadius: 15,
-                borderBottomRightRadius: 15,
-                width: "80%",
-                left: 40,
-              }
-            ]}
-          />
-        </List.Accordion>
-      </List.Section>
+                {
+                  borderLeftWidth: 1,
+                  borderLeftColor: "black",
+                  borderRightWidth: 1,
+                  borderRightColor: "black",
+                  borderBottomColor: "black",
+                  borderBottomWidth: 1,
+                  // width: "80%",
+                  left: 40,
+                },
+              ]}
+            /> */}
+          </List.Accordion>
+        </List.Section>
+      </View>
+
       <View
         style={{
           left: 40,
@@ -738,17 +484,16 @@ const Filters = ({ route, navigation }) => {
             //   end={{x:1, y:0}}
             //   color={["#ee0979", "#f76f6d", "#ff6a00"]}
             // >
-            <View 
-            >
+            <View>
               <LinearGradient
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                colors={["#ee0979", "#f76f6d", "#ff6a00"]}
+                start={{ x: 1, y: 1 }}
+                end={{ x: 0, y: 0 }}
+                colors={["#ee0979", "#ff6a00"]}
                 style={[
-                    {
-                      borderRadius: 25,
-                      marginRight: 5,
-                    },
+                  {
+                    borderRadius: 25,
+                    marginRight: 5,
+                  },
                 ]}
               >
                 <Chip
@@ -756,7 +501,8 @@ const Filters = ({ route, navigation }) => {
                     backgroundColor: "transparent",
                   }}
                   textStyle={{
-                    color: "white"
+                    color: "white",
+                    fontFamily: "kollektif",
                   }}
                 >
                   {items}

@@ -12,6 +12,8 @@ const windowHeight = Dimensions.get("window").height;
 
 
 
+
+
 export default () => (
   <Stack.Navigator
     screenOptions={{headerShown: "false"}}
