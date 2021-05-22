@@ -20,7 +20,7 @@ import {
 } from "components";
 import { SafeAreaView } from "react-native";
 import { useInvites } from "lib/invites.js";
-import { Appbar } from 'react-native-paper';
+import { Appbar } from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
 
 const InvitesDisplay = ({ navigation }) => {
@@ -59,52 +59,67 @@ const InvitesDisplay = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      {height>=896 &&
-          <Appbar.Header style={[styles.bottom, {height: 70}]}>
-            <Appbar.Content
-                title={
-                      <Image source={require("assets/images/newheaderLogo.jpeg")}
-                                    style={{
-                                        width: 29.333,
-                                        height: 44,
-                                        
-                                    }}
-                            />
-                          }
-                        titleStyle={{backgroundColor: "white", right: 40}}
-                        style={{alignItems: "flex-start", top: 5}}
-              />
-            <Appbar.Action icon={'account-plus'} size={30} onPress={() => navigation.navigate("profile", {screen: "profile/addFriends"})} style={{top: 3}}/>
-          </Appbar.Header>
-      }
-      {height<=667 &&
-        <Appbar.Header style={[styles.bottom, {height: 60,}]}>
+      {height >= 896 && (
+        <Appbar.Header style={[styles.bottom, { height: 70 }]}>
           <Appbar.Content
-              title={
-                    <Image source={require("assets/images/newheaderLogo.jpeg")}
-                                  style={{
-                                      width: 26.4,
-                                      height: 39.6,
-                                      aspectRatio: 2/3
-                                  }}
-                          />
-                        }
-                      titleStyle={{backgroundColor: "white", right: 40}}
-                      style={{alignItems: "flex-start", top: 5}}
-            />
-          
-          <Appbar.Action icon={'account-plus'} size={27.5} onPress={() => navigation.navigate("profile", {screen: "profile/addFriends"})} style={{top: 2}}/>
+            title={
+              <Image
+                source={require("assets/images/newheaderLogo.jpeg")}
+                style={{
+                  width: 29.333,
+                  height: 44,
+                }}
+              />
+            }
+            titleStyle={{ backgroundColor: "white", right: 40 }}
+            style={{ alignItems: "flex-start", top: 5 }}
+          />
+          <Appbar.Action
+            icon={"account-plus"}
+            size={30}
+            onPress={() => navigation.navigate("invitesDisplay/addFriends")}
+            style={{ top: 3 }}
+          />
         </Appbar.Header>
-      }
-      <TitleText style={[styles.title, { marginTop: 15, left: 20 }]}>Invites</TitleText>
+      )}
+      {height <= 667 && (
+        <Appbar.Header style={[styles.bottom, { height: 60 }]}>
+          <Appbar.Content
+            title={
+              <Image
+                source={require("assets/images/newheaderLogo.jpeg")}
+                style={{
+                  width: 26.4,
+                  height: 39.6,
+                  aspectRatio: 2 / 3,
+                }}
+              />
+            }
+            titleStyle={{ backgroundColor: "white", right: 40 }}
+            style={{ alignItems: "flex-start", top: 5 }}
+          />
+
+          <Appbar.Action
+            icon={"account-plus"}
+            size={27.5}
+            onPress={() => navigation.navigate("invitesDisply/addFriends")}
+            style={{ top: 2 }}
+          />
+        </Appbar.Header>
+      )}
+      <TitleText style={[styles.title, { marginTop: 15, left: 20 }]}>
+        Invites
+      </TitleText>
       {pendingInvites?.length <= 0 && (
         <SubtitleText style={styles.subtitle}>
           No pending invites. Start a party!
         </SubtitleText>
       )}
-      <View style={{
-        alignItems: "center"
-      }}>
+      <View
+        style={{
+          alignItems: "center",
+        }}
+      >
         <FlatList
           data={pendingInvites && pendingInvites}
           style={{ paddingTop: 5 }}
@@ -151,6 +166,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     elevation: 0,
     borderBottomColor: "lightgray",
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
 });

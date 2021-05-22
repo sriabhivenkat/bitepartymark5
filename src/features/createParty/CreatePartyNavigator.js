@@ -9,44 +9,42 @@ import { logoHeaderOptions } from "components";
 import { BackButton, GradientButton } from "../../components";
 import { View } from "react-native";
 import AddFriends from "features/profile/screens/AddFriends";
-import {useUser} from "lib";
+import { useUser } from "lib";
 const Stack = createStackNavigator();
-
 
 export default () => {
   const { user } = useUser();
   const isSmall = height < 700;
   const height = Dimensions.get("window").height;
-  return(
+  return (
     <Stack.Navigator>
       <Stack.Screen
         name="createParty/begin"
         component={Start}
         options={{
-          title: `Welcome ${user?.firstName}!`,
+          title: `Home`,
           headerShown: false,
-        //   headerTitleStyle: {
-        //     fontFamily: "Kollektif",
-        //     fontSize: 20,
-        //     alignItems: "flex-start"
-        //   },
-        //   headerLeft: (props) => (
-        //     <Image
-        //       style={{
-        //         aspectRatio: 5 / 10,
-        //         height: isSmall ? 50 : 70,
-        //       }}
-        //       source={require("assets/images/newheaderLogo.jpeg")}
-        //     />
-        //   ),
-        //   headerLeftContainerStyle: {
-        //     backgroundColor: "black"
-        //   }
-        //   // ...logoHeaderOptions,
-        //   // headerStyle: {
-        //   //   backgroundColor: "white"
-        //   // }
-          
+          //   headerTitleStyle: {
+          //     fontFamily: "Kollektif",
+          //     fontSize: 20,
+          //     alignItems: "flex-start"
+          //   },
+          //   headerLeft: (props) => (
+          //     <Image
+          //       style={{
+          //         aspectRatio: 5 / 10,
+          //         height: isSmall ? 50 : 70,
+          //       }}
+          //       source={require("assets/images/newheaderLogo.jpeg")}
+          //     />
+          //   ),
+          //   headerLeftContainerStyle: {
+          //     backgroundColor: "black"
+          //   }
+          //   // ...logoHeaderOptions,
+          //   // headerStyle: {
+          //   //   backgroundColor: "white"
+          //   // }
         }}
       />
 
