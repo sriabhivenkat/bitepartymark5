@@ -28,7 +28,7 @@ export const InviteCard = ({ onAccept, onReject, invite }) => (
               numberOfLines={1}
               ellipsizeMode="tail"
             >
-              {moment(invite.timestamp.toDate()).format("D/M [at] h:m a")}
+              {moment(invite.timestamp.toDate()).fromNow()}
             </Text>
           </View>
         </View>

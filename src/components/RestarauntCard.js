@@ -19,6 +19,7 @@ export const RestarauntCard = ({ data, style, compact }) => {
   const [visible, setVisible] = useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
+  
   const containerStyle = {
     flex: 1,
     backgroundColor: "white",
@@ -135,6 +136,8 @@ export const RestarauntCard = ({ data, style, compact }) => {
               style={{
                 height: 50,
                 width: undefined,
+                top: 10,
+                left: 10,
                 aspectRatio: 1000 / 637,
                 // position: "absolute",
                 // bottom: 0,
