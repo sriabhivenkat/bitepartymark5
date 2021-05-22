@@ -19,7 +19,7 @@ export const InviteCard = ({ onAccept, onReject, invite }) => (
             <Text
               style={[styles.text, { fontSize: 24 }]}
               numberOfLines={1}
-              ellipsizeMode="tail"
+              ellipsizeMode="tail" //new comment
             >
               {invite.inviter}
             </Text>
