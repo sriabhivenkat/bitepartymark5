@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { Text } from "galio-framework";
-import { Card, Avatar } from "react-native-paper";
+import { Card, Avatar, Divider } from "react-native-paper";
 import { GradientButton } from "./";
 import moment from "moment";
 
@@ -15,7 +15,7 @@ export const InviteCard = ({ onAccept, onReject, invite }) => (
             source={{ uri: invite.imagePath }}
             style={{ marginRight: 15 }}
           />
-          <View flex={1}>
+          <View flex={1} flexDirection="column">
             <Text
               style={[styles.text, { fontSize: 24 }]}
               numberOfLines={1}
@@ -32,21 +32,75 @@ export const InviteCard = ({ onAccept, onReject, invite }) => (
             </Text>
           </View>
         </View>
+        <Divider style={{marginTop: 10, height: 1.5, width: "112%", right: 20}}/>
+        <View alignItems="center" >
+        {Dimensions.get("window").height >= 896 &&
+          <View 
+            width={100} 
+            flexDirection="row" 
+            style={{
+              // borderColor: "black", 
+              // borderWidth: 3,
+              marginVertical:5,
+              top: 7.5,
+              left: 2,
+              alignItems: "center",
+              width: "100%"
+            }}
+          >
+            <GradientButton
+              onPress={() => onAccept(invite)}
+              containerStyle={{ marginBottom: 5 }}
+              style={{width: 160, marginRight: 10}}
+            >
+              Accept
+            </GradientButton>
+            <GradientButton
+              onPress={() => onReject(invite)}
+              outline
+              containerStyle={{ marginTop: 5,}}
+              style={{width: 160}}
+              innerStyle={{borderColor: "transparent", backgroundColor: "#B6B6B6" }}
+              textStyle={{color: "white"}}
+            >
+              Decline
+            </GradientButton>
+          </View>
+        }
+        {Dimensions.get("window").height <= 667 &&
+          <View 
+            width={100} 
+            flexDirection="row" 
+            style={{
+              // borderColor: "black", 
+              // borderWidth: 3,
+              marginVertical:5,
+              top: 7.5,
+              left: 5,
+              alignItems: "center",
+              width: "100%"
+            }}
+          >
+            <GradientButton
+              onPress={() => onAccept(invite)}
+              containerStyle={{ marginBottom: 5 }}
+              style={{width: 140, marginRight: 10}}
+            >
+              Accept
+            </GradientButton>
+            <GradientButton
+              onPress={() => onReject(invite)}
+              outline
+              containerStyle={{ marginTop: 5,}}
+              style={[{width: 140,}]}
+              innerStyle={{borderColor: "transparent", backgroundColor: "#B6B6B6" }}
+              textStyle={{color: "white"}}
 
-        <View width={100}>
-          <GradientButton
-            onPress={() => onAccept(invite)}
-            containerStyle={{ marginBottom: 5 }}
-          >
-            Accept
-          </GradientButton>
-          <GradientButton
-            onPress={() => onReject(invite)}
-            outline
-            containerStyle={{ marginTop: 5 }}
-          >
-            Decline
-          </GradientButton>
+            >
+              Decline
+            </GradientButton>
+          </View>
+        }
         </View>
       </Card.Content>
     </Card>
@@ -76,7 +130,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     justifyContent: "center",
   },
-  innerCard: { flexDirection: "row", justifyContent: "space-between", flex: 1 },
+  innerCard: { flexDirection: "column", justifyContent: "space-between", flex: 1 },
   subText: {
     fontFamily: "PingFangHK-Semibold",
     color: "#f76f6d",

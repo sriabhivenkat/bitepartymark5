@@ -22,12 +22,9 @@ export default () => (
         component={InvitesDisplay}
         options={{
           title: "Invites",
-          headerShown: true,
+          headerShown: false,
           drawBehind: true,
-          headerTitle: (props) => <LogoTitle2 {...props} />,
-          headerStyle: {
-            height: 80,
-          },
+          ...logoHeaderOptions
         }}
       />
     }
@@ -38,11 +35,8 @@ export default () => (
         component={InvitesDisplay}
         options={{
           title: "Invites",
-          headerShown: true,
-          headerTitle: (props) => <LogoTitle1 {...props} />,
-          headerStyle: {
-            height: 120,
-          },
+          headerShown: false,
+          ...logoHeaderOptions
         }}
       />
     }
