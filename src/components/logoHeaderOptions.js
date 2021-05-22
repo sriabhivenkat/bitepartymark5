@@ -1,8 +1,8 @@
 import React from "react";
-import { Image, Dimensions } from "react-native";
+import { Image, Dimensions, Platform } from "react-native";
 const height = Dimensions.get("window").height;
 
-const isSmall = height < 700;
+const isSmall = height < 700 || Platform.OS === "android";
 
 export const logoHeaderOptions = {
   headerTitle: (props) => (
@@ -10,7 +10,6 @@ export const logoHeaderOptions = {
       style={{
         aspectRatio: 10 / 7,
         height: isSmall ? 50 : 70,
-        alignItems: "center",
       }}
       source={require("assets/images/headerlogo.png")}
     />

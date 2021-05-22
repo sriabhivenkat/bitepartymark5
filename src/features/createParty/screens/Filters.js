@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Dimensions, StatusBar } from "react-native";
-import { Divider, Switch, List, ToggleButton } from "react-native-paper";
+import { View, StyleSheet, Dimensions, StatusBar, Image } from "react-native";
+import { Divider, Switch, List, ToggleButton, Chip } from "react-native-paper";
 import { Text } from "galio-framework";
 import { Slider } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
@@ -12,37 +12,39 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { GradientButton } from "components/GradientButton.js";
 import { Alert } from "react-native";
 import { PricingSelector, TitleText } from "../../../components";
+import Icon from "react-native-vector-icons/Ionicons";
+import DropDownPicker from "react-native-dropdown-picker";
+import { filterOptions } from "../filterOptions";
 
 const Filters = ({ route, navigation }) => {
   const [radius, setRadius] = useState(5);
   const [count, setCount] = useState(10);
   const [time, setTime] = useState(new Date());
   const [filters, setFilters] = useState([]);
-  const [restriction, setRestrictions] = useState([]);
   const [price, setPrice] = useState([]);
   const [longName, setName] = useState("");
   const [currentLat, setCurrentLat] = useState();
   const [currentLong, setCurrentLong] = useState();
+  const [titles, setTitles] = useState([]);
+  const [isDropdownOpen, setIsDropDownOpen] = useState(false);
 
-  const handleTap = (value) => {
+  const handleTap = (value, title) => {
     const exists = filters.find((item) => item == value);
-
-    if (exists) {
+    const exists1 = titles.find((item) => item == title);
+    if (exists && exists1) {
       setFilters(filters.filter((i) => i != value));
+      setTitles(titles.filter((x) => x != title));
     } else {
       setFilters([value, ...filters]);
+      setTitles([title, ...titles]);
     }
+    // if (exists1) {
+    //   setFilters(titles.filter((i) => i != title));
+    // } else {
+    //   setFilters([title, ...titles]);
+    // }
   };
 
-  const handleRestricts = (value) => {
-    const exists = restriction.find((item) => item == value);
-
-    if (exists) {
-      setRestrictions(restriction.filter((i) => i != value));
-    } else {
-      setRestrictions([value, ...filters]);
-    }
-  };
   const onChange = (event, selectedTime) => {
     const currentDate = selectedTime || time;
     setTime(currentDate);
@@ -78,7 +80,9 @@ const Filters = ({ route, navigation }) => {
   // console.log({ partyId });
 
   const { createParty } = useParty(partyId);
-
+  useEffect(() => {
+    console.log("data for selected friends is: ", selectedFriends);
+  }, []);
   useEffect(() => {
     const main = async () => {
       const position = await getUserLocation();
@@ -88,7 +92,7 @@ const Filters = ({ route, navigation }) => {
       // console.log(currentLat, currentLong);
       Geocoder.from(currentLat, currentLong)
         .then((json) => {
-          var addressComponent = json.results[3].formatted_address; // new commen
+          var addressComponent = json.results[5].formatted_address; // new commen
           console.log(addressComponent);
           setName(addressComponent);
         })
@@ -118,7 +122,6 @@ const Filters = ({ route, navigation }) => {
         count,
         radius,
         filters,
-        restriction,
         price,
         // pricing,
         time,
@@ -205,70 +208,124 @@ const Filters = ({ route, navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View paddingHorizontal={20}>
-        <TitleText>Filters</TitleText>
+      <View paddingHorizontal={20} alignItems="center">
+        <TitleText fontSize={21}>Filters</TitleText>
       </View>
+      <View
+        display="flex"
+        flexDirection="column"
+        marginTop={-25}
+        paddingRight={30}
+      >
+        {selectedFriends.length != 0 && <SectionLabel label="Party with:" />}
+        <ScrollView
+          flexDirection="row"
+          marginBottom={10}
+          marginTop={10}
+          right={5}
+          horizontal={true}
+          showsHorizontalScrollIndicator={true}
+          paddingBottom={10}
+          width="100%"
+        >
+          {selectedFriends.length != 0 &&
+            selectedFriends.map((item) => (
+              <Chip
+                avatar={
+                  <Image
+                    source={{ uri: item?.imageUrlPath }}
+                    style={{
+                      height: 35,
+                      width: 35,
+                      borderRadius: 25,
+                      right: 1,
+                      borderColor: "black",
+                      borderWidth: 1,
+                      backgroundColor: "purple",
+                      marginLeft: 3,
+                    }}
+                  />
+                }
+                style={{
+                  width: 125,
+                  left: 40,
+                  height: 50,
+                  alignItems: "center",
+                  marginRight: 4,
+                  marginVertical: 2.5,
+                }}
+                textStyle={{ fontFamily: "Kollektif", fontSize: 15 }}
+                mode="outlined"
+              >
+                {item?.firstName}
+              </Chip>
+            ))}
+        </ScrollView>
+      </View>
+      {selectedFriends.length === 0 && (
+        <View display="flex" flexDirection="column" alignItems="center">
+          <Text
+            style={{
+              fontFamily: "Kollektif",
+              fontSize: 24,
+              color: "#f76f6d",
+            }}
+          >
+            Solo Mode
+          </Text>
+        </View>
+      )}
       <View display="flex" flexDirection="column" justifyContent="center">
         <SectionLabel label="Price" />
         <PricingSelector value={price} onChange={(val) => setPrice(val)} />
       </View>
       <Divider style={{ marginTop: 10 }} />
-      <View flexDirection="column" justifyContent="center">
+      <View flexDirection="column" flex={1}>
         <SectionLabel label="Location" />
-        {selectionval === "" && ( //what
-          <View style={{ alignItems: "center" }}>
-            <Text
-              style={{
-                marginTop: "3%",
-                fontSize: 19,
-                fontFamily: "Kollektif",
-              }}
+        <View
+          style={{ alignItems: "center", marginTop: 10 }}
+          flex={1}
+          // backgroundColor="red"
+          // paddingLeft={0}
+          // paddingRight={0}
+          paddingHorizontal={40}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("createParty/filters/changeLocation");
+            }}
+            style={{
+              height: 40,
+              borderWidth: 1,
+              borderRadius: 15,
+              paddingHorizontal: 20,
+              flex: 1,
+              alignSelf: "stretch",
+            }}
+          >
+            <View
+              flexDirection="row"
+              alignItems="center"
+              // position="relative"
+              flex={1}
+              // top={8}
             >
-              Search in {longName}
-              {/* Current Location */}
-            </Text>
-            <Text style={{ top: 3, fontFamily: "Kollektif", fontSize: 17 }}>
-              or
-            </Text>
-            <GradientButton
-              style={{ minWidth: 30, marginVertical: 10, width: "80%" }}
-              onPress={() => {
-                navigation.navigate("createParty/filters/changeLocation");
-              }}
-            >
-              Change my location!
-            </GradientButton>
-          </View>
-        )}
-        {selectionval != "" && (
-          <View style={{ alignItems: "center", marginTop: 10 }}>
-            <Text
-              style={{
-                fontFamily: "Kollektif",
-                fontSize: 20,
-              }}
-            >
-              Find restaurants in
-            </Text>
-            <Text
-              p
-              style={{
-                fontFamily: "Kollektif",
-                paddingVertical: 5,
-              }}
-            >
-              {selectionval}
-            </Text>
-            <GradientButton
-              style={{ minWidth: 30, marginVertical: 10, width: "80%" }}
-              onPress={() => {
-                navigation.navigate("createParty/filters/changeLocation");
-              }}
-            >
-              Change my location!
-            </GradientButton>
-          </View>
-        )}
+              <Icon name="location-outline" size={20} />
+
+              <Text
+                // style={{ }}
+                numberOfLines={1}
+                style={{
+                  marginLeft: 20,
+                  fontSize: 18,
+                  fontFamily: "Kollektif",
+                }}
+              >
+                {selectionval != "" ? selectionval : longName}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
       {/* <View
         style={{
@@ -301,209 +358,160 @@ const Filters = ({ route, navigation }) => {
         </View>
       </View> */}
       <Divider style={{ marginTop: 10 }} />
-      <SectionLabel label="Cuisine" />
-      <List.Section>
-        <List.Accordion
-          title="Select a cuisine"
-          left={(props) => (
-            <List.Icon {...props} icon="food" color={"#f76f6d"} />
-          )}
-          titleStyle={{ color: "#f76f6d" }}
+      <SectionLabel label="Cuisine and Restrictions" />
+      {/* <View style={{alignItems: "center"}}>
+        <DropDownPicker
+          multiple={true}
+          min={0}
+          max={5}
+          containerStyle={{width: "90%"}}
+        />
+      </View> */}
+      <View padingLeft={10} paddingRight={80} marginTop={5}>
+        <List.Section>
+          <List.Accordion
+            expanded={isDropdownOpen}
+            onPress={() => setIsDropDownOpen((old) => !old)}
+            title="Select a cuisine"
+            left={(props) => (
+              <List.Icon {...props} icon="food" color={"black"} />
+            )}
+            titleStyle={{
+              color: "black",
+              fontSize: 18,
+              fontFamily: "Kollektif",
+            }}
+            style={{
+              borderWidth: 1,
+              borderColor: "black",
+              borderRadius: 15,
+              borderBottomLeftRadius: isDropdownOpen ? 0 : 15,
+              borderBottomRightRadius: isDropdownOpen ? 0 : 15,
+
+              maxHeight: 40,
+              left: 40,
+              justifyContent: "center",
+            }}
+          >
+            {filterOptions.map(({ label, value }) => (
+              <TouchableOpacity
+                key={value}
+                flex={1}
+                left={40}
+                style={{
+                  left: 40,
+                  borderWidth: 1,
+                  borderTopWidth: 0,
+                }}
+                onPress={() => {
+                  handleTap(value, label);
+                }}
+              >
+                <LinearGradient
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  colors={
+                    filters.includes(value)
+                      ? ["#ee0979", "#f76f6d", "#ff6a00"]
+                      : ["#fff", "#fff", "#fff"]
+                  }
+                  style={[
+                    {
+                      minHeight: 38,
+                      justifyContent: "center",
+                      paddingHorizontal: 60,
+                      flex: 1,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "Kollektif",
+                      fontSize: 18,
+                      textAlign: "left",
+                      color: filters.includes(value) ? "#fff" : "#000",
+                    }}
+                  >
+                    {label}
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            ))}
+            {/* <List.Item
+              title="Alcohol"
+              value="bars"
+              onPress={() => {
+                handleTap("bars", "Alcohol");
+              }}
+              style={[
+                filters.includes("bars") && {
+                  backgroundColor: "lightgray",
+                },
+                {
+                  borderLeftWidth: 1,
+                  borderLeftColor: "black",
+                  borderRightWidth: 1,
+                  borderRightColor: "black",
+                  borderBottomColor: "black",
+                  borderBottomWidth: 1,
+                  // width: "80%",
+                  left: 40,
+                },
+              ]}
+            /> */}
+          </List.Accordion>
+        </List.Section>
+      </View>
+
+      <View
+        style={{
+          left: 40,
+          paddingVertical: 10,
+        }}
+      >
+        {/* <Text>chortle my balls</Text> */}
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            width: "80%",
+          }}
         >
-          <List.Item
-            title="Alcohol"
-            value="bars"
-            onPress={() => {
-              handleTap("bars");
-            }}
-            style={
-              filters.includes("bars") && {
-                backgroundColor: "lightgray",
-              }
-            }
-          />
-          <List.Item
-            title="American"
-            value="tradamerican"
-            onPress={() => {
-              handleTap("tradamerican");
-            }}
-            style={
-              filters.includes("tradamerican") && {
-                backgroundColor: "lightgray",
-              }
-            }
-          />
-          <List.Item
-            title="Boba"
-            value="bubbletea"
-            onPress={() => {
-              handleTap("bubbletea");
-            }}
-            style={
-              filters.includes("bubbletea") && { backgroundColor: "lightgray" }
-            }
-          />
-          <List.Item
-            title="Breakfast"
-            value="breakfast_brunch"
-            onPress={() => {
-              handleTap("breakfast_brunch");
-            }}
-            style={
-              filters.includes("breakfast_brunch") && {
-                backgroundColor: "lightgray",
-              }
-            }
-          />
-          <List.Item
-            title="Chinese"
-            value="chinese"
-            onPress={() => {
-              handleTap("chinese");
-            }}
-            style={
-              filters.includes("chinese") && { backgroundColor: "lightgray" }
-            }
-          />
-          <List.Item
-            title="Coffee and Tea"
-            value="coffee"
-            onPress={() => {
-              handleTap("coffee");
-            }}
-            style={
-              filters.includes("coffee") && {
-                backgroundColor: "lightgray",
-              }
-            }
-          />
-          <List.Item
-            title="Desserts"
-            value="desserts"
-            onPress={() => {
-              handleTap("desserts");
-            }}
-            style={
-              filters.includes("desserts") && {
-                backgroundColor: "lightgray",
-              }
-            }
-          />
-          <List.Item
-            title="Food Trucks"
-            value="foodtrucks"
-            onPress={() => {
-              handleTap("foodtrucks");
-            }}
-            style={
-              filters.includes("foodtrucks") && { backgroundColor: "lightgray" }
-            }
-          />
-          <List.Item
-            title="Fast Food"
-            value="hotdogs"
-            onPress={() => {
-              handleTap("hotdogs");
-            }}
-            style={
-              filters.includes("hotdogs") && { backgroundColor: "lightgray" }
-            }
-          />
-          <List.Item
-            title="Indian"
-            value="indpak"
-            onPress={() => {
-              handleTap("indpak");
-            }}
-            style={
-              filters.includes("indpak") && { backgroundColor: "lightgray" }
-            }
-          />
-          <List.Item
-            title="Japanese"
-            value="japanese"
-            onPress={() => {
-              handleTap("japanese");
-            }}
-            style={
-              filters.includes("japanese") && { backgroundColor: "lightgray" }
-            }
-          />
-          <List.Item
-            title="Mexican"
-            value="mexican"
-            onPress={() => {
-              handleTap("mexican");
-            }}
-            style={
-              filters.includes("mexican") && { backgroundColor: "lightgray" }
-            }
-          />
-          <List.Item
-            title="Thai"
-            value="thai"
-            onPress={() => {
-              handleTap("thai");
-            }}
-            style={filters.includes("thai") && { backgroundColor: "lightgray" }}
-          />
-        </List.Accordion>
-      </List.Section>
-      <Divider />
-      <SectionLabel label="Dietary Restrictions" />
-      <List.Section>
-        <List.Accordion
-          title="Select a dietary restriction"
-          left={(props) => (
-            <List.Icon {...props} icon="tree" color={"#f76f6d"} />
-          )}
-          titleStyle={{ color: "#f76f6d" }}
-        >
-          <List.Item
-            title="Halal"
-            value="halal"
-            onPress={() => {
-              handleRestricts("halal");
-            }}
-            style={
-              restriction.includes("halal") && { backgroundColor: "lightgray" }
-            }
-          />
-          <List.Item
-            title="Vegan"
-            value="vegan"
-            onPress={() => {
-              handleRestricts("vegan");
-            }}
-            style={
-              restriction.includes("vegan") && { backgroundColor: "lightgray" }
-            }
-          />
-          <List.Item
-            title="Vegetarian"
-            value="vegetarian"
-            onPress={() => {
-              handleRestricts("vegetarian");
-            }}
-            style={
-              restriction.includes("vegetarian") && {
-                backgroundColor: "lightgray",
-              }
-            }
-          />
-          <List.Item
-            title="Kosher"
-            value="kosher"
-            onPress={() => {
-              handleRestricts("kosher");
-            }}
-            style={
-              restriction.includes("kosher") && { backgroundColor: "lightgray" }
-            }
-          />
-        </List.Accordion>
-      </List.Section>
+          {titles.map((items) => (
+            // <LinearGradient
+            //   start={{x:0, y:0}}
+            //   end={{x:1, y:0}}
+            //   color={["#ee0979", "#f76f6d", "#ff6a00"]}
+            // >
+            <View>
+              <LinearGradient
+                start={{ x: 1, y: 1 }}
+                end={{ x: 0, y: 0 }}
+                colors={["#ee0979", "#ff6a00"]}
+                style={[
+                  {
+                    borderRadius: 25,
+                    marginRight: 5,
+                  },
+                ]}
+              >
+                <Chip
+                  style={{
+                    backgroundColor: "transparent",
+                  }}
+                  textStyle={{
+                    color: "white",
+                    fontFamily: "kollektif",
+                  }}
+                >
+                  {items}
+                </Chip>
+              </LinearGradient>
+            </View>
+          ))}
+        </View>
+      </View>
       <Divider />
       <View style={{ marginTop: "5%" }}>
         <View style={{ display: "flex", flexDirection: "row" }}>

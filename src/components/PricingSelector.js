@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 
 const opts = [
   { value: 1, label: "$" },
@@ -9,12 +10,29 @@ const opts = [
 ];
 
 const PriceButton = ({ value, label, selected, style, textStyle, ...rest }) => (
+  
+  <LinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          colors={selected ? ["#ee0979", "#f76f6d", "#ff6a00"] : ["#fff", "#fff", "#fff"]}
+          style={[
+            {
+              borderWidth: selected ? 0:1,
+              alignSelf: "stretch",
+              flex: 1,
+              marginHorizontal: 5,
+              height: 40,
+              borderRadius: 25,
+              alignItems: "center",
+              justifyContent: "center",
+            },
+        ]}
+  >
   <TouchableOpacity
     onPress={() => { }}
     {...rest}
     style={[
       {
-        borderWidth: 1,
         alignSelf: "stretch",
         flex: 1,
         marginHorizontal: 5,
@@ -23,13 +41,13 @@ const PriceButton = ({ value, label, selected, style, textStyle, ...rest }) => (
         alignItems: "center",
         justifyContent: "center",
       },
-      selected && { backgroundColor: "rgba(0,0,0, 0.2)" },
     ]}
   >
-    <Text p style={{ fontFamily: "Kollektif", fontSize: 20 }}>
+    <Text p style={[{ fontFamily: "Kollektif", fontSize: 20 }, selected && {color: selected ? "#fff" : '#000'}]}>
       {label}
     </Text>
   </TouchableOpacity>
+  </LinearGradient>
 );
 export const PricingSelector = ({ value, onChange }) => {
   const [data, setData] = useState(value);

@@ -7,6 +7,7 @@ import {
   View,
   Text,
   Button,
+  Image,
   TouchableOpacity,
 } from "react-native";
 import {
@@ -19,14 +20,15 @@ import {
 } from "components";
 import { SafeAreaView } from "react-native";
 import { useInvites } from "lib/invites.js";
-import { Card } from "react-native-paper";
+import { Appbar } from 'react-native-paper';
+import LinearGradient from "react-native-linear-gradient";
 
 const InvitesDisplay = ({ navigation }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
 
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const pendingInvites = invites?.filter((item) => item.status == "pending");
-
+  const height = Dimensions.get("window").height;
   const handleAccept = (invite) => {
     if (acceptedInvites?.length <= 0) {
       acceptInvite(invite)
@@ -57,94 +59,52 @@ const InvitesDisplay = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      {acceptedInvites?.length != 0 && (
-        <View style={{ flexDirection: "row" }}>
-          {acceptedInvites?.length > 0 && (
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                // height: 45,
-                // borderTopWidth: 1,
-                // borderBottomWidth: 2,
-                backgroundColor: "rgba(0,0,0,0.05)",
-                paddingVertical: 20,
-                paddingHorizontal: 20,
-                width: Dimensions.get("screen").width,
-                backgroundColor: "white",
-                borderWidth: 1,
-                borderColor: "lightgray",
-                // ...StyleSheet.absoluteFill,
-                // borderColor: "rgba(0,0,0,0.1)",
-                position: "relative",
-                right: 20,
-                marginBottom: 10,
-                top: -2,
-              }}
-            >
-              <FlatList
-                data={acceptedInvites}
-                style={{ paddingTop: 5 }}
-                scrollEnabled="false"
-                snapToInterval={Dimensions.get("window").width}
-                indicatorStyle="black"
-                decelerationRate="fast"
-                renderItem={({ item }) => (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      flex: 1,
-                      // height: 45,
-                    }}
-                  >
-                    <View flex={1}>
-                      <Text
-                        style={{
-                          fontWeight: "400",
-                          fontSize: 22,
-                          fontFamily: "Kollektif",
-                        }}
-                        numberOfLines={1}
-                        adjustsFontSizeToFit
-                      >
-                        You have an active party!
-                      </Text>
-                    </View>
-                    <GradientButton
-                      onPress={() =>
-                        navigation.navigate("joinParty", {
-                          screen: "joinParty/swiping",
-                          params: { partyID: item.docID },
-                        })
-                      }
-                      containerStyle={{ width: 120, marginLeft: 15 }}
-                      innerStyle={{
-                        borderRadius: 7,
-                        paddingVertical: 12,
-                        paddingHorizontal: 5,
-                      }}
-                      textStyle={{ fontSize: 19 }}
-                    >
-                      <Text>Resume</Text>
-                    </GradientButton>
-                  </View>
-                )}
-                keyExtractor={(item) => item.docID}
+      {height>=896 &&
+          <Appbar.Header style={[styles.bottom, {height: 70}]}>
+            <Appbar.Content
+                title={
+                      <Image source={require("assets/images/newheaderLogo.jpeg")}
+                                    style={{
+                                        width: 29.333,
+                                        height: 44,
+                                        
+                                    }}
+                            />
+                          }
+                        titleStyle={{backgroundColor: "white", right: 40}}
+                        style={{alignItems: "flex-start", top: 5}}
               />
-            </View>
-          )}
-        </View>
-      )}
-      <TitleText style={[styles.title, { marginTop: 15 }]}>Invites</TitleText>
+            <Appbar.Action icon={'account-plus'} size={30} onPress={() => navigation.navigate("profile", {screen: "profile/addFriends"})} style={{top: 3}}/>
+          </Appbar.Header>
+      }
+      {height<=667 &&
+        <Appbar.Header style={[styles.bottom, {height: 60,}]}>
+          <Appbar.Content
+              title={
+                    <Image source={require("assets/images/newheaderLogo.jpeg")}
+                                  style={{
+                                      width: 26.4,
+                                      height: 39.6,
+                                      aspectRatio: 2/3
+                                  }}
+                          />
+                        }
+                      titleStyle={{backgroundColor: "white", right: 40}}
+                      style={{alignItems: "flex-start", top: 5}}
+            />
+          
+          <Appbar.Action icon={'account-plus'} size={27.5} onPress={() => navigation.navigate("profile", {screen: "profile/addFriends"})} style={{top: 2}}/>
+        </Appbar.Header>
+      }
+      <TitleText style={[styles.title, { marginTop: 15, left: 20 }]}>Invites</TitleText>
       {pendingInvites?.length <= 0 && (
         <SubtitleText style={styles.subtitle}>
           No pending invites. Start a party!
         </SubtitleText>
       )}
-      <View>
+      <View style={{
+        alignItems: "center"
+      }}>
         <FlatList
           data={pendingInvites && pendingInvites}
           style={{ paddingTop: 5 }}
@@ -180,11 +140,17 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: "black",
-    left: 2.5,
+    paddingLeft: 20,
   },
   card: {
     borderRadius: 25,
     shadowRadius: 2,
     width: Dimensions.get("window").width - 20 * 2,
+  },
+  bottom: {
+    backgroundColor: "white",
+    elevation: 0,
+    borderBottomColor: "lightgray",
+    borderBottomWidth: 1
   },
 });

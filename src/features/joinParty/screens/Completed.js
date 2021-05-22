@@ -343,6 +343,29 @@ const Completed = ({ route, navigation }) => {
                 </View>
               </Modal> */}
 
+              {party &&
+                partyMembers &&
+                party.winner &&
+                user &&
+                user.uidvalue == party.admin && (
+                  <View alignItems="center">
+                    <GradientButton
+                      // containerStyle={{ maxWidth: 200, marginBottom: 10 }}
+                      containerStyle={{
+                        // position: "relative",
+                        // top: -5,
+                        marginTop: 10,
+                      }}
+                      innerStyle={{ paddingVertical: 15 }}
+                      textStyle={{ fontSize: 22 }}
+                      outline
+                      onPress={() => show2Modal()}
+                    >
+                      Next
+                </GradientButton>
+                  </View>
+                )}
+
               <Modal
                 style={{ padding: 30, }}
                 visible={modal2Visible}
@@ -391,28 +414,7 @@ const Completed = ({ route, navigation }) => {
               </Modal>
             </>
           )}
-          {party &&
-            partyMembers &&
-            party.winner &&
-            user &&
-            user.uidvalue == party.admin && (
-              <View alignItems="center">
-                <GradientButton
-                  // containerStyle={{ maxWidth: 200, marginBottom: 10 }}
-                  containerStyle={{
-                    // position: "relative",
-                    // top: -5,
-                    marginTop: 10,
-                  }}
-                  innerStyle={{ paddingVertical: 15 }}
-                  textStyle={{ fontSize: 22 }}
-                  outline
-                  onPress={() => show2Modal()}
-                >
-                  Next
-                </GradientButton>
-              </View>
-            )}
+
           {party &&
             partyMembers &&
             party.winner &&
@@ -436,6 +438,48 @@ const Completed = ({ route, navigation }) => {
               </View>
             )}
 
+
+
+          {party &&
+            partyMembers &&
+            !party.winner &&
+            user &&
+            user.uidvalue != party.admin && (
+              <View alignItems="center">
+                <GradientButton
+                  containerStyle={{ maxWidth: 200, marginBottom: 10 }}
+                  onPress={() =>
+                    Alert.alert(
+                      "Leave Party?",
+                      "This will remove you from the party with no way to get back!",
+                      [
+                        {
+                          text: "Nope!",
+                          onPress: () => console.log("Cancel Pressed"),
+                          style: "cancel",
+                        },
+                        {
+                          text: "Leave",
+                          onPress: () =>
+                            leaveParty()
+                              .then(() =>
+                                navigation.reset({
+                                  index: 0,
+                                  routes: [{ name: "home" }],
+                                })
+                              )
+                              .catch((err) => console.error(err)),
+                        },
+                      ]
+                    )
+                  }
+                >
+                  Leave Party!
+              </GradientButton>
+              </View>
+            )}
+          {party && party.winner && <View height={30} />}
+
           {party && partyMembers && !party.winner && (
             <>
               <TitleText
@@ -447,7 +491,7 @@ const Completed = ({ route, navigation }) => {
                 }}
               >
                 Party Members
-              </TitleText>
+            </TitleText>
               <View backgroundColor="#00000050" height={1} marginBottom={15} />
 
               <ScrollView>
@@ -463,16 +507,16 @@ const Completed = ({ route, navigation }) => {
                   keyExtractor={(item) => item.docId}
                 />
               </ScrollView>
-              <LinearGradient
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  width: Dimensions.get("screen").width,
-                  height: 20,
-                }}
-                colors={["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 1)"]}
-                pointerEvents={"none"}
-              />
+              {/* <LinearGradient
+              style={{
+                position: "absolute",
+                bottom: 0,
+                width: Dimensions.get("screen").width,
+                height: 20,
+              }}
+              colors={["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 1)"]}
+              pointerEvents={"none"}
+            /> */}
             </>
           )}
         </View>
@@ -484,12 +528,10 @@ const Completed = ({ route, navigation }) => {
             <View alignItems="center">
               <GradientButton
                 containerStyle={{ maxWidth: 200, marginBottom: 10 }}
-                onPress={() =>
-                  resolveParty().catch((err) => console.error(err))
-                }
+                onPress={() => resolveParty().catch((err) => console.error(err))}
               >
                 Pick Winner!
-              </GradientButton>
+            </GradientButton>
             </View>
           )}
 
@@ -528,7 +570,7 @@ const Completed = ({ route, navigation }) => {
                 }
               >
                 Leave Party!
-              </GradientButton>
+            </GradientButton>
             </View>
           )}
         {party && party.winner && <View height={30} />}
@@ -539,15 +581,12 @@ const Completed = ({ route, navigation }) => {
           snapPoints={snapPoints}
           enableHandlePanningGesture={false}
           handleComponent={null}
-        // handleHeight={0}
         >
-          <BottomSheetScrollView style={styles.bottomSheetContainer}>
-            <View
-              style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}
-            >
+          <BottomSheetScrollView>
+            <View style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}>
               <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
                 Address
-              </Text>
+            </Text>
               <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
                 {currentWinner?.location.address1}
                 {/* <Text>{JSON.stringify(currentWinner, null, 2)}</Text> */}
@@ -566,7 +605,7 @@ const Completed = ({ route, navigation }) => {
             >
               <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
                 Phone
-              </Text>
+            </Text>
               <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
                 {currentWinner?.display_phone}
               </Text>
@@ -577,78 +616,116 @@ const Completed = ({ route, navigation }) => {
             >
               <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
                 Filters
-              </Text>
+            </Text>
               <View
-                flexDirection="row"
-                flexWrap="wrap-reverse"
-                style={{ marginTop: 5 }}
+                style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}
               >
-                {currentWinner?.categories.map((item, i) => (
-                  <Chip
-                    key={i}
-                    textAlign="center"
-                    marginRight={10}
-                    flex={0}
-                    marginVertical={2}
-                    style={{
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginTop: "1.5%",
-                    }}
-                    textStyle={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      fontFamily: "Kollektif",
-                    }}
-                  >
-                    {item.title}
-                  </Chip>
-                ))}
+                <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
+                  Address
+              </Text>
+                <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
+                  {currentWinner?.location.address1}
+                  {/* <Text>{JSON.stringify(currentWinner, null, 2)}</Text> */}
+                </Text>
+                <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
+                  {currentWinner?.location.city +
+                    ", " +
+                    currentWinner?.location.state +
+                    " " +
+                    currentWinner?.location?.zip_code}
+                </Text>
               </View>
-              <View flexDirection="row" flexWrap="wrap-reverse">
-                {currentWinner?.price != null && (
-                  <Chip
-                    textAlign="center"
-                    marginRight={10}
-                    flex={0}
-                    marginVertical={2}
-                    style={{
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginTop: "1.5%",
-                    }}
-                    textStyle={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      fontFamily: "Kollektif",
-                    }}
-                  >
-                    {currentWinner?.price}
-                  </Chip>
-                )}
-              </View>
-            </View>
-            <Divider />
-            <View alignItems="center" justifyContent="center">
-              <GradientButton
-                containerStyle={{
-                  position: "relative",
-                  width: "95%",
-                  top: 15,
-                }}
-                innerStyle={{ paddingVertical: 15 }}
-                textStyle={{ fontSize: 22 }}
-                onPress={() => {
-                  Linking.openURL(url); //idk comment
-                }}
+              <Divider />
+              <View
+                style={{ top: 10, left: 22, marginBottom: 22.5, marginTop: 10 }}
               >
-                Take me here!
+                <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
+                  Phone
+              </Text>
+                <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
+                  {currentWinner?.display_phone}
+                </Text>
+              </View>
+              <Divider />
+              <View
+                style={{ top: 10, left: 22, marginBottom: 22.5, marginTop: 10 }}
+              >
+                <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
+                  Filters
+              </Text>
+                <View
+                  flexDirection="row"
+                  flexWrap="wrap-reverse"
+                  style={{ marginTop: 5 }}
+                >
+                  {currentWinner?.categories.map((item, i) => (
+                    <Chip
+                      key={i}
+                      textAlign="center"
+                      marginRight={10}
+                      flex={0}
+                      marginVertical={2}
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginTop: "1.5%",
+                      }}
+                      textStyle={{
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        fontFamily: "Kollektif",
+                      }}
+                    >
+                      {item.title}
+                    </Chip>
+                  ))}
+                </View>
+                <View flexDirection="row" flexWrap="wrap-reverse">
+                  {currentWinner?.price != null && (
+                    <Chip
+                      textAlign="center"
+                      marginRight={10}
+                      flex={0}
+                      marginVertical={2}
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginTop: "1.5%",
+                      }}
+                      textStyle={{
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        fontFamily: "Kollektif",
+                      }}
+                    >
+                      {currentWinner?.price}
+                    </Chip>
+                  )}
+                </View>
+              </View>
+              <Divider />
+              <View alignItems="center" justifyContent="center">
+                <GradientButton
+                  containerStyle={{
+                    position: "relative",
+                    width: "95%",
+                    top: 15,
+                  }}
+                  innerStyle={{ paddingVertical: 15 }}
+                  textStyle={{ fontSize: 22 }}
+                  onPress={() => {
+                    Linking.openURL(url); //idk comment
+                  }}
+                >
+                  Take me here!
               </GradientButton>
+              </View>
             </View>
           </BottomSheetScrollView>
         </BottomSheet>
       </View>
     </SafeAreaView>
+
   );
 };
 

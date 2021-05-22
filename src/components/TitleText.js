@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   title: {
     color: "black",
     justifyContent: "center",
-    fontSize: 36,
+    fontSize: 30,
     fontFamily: "Kollektif",
     letterSpacing: 0.1,
     marginBottom: 10,

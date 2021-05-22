@@ -24,7 +24,9 @@ export const GradientButton = ({
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
-      colors={outline ? ["#ffffff00"] : ["#ee0979", "#f76f6d", "#ff6a00"]}
+      colors={
+        outline ? ["#ffffff00", "#ffffff00"] : ["#ee0979", "#f76f6d", "#ff6a00"]
+      }
       style={[
         {
           minHeight: 40,
@@ -38,7 +40,7 @@ export const GradientButton = ({
         },
         outline && {
           borderWidth: 1,
-          borderColor: "black",
+          borderColor: "#ee0979",
         },
         innerStyle,
       ]}
@@ -51,7 +53,7 @@ export const GradientButton = ({
             // textTransform: "uppercase",
             letterSpacing: 1,
             fontWeight: "500",
-            color: outline ? "black" : "#fff",
+            color: outline ? "#ee0979" : "#fff",
           },
           textStyle,
         ]}

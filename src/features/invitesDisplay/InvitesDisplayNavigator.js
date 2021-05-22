@@ -3,39 +3,30 @@ import { Image, Dimensions } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import InvitesDisplay from "./InvitesDisplay";
+import { logoHeaderOptions } from "../../components";
 
 const Stack = createStackNavigator();
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
-const LogoTitle1 = () => (
-  <Image
-    style={{ width: 100, height: 70, alignItems: "center" }}
-    source={require("assets/images/headerlogo.png")}
-  />
-);
 
-const LogoTitle2 = () => (
-  <Image
-    style={{ width: 75, height: 50, alignItems: "center" }}
-    source={require("assets/images/headerlogo.png")}
-  />
-);
+
+
 
 export default () => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    screenOptions={{headerShown: "false"}}
+  >
     {windowHeight === 667 &&
       <Stack.Screen
         name="invitesDisplay"
         component={InvitesDisplay}
         options={{
           title: "Invites",
-          headerShown: true,
-          headerTitle: (props) => <LogoTitle2 {...props} />,
-          headerStyle: {
-            height: 80,
-          },
+          headerShown: false,
+          drawBehind: true,
+          ...logoHeaderOptions
         }}
       />
     }
@@ -46,11 +37,8 @@ export default () => (
         component={InvitesDisplay}
         options={{
           title: "Invites",
-          headerShown: true,
-          headerTitle: (props) => <LogoTitle1 {...props} />,
-          headerStyle: {
-            height: 120,
-          },
+          headerShown: false,
+          ...logoHeaderOptions
         }}
       />
     }

@@ -117,6 +117,11 @@ const addPartySelections = async (id, user, party, selections, override) => {
 
   const partyRef = firestore().collection("Parties").doc(id);
   const partyMemberRef = partyRef.collection("members").doc(user.uidvalue);
+  // const historyRef = firestore()
+  //   .collection("Users")
+  //   .collection("history")
+  //   .add()
+  //   .doc(id);
 
   const updatedData = party.restaurants.map((item) => ({
     ...item,
@@ -125,6 +130,13 @@ const addPartySelections = async (id, user, party, selections, override) => {
 
   await partyRef.update({ restaurants: updatedData });
   await partyMemberRef.update({ status: "complete" });
+
+  // await historyRef.set(
+  //   party.restaurants.map((item) => ({
+  //     ...item,
+  //     matches: selections[item.id],
+  //   }))
+  // );
 };
 
 const createParty = async (id, user, members, options) => {
