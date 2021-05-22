@@ -27,7 +27,6 @@ export default () => (
           headerTitle: (props) => <LogoTitle2 {...props} />,
           headerStyle: {
             height: 80,
-            backgroundColor: "black"
           },
         }}
       />
