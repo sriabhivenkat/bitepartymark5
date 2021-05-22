@@ -15,9 +15,9 @@ import LinearGradient from "react-native-linear-gradient";
 import { startImages } from "../startImages";
 import { useInvites } from "lib/invites.js";
 import { Alert } from "react-native";
-import { useUser } from "lib";
-import { GradientButton } from "components";
-import { Appbar } from "react-native-paper";
+import {useUser} from "lib";
+import {GradientButton} from "components";
+import { Appbar, Button } from 'react-native-paper';
 import { logoHeaderOptions } from "../../../components";
 import { useEffect } from "react";
 
