@@ -310,7 +310,7 @@ const Filters = ({ route, navigation }) => {
               flex={1}
               // top={8}
             >
-              <Icon name="location-outline" size={20} />
+              <Icon name="locate-outline" size={20} />
 
               <Text
                 // style={{ }}
