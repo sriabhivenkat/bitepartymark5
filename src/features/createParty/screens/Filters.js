@@ -14,7 +14,6 @@ import { Alert } from "react-native";
 import { PricingSelector, TitleText } from "../../../components";
 import Icon from 'react-native-vector-icons/Ionicons'
 import DropDownPicker from 'react-native-dropdown-picker';
-import { LinearTextGradient } from "react-native-text-gradient";
 
 
 const Filters = ({ route, navigation }) => {
