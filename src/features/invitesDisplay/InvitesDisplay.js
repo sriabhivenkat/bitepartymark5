@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: "black",
-    left: 2.5,
+    paddingLeft: 20,
   },
   card: {
     borderRadius: 25,
