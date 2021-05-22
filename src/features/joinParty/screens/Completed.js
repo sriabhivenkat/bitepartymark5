@@ -175,7 +175,7 @@ const Completed = ({ route, navigation }) => {
           .doc()
           .set({
             imageUrl: url,
-            subbmittedBy: user.uidvalue
+            submittedBy: user.uidvalue
           });
       });
     } catch (e) {
@@ -300,7 +300,7 @@ const Completed = ({ route, navigation }) => {
                 View Restaurant Details
               </GradientButton>
 
-              <Modal
+              {/* <Modal
                 style={{ padding: 30 }}
                 visible={modalVisible}
                 onDismiss={hideModal}
@@ -315,8 +315,8 @@ const Completed = ({ route, navigation }) => {
                 >
                   <Text style={{ fontWeight: "600", fontSize: 20, marginBottom: 10 }}>
                     Rate your party!
-                  </Text>
-                  {/* <Rating
+                  </Text> */}
+              {/* <Rating
                     type="custom"
                     ratingImage={starImg}
                     ratingCount={5}
@@ -332,7 +332,7 @@ const Completed = ({ route, navigation }) => {
                     starImage={starImg}
                     starContainerStyle={{}}
                   ></AirbnbRating> */}
-
+              {/* 
                   <CustomRate rating={rating} setRating={setRating} />
                   <GradientButton
                     containerStyle={{ marginTop: 20 }}
@@ -341,10 +341,10 @@ const Completed = ({ route, navigation }) => {
                     <Text>Submit</Text>
                   </GradientButton>
                 </View>
-              </Modal>
+              </Modal> */}
 
               <Modal
-                style={{ padding: 30 }}
+                style={{ padding: 30, }}
                 visible={modal2Visible}
                 onDismiss={hide2Modal}
               >
@@ -353,6 +353,8 @@ const Completed = ({ route, navigation }) => {
                     backgroundColor: "white",
                     alignItems: "center",
                     borderRadius: 15,
+                    height: 225,
+                    justifyContent: 'center'
                   }}
                 >
                   <Text style={{ fontWeight: "600", fontSize: 15, marginTop: 10, fontFamily: 'Kollektif' }}>
@@ -405,7 +407,7 @@ const Completed = ({ route, navigation }) => {
                   innerStyle={{ paddingVertical: 15 }}
                   textStyle={{ fontSize: 22 }}
                   outline
-                  onPress={() => showModal()}
+                  onPress={() => show2Modal()}
                 >
                   Next
                 </GradientButton>
@@ -427,7 +429,7 @@ const Completed = ({ route, navigation }) => {
                   innerStyle={{ paddingVertical: 15 }}
                   textStyle={{ fontSize: 22 }}
                   outline
-                  onPress={() => showModal()}
+                  onPress={() => show2Modal()}
                 >
                   Next
                 </GradientButton>
