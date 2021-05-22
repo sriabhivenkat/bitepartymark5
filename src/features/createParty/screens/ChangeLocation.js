@@ -40,7 +40,7 @@ const ChangeLocation = ({ route, navigation }) => {
           // console.log(addressComponent)
           setName(addressComponent);
           setFullName(fullAddress);
-          console.log(addressComponent)
+          console.log(addressComponent);
         })
         .catch((error) => console.warn(error));
     };
@@ -88,17 +88,19 @@ const ChangeLocation = ({ route, navigation }) => {
           language: "en",
         }}
         textInputProps={{
-          width: "92.5%",
+          // width: "92.5%",
           borderColor: "black",
           borderWidth: 2,
           color: "black",
-          marginLeft: "2%",
-          marginRight: "5%",
-          left: 5,
+          fontFamily: "Kollektif",
+          paddingHorizontal: 10,
+          // marginLeft: "2%",
+          // marginRight: "5%",
+          // left: 5,
           alignItems: "center",
           shadowColor: "black",
-          shadowRadius: 30,
-          borderRadius: 14,
+          // shadowRadius: 30,
+          borderRadius: 15,
           leftIcon: { type: "ionicons", name: "search" },
         }}
         styles={{
@@ -117,7 +119,7 @@ const ChangeLocation = ({ route, navigation }) => {
             fontSize: 17,
           },
           textInput: {
-            fontSize: 16,
+            fontSize: 18,
             color: "#f76f6d",
           },
         }}
@@ -132,22 +134,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
+    paddingHorizontal: 20,
   },
   text: {
-    padding: 20,
+    paddingVertical: 20,
+    // paddingHorizontal:
     color: "black",
     fontSize: 36,
     fontFamily: "Kollektif",
-  },
-  searchbar: {
-    width: "92.5%",
-    borderColor: "black",
-    borderWidth: 1.5,
-    marginLeft: "4%",
-    alignItems: "center",
-    shadowColor: "black",
-    shadowRadius: 30,
-    borderRadius: 14,
-    marginTop: "-5%",
   },
 });
