@@ -428,7 +428,7 @@ const Completed = ({ route, navigation }) => {
             }
             {height <= 667 &&
               <View
-                marginRight={9.5}
+                marginRight={9}
               >
                 <View
                   flexDirection="row"

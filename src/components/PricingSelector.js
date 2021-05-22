@@ -29,7 +29,7 @@ const PriceButton = ({ value, label, selected, style, textStyle, ...rest }) => (
         ]}
   >
   <TouchableOpacity
-    onPress={() => {}}
+    onPress={() => { }}
     {...rest}
     style={[
       {
