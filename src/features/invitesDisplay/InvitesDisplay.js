@@ -9,12 +9,14 @@ import {
 } from "react-native";
 import { TitleText, InviteCard, SubtitleText } from "components";
 import { SafeAreaView } from "react-native";
-import { useInvites } from "lib";
-import { Appbar } from "react-native-paper";
-import { FriendInvites } from "./FriendsInvites";
+import { Button, Divider, IconButton } from "react-native-paper";
+import { useInvites } from "lib/invites.js";
+import { Appbar } from 'react-native-paper';
+import LinearGradient from "react-native-linear-gradient";
+
 const InvitesDisplay = ({ navigation }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
-
+  const isSmall = height < 700;
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const pendingInvites = invites?.filter((item) => item.status == "pending");
   const height = Dimensions.get("window").height;

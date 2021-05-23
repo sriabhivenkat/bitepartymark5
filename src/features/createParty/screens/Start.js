@@ -27,6 +27,7 @@ const Start = ({ navigation }) => {
   const { user } = useUser();
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const height = Dimensions.get("window").height;
+  const width = Dimensions.get("window").width;
   useEffect(() => {
     console.log(height);
   }, []);

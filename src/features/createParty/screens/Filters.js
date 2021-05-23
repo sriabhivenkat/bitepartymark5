@@ -233,7 +233,7 @@ const Filters = ({ route, navigation }) => {
               <Chip
                 avatar={
                   <Image
-                    source={{ uri: item?.imageUrlPath }}
+                    source={{ uri: item?.imageUrl }}
                     style={{
                       height: 35,
                       width: 35,
