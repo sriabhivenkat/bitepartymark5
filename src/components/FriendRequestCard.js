@@ -1,52 +1,23 @@
 import React from "react";
 import { View, StyleSheet, Dimensions, Animated } from "react-native";
 import { Text } from "galio-framework";
-import { Card, Avatar, Chip } from "react-native-paper";
-
-export const MemberCard = ({
+import { Card, Avatar, Chip, IconButton } from "react-native-paper";
+import { TouchableOpacity } from "react-native";
+import { useFriends } from "lib";
+export const FriendRequestCard = ({
   onPress,
   data,
   selected,
-  disabled,
   status,
   ...rest
 }) => {
-  const AnimatedCard = Animated.createAnimatedComponent(Card);
-
-  const statusMap = {
-    pending: {
-      text: "Waiting",
-      color: "#FFB75D",
-      textColor: "#000",
-    },
-    rejected: {
-      text: "Rejected",
-      color: "#C23934",
-      textColor: "#fff",
-    },
-    complete: {
-      text: "Completed",
-      color: "green",
-      textColor: "#fff",
-    },
-    accepted: {
-      text: "Swiping",
-      color: "purple",
-      textColor: "#fff",
-    },
-    friendPending: {
-      text: "Pending",
-      color: "#00000050",
-      textColor: "#000",
-    },
-  };
-
+  const { acceptFriend, rejectFriend } = useFriends();
   return (
     <View style={styles.container}>
       <Card
         style={[
           styles.card,
-          { maxHeight: 250, marginBottom: 15 },
+          { height: 70, marginBottom: 15 },
           selected && {
             backgroundColor: "#e0e0e0",
           },
@@ -78,25 +49,20 @@ export const MemberCard = ({
                 numberOfLines={1}
                 style={[styles.text, styles.handle]}
               >
-                @{data.handle}
+                Friend Request
               </Text>
             </View>
-            {data.status && (
-              <View style={styles.chipContainer}>
-                <Chip
-                  style={{
-                    backgroundColor: statusMap[data.status].color,
-                    justifyContent: "center",
-                  }}
-                  textStyle={{
-                    fontWeight: "600",
-                    color: statusMap[data.status].textColor,
-                  }}
-                >
-                  {statusMap[data.status].text}
-                </Chip>
-              </View>
-            )}
+            <View style={styles.chipContainer}>
+              <TouchableOpacity
+                style={styles.confirmButton}
+                onPress={() => acceptFriend(data)}
+              >
+                <Text style={[styles.text, styles.confirmButtonText]}>
+                  Accept
+                </Text>
+              </TouchableOpacity>
+              <IconButton icon="close" onPress={() => rejectFriend(data)} />
+            </View>
           </View>
         </Card.Content>
       </Card>
@@ -104,7 +70,7 @@ export const MemberCard = ({
   );
 };
 
-export default MemberCard;
+export default FriendRequestCard;
 
 const styles = StyleSheet.create({
   container: {
@@ -114,9 +80,7 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 15,
     shadowRadius: 2,
-    paddingHorizontal: 10,
-    borderColor: "#ee0979",
-    borderWidth: 4,
+    // paddingHorizontal: 10,
   },
   buttonContainer: {
     justifyContent: "center",
@@ -125,6 +89,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    flex: 1,
   },
   subText: {
     fontFamily: "Kollektif",
@@ -134,10 +99,10 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: "Kollektif",
     // marginTop: "5%",
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: "bold",
   },
-  handle: {},
+  handle: { fontSize: 14, position: "relative", top: 4 },
   name: {
     // fontWeight: "700",
   },
@@ -151,7 +116,21 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   chipContainer: {
-    // backgroundColor: "blue",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
     flex: 1,
+    position: "relative",
+    left: 10,
+    // backgroundColor: "red",
   },
+  confirmButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 15,
+    borderRadius: 40,
+    height: 35,
+    backgroundColor: "#E77771",
+  },
+  confirmButtonText: { color: "#fff", fontSize: 15 },
 });

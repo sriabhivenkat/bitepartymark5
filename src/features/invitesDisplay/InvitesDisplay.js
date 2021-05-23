@@ -5,24 +5,13 @@ import {
   StatusBar,
   Dimensions,
   View,
-  Text,
-  Button,
   Image,
-  TouchableOpacity,
 } from "react-native";
-import {
-  TitleText,
-  InviteCard,
-  PartyCard,
-  SubtitleText,
-  resumeCard,
-  GradientButton,
-} from "components";
+import { TitleText, InviteCard, SubtitleText } from "components";
 import { SafeAreaView } from "react-native";
-import { useInvites } from "lib/invites.js";
+import { useInvites } from "lib";
 import { Appbar } from "react-native-paper";
-import LinearGradient from "react-native-linear-gradient";
-
+import { FriendInvites } from "./FriendsInvites";
 const InvitesDisplay = ({ navigation }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
 
@@ -115,10 +104,12 @@ const InvitesDisplay = ({ navigation }) => {
           No pending invites. Start a party!
         </SubtitleText>
       )}
+
       <View
         style={{
           alignItems: "center",
         }}
+        // flex={1}
       >
         <FlatList
           data={pendingInvites && pendingInvites}
@@ -137,6 +128,21 @@ const InvitesDisplay = ({ navigation }) => {
           keyExtractor={(item) => item.docID}
         />
       </View>
+
+      <View
+        height={1}
+        width="100%"
+        backgroundColor="#00000020"
+        // marginHorizontal={20}
+        // marginVertical={20}
+      />
+      {/* <View> */}
+      <TitleText style={[styles.title, { marginTop: 15, left: 20 }]}>
+        Friend Invites
+      </TitleText>
+
+      <FriendInvites />
+      {/* </View> */}
     </SafeAreaView>
   );
 };
@@ -151,11 +157,12 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 17.5,
-    fontSize: 37,
+    fontSize: 30,
   },
   subtitle: {
     color: "black",
     paddingLeft: 20,
+    marginBottom: 15,
   },
   card: {
     borderRadius: 25,
