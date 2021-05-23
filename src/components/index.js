@@ -9,3 +9,4 @@ export * from "./MemberCard";
 export * from "./logoHeaderOptions";
 export * from "./PricingSelector";
 export * from "./BackButton";
+export * from "./FriendRequestCard";

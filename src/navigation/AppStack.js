@@ -22,7 +22,10 @@ import { BackButton } from "../components/BackButton.js";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const tabBarListeners = ({ navigation, route }) => ({
-  tabPress: () => navigation.replace("Home"),
+  tabPress: () => {
+    if (route?.state?.index) navigation.replace("Home");
+    else navigation.navigate("Home");
+  },
 });
 const BottomTabNavigator = () => (
   <Tab.Navigator
@@ -32,6 +35,9 @@ const BottomTabNavigator = () => (
       style: {
         backgroundColor: "white",
         borderTopColor: "white",
+        // shadowOffset: { width: 1, height: 2 },
+        // shadowOpacity: 0.1,
+        // shadowRadius: 5,
       },
       tintColor: "#f76f6d",
     }}
