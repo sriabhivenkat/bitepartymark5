@@ -51,7 +51,7 @@ export const MemberCard = ({ onPress, data, selected, status, ...rest }) => {
               alignItems: "center",
             }}
           >
-            <Avatar.Image size={35} source={{ uri: data.imageUrlPath }} />
+            <Avatar.Image size={35} source={{ uri: data.imageUrl }} />
 
             <View style={styles.nameContainer}>
               <Text

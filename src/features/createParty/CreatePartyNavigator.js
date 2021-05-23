@@ -3,6 +3,7 @@ import { Image, Dimensions } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Filters from "./screens/Filters";
 import SelectFriends from "./screens/SelectFriends";
+import CreateGroup from "./screens/CreateGroup";
 import Start from "./screens/Start";
 import ChangeLocation from "./screens/ChangeLocation";
 import { logoHeaderOptions } from "components";
@@ -50,6 +51,18 @@ export default () => {
         }}
       />
 
+      <Stack.Screen 
+        name="createParty/createGroup"
+        component={CreateGroup}
+        options={{
+          title: "Group Creation",
+          headerShown: true,
+          headerLeft: BackButton,
+          headerBackTitle: "",
+          ...logoHeaderOptions
+        }}
+      />
+
       <Stack.Screen
         name="createParty/selectFriends"
         component={SelectFriends}
@@ -57,6 +70,7 @@ export default () => {
           title: "Friends",
           headerShown: true,
           headerLeft: BackButton,
+
           // headerRight: () => (
           //   <View marginRight={10}>
           //     <GradientButton

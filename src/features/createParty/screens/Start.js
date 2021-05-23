@@ -27,6 +27,7 @@ const Start = ({ navigation }) => {
   const { user } = useUser();
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const height = Dimensions.get("window").height;
+  const width = Dimensions.get("window").width;
   useEffect(() => {
     console.log(height);
   }, [])
@@ -39,7 +40,7 @@ const Start = ({ navigation }) => {
           <View flexDirection="row" style={{width: 230}}>
           <Appbar.Content
               title={
-                    <Image source={require("assets/images/newheaderLogo.jpeg")}
+                    <Image source={require("assets/images/newHeaderLogo.png")}
                                   style={{
                                       width: 29.333,
                                       height: 44,
@@ -51,19 +52,51 @@ const Start = ({ navigation }) => {
                       style={{alignItems: "flex-start", top: 5}}
             />
           
-          <Appbar.Content title={`Welcome, ${user?.firstName}!`} titleStyle={{fontFamily: "Kollektif", fontSize: 20, color: "black", right: 70, top: 15, marginRight: -80}} style={{alignItems: "flex-start", top: 5}}/>
+          <Appbar.Content 
+            //title={`Welcome, ${user?.firstName}!`} 
+            title="Welcome, Kirthivel!"
+            titleStyle={{
+              fontFamily: "Kollektif", 
+              fontSize: 20, 
+              color: "black", 
+              right: 70, 
+              top: 15, 
+              marginRight: -80
+            }} 
+            style={{
+              alignItems: "flex-start", 
+              top: 5
+              }}
+            />
           </View>
-          <View flexDirection="row" borderWidth={1} borderColor="black" style={{width:175}}>
-            <Appbar.Content title="suck my nutes" subtitle="suck em"/>
+          <View flexDirection="row" style={{width:175}}>
+            <Appbar.Content 
+              title={
+                <Button 
+                  icon="account-multiple-plus" 
+                  mode="outlined"
+                  labelStyle={{color: "black"}}
+                  style={{borderRadius: 20, }} 
+                  uppercase={false}
+                  onPress={() => navigation.navigate("createParty/createGroup")}
+                  color="black"
+                >
+                  Group
+                </Button>
+              } 
+              color="black" 
+              style={{top: 18}}
+            />
             <Appbar.Action icon={'account-plus'} size={30} onPress={() => navigation.navigate("profile", {screen: "profile/addFriends"})} style={{top: 5, }} color="black"/>
           </View>
         </Appbar.Header>
       }
-      {height<=667 &&
+      {height<=812 &&
         <Appbar.Header style={[styles.bottom, {height: 60,}]}>
+          <View flexDirection="row" style={{width: 230}}>
           <Appbar.Content
               title={
-                    <Image source={require("assets/images/newheaderLogo.jpeg")}
+                    <Image source={require("assets/images/newHeaderLogo.png")}
                                   style={{
                                       width: 26.4,
                                       height: 39.6,
@@ -71,13 +104,30 @@ const Start = ({ navigation }) => {
                                   }}
                           />
                         }
-                      titleStyle={{backgroundColor: "white", right: 40}}
+                      titleStyle={{backgroundColor: "white", }}
                       style={{alignItems: "flex-start", top: 5}}
             />
           
-          <Appbar.Content title={`Welcome, ${user?.firstName}!`} titleStyle={{fontFamily: "Kollektif", fontSize: 20, marginRight: -60, right: 140}} style={{alignItems: "flex-start", top: 3}}/>
-
-          <Appbar.Action icon={'account-plus'} size={27.5} onPress={() => navigation.navigate("profile", {screen: "profile/addFriends"})} style={{top: 2, }}/>
+          <Appbar.Content 
+            //title={`Welcome, ${user?.firstName}!`}
+            title="Welcome, Kirthivel!" 
+            titleStyle={{
+              fontFamily: "Kollektif", 
+              fontSize: 20, 
+              marginRight: -90, 
+              right: 70, 
+              color: "black"
+            }} 
+            style={{
+              alignItems: "flex-start", 
+              top: 15
+            }}
+          />
+          </View>
+          <View flexDirection="row" style={{width:140}} alignItems="flex-end">
+            <Appbar.Action icon={'account-multiple-plus'} size={27.5} onPress={() => navigation.navigate("createParty/createGroup")} style={{top: 3.5, marginLeft: 40}} color="black"/>
+            <Appbar.Action icon={'account-plus'} size={27.5} onPress={() => navigation.navigate("profile", {screen: "profile/addFriends"})} style={{top: 2, }} color="black"/>
+          </View>
         </Appbar.Header>
       }
       {acceptedInvites?.length != 0 && (
