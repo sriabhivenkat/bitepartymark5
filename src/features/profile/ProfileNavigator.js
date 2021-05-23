@@ -6,6 +6,8 @@ import EditProfile from "./screens/EditProfile";
 import AddFriends from "./screens/AddFriends";
 
 import { BackButton, logoHeaderOptions } from "../../components";
+import FriendsView from "./screens/FriendsView";
+import PastParties from "./screens/PastParties";
 const Stack = createStackNavigator();
 
 export default () => (
@@ -41,6 +43,26 @@ export default () => (
     <Stack.Screen
       name="profile/addFriends"
       component={AddFriends}
+      options={{
+        title: "",
+        headerLeft: BackButton,
+
+        // headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="profile/friendsView"
+      component={FriendsView}
+      options={{
+        title: "",
+        headerLeft: BackButton,
+
+        // headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="profile/pastParties"
+      component={PastParties}
       options={{
         title: "",
         headerLeft: BackButton,
