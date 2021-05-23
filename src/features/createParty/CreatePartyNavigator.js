@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Dimensions } from "react-native";
+import { Image, Dimensions, Text, TouchableOpacity } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Filters from "./screens/Filters";
 import SelectFriends from "./screens/SelectFriends";
@@ -14,7 +14,7 @@ import {useUser} from "lib";
 const Stack = createStackNavigator();
 
 
-export default () => {
+export default ({navigation}) => {
   const { user } = useUser();
   const isSmall = height < 700;
   const height = Dimensions.get("window").height;
@@ -56,9 +56,27 @@ export default () => {
         component={CreateGroup}
         options={{
           title: "Group Creation",
-          headerShown: true,
+          headerShown: false,
           headerLeft: BackButton,
           headerBackTitle: "",
+          headerRight: () => (
+            <TouchableOpacity
+              style={{
+                right: 20,
+              }}
+              onPress={() => {navigation.goBack()}}
+            >
+              <Text
+                style={{
+                  fontSize: 23,
+                  fontFamily: "Kollektif",
+                  color: "#f76f6d"
+                }}
+              >
+                Done
+              </Text>
+            </TouchableOpacity>
+          ),
           ...logoHeaderOptions
         }}
       />
@@ -70,7 +88,7 @@ export default () => {
           title: "Friends",
           headerShown: true,
           headerLeft: BackButton,
-
+          headerBackTitle:"",
           // headerRight: () => (
           //   <View marginRight={10}>
           //     <GradientButton

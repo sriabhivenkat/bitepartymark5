@@ -11,10 +11,11 @@ import {
 import { Text } from "galio-framework";
 import { TitleText } from "../../../components";
 import { Input } from "galio-framework";
-import {GradientButton, MemberCard} from "../../../components";
+import {GradientButton, MemberCard, BackButton} from "../../../components";
 import { Divider, Chip } from "react-native-paper";
 import { useFriends, useParty } from "lib";
 import { ScrollView } from "react-native";
+import { Alert } from "react-native";
 
 const CreateGroup = ({ navigation }) => {
     
@@ -43,6 +44,47 @@ const CreateGroup = ({ navigation }) => {
             <View
                 paddingHorizontal={20}
             >
+                <View
+                  flexDirection="row"
+                  paddingTop={10}
+                >
+                    <BackButton 
+                        onPress={() => Alert.alert(
+                            'Leave without saving?',
+                            'Your group creation will not be saved.',
+                            [
+                                {
+                                    text: "Ok",
+                                    onPress: () => navigation.goBack(),
+                                    style: "destructive"
+                                },
+                                {
+                                    text: "Cancel",
+                                    style: "cancel"
+                                },
+                            ]
+                        )}
+                    />
+                    <TouchableOpacity
+                        style={{
+                            position: "absolute",
+                            right:0,
+                            top: 5,
+                            paddingTop: 10
+                        }}
+                        onPress={() => navigation.goBack()}
+                    >
+                        <Text
+                            style={{
+                                fontFamily: "Kollektif",
+                                fontSize: 20,
+                                color: "#f76f6d"
+                            }}
+                        >
+                            Save
+                        </Text>
+                    </TouchableOpacity>
+                </View>
                 <TitleText fontSize={25}>Create Group</TitleText>
                     <Input 
                         placeholder="Type Group name"
