@@ -7,6 +7,7 @@ import {
     KeyboardAvoidingView,
     Keyboard,
     TouchableWithoutFeedback,
+    ScrollView
 } from "react-native";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { Text, Button } from "galio-framework";
@@ -16,24 +17,29 @@ import { Input } from "galio-framework";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { TitleText, MemberCard } from "components";
 import { SafeAreaView } from "react-native";
-import { useFriends, useUser } from "lib";
+import { useFriends, useUser, useInvites } from "lib";
 import { times } from "lodash";
 import { Alert } from "react-native";
 import { Divider } from "react-native-elements";
+import PastPartyCard from "../../../components/PastPartyCard";
 
-const PastParties = () => {
+const PastParties = ({ route, navigation }) => {
     const [query, setQuery] = useState("");
     const [data, setData] = useState([]);
+    const { user } = useUser();
 
-    const { friends, addFriend } = useFriends();
+    const { inviteList } = route.params
     // const { user } = useUser();
 
     useEffect(() => {
-        if (query.length > 1) {
+
+        if (query.length > 0) {
             firestore()
                 .collection("Users")
-                .where("handle", ">=", query)
-                .where("handle", "<=", query + "\uf8ff")
+                .doc(user.uidvalue)
+                .collection('invitations')
+                .where("inviterHandle", ">=", query)
+                .where("inviterHandle", "<=", query + "\uf8ff")
                 .get()
                 .then((res) => {
                     const results = res.docs.map((x) => x.data());
@@ -111,30 +117,40 @@ const PastParties = () => {
                     fontSize={20}
                     placeholderTextColor="rgba(0,0,0,0.5)"
                 />
-                <View marginTop={15}>
-                    {data.map((item) => {
-                        const isAdded = friends
-                            .map(({ uidvalue }) => uidvalue)
-                            .includes(item.uidvalue);
-                        return (
-                            <MemberCard
-                                key={item.uidvalue}
-                                data={item}
-                                onPress={() =>
-                                    !isAdded &&
-                                    addFriend(item)
-                                        .then(() => {
-                                            // console.log({ poop: item });
-                                            Alert.alert("Added friend", `${item.handle} was added!`);
-                                        })
-                                        .catch((err) => err)
-                                }
-                                selected={isAdded}
-                                disabled
-                            />
-                        );
-                    })}
-                </View>
+                {data?.length == 0 && (
+                    <ScrollView marginTop={15}>
+                        {inviteList.filter(invite => invite.status == 'completed').map((item) => {
+
+                            return (
+                                <PastPartyCard key={item.docID} invite={item} onPress={() => navigation.navigate("joinParty", {
+                                    screen: "joinParty/completed",
+                                    params: { partyID: item.docID }
+                                })} />
+
+                            );
+                        })}
+
+                    </ScrollView>
+                )}
+
+                {data?.length != 0 && (
+                    <ScrollView marginTop={15}>
+                        {data.filter(invite => invite.status == 'completed').map((item) => {
+
+                            return (
+                                <PastPartyCard key={item.docID} invite={item} onPress={() => navigation.navigate("joinParty", {
+                                    screen: "joinParty/completed",
+                                    params: { partyID: item.docID }
+                                })} />
+
+                            );
+                        })}
+
+                    </ScrollView>
+                )}
+
+
+
             </View>
         </SafeAreaView>
     );

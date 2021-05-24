@@ -173,7 +173,8 @@ const createParty = async (id, user, members, options) => {
     const docRef = usersRef.doc(doc.uidvalue).collection("invitations").doc(id);
     invitesBatch.set(docRef, {
       timestamp: firestore.FieldValue.serverTimestamp(),
-      inviter: user.firstName + " " + user.lastName,
+      inviter: user.uidvalue,
+      inviterHandle: user.handle,
       isDuo: members.length <= 1,
       status: user.uidvalue == doc.uidvalue ? "accepted" : "pending",
       imagePath: user.imageUrl,

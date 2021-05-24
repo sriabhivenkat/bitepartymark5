@@ -36,7 +36,7 @@ const FriendsView = () => {
 
 
     useEffect(() => {
-        if (query.length > 1) {
+        if (query.length > 0) {
             firestore()
                 .collection("Users")
                 .doc(user.uidvalue)
@@ -124,23 +124,11 @@ const FriendsView = () => {
                 {data.length != 0 && (
                     <View marginTop={15}>
                         {data.map((item) => {
-                            const isAdded = friends
-                                .map(({ uidvalue }) => uidvalue)
-                                .includes(item.uidvalue);
+
                             return (
                                 <MemberCard
                                     key={item.uidvalue}
                                     data={item}
-                                    onPress={() =>
-                                        !isAdded &&
-                                        addFriend(item)
-                                            .then(() => {
-                                                // console.log({ poop: item });
-                                                Alert.alert("Added friend", `${item.handle} was added!`);
-                                            })
-                                            .catch((err) => err)
-                                    }
-                                    selected={isAdded}
                                     disabled
                                 />
                             );
@@ -149,7 +137,7 @@ const FriendsView = () => {
                 )}
                 {data.length == 0 && (
                     <View marginTop={15}>
-                        {friends.map((item) => {
+                        {friends?.map((item) => {
                             return (
                                 <MemberCard
                                     key={item.uidvalue}

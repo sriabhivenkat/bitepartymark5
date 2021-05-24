@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Image,
@@ -47,6 +47,7 @@ const ProfileDisplay = ({ navigation }) => {
   const { user } = useUser();
   const { friends } = useFriends();
   const { invites } = useInvites();
+  const [data, setData] = useState([])
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -71,6 +72,8 @@ const ProfileDisplay = ({ navigation }) => {
       });
   };
 
+
+
   const openCamera = () => {
     ImagePicker.openCamera({
       width: 300,
@@ -87,6 +90,7 @@ const ProfileDisplay = ({ navigation }) => {
         console.error(e);
       });
   };
+
 
   const uploadPfp = async (imagepath) => {
     let filename = user.uidvalue;
@@ -174,7 +178,7 @@ const ProfileDisplay = ({ navigation }) => {
             </Caption>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("profile/pastParties")}>
+          <TouchableOpacity onPress={() => navigation.navigate("profile/pastParties", { inviteList: invites })}>
             <View alignItems='center'>
               <Title
                 style={{
