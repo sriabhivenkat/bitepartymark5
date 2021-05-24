@@ -72,7 +72,9 @@ const CreateGroup = ({ navigation }) => {
                             top: 5,
                             paddingTop: 10
                         }}
-                        onPress={() => navigation.goBack()}
+                        onPress={() => {
+                            console.log("suck my dick")
+                        }}
                     >
                         <Text
                             style={{
@@ -209,7 +211,11 @@ const CreateGroup = ({ navigation }) => {
                         <MemberCard
                             key={item.uidvalue}
                             data={item}
-                            onPress={() => toggleSelection(item)}
+                            onPress={() => {
+                                toggleSelection(item);
+                                console.log(item);
+                                console.log(selectedFriends)
+                            }}
                             selected={selectedFriends.some(
                                 (friend) => friend.uidvalue == item.uidvalue
                             )}

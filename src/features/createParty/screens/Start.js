@@ -53,8 +53,8 @@ const Start = ({ navigation }) => {
             />
           
           <Appbar.Content 
-            //title={`Welcome, ${user?.firstName}!`} 
-            title="Welcome, Kirthivel!"
+            title={`Welcome, ${user?.firstName}!`} 
+            //title="Welcome, Kirthivel!"
             titleStyle={{
               fontFamily: "Kollektif", 
               fontSize: 20, 
@@ -109,8 +109,8 @@ const Start = ({ navigation }) => {
             />
           
           <Appbar.Content 
-            //title={`Welcome, ${user?.firstName}!`}
-            title="Welcome, Kirthivel!" 
+            title={`Welcome, ${user?.firstName}!`}
+            //title="Welcome, Kirthivel!" 
             titleStyle={{
               fontFamily: "Kollektif", 
               fontSize: 20, 

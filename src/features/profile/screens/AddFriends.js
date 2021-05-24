@@ -24,9 +24,10 @@ import { Divider } from "react-native-elements";
 const AddFriends = () => {
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
+  const [dataval, setTemp] = useState([]);
 
   const { friends, addFriend } = useFriends();
-  // const { user } = useUser();
+  const { user } = useUser();
 
   useEffect(() => {
     if (query.length > 1) {
@@ -45,6 +46,18 @@ const AddFriends = () => {
       setData([]);
     }
   }, [query]);
+
+  useEffect(() => {
+      firestore()
+        .collectionGroup('members')
+        .where(user?.uidvalue, '==', "accepted")
+        .get()
+        .then((res) => {
+          const results = res.docs.map((x) => x.data());
+          console.log(results);
+        })
+        .catch((err) => alert(err));
+  }, [])
   // console.log(friends);
 
   // useEffect(() => {
