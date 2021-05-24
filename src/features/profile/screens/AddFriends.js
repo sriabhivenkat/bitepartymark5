@@ -47,17 +47,6 @@ const AddFriends = () => {
     }
   }, [query]);
 
-  useEffect(() => {
-      firestore()
-        .collectionGroup('members')
-        .where(user?.uidvalue, '==', "accepted")
-        .get()
-        .then((res) => {
-          const results = res.docs.map((x) => x.data());
-          console.log(results);
-        })
-        .catch((err) => alert(err));
-  }, [])
   // console.log(friends);
 
   // useEffect(() => {
