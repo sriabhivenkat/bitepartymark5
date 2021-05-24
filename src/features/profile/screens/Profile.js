@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Image,
@@ -63,7 +63,6 @@ const ProfileDisplay = ({ navigation }) => {
         // console.log(image);
         // setImage(image.path);
         uploadPfp(image.path);
-
         hideModal();
       })
       .catch((e) => {
@@ -87,6 +86,19 @@ const ProfileDisplay = ({ navigation }) => {
         console.error(e);
       });
   };
+
+  useEffect(() => {
+    firestore()
+      .collectionGroup('members')
+      .where("isGroup", '==', true)
+      .where('status', '==', "accepted") //filter by user uidvalue 
+      .get()
+      .then((res) => {
+        const results = res.docs.map((x) => x.data());
+        console.log(results);
+      })
+      .catch((err) => console.log(err));
+  }, [])
 
   const uploadPfp = async (imagepath) => {
     let filename = user.uidvalue;

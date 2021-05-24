@@ -13,15 +13,19 @@ import { TitleText } from "../../../components";
 import { Input } from "galio-framework";
 import {GradientButton, MemberCard, BackButton} from "../../../components";
 import { Divider, Chip } from "react-native-paper";
-import { useFriends, useParty } from "lib";
+import { useFriends, useParty, useUser } from "lib";
 import { ScrollView } from "react-native";
 import { Alert } from "react-native";
+import {createGroup} from "../../../lib/groups";
 
 const CreateGroup = ({ navigation }) => {
     
     const [selectedFriends, setSelectedFriends] = useState([]);
     const [query, setQuery] = useState("");
+    const [name, setName] = useState("");
+
     const { friends } = useFriends();
+    const {user} = useUser();
     const { partyId } = useParty();
 
     const toggleSelection = (friend) => {
@@ -65,31 +69,38 @@ const CreateGroup = ({ navigation }) => {
                             ]
                         )}
                     />
-                    <TouchableOpacity
-                        style={{
-                            position: "absolute",
-                            right:0,
-                            top: 5,
-                            paddingTop: 10
-                        }}
-                        onPress={() => {
-                            console.log("suck my dick")
-                        }}
-                    >
-                        <Text
+                    {selectedFriends.length != 0 && name != "" &&
+                        <TouchableOpacity
                             style={{
-                                fontFamily: "Kollektif",
-                                fontSize: 20,
-                                color: "#f76f6d"
+                                position: "absolute",
+                                right:0,
+                                top: 5,
+                                paddingTop: 10
+                            }}
+                            onPress={() => {
+                                createGroup(selectedFriends, name, user)
+                                .catch((err) => console.log(err))
+                                navigation.goBack();
                             }}
                         >
-                            Save
-                        </Text>
-                    </TouchableOpacity>
+                            <Text
+                                style={{
+                                    fontFamily: "Kollektif",
+                                    fontSize: 20,
+                                    color: "#f76f6d"
+                                }}
+                            >
+                                Save
+                            </Text>
+                        </TouchableOpacity> 
+                    }
                 </View>
                 <TitleText fontSize={25}>Create Group</TitleText>
                     <Input 
                         placeholder="Type Group name"
+                        value={name}
+                        onChangeText={(text) => setName(text)}
+                        autoCapitalize="none"
                         placeholderTextColor="lightgray"
                         placeholderTextColor="rgba(0,0,0,0.5)"
                         fontFamily="Kollektif"
@@ -120,6 +131,9 @@ const CreateGroup = ({ navigation }) => {
                         showsHorizontalScrollIndicator={true}
                         paddingBottom={10}
                         width="100%"
+                        style={{
+                            height: 60
+                        }}
                     >
                     {selectedFriends.length != 0 &&
                         selectedFriends.map((item) => (
