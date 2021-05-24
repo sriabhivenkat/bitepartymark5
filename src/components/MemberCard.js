@@ -115,6 +115,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     shadowRadius: 2,
     paddingHorizontal: 10,
+    // borderColor: "#ee0979",
+    // borderWidth: 4,
   },
   buttonContainer: {
     justifyContent: "center",
