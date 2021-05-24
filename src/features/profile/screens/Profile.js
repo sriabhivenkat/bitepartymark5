@@ -107,6 +107,8 @@ const ProfileDisplay = ({ navigation, route }) => {
 
   }, [])
 
+
+
   const uploadPfp = async (imagepath) => {
     let filename = user.uidvalue;
     try {

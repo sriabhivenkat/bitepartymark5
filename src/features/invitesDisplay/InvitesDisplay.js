@@ -11,8 +11,9 @@ import { TitleText, InviteCard, SubtitleText } from "components";
 import { SafeAreaView } from "react-native";
 import { Button, Divider, IconButton } from "react-native-paper";
 import { useInvites } from "lib/invites.js";
-import { Appbar } from 'react-native-paper';
 import LinearGradient from "react-native-linear-gradient";
+import { Appbar } from "react-native-paper";
+import { FriendInvites } from "./FriendsInvites";
 
 const InvitesDisplay = ({ navigation }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
@@ -48,104 +49,113 @@ const InvitesDisplay = ({ navigation }) => {
   };
   console.log({ acceptedInvites });
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
-      {height >= 896 && (
-        <Appbar.Header style={[styles.bottom, { height: 70 }]}>
-          <Appbar.Content
-            title={
-              <Image
-                source={require("assets/images/newheaderLogo.jpeg")}
-                style={{
-                  width: 29.333,
-                  height: 44,
-                }}
-              />
-            }
-            titleStyle={{ backgroundColor: "white", right: 40 }}
-            style={{ alignItems: "flex-start", top: 5 }}
-          />
-          <Appbar.Action
-            icon={"account-plus"}
-            size={30}
-            onPress={() => navigation.navigate("invitesDisplay/addFriends")}
-            style={{ top: 3 }}
-          />
-        </Appbar.Header>
-      )}
-      {height <= 667 && (
-        <Appbar.Header style={[styles.bottom, { height: 60 }]}>
-          <Appbar.Content
-            title={
-              <Image
-                source={require("assets/images/newheaderLogo.jpeg")}
-                style={{
-                  width: 26.4,
-                  height: 39.6,
-                  aspectRatio: 2 / 3,
-                }}
-              />
-            }
-            titleStyle={{ backgroundColor: "white", right: 40 }}
-            style={{ alignItems: "flex-start", top: 5 }}
-          />
-
-          <Appbar.Action
-            icon={"account-plus"}
-            size={27.5}
-            onPress={() => navigation.navigate("invitesDisply/addFriends")}
-            style={{ top: 2 }}
-          />
-        </Appbar.Header>
-      )}
-      <TitleText style={[styles.title, { marginTop: 15, left: 20 }]}>
-        Invites
-      </TitleText>
-      {pendingInvites?.length <= 0 && (
-        <SubtitleText style={styles.subtitle}>
-          No pending invites. Start a party!
-        </SubtitleText>
-      )}
-
-      <View
-        style={{
-          alignItems: "center",
-        }}
-        // flex={1}
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1 }}
+        colors={
+          ["#FFD0E4", "#FFCFBB", "#FFFFFF"]
+        }
+        style={styles.container}
       >
-        <FlatList
-          data={pendingInvites && pendingInvites}
-          style={{ paddingTop: 5 }}
-          // horizontal
-          snapToInterval={Dimensions.get("window").width}
-          indicatorStyle="black"
-          decelerationRate="fast"
-          renderItem={({ item }) => (
-            <InviteCard
-              invite={item}
-              onAccept={handleAccept}
-              onReject={handleReject}
-            />
+        <SafeAreaView>
+          <View flexDirection="row">
+            <View
+              style={{
+                // backgroundColor: "red",
+                height: isSmall ? 60 : 70,
+                // height: 10,
+                justifyContent: "space-between",
+                flex: 1,
+                flexDirection: "row",
+              }}
+            >
+              {/* <Appbar.Content
+                title={
+    
+                }
+                titleStyle={{ backgroundColor: "white", right: 40 }}
+                style={{ alignItems: "flex-start", top: 5 }}
+              /> */}
+              <View
+                flexDirection="row"
+                alignItems="center"
+                paddingHorizontal={10}
+                flex={1}
+              >
+                <Image
+                  source={require("assets/images/newHeaderLogo.png")}
+                  style={{
+                    width: 29.333,
+                    height: 44,
+                  }}
+                />
+              </View>
+              <View flexDirection="row" alignItems="center" paddingLeft={10}>
+                <Button 
+                  icon="account-multiple-plus" 
+                  mode="outlined"
+                  labelStyle={{color: "black"}}
+                  style={{borderRadius: 20, borderColor: "black" }} 
+                  uppercase={false}
+                  onPress={() => navigation.navigate("createParty/createGroup")}
+                  color="black"
+                >
+                  Group
+                </Button>
+                <IconButton
+                  icon="account-plus"
+                  size={30}
+                  onPress={() =>
+                    navigation.navigate("profile", { screen: "profile/addFriends" })
+                  }
+                />
+              </View>
+            </View>
+          </View>
+          <Divider style={{width: 600, right:30, backgroundColor: "gray"}}/>
+          <TitleText style={[styles.title, { marginTop: 15, left: 20 }]}>Invites</TitleText>
+          {pendingInvites?.length <= 0 && (
+            <SubtitleText style={styles.subtitle}>
+              No pending invites. Start a party!
+            </SubtitleText>
           )}
-          keyExtractor={(item) => item.docID}
-        />
-      </View>
+          <View style={{
+            alignItems: "center"
+          }}>
+            <FlatList
+              data={pendingInvites && pendingInvites}
+              style={{ paddingTop: 5 }}
+              // horizontal
+              snapToInterval={Dimensions.get("window").width}
+              indicatorStyle="black"
+              decelerationRate="fast"
+              renderItem={({ item }) => (
+                <InviteCard
+                  invite={item}
+                  onAccept={handleAccept}
+                  onReject={handleReject}
+                />
+              )}
+              keyExtractor={(item) => item.docID}
+            />
+          </View>
+          <View
+            height={1}
+            width="100%"
+            backgroundColor="#00000020"
+            // marginHorizontal={20}
+            // marginVertical={20}
+          />
+          {/* <View> */}
+          <TitleText style={[styles.title, { fontSize: 25, marginTop: 15, left: 20 }]}>
+            Friend and Group Requests
+          </TitleText>
 
-      <View
-        height={1}
-        width="100%"
-        backgroundColor="#00000020"
-        // marginHorizontal={20}
-        // marginVertical={20}
-      />
-      {/* <View> */}
-      <TitleText style={[styles.title, { marginTop: 15, left: 20 }]}>
-        Friend Invites
-      </TitleText>
+          <FriendInvites />
+          {/* </View> */}
+        </SafeAreaView>
+      </LinearGradient>
 
-      <FriendInvites />
-      {/* </View> */}
-    </SafeAreaView>
   );
 };
 
