@@ -15,7 +15,7 @@ import { Modal, Portal, Provider, Button } from "react-native-paper";
 import ImagePicker from "react-native-image-crop-picker";
 import storage from "@react-native-firebase/storage";
 import { SafeAreaView } from "react-native";
-import { useFriends, useUser, useInvites } from "lib";
+import { useFriends, useUser, useInvites, useGroup } from "lib";
 import { TitleText } from "../../../components";
 
 const ProfileButton = ({ children, ...rest }) => (
@@ -43,12 +43,14 @@ const ProfileButton = ({ children, ...rest }) => (
   </TouchableOpacity>
 );
 
-const ProfileDisplay = ({ navigation }) => {
+const ProfileDisplay = ({ navigation, route }) => {
   const { user } = useUser();
   const { friends } = useFriends();
   const { invites } = useInvites();
+  const { groupval } = useGroup()
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [groups, setGroups] = useState([]);
 
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
@@ -96,8 +98,13 @@ const ProfileDisplay = ({ navigation }) => {
       .then((res) => {
         const results = res.docs.map((x) => x.data());
         console.log(results);
+        const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
+        console.log(filtered);
+        setGroups(filtered);
+        console.log("groups array is: ", groups)
       })
       .catch((err) => console.log(err));
+
   }, [])
 
   const uploadPfp = async (imagepath) => {
@@ -162,6 +169,36 @@ const ProfileDisplay = ({ navigation }) => {
           // backgroundColor="blue"
           // alignItems="space-around"
         >
+          <TouchableOpacity 
+            alignItems="center"
+            onPress={
+              () => navigation.navigate("profile/showGroup", {
+                groups: groups
+              })
+          }
+          >
+            <Title
+              style={{
+                fontWeight: "bold",
+                color: "black",
+                fontFamily: "Kollektif",
+                fontSize: height < 700 ? 25 : 30,
+                fontWeight: "normal",
+                left: 25,
+              }}
+            >
+              {groups?.length}
+            </Title>
+            <Caption
+              style={{
+                color: "black",
+                fontSize: 20,
+                fontFamily: "Kollektif",
+              }}
+            >
+              Groups
+            </Caption>
+          </TouchableOpacity>
           <View alignItems="center">
             <Title
               style={{
