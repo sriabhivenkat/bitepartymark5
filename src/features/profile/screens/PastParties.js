@@ -104,7 +104,7 @@ const PastParties = ({ route, navigation }) => {
 
                 {/* <TitleText style={{ marginTop: 30 }}>Add Friends</TitleText> */}
                 <Input
-                    placeholder="Enter a handle"
+                    placeholder="Search"
                     onChangeText={(txt) => setQuery(txt)}
                     left
                     icon="search"

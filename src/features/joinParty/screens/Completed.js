@@ -610,117 +610,82 @@ const Completed = ({ route, navigation }) => {
                 {currentWinner?.display_phone}
               </Text>
             </View>
+
             <Divider />
             <View
               style={{ top: 10, left: 22, marginBottom: 22.5, marginTop: 10 }}
             >
               <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
                 Filters
-            </Text>
-              <View
-                style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}
-              >
-                <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
-                  Address
               </Text>
-                <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
-                  {currentWinner?.location.address1}
-                  {/* <Text>{JSON.stringify(currentWinner, null, 2)}</Text> */}
-                </Text>
-                <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
-                  {currentWinner?.location.city +
-                    ", " +
-                    currentWinner?.location.state +
-                    " " +
-                    currentWinner?.location?.zip_code}
-                </Text>
-              </View>
-              <Divider />
               <View
-                style={{ top: 10, left: 22, marginBottom: 22.5, marginTop: 10 }}
+                flexDirection="row"
+                flexWrap="wrap-reverse"
+                style={{ marginTop: 5 }}
               >
-                <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
-                  Phone
-              </Text>
-                <Text style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}>
-                  {currentWinner?.display_phone}
-                </Text>
+                {currentWinner?.categories.map((item, i) => (
+                  <Chip
+                    key={i}
+                    textAlign="center"
+                    marginRight={10}
+                    flex={0}
+                    marginVertical={2}
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "1.5%",
+                    }}
+                    textStyle={{
+                      fontSize: 17,
+                      fontWeight: "bold",
+                      fontFamily: "Kollektif",
+                    }}
+                  >
+                    {item.title}
+                  </Chip>
+                ))}
               </View>
-              <Divider />
-              <View
-                style={{ top: 10, left: 22, marginBottom: 22.5, marginTop: 10 }}
-              >
-                <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
-                  Filters
-              </Text>
-                <View
-                  flexDirection="row"
-                  flexWrap="wrap-reverse"
-                  style={{ marginTop: 5 }}
-                >
-                  {currentWinner?.categories.map((item, i) => (
-                    <Chip
-                      key={i}
-                      textAlign="center"
-                      marginRight={10}
-                      flex={0}
-                      marginVertical={2}
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginTop: "1.5%",
-                      }}
-                      textStyle={{
-                        fontSize: 17,
-                        fontWeight: "bold",
-                        fontFamily: "Kollektif",
-                      }}
-                    >
-                      {item.title}
-                    </Chip>
-                  ))}
-                </View>
-                <View flexDirection="row" flexWrap="wrap-reverse">
-                  {currentWinner?.price != null && (
-                    <Chip
-                      textAlign="center"
-                      marginRight={10}
-                      flex={0}
-                      marginVertical={2}
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginTop: "1.5%",
-                      }}
-                      textStyle={{
-                        fontSize: 17,
-                        fontWeight: "bold",
-                        fontFamily: "Kollektif",
-                      }}
-                    >
-                      {currentWinner?.price}
-                    </Chip>
-                  )}
-                </View>
-              </View>
-              <Divider />
-              <View alignItems="center" justifyContent="center">
-                <GradientButton
-                  containerStyle={{
-                    position: "relative",
-                    width: "95%",
-                    top: 15,
-                  }}
-                  innerStyle={{ paddingVertical: 15 }}
-                  textStyle={{ fontSize: 22 }}
-                  onPress={() => {
-                    Linking.openURL(url); //idk comment
-                  }}
-                >
-                  Take me here!
-              </GradientButton>
+              <View flexDirection="row" flexWrap="wrap-reverse">
+                {currentWinner?.price != null && (
+                  <Chip
+                    textAlign="center"
+                    marginRight={10}
+                    flex={0}
+                    marginVertical={2}
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "1.5%",
+                    }}
+                    textStyle={{
+                      fontSize: 17,
+                      fontWeight: "bold",
+                      fontFamily: "Kollektif",
+                    }}
+                  >
+                    {currentWinner?.price}
+                  </Chip>
+                )}
               </View>
             </View>
+            <Divider />
+            <View alignItems="center" justifyContent="center">
+              <GradientButton
+                containerStyle={{
+                  position: "relative",
+                  width: "95%",
+                  top: 15,
+                }}
+                innerStyle={{ paddingVertical: 15 }}
+                textStyle={{ fontSize: 22 }}
+                onPress={() => {
+                  Linking.openURL(url); //idk comment
+                }}
+              >
+                Take me here!
+              </GradientButton>
+            </View>
+
           </BottomSheetScrollView>
         </BottomSheet>
       </View>

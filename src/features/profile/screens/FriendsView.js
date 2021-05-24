@@ -102,12 +102,12 @@ const FriendsView = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.container}>
-                <TitleText>Friends View</TitleText>
+                <TitleText> Friends</TitleText>
                 <Divider style={styles.divider} />
 
                 {/* <TitleText style={{ marginTop: 30 }}>Add Friends</TitleText> */}
                 <Input
-                    placeholder="Enter a handle"
+                    placeholder="Search Friends"
                     onChangeText={(txt) => setQuery(txt)}
                     left
                     icon="search"

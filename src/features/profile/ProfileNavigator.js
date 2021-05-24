@@ -25,6 +25,7 @@ export default () => (
       component={Settings}
       options={{
         title: "",
+        headerShown: true,
         headerLeft: BackButton,
         // headerShown: false,
         // ...logoHeaderOptions,
@@ -36,6 +37,7 @@ export default () => (
       options={{
         title: "",
         headerLeft: BackButton,
+
 
         // headerShown: false,
       }}
