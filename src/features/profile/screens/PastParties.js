@@ -98,7 +98,7 @@ const PastParties = ({ route, navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <TitleText>Past Parties</TitleText>
                 <Divider style={styles.divider} />
 
@@ -151,7 +151,7 @@ const PastParties = ({ route, navigation }) => {
 
 
 
-            </View>
+            </ScrollView>
         </SafeAreaView>
     );
 };

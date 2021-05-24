@@ -7,6 +7,7 @@ import {
     KeyboardAvoidingView,
     Keyboard,
     TouchableWithoutFeedback,
+    ScrollView
 } from "react-native";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { Text, Button } from "galio-framework";
@@ -101,7 +102,7 @@ const FriendsView = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <TitleText> My Friends</TitleText>
                 <Divider style={styles.divider} />
 
@@ -149,7 +150,7 @@ const FriendsView = () => {
                         })}
                     </View>
                 )}
-            </View>
+            </ScrollView>
         </SafeAreaView>
     );
 };
