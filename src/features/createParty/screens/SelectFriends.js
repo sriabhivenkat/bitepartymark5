@@ -125,15 +125,22 @@ const SelectFriends = ({ route, navigation }) => {
         )}
         <ScrollView marginTop={10} paddingVertical={1}>
           {friends &&
-            [...friends]
+            friends
+              // .filter(({ friendStatus }) => friendStatus != "sent")
               .filter(
                 (item) => item?.handle?.indexOf(query) >= 0 || query.length < 2
               )
               .map((item) => (
                 <MemberCard
                   key={item.uidvalue}
-                  data={item}
-                  onPress={() => toggleSelection(item)}
+                  data={{
+                    ...item,
+                    status:
+                      item.friendStatus == "sent" ? "friendPending" : undefined,
+                  }}
+                  onPress={() =>
+                    item.friendStatus != "sent" && toggleSelection(item)
+                  }
                   selected={selectedFriends.some(
                     (friend) => friend.uidvalue == item.uidvalue
                   )}
@@ -151,11 +158,11 @@ const SelectFriends = ({ route, navigation }) => {
           pointerEvents={"none"}
         /> */}
         <View alignItems="center" justifyContent="center" paddingTop={10}>
-          {selectedFriends.length===0 &&
+          {selectedFriends.length === 0 && (
             <GradientButton
               // style={{ backgroundColor: "red" }}
               innerStyle={{ paddingVertical: 15 }}
-              containerStyle={{ width: "95%"}}
+              containerStyle={{ width: "95%" }}
               onPress={() =>
                 navigation.navigate("createParty/filters", {
                   partyId,
@@ -165,8 +172,8 @@ const SelectFriends = ({ route, navigation }) => {
             >
               Or, go solo!
             </GradientButton>
-          }
-          {selectedFriends.length!=0 &&
+          )}
+          {selectedFriends.length != 0 && (
             <GradientButton
               // style={{ backgroundColor: "red" }}
               innerStyle={{ paddingVertical: 15 }}
@@ -180,7 +187,7 @@ const SelectFriends = ({ route, navigation }) => {
             >
               Start Party!
             </GradientButton>
-          }
+          )}
         </View>
       </View>
     </SafeAreaView>

@@ -29,7 +29,7 @@ const Completed = ({ route, navigation }) => {
   const { user } = useUser();
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["1%", "80%"], []);
-
+  const height = Dimensions.get('window').height;
   const { party } = usePartyData(partyID);
 
   const currentWinner = party?.winner
@@ -373,55 +373,114 @@ const Completed = ({ route, navigation }) => {
             <Text h4 style={{ fontFamily: "Kollektif", color: "#f76f6d" }}>
               Filters
             </Text>
-            <View
-              flexDirection="row"
-              flexWrap="wrap-reverse"
-              style={{ marginTop: 5 }}
-            >
-              {currentWinner?.categories.map((item, i) => (
-                <Chip
-                  key={i}
-                  textAlign="center"
-                  marginRight={10}
-                  flex={0}
-                  marginVertical={2}
-                  style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "1.5%",
-                  }}
-                  textStyle={{
-                    fontSize: 17,
-                    fontWeight: "bold",
-                    fontFamily: "Kollektif",
-                  }}
+            {height >= 896 &&
+              <View>
+                <View
+                  flexDirection="row"
+                  flexWrap="wrap-reverse"
+                  style={{ marginTop: 5 }}
                 >
-                  {item.title}
-                </Chip>
-              ))}
-            </View>
-            <View flexDirection="row" flexWrap="wrap-reverse">
-              {currentWinner?.price != null && (
-                <Chip
-                  textAlign="center"
-                  marginRight={10}
-                  flex={0}
-                  marginVertical={2}
-                  style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "1.5%",
-                  }}
-                  textStyle={{
-                    fontSize: 17,
-                    fontWeight: "bold",
-                    fontFamily: "Kollektif",
-                  }}
+                  {currentWinner?.categories.map((item, i) => (
+                    <Chip
+                      key={i}
+                      textAlign="center"
+                      marginRight={10}
+                      flex={0}
+                      marginVertical={2}
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginTop: "1.5%",
+                      }}
+                      textStyle={{
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        fontFamily: "Kollektif",
+                      }}
+                    >
+                      {item.title}
+                    </Chip>
+                  ))}
+                </View>
+                <View flexDirection="row" flexWrap="wrap-reverse">
+                  {currentWinner?.price != null && (
+                    <Chip
+                      textAlign="center"
+                      marginRight={10}
+                      flex={0}
+                      marginVertical={2}
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginTop: "1.5%",
+                      }}
+                      textStyle={{
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        fontFamily: "Kollektif",
+                      }}
+                    >
+                      {currentWinner?.price}
+                    </Chip>
+                  )}
+                </View>
+              </View>
+            }
+            {height <= 667 &&
+              <View
+                marginRight={9}
+              >
+                <View
+                  flexDirection="row"
+                  flexWrap="wrap-reverse"
+                  style={{ marginTop: 5 }}
                 >
-                  {currentWinner?.price}
-                </Chip>
-              )}
-            </View>
+                  {currentWinner?.categories.map((item, i) => (
+                    <Chip
+                      key={i}
+                      textAlign="center"
+                      marginRight={10}
+                      flex={0}
+                      marginVertical={2}
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginTop: "1.5%",
+                      }}
+                      textStyle={{
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        fontFamily: "Kollektif",
+                      }}
+                    >
+                      {item.title}
+                    </Chip>
+                  ))}
+                </View>
+                <View flexDirection="row" flexWrap="wrap-reverse">
+                  {currentWinner?.price != null && (
+                    <Chip
+                      textAlign="center"
+                      marginRight={10}
+                      flex={0}
+                      marginVertical={2}
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginTop: "1.5%",
+                      }}
+                      textStyle={{
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        fontFamily: "Kollektif",
+                      }}
+                    >
+                      {currentWinner?.price}
+                    </Chip>
+                  )}
+                </View>
+              </View>
+            }
           </View>
           <Divider />
           <View paddingHorizontal={20} height={80}>

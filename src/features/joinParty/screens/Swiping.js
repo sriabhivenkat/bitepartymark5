@@ -81,7 +81,7 @@ const Swiping = ({ navigation, route, data }) => {
       [item.id]: 1,
     }));
   };
-
+  
   const handleNo = (item) => {
     setCardIdx((val) => val + 1);
     setSelection((val) => ({

@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   StatusBar,
-  SafeAreaView
+  SafeAreaView,
 } from "react-native";
 import { Text } from "galio-framework";
 import TouchableScale from "react-native-touchable-scale";
@@ -30,7 +30,7 @@ const Start = ({ navigation }) => {
   const width = Dimensions.get("window").width;
   useEffect(() => {
     console.log(height);
-  }, [])
+  }, []);
   const isSmall = height < 700;
   return (
     <SafeAreaView style={styles.container}>
@@ -131,22 +131,22 @@ const Start = ({ navigation }) => {
         </Appbar.Header>
       }
       {acceptedInvites?.length != 0 && (
-        <View style={{alignItems: "center", marginTop: 10}}>
+        <View style={{ alignItems: "center", marginTop: 10 }}>
           <GradientButton
-            onPress={() => 
+            onPress={() =>
               navigation.navigate("joinParty", {
                 screen: "joinParty/swiping",
-                params: {partyID: acceptedInvites[0].docID}
+                params: { partyID: acceptedInvites[0].docID },
               })
             }
             style={{
               width: "90%",
-              shadowColor: '#000',
-              shadowOffset: {width: 0, height: 3.5},
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 3.5 },
               shadowOpacity: 0.5,
               shadowRadius: 2.5,
             }}
-            innerStyle= {{
+            innerStyle={{
               borderRadius: 14,
             }}
           >
@@ -155,126 +155,135 @@ const Start = ({ navigation }) => {
         </View>
       )}
       {acceptedInvites?.length != 0 && (
-      <TouchableOpacity
-        style={[styles.image, {marginTop: 50, shadowColor: "#000", shadowOffset: {width: 1, height: 1}, shadowOpacity:1, shadowRadius: 4}]}
-        onPress={() => {
-          if (acceptedInvites?.length == 0) {
-            navigation.navigate("createParty/selectFriends");
-          } else {
-            Alert.alert(
-              "You have an active Party!",
-              "Complete it before starting a new one!"
-            );
-          }
-        }}
-        Component={TouchableScale}
-        tension={100}
-        activeScale={0.95}
-      >
-        <ImageBackground
-          source={startImages.find(({ end }) => hour < end).image}
-          style={styles.image}
-          borderRadius={15}
-          marginHorizontal={20}
-          marginBottom={15}
-          blurRadius={5}
+        <TouchableOpacity
+          style={[
+            styles.image,
+            {
+              marginTop: 50,
+              shadowColor: "#000",
+              shadowOffset: { width: 1, height: 1 },
+              shadowOpacity: 1,
+              shadowRadius: 4,
+            },
+          ]}
+          onPress={() => {
+            if (acceptedInvites?.length == 0) {
+              navigation.navigate("createParty/selectFriends");
+            } else {
+              Alert.alert(
+                "You have an active Party!",
+                "Complete it before starting a new one!"
+              );
+            }
+          }}
+          Component={TouchableScale}
+          tension={100}
+          activeScale={0.95}
         >
-          <LinearGradient
+          <ImageBackground
+            source={startImages.find(({ end }) => hour < end).image}
             style={styles.image}
+            borderRadius={15}
             marginHorizontal={20}
             marginBottom={15}
-            locations={[0.5, 1]}
-            // start={{ x: 0, y: 0 }}
-            // end={{ x: 0, y: 1 }}
-            colors={["rgba(0,0,0,0)", "rgba(0,0,0,1)"]}
+            blurRadius={5}
           >
-            <View style={styles.textContainer}>
-              <Text
-                h2
-                style={{
-                  fontFamily: "Kollektif",
-                  fontWeight: "800",
-                  color: "white",
-                  textAlign: "center",
-                }}
-              >
-                Let's Party
-              </Text>
-              <Text
-                h5
-                style={{
-                  fontFamily: "Kollektif",
-                  color: "#f76f6d",
-                  textAlign: "center",
-                }}
-              >
-                Start partying with friends!
-              </Text>
-            </View>
-          </LinearGradient>
-        </ImageBackground>
-      </TouchableOpacity>
+            <LinearGradient
+              style={styles.image}
+              marginHorizontal={20}
+              marginBottom={15}
+              locations={[0.5, 1]}
+              // start={{ x: 0, y: 0 }}
+              // end={{ x: 0, y: 1 }}
+              colors={["rgba(0,0,0,0)", "rgba(0,0,0,1)"]}
+            >
+              <View style={styles.textContainer}>
+                <Text
+                  h2
+                  style={{
+                    fontFamily: "Kollektif",
+                    fontWeight: "800",
+                    color: "white",
+                    textAlign: "center",
+                  }}
+                >
+                  Let's Party
+                </Text>
+                <Text
+                  h5
+                  style={{
+                    fontFamily: "Kollektif",
+                    color: "#f76f6d",
+                    textAlign: "center",
+                  }}
+                >
+                  Start partying with friends!
+                </Text>
+              </View>
+            </LinearGradient>
+          </ImageBackground>
+        </TouchableOpacity>
       )}
       {acceptedInvites?.length === 0 && (
-      <TouchableOpacity
-        style={[styles.image, {marginTop: 10}]}
-        onPress={() => {
-          if (acceptedInvites?.length == 0) {
-            navigation.navigate("createParty/selectFriends");
-          } else {
-            Alert.alert(
-              "You have an active Party!",
-              "Complete it before starting a new one!"
-            );
-          }
-        }}
-        Component={TouchableScale}
-        tension={100}
-        activeScale={0.95}
-      >
-        <ImageBackground
-          source={startImages.find(({ end }) => hour < end).image}
-          style={styles.image}
-          borderRadius={15}
-          marginHorizontal={20}
-          marginBottom={15}
-          blurRadius={5}
+        <TouchableOpacity
+          style={[styles.image, { marginTop: 10 }]}
+          onPress={() => {
+            if (acceptedInvites?.length == 0) {
+              navigation.navigate("createParty/selectFriends");
+            } else {
+              Alert.alert(
+                "You have an active Party!",
+                "Complete it before starting a new one!"
+              );
+            }
+          }}
+          Component={TouchableScale}
+          tension={100}
+          activeScale={0.95}
         >
-          <LinearGradient
+          <ImageBackground
+            source={startImages.find(({ end }) => hour < end).image}
             style={styles.image}
+            borderRadius={15}
             marginHorizontal={20}
             marginBottom={15}
-            locations={[0.5, 1]}
-            // start={{ x: 0, y: 0 }}
-            // end={{ x: 0, y: 1 }}
-            colors={["rgba(0,0,0,0)", "rgba(0,0,0,1)"]}
+            blurRadius={5}
           >
-            <View style={styles.textContainer}>
-              <Text
-                h2
-                style={{
-                  fontFamily: "Kollektif",
-                  fontWeight: "800",
-                  color: "white",
-                  textAlign: "center",
-                }}
-              >
-                Let's Party
-              </Text>
-              <Text
-                h5
-                style={{
-                  fontFamily: "Kollektif",
-                  color: "#f76f6d",
-                  textAlign: "center",
-                }}
-              >
-                Start partying with friends!
-              </Text>
-            </View>
-          </LinearGradient>
-        </ImageBackground>
-      </TouchableOpacity>
+            <LinearGradient
+              style={styles.image}
+              marginHorizontal={20}
+              marginBottom={15}
+              locations={[0.5, 1]}
+              // start={{ x: 0, y: 0 }}
+              // end={{ x: 0, y: 1 }}
+              colors={["rgba(0,0,0,0)", "rgba(0,0,0,1)"]}
+            >
+              <View style={styles.textContainer}>
+                <Text
+                  h2
+                  style={{
+                    fontFamily: "Kollektif",
+                    fontWeight: "800",
+                    color: "white",
+                    textAlign: "center",
+                  }}
+                >
+                  Let's Party
+                </Text>
+                <Text
+                  h5
+                  style={{
+                    fontFamily: "Kollektif",
+                    color: "#f76f6d",
+                    textAlign: "center",
+                  }}
+                >
+                  Start partying with friends!
+                </Text>
+              </View>
+            </LinearGradient>
+          </ImageBackground>
+        </TouchableOpacity>
       )}
       {/* {acceptedInvites?.length > 0 && (
         <TouchableOpacity
@@ -393,6 +402,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     elevation: 0,
     borderBottomColor: "lightgray",
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
 });

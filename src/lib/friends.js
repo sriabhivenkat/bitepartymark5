@@ -34,6 +34,9 @@ export const useFriends = () => {
   return {
     friends: data,
     addFriend: async (data) => addFriend(user, data),
+    acceptFriend: async (data) => acceptFriend(user, data),
+    rejectFriend: async (data) => rejectFriend(user, data),
+
     friendsMeta: {
       error,
       isLoading: !error && !data,
@@ -46,11 +49,58 @@ Helper Methods
 */
 
 const addFriend = async (user, data) => {
-  const ref = firestore()
+  const ret = await firestore()
     .collection("Users")
     .doc(user?.uidvalue)
     .collection("friends")
-    .doc(data.uidvalue);
+    .doc(data.uidvalue)
+    .set({ ...data, friendStatus: "sent" });
 
-  return await ref.set(data);
+  await firestore()
+    .collection("Users")
+    .doc(data.uidvalue)
+    .collection("friends")
+    .doc(user.uidvalue)
+    .set({ ...user, friendStatus: "pending" });
+
+  return ret;
+};
+
+const acceptFriend = async (user, data) => {
+  // console.log({user})
+  // console.
+  const ret = await firestore()
+    .collection("Users")
+    .doc(user?.uidvalue)
+    .collection("friends")
+    .doc(data.uidvalue)
+    .update({ friendStatus: "accepted" });
+
+  await firestore()
+    .collection("Users")
+    .doc(data.uidvalue)
+    .collection("friends")
+    .doc(user.uidvalue)
+    .update({ friendStatus: "accepted" });
+
+  return ret;
+};
+
+const rejectFriend = async (user, data) => {
+  // console.log({user})
+  // console.
+  const ret = await firestore()
+    .collection("Users")
+    .doc(user?.uidvalue)
+    .collection("friends")
+    .doc(data.uidvalue)
+    .delete();
+  await firestore()
+    .collection("Users")
+    .doc(data.uidvalue)
+    .collection("friends")
+    .doc(user.uidvalue)
+    .delete();
+
+  return ret;
 };
