@@ -87,7 +87,7 @@ export default ({navigation}) => {
           title: "Friends",
           headerShown: true,
           headerLeft: BackButton,
-          headerBackTitle: "",
+          headerBackTitle:"",
           // headerRight: () => (
           //   <View marginRight={10}>
           //     <GradientButton
