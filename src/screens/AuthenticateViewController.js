@@ -67,6 +67,7 @@ const AuthenticateViewController = ({ navigation }) => {
               <Input
                 placeholder="Email"
                 placeholderTextColor="gray"
+                type="email-address"
                 onChangeText={(email) => setEmail(email)}
                 style={styles.input1}
                 autoCapitalize="none"

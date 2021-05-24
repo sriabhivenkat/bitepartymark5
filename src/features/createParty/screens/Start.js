@@ -88,7 +88,22 @@ const Start = ({ navigation }) => {
           />
 
           <Appbar.Content
+              title={
+                    <Image source={require("assets/images/newHeaderLogo.png")}
+                                  style={{
+                                      width: 26.4,
+                                      height: 39.6,
+                                      aspectRatio: 2/3
+                                  }}
+                          />
+                        }
+                      titleStyle={{backgroundColor: "white", }}
+                      style={{alignItems: "flex-start", top: 5}}
+            />
+          
+          <Appbar.Content 
             title={`Welcome, ${user?.firstName}!`}
+            //title="Welcome, Kirthivel!" 
             titleStyle={{
               fontFamily: "Kollektif",
               fontSize: 20,
