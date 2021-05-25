@@ -9,6 +9,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 import dynamicLinks from "@react-native-firebase/dynamic-links";
 import messaging from "@react-native-firebase/messaging";
+import parse from 'url-parse'
 
 import * as RootNavigation from "navigation/RootNavigation";
 
@@ -127,6 +128,11 @@ const AppStack = () => {
           params: { partyID: partyId },
         });
         break;
+      case "join":
+        RootNavigation.navigate("invitesDisplay",
+         { partyID: partyId, linkInvite: true },
+        );
+        break;
       default:
         break;
     }
@@ -134,6 +140,10 @@ const AppStack = () => {
   useEffect(() => {
     messaging().getInitialNotification().then(handleMessage);
     messaging().onNotificationOpenedApp(handleMessage);
+    dynamicLinks().onLink((link) => {
+      const url = parse(link.url, true)
+      handleMessage({ data: { partyId: url.query.id, type: "join" } })
+    });
   }, []);
 
   return (

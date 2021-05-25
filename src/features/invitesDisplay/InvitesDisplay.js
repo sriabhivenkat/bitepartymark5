@@ -12,8 +12,13 @@ import { SafeAreaView } from "react-native";
 import { useInvites } from "lib";
 import { Appbar } from "react-native-paper";
 import { FriendInvites } from "./FriendsInvites";
-const InvitesDisplay = ({ navigation }) => {
+const InvitesDisplay = ({ navigation, route }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
+  const { partyID, linkInvite } = route.params
+
+  // if(linkInvite) {
+    
+  // }
 
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const pendingInvites = invites?.filter((item) => item.status == "pending");
