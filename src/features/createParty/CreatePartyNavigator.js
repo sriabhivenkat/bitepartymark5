@@ -1,8 +1,9 @@
 import React from "react";
-import { Image, Dimensions } from "react-native";
+import { Image, Dimensions, Text, TouchableOpacity } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Filters from "./screens/Filters";
 import SelectFriends from "./screens/SelectFriends";
+import CreateGroup from "./screens/CreateGroup";
 import Start from "./screens/Start";
 import ChangeLocation from "./screens/ChangeLocation";
 import { logoHeaderOptions } from "components";
@@ -12,7 +13,8 @@ import AddFriends from "features/profile/screens/AddFriends";
 import { useUser } from "lib";
 const Stack = createStackNavigator();
 
-export default () => {
+
+export default ({navigation}) => {
   const { user } = useUser();
   const isSmall = height < 700;
   const height = Dimensions.get("window").height;
@@ -48,6 +50,36 @@ export default () => {
         }}
       />
 
+      <Stack.Screen 
+        name="createParty/createGroup"
+        component={CreateGroup}
+        options={{
+          title: "Group Creation",
+          headerShown: false,
+          headerLeft: BackButton,
+          headerBackTitle: "",
+          headerRight: () => (
+            <TouchableOpacity
+              style={{
+                right: 20,
+              }}
+              onPress={() => {navigation.goBack()}}
+            >
+              <Text
+                style={{
+                  fontSize: 23,
+                  fontFamily: "Kollektif",
+                  color: "#f76f6d"
+                }}
+              >
+                Done
+              </Text>
+            </TouchableOpacity>
+          ),
+          ...logoHeaderOptions
+        }}
+      />
+
       <Stack.Screen
         name="createParty/selectFriends"
         component={SelectFriends}
@@ -55,7 +87,7 @@ export default () => {
           title: "Friends",
           headerShown: true,
           headerLeft: BackButton,
-          headerBackTitle: "",
+          headerBackTitle:"",
           // headerRight: () => (
           //   <View marginRight={10}>
           //     <GradientButton

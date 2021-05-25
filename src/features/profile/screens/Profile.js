@@ -11,12 +11,13 @@ import {
 // import { Text, Card } from "galio-framework";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { Title, Caption } from "react-native-paper";
-import { Modal, Portal, Provider, Button } from "react-native-paper";
+import { Modal, Portal, Provider, IconButton } from "react-native-paper";
 import ImagePicker from "react-native-image-crop-picker";
 import storage from "@react-native-firebase/storage";
 import { SafeAreaView } from "react-native";
-import { useFriends, useUser, useInvites } from "lib";
+import { useFriends, useUser, useInvites, useGroup} from "lib";
 import { TitleText } from "../../../components";
+import LinearGradient from "react-native-linear-gradient";
 
 const ProfileButton = ({ children, ...rest }) => (
   <TouchableOpacity
@@ -43,13 +44,14 @@ const ProfileButton = ({ children, ...rest }) => (
   </TouchableOpacity>
 );
 
-const ProfileDisplay = ({ navigation }) => {
+const ProfileDisplay = ({ navigation, route }) => {
   const { user } = useUser();
   const { friends } = useFriends();
   const { invites } = useInvites();
-  const [data, setData] = useState([])
-
+  // const [name, setName] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [groups, setGroups] = useState([]);
+  // const [members, setMembers] = useState();
 
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
@@ -64,7 +66,6 @@ const ProfileDisplay = ({ navigation }) => {
         // console.log(image);
         // setImage(image.path);
         uploadPfp(image.path);
-
         hideModal();
       })
       .catch((e) => {
@@ -91,7 +92,32 @@ const ProfileDisplay = ({ navigation }) => {
       });
   };
 
+  useEffect(() => {
+    firestore()
+      .collectionGroup('members')
+      .where("isGroup", '==', true)
+      .where('status', '==', "accepted") //filter by user uidvalue 
+      .get()
+      .then((res) => {
+        const results = res.docs.map((x) => x.data());
+        console.log(results);
+        const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
+        console.log(filtered);
+        setGroups(filtered);
+        console.log("groups array is: ", groups)
+      })
+      .catch((err) => console.log(err));
+      
+  }, [])
 
+  const {groupName, groupMembers} = useGroup(groups[0]?.groupID);
+
+
+  // useEffect(() => {
+  //  //getGroup(groups[0]?.groupID).then(data => setName(data)).catch(err => console.log(err))
+  //  setName(groupName);
+  //  setMembers(groupMembers);
+  // }, [])
   const uploadPfp = async (imagepath) => {
     let filename = user.uidvalue;
     try {
@@ -108,10 +134,27 @@ const ProfileDisplay = ({ navigation }) => {
   };
   const height = Dimensions.get("screen").height;
   return (
-    <SafeAreaView style={styles.container}>
+    <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1 }}
+        colors={
+          ["#FFD0E4", "#FFCFBB", "#FFFFFF"]
+        }
+        style={styles.container}
+      >
+    <SafeAreaView>
       <StatusBar translucent={true} barStyle="dark-content" />
-      <View paddingHorizontal={20}>
+      <View paddingHorizontal={20} flexDirection="row">
         <TitleText>@{user?.handle}</TitleText>
+        <View style={{position: "absolute", right: 0, top: 16}}>
+        <IconButton
+                  icon="account-plus"
+                  size={30}
+                  onPress={() =>
+                    navigation.navigate("profile/addFriends")
+                  }
+                />
+        </View>
       </View>
       <View backgroundColor="" marginTop={15}>
         <View alignItems="center">
@@ -154,6 +197,36 @@ const ProfileDisplay = ({ navigation }) => {
         // backgroundColor="blue"
         // alignItems="space-around"
         >
+                   {/* <TouchableOpacity 
+            alignItems="center"
+            onPress={
+              () => navigation.navigate("profile/showGroup", {
+                groups: groups,
+              })
+          }
+          >
+            <Title
+              style={{
+                fontWeight: "bold",
+                color: "black",
+                fontFamily: "Kollektif",
+                fontSize: height < 700 ? 25 : 30,
+                fontWeight: "normal",
+                left: 25,
+              }}
+            >
+              {groups?.length}
+            </Title>
+            <Caption
+              style={{
+                color: "black",
+                fontSize: 20,
+                fontFamily: "Kollektif",
+              }}
+            >
+              Groups
+            </Caption>
+          </TouchableOpacity> */}
           <TouchableOpacity onPress={() => navigation.navigate('profile/friendsView')}>
             <View alignItems="center">
               <Title
@@ -175,7 +248,7 @@ const ProfileDisplay = ({ navigation }) => {
                 }}
               >
                 Friends
-            </Caption>
+              </Caption>
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("profile/pastParties", { inviteList: invites })}>
@@ -227,6 +300,7 @@ const ProfileDisplay = ({ navigation }) => {
         </View>
       </View>
     </SafeAreaView>
+    </LinearGradient>
   );
 };
 

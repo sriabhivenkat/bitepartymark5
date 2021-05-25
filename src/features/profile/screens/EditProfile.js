@@ -193,7 +193,7 @@ const EditProfile = ({ navigation }) => {
   };
 
   //constants for bottom sheet opening - Abhi
-  const snapPoints = useMemo(() => ["0%", "35%"]);
+  const snapPoints = useMemo(() => ["0%", "40%"]);
   const bottomSheetRef = useRef(null);
   const handleSnapPress = useCallback((index) => {
     bottomSheetRef.current?.snapTo(index);

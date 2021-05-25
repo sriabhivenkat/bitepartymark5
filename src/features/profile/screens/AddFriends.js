@@ -24,9 +24,10 @@ import { Divider } from "react-native-elements";
 const AddFriends = () => {
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
+  const [dataval, setTemp] = useState([]);
 
   const { friends, addFriend } = useFriends();
-  // const { user } = useUser();
+  const { user } = useUser();
 
   useEffect(() => {
     if (query.length > 1) {
@@ -45,6 +46,7 @@ const AddFriends = () => {
       setData([]);
     }
   }, [query]);
+
   // console.log(friends);
 
   // useEffect(() => {

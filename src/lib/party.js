@@ -228,6 +228,11 @@ const endParty = async (partyId, user) => {
 
   await leaveParty(partyId, user);
 
+
+  // const res = await partyRef.collection("members").get()
+
+  // res.docs.
+
   const members = (await partyRef.collection("members").get()).docs.map((x) =>
     x.data()
   );

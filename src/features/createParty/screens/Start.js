@@ -15,9 +15,9 @@ import LinearGradient from "react-native-linear-gradient";
 import { startImages } from "../startImages";
 import { useInvites } from "lib/invites.js";
 import { Alert } from "react-native";
-import { useUser } from "lib";
-import { GradientButton } from "components";
-import { Appbar } from "react-native-paper";
+import {useUser} from "lib";
+import {GradientButton} from "components";
+import { Appbar, Button } from 'react-native-paper';
 import { logoHeaderOptions } from "../../../components";
 import { useEffect } from "react";
 
@@ -27,6 +27,7 @@ const Start = ({ navigation }) => {
   const { user } = useUser();
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const height = Dimensions.get("window").height;
+  const width = Dimensions.get("window").width;
   useEffect(() => {
     console.log(height);
   }, []);
@@ -34,79 +35,104 @@ const Start = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      {height >= 896 && (
-        <Appbar.Header style={[styles.bottom, { height: 70 }]}>
+      {height>=896 &&
+        <Appbar.Header style={[styles.bottom, {height: 70}]}>
+          {/* <View flexDirection="row" style={{width: 230}}> */}
+          <View flexDirection="row" style={{width: 330}}>
           <Appbar.Content
-            title={
-              <Image
-                source={require("assets/images/newheaderLogo.jpeg")}
-                style={{
-                  width: 29.333,
-                  height: 44,
-                }}
-              />
-            }
-            titleStyle={{ backgroundColor: "white", right: 40 }}
-            style={{ alignItems: "flex-start", top: 5 }}
-          />
-
-          <Appbar.Content
-            title={`Welcome, ${user?.firstName}!`}
+              title={
+                    <Image source={require("assets/images/newHeaderLogo.png")}
+                                  style={{
+                                      width: 29.333,
+                                      height: 44,
+                                      
+                                  }}
+                          />
+                        }
+                      titleStyle={{backgroundColor: "white"}}
+                      style={{alignItems: "flex-start", top: 5}}
+            />
+          
+          <Appbar.Content 
+            title={`Welcome, ${user?.firstName}!`} 
+            //title="Welcome, Kirthivel!"
             titleStyle={{
-              fontFamily: "Kollektif",
-              fontSize: 20,
-              marginRight: -60,
-              right: 150,
-            }}
-            style={{ alignItems: "flex-start", top: 5 }}
-          />
-
-          <Appbar.Action
-            icon={"account-plus"}
-            size={30}
-            onPress={() => navigation.navigate("createParty/addFriends")}
-            style={{ top: 3 }}
-          />
+              fontFamily: "Kollektif", 
+              fontSize: 20, 
+              color: "black", 
+              right: 120, 
+              top: 15, 
+              marginRight: -80
+            }} 
+            style={{
+              alignItems: "flex-start", 
+              top: 5
+              }}
+            />
+          </View>
+          {/* <View flexDirection="row" style={{width:175}}> */}
+          <View flexDirection="row" style={{width:150}}>
+            {/* <Appbar.Content 
+              title={
+                <Button 
+                  icon="account-multiple-plus" 
+                  mode="outlined"
+                  labelStyle={{color: "black"}}
+                  style={{borderRadius: 20, }} 
+                  uppercase={false}
+                  onPress={() => navigation.navigate("createParty/createGroup")}
+                  color="black"
+                >
+                  Group
+                </Button>
+              } 
+              color="black" 
+              style={{top: 18}}
+            /> */}
+            <Appbar.Action icon={'account-plus'} size={30} onPress={() => navigation.navigate("profile", {screen: "profile/addFriends"})} style={{top: 5, }} color="black"/>
+          </View>
         </Appbar.Header>
-      )}
-      {height <= 667 && (
-        <Appbar.Header style={[styles.bottom, { height: 60 }]}>
+      }
+      {height<=812 &&
+        <Appbar.Header style={[styles.bottom, {height: 60,}]}>
+          {/* <View flexDirection="row" style={{width: 230}}> */}
+          <View flexDirection="row" style={{width: 300}}>
           <Appbar.Content
-            title={
-              <Image
-                source={require("assets/images/newheaderLogo.jpeg")}
-                style={{
-                  width: 26.4,
-                  height: 39.6,
-                  aspectRatio: 2 / 3,
-                }}
-              />
-            }
-            titleStyle={{ backgroundColor: "white", right: 40 }}
-            style={{ alignItems: "flex-start", top: 5 }}
-          />
-
-          <Appbar.Content
+              title={
+                    <Image source={require("assets/images/newHeaderLogo.png")}
+                                  style={{
+                                      width: 26.4,
+                                      height: 39.6,
+                                      aspectRatio: 2/3
+                                  }}
+                          />
+                        }
+                      titleStyle={{backgroundColor: "white", }}
+                      style={{alignItems: "flex-start", top: 5}}
+            />
+          
+          <Appbar.Content 
             title={`Welcome, ${user?.firstName}!`}
+            // title="Welcome, Kirthivel!" 
             titleStyle={{
-              fontFamily: "Kollektif",
-              fontSize: 20,
-              marginRight: -60,
-              right: 140,
+              fontFamily: "Kollektif", 
+              fontSize: 20, 
+              marginRight: -90, 
+              right: 110, //70
+              color: "black"
+            }} 
+            style={{
+              alignItems: "flex-start", 
+              top: 15
             }}
-            style={{ alignItems: "flex-start", top: 3 }}
           />
-
-          <Appbar.Action
-            icon={"account-plus"}
-            size={27.5}
-            onPress={() =>
-              navigation.navigate("profile", { screen: "profile/addFriends" })
-            }
-            style={{ top: 2 }}
-          />
+          </View>
+          <View flexDirection="row" style={{width:140}} alignItems="flex-end">
+            {/* <Appbar.Action icon={'account-multiple-plus'} size={27.5} onPress={() => navigation.navigate("createParty/createGroup")} style={{top: 3.5, marginLeft: 40}} color="black"/> */}
+            <Appbar.Action icon={'account-plus'} size={27.5} onPress={() => navigation.navigate("profile", {screen: "profile/addFriends"})} style={{top: 2, }} color="black"/>
+          </View>
         </Appbar.Header>
-      )}
+      }
       {acceptedInvites?.length != 0 && (
         <View style={{ alignItems: "center", marginTop: 10 }}>
           <GradientButton

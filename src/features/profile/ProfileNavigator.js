@@ -4,6 +4,7 @@ import Profile from "./screens/Profile";
 import Settings from "./screens/Settings";
 import EditProfile from "./screens/EditProfile";
 import AddFriends from "./screens/AddFriends";
+import ShowGroups from './screens/ShowGroups';
 
 import { BackButton, logoHeaderOptions } from "../../components";
 import FriendsView from "./screens/FriendsView";
@@ -40,6 +41,14 @@ export default () => (
 
 
         // headerShown: false,
+      }}
+    />
+    <Stack.Screen 
+      name="profile/showGroup"
+      component={ShowGroups}
+      options={{
+        title: "",
+        headerLeft: BackButton,
       }}
     />
     <Stack.Screen
