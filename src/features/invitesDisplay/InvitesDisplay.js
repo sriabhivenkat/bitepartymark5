@@ -23,6 +23,11 @@ const InvitesDisplay = ({ navigation, route }) => {
   const isSmall = height < 700;
 
  
+  const { partyID, linkInvite } = route.params
+
+  // if(linkInvite) {
+    
+  // }
 
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const pendingInvites = invites?.filter((item) => item.status == "pending");
