@@ -129,9 +129,13 @@ const AppStack = () => {
         });
         break;
       case "join":
-        RootNavigation.navigate("invitesDisplay",
-         { partyID: partyId, linkInvite: true },
-        );
+        RootNavigation.navigate("invites", {
+          screen: "invitesDisplay",
+          params: { partyID: partyId, linkInvite: true },
+        });
+        // RootNavigation.navigate("invitesDisplay",
+        //  { partyID: partyId, linkInvite: true },
+        // );
         break;
       default:
         break;
@@ -142,7 +146,8 @@ const AppStack = () => {
     messaging().onNotificationOpenedApp(handleMessage);
     dynamicLinks().onLink((link) => {
       const url = parse(link.url, true)
-      handleMessage({ data: { partyId: url.query.id, type: "join" } })
+      // console.log(JSON.stringify(url))
+      handleMessage({ data: { partyId: url.query.id, type: url.pathname.slice(1) } })
     });
   }, []);
 
