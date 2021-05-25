@@ -72,6 +72,9 @@ export const useParty = (id) => {
       await leaveParty(partyId, user);
       return partyId;
     },
+    addSelfToParty: async (id) => {
+      return await addSelf(id, user)
+    },
   };
 };
 
@@ -258,3 +261,27 @@ const endParty = async (partyId, user) => {
 
   // partyRef.
 };
+
+
+const addSelf = (partyId, user) => {
+  const partyRef = firestore().collection("Parties").doc(partyId);
+  const usersRef = firestore().collection("Users");
+
+  partyRef.collection("members").doc(user.uidvalue).set({
+    ...user,
+    status: "accepted"
+  })
+
+  const inviteRef = usersRef.doc(user.uidvalue).collection("invitations").doc(partyId);
+  inviteRef.set({
+    timestamp: firestore.FieldValue.serverTimestamp(),
+    inviter: user.uidvalue,
+    inviterHandle: user.handle,
+    isDuo: false, 
+    status: "accepted",
+    imagePath: user.imageUrl,
+    docID: partyId,
+  });
+  
+
+}
