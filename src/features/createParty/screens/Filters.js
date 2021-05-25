@@ -263,7 +263,7 @@ const Filters = ({ route, navigation }) => {
         </ScrollView>
       </View>
       {selectedFriends.length === 0 && (
-        <View display="flex" flexDirection="column" alignItems="center">
+        <View display="flex" flexDirection="column" alignItems="center" bottom={10}>
           <Text
             style={{
               fontFamily: "Kollektif",
@@ -275,7 +275,9 @@ const Filters = ({ route, navigation }) => {
           </Text>
         </View>
       )}
-      <View display="flex" flexDirection="column" justifyContent="center">
+      <View display="flex" flexDirection="column" justifyContent="center" style={{
+        marginTop: selectedFriends.length===0 ? -20:0
+      }}>
         <SectionLabel label="Price" />
         <PricingSelector value={price} onChange={(val) => setPrice(val)} />
       </View>

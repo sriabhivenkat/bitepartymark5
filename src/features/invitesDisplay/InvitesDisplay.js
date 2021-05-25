@@ -91,7 +91,7 @@ const InvitesDisplay = ({ navigation }) => {
                 />
               </View>
               <View flexDirection="row" alignItems="center" paddingLeft={10}>
-                <Button 
+                {/* <Button 
                   icon="account-multiple-plus" 
                   mode="outlined"
                   labelStyle={{color: "black"}}
@@ -101,7 +101,7 @@ const InvitesDisplay = ({ navigation }) => {
                   color="black"
                 >
                   Group
-                </Button>
+                </Button> */}
                 <IconButton
                   icon="account-plus"
                   size={30}

@@ -37,7 +37,8 @@ const Start = ({ navigation }) => {
       <StatusBar barStyle="dark-content" />
       {height>=896 &&
         <Appbar.Header style={[styles.bottom, {height: 70}]}>
-          <View flexDirection="row" style={{width: 230}}>
+          {/* <View flexDirection="row" style={{width: 230}}> */}
+          <View flexDirection="row" style={{width: 330}}>
           <Appbar.Content
               title={
                     <Image source={require("assets/images/newHeaderLogo.png")}
@@ -59,7 +60,7 @@ const Start = ({ navigation }) => {
               fontFamily: "Kollektif", 
               fontSize: 20, 
               color: "black", 
-              right: 70, 
+              right: 120, 
               top: 15, 
               marginRight: -80
             }} 
@@ -69,8 +70,9 @@ const Start = ({ navigation }) => {
               }}
             />
           </View>
-          <View flexDirection="row" style={{width:175}}>
-            <Appbar.Content 
+          {/* <View flexDirection="row" style={{width:175}}> */}
+          <View flexDirection="row" style={{width:150}}>
+            {/* <Appbar.Content 
               title={
                 <Button 
                   icon="account-multiple-plus" 
@@ -86,14 +88,15 @@ const Start = ({ navigation }) => {
               } 
               color="black" 
               style={{top: 18}}
-            />
+            /> */}
             <Appbar.Action icon={'account-plus'} size={30} onPress={() => navigation.navigate("profile", {screen: "profile/addFriends"})} style={{top: 5, }} color="black"/>
           </View>
         </Appbar.Header>
       }
       {height<=812 &&
         <Appbar.Header style={[styles.bottom, {height: 60,}]}>
-          <View flexDirection="row" style={{width: 230}}>
+          {/* <View flexDirection="row" style={{width: 230}}> */}
+          <View flexDirection="row" style={{width: 300}}>
           <Appbar.Content
               title={
                     <Image source={require("assets/images/newHeaderLogo.png")}
@@ -110,12 +113,12 @@ const Start = ({ navigation }) => {
           
           <Appbar.Content 
             title={`Welcome, ${user?.firstName}!`}
-            //title="Welcome, Kirthivel!" 
+            // title="Welcome, Kirthivel!" 
             titleStyle={{
               fontFamily: "Kollektif", 
               fontSize: 20, 
               marginRight: -90, 
-              right: 70, 
+              right: 110, //70
               color: "black"
             }} 
             style={{
@@ -125,7 +128,7 @@ const Start = ({ navigation }) => {
           />
           </View>
           <View flexDirection="row" style={{width:140}} alignItems="flex-end">
-            <Appbar.Action icon={'account-multiple-plus'} size={27.5} onPress={() => navigation.navigate("createParty/createGroup")} style={{top: 3.5, marginLeft: 40}} color="black"/>
+            {/* <Appbar.Action icon={'account-multiple-plus'} size={27.5} onPress={() => navigation.navigate("createParty/createGroup")} style={{top: 3.5, marginLeft: 40}} color="black"/> */}
             <Appbar.Action icon={'account-plus'} size={27.5} onPress={() => navigation.navigate("profile", {screen: "profile/addFriends"})} style={{top: 2, }} color="black"/>
           </View>
         </Appbar.Header>

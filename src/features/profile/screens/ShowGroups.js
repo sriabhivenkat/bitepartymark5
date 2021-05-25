@@ -7,7 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   StatusBar,
-  SafeAreaView
+  SafeAreaViuyew
 } from "react-native";
 import { Text } from "galio-framework";
 import { TitleText, InviteCard, SubtitleText, GroupCard } from "components";
@@ -53,7 +53,7 @@ const ShowGroups = ({ navigation, route }) => {
                     decelerationRate="fast"
                     renderItem={({item}) => (
                         <GroupCard 
-                            group={item}
+                            id={item.groupID}
                         />
                     )}
                 />
