@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   FlatList,
@@ -15,12 +15,29 @@ import LinearGradient from "react-native-linear-gradient";
 import { Appbar } from "react-native-paper";
 import { FriendInvites } from "./FriendsInvites";
 
-const InvitesDisplay = ({ navigation }) => {
+ 
+const InvitesDisplay = ({ navigation, route }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
+  // const { partyID, linkInvite } = route.params
+
   const isSmall = height < 700;
+
+ 
+
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const pendingInvites = invites?.filter((item) => item.status == "pending");
   const height = Dimensions.get("window").height;
+
+
+  useEffect(() => {
+    if (route?.params?.linkInvite) {
+      navigation.navigate("joinParty", {
+        screen: "joinParty/swiping",
+        params: { partyID: route.params.partyID },
+      })
+    }
+  }, route.params)
+
   const handleAccept = (invite) => {
     if (acceptedInvites?.length <= 0) {
       acceptInvite(invite)
