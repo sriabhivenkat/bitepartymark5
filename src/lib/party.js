@@ -13,17 +13,54 @@ export const useParty = (id) => {
   // console.log({ id });
   const { user } = useUser();
   const [partyId, setPartyId] = useState(id);
+  const [party, setParty] = useState({})
+  const [partyMember, setPartyMember] = useState({})
 
-  const { data: party, error: partyError } = useDocument(`Parties/${id}`, {
-    listen: true,
-  });
 
-  const { data: partyMember } = useDocument(
-    `Parties/${partyId}/members/${user?.uidvalue}`,
-    {
-      listen: true,
-    }
-  );
+  const [isPartyLoading, setIsPartyLoading] = useState(true);
+  const [isPartyMemberLoading, setIsPartyMemberLoading] = useState(true);
+
+
+  useEffect(() => {
+    const unsubscribe = firestore()
+      .collection("Parties")
+      .doc(id)
+      .onSnapshot(
+        (snapshot) => {
+          setParty(snapshot.data());
+          setIsPartyLoading(false);
+        },
+        (err) => console.error(err)
+      );
+    return () => unsubscribe();
+  }, [id]);
+
+  useEffect(() => {
+    const unsubscribe = firestore()
+      .collection("Parties")
+      .doc(id)
+      .collection("members")
+      .doc(user?.uidvalue)
+      .onSnapshot(
+        (snapshot) => {
+          setPartyMember(snapshot.data());
+          setIsPartyMemberLoading(false);
+        },
+        (err) => console.error(err)
+      );
+    return () => unsubscribe();
+  }, [id]);
+
+  // const { data: party, error: partyError } = useDocument(`Parties/${id}`, {
+  //   listen: true,
+  // });
+
+  // const { data: partyMember } = useDocument(
+  //   `Parties/${partyId}/members/${user?.uidvalue}`,
+  //   {
+  //     listen: true,
+  //   }
+  // );
 
   useEffect(() => {
     !id && setPartyId(Math.random().toString(36).substring(7));
@@ -34,8 +71,8 @@ export const useParty = (id) => {
     party,
     partyMember,
     partyMeta: {
-      partyError,
-      isLoading: !partyError && !party,
+      partyError: false,
+      isLoading: isPartyLoading && isPartyMemberLoading
     },
     createParty: async (members, options) => {
       if (!partyId) {
@@ -149,13 +186,14 @@ const createParty = async (id, user, members, options) => {
   }
   const partyRef = firestore().collection("Parties").doc(id);
   const usersRef = firestore().collection("Users");
-
+  console.log({options})
   await partyRef.set({
     admin: user.uidvalue,
     restrictions: {
       ...options,
     },
     isDuo: members.length <= 1,
+    autoResolve: options.autoResolve,
     restaurants,
   });
 
@@ -209,6 +247,11 @@ const leaveParty = async (partyId, user) => {
 const resolveParty = async (partyId) => {
   const partyRef = firestore().collection("Parties").doc(partyId);
 
+
+  partyRef.update({autoResolve: true});
+  console.log({partyId})
+  console.log('foo')
+
   const members = (await partyRef.collection("members").get()).docs.map((x) =>
     x.data()
   );
@@ -219,6 +262,7 @@ const resolveParty = async (partyId) => {
     const docRef = partyRef.collection("members").doc(doc.uidvalue);
     membersBatch.update(docRef, {
       status: "complete",
+      rand:  Math.floor(Math.random() * 10)
     });
   });
 

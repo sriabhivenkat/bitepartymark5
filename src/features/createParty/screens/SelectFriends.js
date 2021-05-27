@@ -21,6 +21,7 @@ const SelectFriends = ({ route, navigation }) => {
   const { partyId } = useParty();
   const [query, setQuery] = useState("");
   const [selectedFriends, setSelectedFriends] = useState([]);
+  const [isLink, setIsLink] = useState(false);
 
   const generateLink = async (groupId) => {
     const link = await dynamicLinks().buildShortLink({
@@ -45,6 +46,7 @@ const SelectFriends = ({ route, navigation }) => {
       const result = await Share.share({
         message: `BiteParty | Join the party! ${url}`,
       });
+      setIsLink(true)
     } catch (error) {
       alert(error.message);
     }
@@ -163,36 +165,19 @@ const SelectFriends = ({ route, navigation }) => {
           pointerEvents={"none"}
         /> */}
         <View alignItems="center" justifyContent="center" paddingTop={10}>
-          {selectedFriends.length === 0 && (
             <GradientButton
-              // style={{ backgroundColor: "red" }}
               innerStyle={{ paddingVertical: 15 }}
               containerStyle={{ width: "95%" }}
               onPress={() =>
                 navigation.navigate("createParty/filters", {
                   partyId,
                   selectedFriends,
+                  link: isLink
                 })
               }
             >
-              Or, go solo!
+              {selectedFriends.length > 0 ? "Start Party!" : "Or, go solo!"}
             </GradientButton>
-          )}
-          {selectedFriends.length != 0 && (
-            <GradientButton
-              // style={{ backgroundColor: "red" }}
-              innerStyle={{ paddingVertical: 15 }}
-              containerStyle={{ width: "95%" }}
-              onPress={() =>
-                navigation.navigate("createParty/filters", {
-                  partyId,
-                  selectedFriends,
-                })
-              }
-            >
-              Start Party!
-            </GradientButton>
-          )}
         </View>
       </View>
     </SafeAreaView>
