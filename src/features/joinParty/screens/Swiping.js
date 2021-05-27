@@ -67,12 +67,24 @@ const Swiping = ({ navigation, route, data }) => {
     }
     main();
   }, [cardIdx])
+
   useEffect(() => {
-    if (partyMember?.status == "complete" && !hasNavigated.current) {
+    console.log({partyMember})
+    if (partyMember?.status == "complete") {
       hasNavigated.current = true;
       navigation.navigate("joinParty/completed", { partyID });
     }
   }, [partyMember]);
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      if (partyMember?.status == "complete") {
+        hasNavigated.current = true;
+        navigation.navigate("joinParty/completed", { partyID });
+      } 
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const handleYes = (item) => {
     setCardIdx((val) => val + 1);

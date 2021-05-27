@@ -10,7 +10,7 @@ import {
 import { TitleText, InviteCard, SubtitleText } from "components";
 import { SafeAreaView } from "react-native";
 import { Button, Divider, IconButton } from "react-native-paper";
-import { useInvites } from "lib/invites.js";
+import { useInvites, useParty} from "lib";
 import LinearGradient from "react-native-linear-gradient";
 import { Appbar } from "react-native-paper";
 import { FriendInvites } from "./FriendsInvites";
@@ -18,6 +18,8 @@ import { FriendInvites } from "./FriendsInvites";
  
 const InvitesDisplay = ({ navigation, route }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
+  const { addSelfToParty } = useParty();
+
   // const { partyID, linkInvite } = route.params
 
   const isSmall = height < 700;
@@ -36,10 +38,12 @@ const InvitesDisplay = ({ navigation, route }) => {
 
   useEffect(() => {
     if (route?.params?.linkInvite) {
-      navigation.navigate("joinParty", {
-        screen: "joinParty/swiping",
-        params: { partyID: route.params.partyID },
-      })
+      addSelfToParty(route.params.partyID).then(() => 
+        navigation.navigate("joinParty", {
+          screen: "joinParty/swiping",
+          params: { partyID: route.params.partyID },
+        })
+      )
     }
   }, route.params)
 

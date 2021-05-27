@@ -24,8 +24,13 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const tabBarListeners = ({ navigation, route }) => ({
   tabPress: () => {
-    if (route?.state?.index) navigation.replace("Home");
-    else navigation.navigate("Home");
+    // if (route?.state?.index) navigation.replace("Home");
+    // else navigation.navigate("Home");
+    // navigation.replace("Home");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "home" }],
+    })
   },
 });
 const BottomTabNavigator = () => (
@@ -73,7 +78,7 @@ const BottomTabNavigator = () => (
     <Tab.Screen
       name="home"
       component={CreatePartyNavigator}
-      listeners={tabBarListeners}
+      // listeners={tabBarListeners}
       options={{
         tabBarIcon: ({ focused }) => (
           <Ionicons name="home" color={focused ? "black" : "gray"} size={25} />
@@ -146,9 +151,15 @@ const AppStack = () => {
     messaging().onNotificationOpenedApp(handleMessage);
     dynamicLinks().onLink((link) => {
       const url = parse(link.url, true)
-      // console.log(JSON.stringify(url))
       handleMessage({ data: { partyId: url.query.id, type: url.pathname.slice(1) } })
     });
+    // dynamicLinks()
+    //   .getInitialLink()
+    //   .then(link => {
+    //     console.log({link})
+    //     const url = parse(link.url, true)
+    //     handleMessage({ data: { partyId: url.query.id, type: url.pathname.slice(1) } })
+    //   })
   }, []);
 
   return (

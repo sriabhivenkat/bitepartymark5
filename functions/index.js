@@ -57,11 +57,11 @@ exports.resolveParty = functions.firestore
         .every(({ status }) => status == "complete");
 
       if (isComplete) {
-        const { restaurants, winner } = (
+        const { restaurants, winner, autoResolve=true } = (
           await db.collection("Parties").doc(partyID).get()
         ).data();
 
-        if (winner) {
+        if (winner || !autoResolve) {
           return;
         }
 

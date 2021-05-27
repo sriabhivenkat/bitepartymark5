@@ -66,7 +66,7 @@ const Filters = ({ route, navigation }) => {
     };
     main();
   }, []);
-  const { selectedFriends, partyId } = route.params;
+  const { selectedFriends, partyId, link } = route.params;
 
   const [selectionval, setSelectionVal] = useState("");
   //passing data back from changelocation screen
@@ -125,6 +125,7 @@ const Filters = ({ route, navigation }) => {
         price,
         // pricing,
         time,
+        autoResolve:!link,
       });
       // } else {
       //   Geocoder.from(selectionval)
