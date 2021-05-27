@@ -170,11 +170,11 @@ const InvitesDisplay = ({ navigation }) => {
             // marginVertical={20}
           /> */}
           {/* <View> */}
-          <TitleText style={[styles.title, { fontSize: 25, marginTop: 15, left: 20 }]}>
+          {/* <TitleText style={[styles.title, { fontSize: 25, marginTop: 15, left: 20 }]}>
             Friend and Group Requests
           </TitleText>
 
-          <FriendInvites />
+          <FriendInvites /> */}
           {/* </View> */}
         </SafeAreaView>
       </LinearGradient>

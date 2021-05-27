@@ -2,10 +2,12 @@ import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { Text } from "galio-framework";
 import { Card, Avatar, Divider } from "react-native-paper";
+import { useFriends, useUser, useInvites } from "lib";
 import { GradientButton } from "./";
 import moment from "moment";
 
 export const InviteCard = ({ onAccept, onReject, invite }) => {
+  const {friends} = useFriends();
   const data = friends?.find(item => item.uidvalue == invite.inviter)
   const id = invite.inviter
   console.log(data)

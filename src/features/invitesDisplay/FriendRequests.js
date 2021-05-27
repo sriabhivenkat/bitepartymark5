@@ -16,7 +16,7 @@ import { useInvites } from "lib/invites.js";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { Alert } from "react-native";
 import {useUser} from "lib";
-import {GradientButton} from "components";
+import {GradientButton, GroupCard} from "components";
 import { Appbar, Button, IconButton, Divider} from 'react-native-paper';
 import { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
@@ -55,7 +55,7 @@ const FriendRequests = () => {
         style={styles.container}
     >
         <SafeAreaView>
-          <View flexDirection="row">
+          <View flexDirection="row" paddingHorizontal={20}>
             <View
               style={{
                 // backgroundColor: "red",
@@ -110,11 +110,19 @@ const FriendRequests = () => {
             </View>
           </View>
           <Divider style={{width: 600, right:30, backgroundColor: "gray"}}/>
-          <View style={{left: 10, top: 20}}>
+          <View style={{left: 10, top: 20, marginBottom: 25, paddingHorizontal: 20}}>
               <Text style={{fontFamily: "Kollektif", fontSize: 30}}>Friend Requests</Text>
           </View>
-          <ScrollView>
-            
+          <ScrollView width={Dimensions.get("window").width * 2}>
+            <FriendInvites />
+            <View paddingHorizontal={20}>
+            {groups.map((x) => (
+              <GroupCard 
+                id={x?.groupID}
+                request={true}
+              />
+            ))}
+            </View>
           </ScrollView>
         </SafeAreaView>
     </LinearGradient>
@@ -125,7 +133,6 @@ export default FriendRequests;
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 20,
         backgroundColor: "#fff",
         flex: 1,
     }

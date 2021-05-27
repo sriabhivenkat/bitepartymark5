@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Dimensions, Image, ScrollView } from "react-native";
+import { View, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity } from "react-native";
 import { Text } from "galio-framework";
 import { Card, Avatar, Divider, Chip, IconButton } from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
 import { GradientButton } from "./";
 import firestore, { firebase } from "@react-native-firebase/firestore";
-import {useGroup} from 'lib';
+import {useGroup, addGroup, useUser, rejectGroup} from 'lib';
 
-export const GroupCard = ({id, functionval}) => {
+export const GroupCard = ({id, request, onTap}) => {
   const {groupName, groupMembers} = useGroup(id);
+  const {user} = useUser();
   return(
     <View style={styles.container}>
     <Card style={[styles.card, { marginBottom: 20 }]} elevation={1}> 
+    {request === false &&
       <LinearGradient
             start={{x: 0, y: 0}}
             end={{x:1, y:0}}
@@ -45,6 +47,7 @@ export const GroupCard = ({id, functionval}) => {
                     </Text>
                 </View>
                 <View flex={1} flexDirection="column" style={{position: "absolute", right: 0, }}>
+                  {request===false &&
                   <IconButton 
                     icon="plus"
                     color="white"
@@ -54,11 +57,92 @@ export const GroupCard = ({id, functionval}) => {
                       functionval
                     }
                   />
+                  }
+                  {request===true &&
+                    <View style={styles.chipContainer}>
+                    <TouchableOpacity
+                      style={styles.confirmButton}
+                      onPress={() => console.log("yuh yuh yuh")}
+                    >
+                      <Text style={[styles.text, styles.confirmButtonText]}>
+                        Accept
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  }
                 </View>
             </View>
         </View>
         </Card.Content>
-        </LinearGradient>
+        </LinearGradient>}
+        {request === true &&
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              borderTopLeftRadius: 15,
+              borderTopRightRadius: 15,
+              borderBottomColor: "lightgray",
+              borderBottomWidth: 1,
+              alignSelf: "stretch",
+              minHeight: 50,
+              flex: 1,
+              flexDirection: "row",
+              // shadowRadius: 2,
+              // borderWidth: 2,
+            }}
+          >
+              <Card.Content style={styles.innerCard}>
+              <View minHeight={65}>
+                  <View flexDirection="row" flex={1} alignItems="center" minHeight={50}>
+                      <View flex={1} flexDirection="column">
+                          <Text
+                          style={[styles.text, { fontSize: 17, color: "black" }]}
+                          numberOfLines={1}
+                          ellipsizeMode="tail" //new comment
+                          >
+                          {groupName}
+                          </Text>
+                          <Text
+                          style={[styles.text, { fontSize: 14, color: "black", marginTop: 5}]}
+                          numberOfLines={1}
+                          ellipsizeMode="tail" //new comment
+                          >
+                          Group Request
+                          </Text>
+                      </View>
+                      <Divider color="black"/>
+                      <View flex={1} flexDirection="column" style={{position: "absolute", right: 0, }}>
+                        {request===false &&
+                        <IconButton 
+                          icon="plus"
+                          color="white"
+                          size={25}
+                          style={{borderColor: "white", borderWidth: 1, borderRadius: 25,}}
+                          onPress={() =>
+                            functionval
+                          }
+                        />
+                        }
+                        {request===true &&
+                          <View style={styles.chipContainer}>
+                          <TouchableOpacity
+                            style={[styles.confirmButton]}
+                            onPress={() => addGroup(id, user)}
+                          >
+                            <Text style={[styles.text, styles.confirmButtonText]}>
+                              Accept
+                            </Text>
+                          </TouchableOpacity>
+                          <IconButton icon="close" onPress={() => rejectGroup(id, user)} />
+                        </View>
+                        }
+                      </View>
+                  </View>
+              </View>
+              </Card.Content>
+          </View>
+        }
         <Card.Content style={styles.innerCard}>
         <ScrollView horizontal={true}>
         {Dimensions.get("window").height >= 896 &&
@@ -199,4 +283,22 @@ const styles = StyleSheet.create({
         minWidth: 50,
         marginVertical: 10,
       },
+      chipContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-end",
+        flex: 1,
+        position: "relative",
+        left: 10,
+        // backgroundColor: "red",
+      },
+      confirmButton: {
+        alignItems: "center",
+        justifyContent: "center",
+        paddingHorizontal: 15,
+        borderRadius: 40,
+        height: 35,
+        backgroundColor: "#E77771",
+      },
+      confirmButtonText: { color: "#fff", fontSize: 15 },
 })

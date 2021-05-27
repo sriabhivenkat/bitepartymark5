@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import firestore from "@react-native-firebase/firestore";
 import { useDocument } from "@nandorojo/swr-firestore";
-
+import { useUser } from "./user";
 
 
 export const useGroup = (id) => {
     const [groupName, setGroupName] = useState();
     const [groupMembers, setGroupMembers] = useState();
-
+    const {user} = useUser();
 
     // useEffect(() => firestore()
     //     .collectionGroup('members')
@@ -34,7 +34,7 @@ export const useGroup = (id) => {
 
     return {
         groupName,
-        groupMembers
+        groupMembers,
     }
 
 }
@@ -91,4 +91,33 @@ export const getMembers = async (id) => {
     const members = await membersRef.collection("members").get();
     return members.docs.map((x) => x.data())
         .map(({ imageUrl, firstName }) => ({ imageUrl, firstName }));
+}
+
+
+
+export const addGroup = async(id, user) => {
+    firestore()
+        .collection("Groups")
+        .doc(id)
+        .collection("members")
+        .doc(user?.uidvalue)
+        .update({
+            status: "accepted"
+        })
+        .then(() => {
+            console.log("yuh yuh yuh")
+        })
+    // return console.log("yuh yuh yuh")
+}
+
+export const rejectGroup = async(id, user) => {
+    firestore()
+        .collection("Groups")
+        .doc(id)
+        .collection("members")
+        .doc(user?.uidvalue)
+        .delete()
+        .then(() => {
+            console.log("chortle my balls");
+        })
 }

@@ -14,6 +14,7 @@ import { TitleText, InviteCard, SubtitleText, GroupCard } from "components";
 import {useUser} from 'lib';
 import { Input } from "galio-framework";
 import { ScrollView } from "react-native";
+import { stubFalse } from "lodash";
 
 const ShowGroups = ({ navigation, route }) => {
     const {user} = useUser();
@@ -54,6 +55,7 @@ const ShowGroups = ({ navigation, route }) => {
                     renderItem={({item}) => (
                         <GroupCard 
                             id={item.groupID}
+                            request={false}
                         />
                     )}
                 />
