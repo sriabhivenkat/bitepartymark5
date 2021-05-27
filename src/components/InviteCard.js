@@ -5,7 +5,11 @@ import { Card, Avatar, Divider } from "react-native-paper";
 import { GradientButton } from "./";
 import moment from "moment";
 
-export const InviteCard = ({ onAccept, onReject, invite }) => (
+export const InviteCard = ({ onAccept, onReject, invite }) => {
+  const data = friends?.find(item => item.uidvalue == invite.inviter)
+  const id = invite.inviter
+  console.log(data)
+  return(
   <View style={styles.container}>
     <Card style={[styles.card, { marginBottom: 20 }]} elevation={1}>
       <Card.Content style={styles.innerCard}>
@@ -21,7 +25,7 @@ export const InviteCard = ({ onAccept, onReject, invite }) => (
               numberOfLines={1}
               ellipsizeMode="tail" //new comment
             >
-              {invite.inviter}
+              {data?.firstName+" "+data?.lastName}
             </Text>
             <Text
               style={[styles.text, { fontSize: 20, marginTop: 5 }]}
@@ -105,7 +109,8 @@ export const InviteCard = ({ onAccept, onReject, invite }) => (
       </Card.Content>
     </Card>
   </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
