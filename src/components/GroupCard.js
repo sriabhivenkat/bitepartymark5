@@ -8,10 +8,10 @@ import firestore, { firebase } from "@react-native-firebase/firestore";
 import {useGroup} from 'lib';
 
 export const GroupCard = ({id, functionval}) => {
-    const {groupName, groupMembers} = useGroup(id);
+  const {groupName, groupMembers} = useGroup(id);
   return(
     <View style={styles.container}>
-    <Card style={[styles.card, { marginBottom: 20 }]} elevation={1}>
+    <Card style={[styles.card, { marginBottom: 20 }]} elevation={1}> 
       <LinearGradient
             start={{x: 0, y: 0}}
             end={{x:1, y:0}}

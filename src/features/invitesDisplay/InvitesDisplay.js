@@ -14,6 +14,7 @@ import { useInvites } from "lib/invites.js";
 import LinearGradient from "react-native-linear-gradient";
 import { Appbar } from "react-native-paper";
 import { FriendInvites } from "./FriendsInvites";
+import {GradientButton} from "components";
 
 const InvitesDisplay = ({ navigation }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
@@ -91,7 +92,7 @@ const InvitesDisplay = ({ navigation }) => {
                 />
               </View>
               <View flexDirection="row" alignItems="center" paddingLeft={10}>
-                {/* <Button 
+                <Button 
                   icon="account-multiple-plus" 
                   mode="outlined"
                   labelStyle={{color: "black"}}
@@ -101,7 +102,7 @@ const InvitesDisplay = ({ navigation }) => {
                   color="black"
                 >
                   Group
-                </Button> */}
+                </Button>
                 <IconButton
                   icon="account-plus"
                   size={30}
@@ -113,7 +114,29 @@ const InvitesDisplay = ({ navigation }) => {
             </View>
           </View>
           <Divider style={{width: 600, right:30, backgroundColor: "gray"}}/>
-          <TitleText style={[styles.title, { marginTop: 15, left: 20 }]}>Invites</TitleText>
+            <View style={{ alignItems: "center", marginTop: 20 }}>
+              <GradientButton
+                onPress={() => navigation.navigate("invitesDisplay/friendRequests")}
+                style={{
+                  width: "90%",
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 3.5 },
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2.5,
+                }}
+                textStyle={{
+                  left: 20,
+                }}
+                innerStyle={{
+                  borderRadius: 14,
+                  justifyContent: "flex-start",
+                }}
+
+              >
+                Friend Requests
+              </GradientButton>
+            </View>
+          <TitleText style={[styles.title, { marginTop: 70, left: 5}]}>Notifications</TitleText>
           {pendingInvites?.length <= 0 && (
             <SubtitleText style={styles.subtitle}>
               No pending invites. Start a party!
@@ -139,13 +162,13 @@ const InvitesDisplay = ({ navigation }) => {
               keyExtractor={(item) => item.docID}
             />
           </View>
-          <View
+          {/* <View
             height={1}
             width="100%"
             backgroundColor="#00000020"
             // marginHorizontal={20}
             // marginVertical={20}
-          />
+          /> */}
           {/* <View> */}
           <TitleText style={[styles.title, { fontSize: 25, marginTop: 15, left: 20 }]}>
             Friend and Group Requests

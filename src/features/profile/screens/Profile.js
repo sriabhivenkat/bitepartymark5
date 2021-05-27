@@ -195,7 +195,7 @@ const ProfileDisplay = ({ navigation, route }) => {
           // backgroundColor="blue"
           // alignItems="space-around"
         >
-          {/* <TouchableOpacity 
+          <TouchableOpacity 
             alignItems="center"
             onPress={
               () => navigation.navigate("profile/showGroup", {
@@ -224,7 +224,7 @@ const ProfileDisplay = ({ navigation, route }) => {
             >
               Groups
             </Caption>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
           <View alignItems="center">
             <Title
               style={{

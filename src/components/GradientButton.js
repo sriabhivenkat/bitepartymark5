@@ -25,7 +25,7 @@ export const GradientButton = ({
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
       colors={
-        outline ? ["#ffffff00", "#ffffff00"] : ["#ee0979", "#f76f6d", "#ff6a00"]
+        outline ? ["#ffffff00", "#ffffff00"] : ["#E1387F", '#F18F64']
       }
       style={[
         {
