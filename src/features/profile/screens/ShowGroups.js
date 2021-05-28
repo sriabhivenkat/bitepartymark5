@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   View,
   Image,
@@ -15,13 +15,51 @@ import {useUser} from 'lib';
 import { Input } from "galio-framework";
 import { ScrollView } from "react-native";
 import { stubFalse } from "lodash";
+import {useGroup} from 'lib';
+import firestore, {firebase} from "@react-native-firebase/firestore";
 
 const ShowGroups = ({ navigation, route }) => {
     const {user} = useUser();
     const {groups} = route?.params;
-    console.log(groups)
     const [query, setQuery] = useState("");
+    const [data, setData] = useState([]);
+    const [members, setMembers] = useState([]);
+    var localArray = [];
 
+    useEffect(() => {
+        groups.map((item) => {
+            localArray.push(item?.groupID)
+        })
+    })
+
+    useEffect(() => {
+        firestore()
+            .collection("Groups")
+            .where(firebase.firestore.FieldPath.documentId(), 'in', localArray)
+            .get()
+            .then((res) => {
+                const results = res.docs.map((x) => x.data());
+                // console.log("yuh yuh yuh")
+                console.log("this is results", results)
+                setData(results)
+            })
+            .catch((err) => console.log(err));
+    }, [])
+
+    useEffect(() => {
+        firestore()
+            .collectionGroup('members')
+            .where('isGroup', '==', 'true')
+            .where('groupID', 'array-contains-any', localArray)
+            .get()
+            .then((res) => {
+                const results = res.docs.map((x) => x.data());
+                console.log("yuh yuh yuh")
+                console.log("this is results", results)
+                setMembers(results)
+            })
+            .catch((err) => console.log(err));
+    }, [])
     return(
         <View style={styles.container}>
             <TitleText style={styles.title}>

@@ -613,7 +613,11 @@ PODS:
   - React-jsinspector (0.63.4)
   - react-native-blur (0.8.0):
     - React
+  - react-native-contacts (7.0.0):
+    - React-Core
   - react-native-geolocation (2.0.2):
+    - React
+  - react-native-in-app-review (3.1.1):
     - React
   - react-native-safe-area-context (3.1.9):
     - React-Core
@@ -802,7 +806,9 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
+  - react-native-contacts (from `../node_modules/react-native-contacts`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
+  - react-native-in-app-review (from `../node_modules/react-native-in-app-review`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -954,8 +960,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-blur:
     :path: "../node_modules/@react-native-community/blur"
+  react-native-contacts:
+    :path: "../node_modules/react-native-contacts"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
+  react-native-in-app-review:
+    :path: "../node_modules/react-native-in-app-review"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-slider:
@@ -1117,7 +1127,9 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
+  react-native-contacts: 493b583e87eb9cb1ab09268e89e526baf1a7cb30
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
+  react-native-in-app-review: 1519011cfb31817aa8bf7814e2290311fd26ed99
   react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336

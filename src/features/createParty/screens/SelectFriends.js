@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Share, StatusBar } from "react-native";
 import { Text } from "galio-framework";
 import { Avatar } from "react-native-paper";
@@ -8,19 +8,22 @@ import TouchableScale from "react-native-touchable-scale";
 import { Input } from "galio-framework";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
-import { useFriends, useParty } from "lib";
+import { useFriends, useParty, useUser, useGroup} from "lib";
 import MemberCard from "components/MemberCard";
 import { ScrollView } from "react-native";
 import { Alert } from "react-native";
-import { GradientButton, SubtitleText, TitleText } from "../../../components";
+import { GradientButton, SubtitleText, TitleText, GroupCard } from "../../../components";
 import { SafeAreaView } from "react-native";
 import { Dimensions } from "react-native";
+import firestore  from "@react-native-firebase/firestore";
 
 const SelectFriends = ({ route, navigation }) => {
   const { friends } = useFriends();
   const { partyId } = useParty();
+  const {user} = useUser();
   const [query, setQuery] = useState("");
   const [selectedFriends, setSelectedFriends] = useState([]);
+  const [groups, setGroups] = useState([]);
 
   // const generateLink = async (groupId) => {
   //   const link = await dynamicLinks().buildShortLink({
@@ -48,6 +51,24 @@ const SelectFriends = ({ route, navigation }) => {
   //     alert(error.message);
   //   }
   // };
+  useEffect(() => {
+    firestore()
+      .collectionGroup('members')
+      .where("isGroup", '==', true)
+      .where('status', '==', "accepted") //filter by user uidvalue 
+      .get()
+      .then((res) => {
+        const results = res.docs.map((x) => x.data());
+        console.log(results);
+        const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
+        console.log(filtered);
+        setGroups(filtered);
+        console.log("groups array is: ", groups)
+      })
+      .catch((err) => console.log(err));
+      
+  }, [])
+
 
   const toggleSelection = (friend) => {
     const exists = selectedFriends.find(
@@ -124,6 +145,19 @@ const SelectFriends = ({ route, navigation }) => {
           </>
         )}
         <ScrollView marginTop={10} paddingVertical={1}>
+          {groups &&
+            groups
+            .filter((item) => {
+              const {partyName} = useGroup(item?.groupID)
+              partyName.indexOf(query) >= 0 || query.length < 2
+            })
+            .map((item) => (
+              <GroupCard 
+                id={item.groupID}
+                request={false}
+              />
+            ))
+          }
           {friends &&
             friends
               // .filter(({ friendStatus }) => friendStatus != "sent")

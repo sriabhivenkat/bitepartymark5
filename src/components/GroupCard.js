@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity } from "react-native";
-import { Text } from "galio-framework";
+import { Text, View, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity } from "react-native";
+//import { Text } from "galio-framework";
 import { Card, Avatar, Divider, Chip, IconButton } from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
 import { GradientButton } from "./";
@@ -35,11 +35,11 @@ export const GroupCard = ({id, request, onTap}) => {
             ]}
         >
       <Card.Content style={styles.innerCard}>
-        <View minHeight={65}>
+        <View minHeight={20}>
             <View flexDirection="row" flex={1} alignItems="center" minHeight={50}>
                 <View flex={1} flexDirection="column">
                     <Text
-                    style={[styles.text, { fontSize: 30, color: "white" }]}
+                    style={[styles.text, { fontSize: 25, color: "white" }]}
                     numberOfLines={1}
                     ellipsizeMode="tail" //new comment
                     >
@@ -47,17 +47,6 @@ export const GroupCard = ({id, request, onTap}) => {
                     </Text>
                 </View>
                 <View flex={1} flexDirection="column" style={{position: "absolute", right: 0, }}>
-                  {request===false &&
-                  <IconButton 
-                    icon="plus"
-                    color="white"
-                    size={25}
-                    style={{borderColor: "white", borderWidth: 1, borderRadius: 25,}}
-                    onPress={() =>
-                      functionval
-                    }
-                  />
-                  }
                   {request===true &&
                     <View style={styles.chipContainer}>
                     <TouchableOpacity
@@ -113,17 +102,6 @@ export const GroupCard = ({id, request, onTap}) => {
                       </View>
                       <Divider color="black"/>
                       <View flex={1} flexDirection="column" style={{position: "absolute", right: 0, }}>
-                        {request===false &&
-                        <IconButton 
-                          icon="plus"
-                          color="white"
-                          size={25}
-                          style={{borderColor: "white", borderWidth: 1, borderRadius: 25,}}
-                          onPress={() =>
-                            functionval
-                          }
-                        />
-                        }
                         {request===true &&
                           <View style={styles.chipContainer}>
                           <TouchableOpacity

@@ -118,7 +118,7 @@ const InvitesDisplay = ({ navigation }) => {
               <GradientButton
                 onPress={() => navigation.navigate("invitesDisplay/friendRequests")}
                 style={{
-                  width: "90%",
+                  width: "100%",
                   shadowColor: "#000",
                   shadowOffset: { width: 0, height: 3.5 },
                   shadowOpacity: 0.5,

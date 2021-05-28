@@ -96,8 +96,6 @@ const AddFriends = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <TitleText>Add Friends</TitleText>
-        <Divider style={styles.divider} />
-
         {/* <TitleText style={{ marginTop: 30 }}>Add Friends</TitleText> */}
         <Input
           placeholder="Enter a handle"

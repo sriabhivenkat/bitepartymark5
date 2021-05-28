@@ -46,7 +46,7 @@ export const useGroup = (id) => {
 export const createGroup = async (array, name, user) => {
     var groupId = Math.random().toString(36).substring(8);
 
-
+    var localArray = [];
     const groupRef = firestore().collection("Groups");
     const usersRef = firestore().collection("Users");
 
@@ -61,7 +61,9 @@ export const createGroup = async (array, name, user) => {
         firstName: user?.firstName,
         isGroup: true,
         status: "accepted"
-    }).catch((err) => console.log(err))
+    })
+    .then(() => {localArray.push(user?.firstName)})
+    .catch((err) => console.log(err))
 
     let membersBatch = firestore().batch();
     array.forEach((doc) => {
@@ -75,6 +77,10 @@ export const createGroup = async (array, name, user) => {
             isGroup: true,
             status: "pending",
         })
+        localArray.push(doc?.firstName)
+    })
+    await groupRef.doc(groupId).set({
+        members: localArray,
     })
     await membersBatch.commit()
 }
@@ -92,8 +98,6 @@ export const getMembers = async (id) => {
     return members.docs.map((x) => x.data())
         .map(({ imageUrl, firstName }) => ({ imageUrl, firstName }));
 }
-
-
 
 export const addGroup = async(id, user) => {
     firestore()

@@ -108,7 +108,6 @@ const ProfileDisplay = ({ navigation, route }) => {
       
   }, [])
 
-  const {groupName, groupMembers} = useGroup(groups[0]?.groupID);
 
 
   // useEffect(() => {
