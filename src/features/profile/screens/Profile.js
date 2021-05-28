@@ -91,21 +91,22 @@ const ProfileDisplay = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    firestore()
+    const unsub = firestore()
       .collectionGroup('members')
       .where("isGroup", '==', true)
       .where('status', '==', "accepted") //filter by user uidvalue 
-      .get()
-      .then((res) => {
-        const results = res.docs.map((x) => x.data());
-        console.log(results);
-        const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
-        console.log(filtered);
-        setGroups(filtered);
-        console.log("groups array is: ", groups)
-      })
-      .catch((err) => console.log(err));
-      
+      .onSnapshot(
+         (snapshot) => {
+            const results = snapshot.docs.map((x) => x.data());
+            console.log(results);
+            const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
+            console.log(filtered);
+            setGroups(filtered);
+            console.log("groups array is: ", groups)
+         },
+          (err) => console.error(err)
+      )
+      return unsub;
   }, [])
 
   const {groupName, groupMembers} = useGroup(groups[0]?.groupID);
