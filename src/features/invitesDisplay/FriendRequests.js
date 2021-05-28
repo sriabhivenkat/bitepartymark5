@@ -28,21 +28,32 @@ const FriendRequests = () => {
     const [groups, setGroups] = useState([]);
     const {user} = useUser();
     useEffect(() => {
-        firestore()
+        const unsub = firestore()
           .collectionGroup('members')
           .where("isGroup", '==', true)
           .where('status', '==', "pending") //filter by user uidvalue 
-          .get()
-          .then((res) => {
-            const results = res.docs.map((x) => x.data());
-            console.log(results);
-            const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
-            console.log(filtered);
-            setGroups(filtered);
-            console.log("groups array is: ", groups)
-          })
-          .catch((err) => console.log(err));
-          
+          .onSnapshot(
+            (snapshot) => {
+                const results = snapshot.docs.map((x) => x.data());
+                console.log(results);
+                const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
+                console.log(filtered);
+                setGroups(filtered);
+                console.log("groups array is: ", groups)
+            },
+            (err) => console.error(err)
+          )
+          // .get()
+          // .then((res) => {
+          //   const results = res.docs.map((x) => x.data());
+          //   console.log(results);
+          //   const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
+          //   console.log(filtered);
+          //   setGroups(filtered);
+          //   console.log("groups array is: ", groups)
+          // })
+          // .catch((err) => console.log(err));
+          return unsub;
       }, [])
 
     return(
