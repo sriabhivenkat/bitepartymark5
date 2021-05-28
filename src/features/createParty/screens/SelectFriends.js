@@ -15,7 +15,7 @@ import { Alert } from "react-native";
 import { GradientButton, SubtitleText, TitleText, GroupCard } from "../../../components";
 import { SafeAreaView } from "react-native";
 import { Dimensions } from "react-native";
-import firestore  from "@react-native-firebase/firestore";
+import firestore, {firebase}  from "@react-native-firebase/firestore";
 
 const SelectFriends = ({ route, navigation }) => {
   const { friends } = useFriends();
@@ -23,8 +23,9 @@ const SelectFriends = ({ route, navigation }) => {
   const {user} = useUser();
   const [query, setQuery] = useState("");
   const [selectedFriends, setSelectedFriends] = useState([]);
+  const [data, setData] = useState([]);
   const [groups, setGroups] = useState([]);
-
+  var localArray = [];
   // const generateLink = async (groupId) => {
   //   const link = await dynamicLinks().buildShortLink({
   //     link: `https://biteparty.app/join?id=${partyId}`,
@@ -69,6 +70,19 @@ const SelectFriends = ({ route, navigation }) => {
       
   }, [])
 
+  useEffect(() => {
+    firestore()
+        .collection("Groups")
+        .where(firebase.firestore.FieldPath.documentId(), 'in', localArray)
+        .get()
+        .then((res) => {
+            const results = res.docs.map((x) => x.data());
+            // console.log("yuh yuh yuh")
+            console.log("this is results", results)
+            setData(results)
+        })
+        .catch((err) => console.log(err));
+}, [])
 
   const toggleSelection = (friend) => {
     const exists = selectedFriends.find(
@@ -146,10 +160,9 @@ const SelectFriends = ({ route, navigation }) => {
         )}
         <ScrollView marginTop={10} paddingVertical={1}>
           {groups &&
-            groups
+            data
             .filter((item) => {
-              const {partyName} = useGroup(item?.groupID)
-              partyName.indexOf(query) >= 0 || query.length < 2
+              item?.partyName.indexOf(query) >= 0 || query.length < 2
             })
             .map((item) => (
               <GroupCard 

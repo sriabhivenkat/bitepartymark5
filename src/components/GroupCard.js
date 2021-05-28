@@ -10,6 +10,7 @@ import {useGroup, addGroup, useUser, rejectGroup} from 'lib';
 export const GroupCard = ({id, request, onTap}) => {
   const {groupName, groupMembers} = useGroup(id);
   const {user} = useUser();
+  //console.log(groupName);
   return(
     <View style={styles.container}>
     <Card style={[styles.card, { marginBottom: 20 }]} elevation={1}> 
