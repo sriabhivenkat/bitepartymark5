@@ -42,7 +42,7 @@ const PastPartyView = ({ route, navigation }) => {
     const { partyMembers } = usePartyMembers(partyID);
     const { user } = useUser();
     const bottomSheetRef = useRef(null);
-    const snapPoints = useMemo(() => ["1%", "70%"], []);
+    const snapPoints = useMemo(() => ["1%", "7%"], []);
 
     const { party } = usePartyData(partyID);
 
