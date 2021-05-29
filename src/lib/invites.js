@@ -31,7 +31,7 @@ export const useInvites = () => {
     const unsub = firestore()
       .collection("Users")
       .doc(user?.uidvalue)
-      .collection("invitations")
+      .collection("invitations").orderBy("timestamp", "desc")
       .onSnapshot(
         (snap) => setData(snap.docs.map((x) => x.data())),
         (err) => setError(err)

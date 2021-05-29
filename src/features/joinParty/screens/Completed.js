@@ -41,7 +41,7 @@ const Completed = ({ route, navigation }) => {
   const { partyMembers } = usePartyMembers(partyID);
   const { user } = useUser();
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ["1%", "80%"], []);
+  const snapPoints = useMemo(() => ["1%", "70%"], []);
 
   const { party } = usePartyData(partyID);
 
@@ -674,9 +674,9 @@ const Completed = ({ route, navigation }) => {
                 containerStyle={{
                   position: "relative",
                   width: "95%",
-                  top: 15,
+
                 }}
-                innerStyle={{ paddingVertical: 15 }}
+                innerStyle={{ paddingVertical: 10 }}
                 textStyle={{ fontSize: 22 }}
                 onPress={() => {
                   Linking.openURL(url); //idk comment
@@ -689,7 +689,7 @@ const Completed = ({ route, navigation }) => {
           </BottomSheetScrollView>
         </BottomSheet>
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
 
   );
 };

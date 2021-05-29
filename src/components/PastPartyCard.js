@@ -1,6 +1,6 @@
-import React from "react";
-import { View, StyleSheet, Dimensions, Animated, Button, TouchableOpacity } from "react-native";
-import { Text } from "galio-framework";
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, Dimensions, Animated, Button, TouchableOpacity, Text } from "react-native";
+import { } from "galio-framework";
 import { Card, Avatar, Chip, Divider } from "react-native-paper";
 import { useFriends, useUser, useInvites } from "lib";
 import moment from "moment";
@@ -8,6 +8,7 @@ import { GradientButton } from "./";
 export const PastPartyCard = ({ invite, onPress }) => {
     const { friends } = useFriends();
     const { user } = useUser();
+    const [out, setOut] = useState('')
 
     const data = friends?.find(item => item.uidvalue == invite.inviter)
     const id = invite.inviter
@@ -16,11 +17,33 @@ export const PastPartyCard = ({ invite, onPress }) => {
     const time = new Date(invite.timestamp.toDate())
     var hours = time.getHours();
     var minutes = time.getMinutes();
+    const diff = moment(time).fromNow();
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
     minutes = minutes < 10 ? '0' + minutes : minutes;
     var strTime = hours + ':' + minutes + ' ' + ampm;
+    console.log(diff[2])
+
+
+    useEffect(() => {
+        if (diff[0] >= 2 || diff[0] == 'a') {
+            if (diff.includes("weeks") || diff.includes("month")) {
+                setOut(time.getMonth() + 1 + '/' + time.getDate() + ' ' + strTime)
+            }
+            else {
+                setOut(diff)
+            }
+        }
+        else {
+            setOut(diff)
+        }
+
+    }, [out]);
+
+
+
+
 
 
     return (
@@ -52,9 +75,10 @@ export const PastPartyCard = ({ invite, onPress }) => {
                                     <Text
                                         style={[styles.text, { fontSize: 20, marginTop: 5 }]}
                                         numberOfLines={1}
+                                        ad
 
                                     >
-                                        {time.getMonth()}/{time.getDate()} at {strTime}
+                                        {out}
                                     </Text>
                                 </View>
 
@@ -83,8 +107,10 @@ export const PastPartyCard = ({ invite, onPress }) => {
                                         style={[styles.text, { fontSize: 20, marginTop: 5 }]}
                                         numberOfLines={1}
                                         ellipsizeMode="tail"
+                                        adjustsFontSizeToFit={true}
                                     >
-                                        {time.getMonth()}/{time.getDate()} at {strTime}
+                                        {out}
+
                                     </Text>
                                 </View>
 

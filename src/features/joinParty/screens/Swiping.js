@@ -33,7 +33,7 @@ const Swiping = ({ navigation, route, data }) => {
   const { party, partyMember, partyMeta, addPartySelections } =
     useParty(partyID);
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ["1%", "75%"], []);
+  const snapPoints = useMemo(() => ["1%", "70%"], []);
   const [distance, setDistance] = useState("");
   const [eta, setETA] = useState("")
   const hasNavigated = useRef(false);
@@ -51,13 +51,13 @@ const Swiping = ({ navigation, route, data }) => {
   }, [selections]);
 
   useEffect(() => {
-    const main = async() => {
+    const main = async () => {
       const position = await getUserLocation();
       console.log([position[0], position[1]])
       console.log([party?.restaurants[cardIdx].coordinates.latitude, party?.restaurants[cardIdx].coordinates.longitude])
       const time = await timeToDestination(
-        position[0], position[1], 
-        party?.restaurants[cardIdx].coordinates.latitude, 
+        position[0], position[1],
+        party?.restaurants[cardIdx].coordinates.latitude,
         party?.restaurants[cardIdx].coordinates.longitude
       )
       console.log("time to get there is:", time);
@@ -81,7 +81,7 @@ const Swiping = ({ navigation, route, data }) => {
       [item.id]: 1,
     }));
   };
-  
+
   const handleNo = (item) => {
     setCardIdx((val) => val + 1);
     setSelection((val) => ({
@@ -169,7 +169,7 @@ const Swiping = ({ navigation, route, data }) => {
               marginTop={80}
               marginBottom={
                 Dimensions.get("screen").height < 700 ||
-                Platform.OS == "android"
+                  Platform.OS == "android"
                   ? 5
                   : 70
               }
@@ -269,11 +269,11 @@ const Swiping = ({ navigation, route, data }) => {
               }}
               animateOverlayLabelsOpacity
               animateCardOpacity
-              // swipeBackCard
+            // swipeBackCard
             >
               <></>
             </Swiper>
-            <BottomSheet ref={bottomSheetRef} index={0} snapPoints={snapPoints} style={{width: "100%"}}>
+            <BottomSheet ref={bottomSheetRef} index={0} snapPoints={snapPoints} style={{ width: "100%" }}>
               <BottomSheetScrollView style={styles.bottomSheetContainer}>
                 <View
                   style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}
@@ -413,22 +413,22 @@ const Swiping = ({ navigation, route, data }) => {
                       </Chip>
                     )}
                     <Chip
-                        textAlign="center"
-                        marginRight={10}
-                        flex={0}
-                        marginVertical={2}
-                        style={{
-                          justifyContent: "center",
-                          alignItems: "center",
-                          marginTop: "1.5%",
-                        }}
-                        textStyle={{
-                          fontSize: 17,
-                          fontWeight: "bold",
-                          fontFamily: "Kollektif",
-                        }}
-                      >
-                        {distance}les away
+                      textAlign="center"
+                      marginRight={10}
+                      flex={0}
+                      marginVertical={2}
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginTop: "1.5%",
+                      }}
+                      textStyle={{
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        fontFamily: "Kollektif",
+                      }}
+                    >
+                      {distance}les away
                       </Chip>
                   </View>
                 </View>
@@ -480,10 +480,10 @@ const Swiping = ({ navigation, route, data }) => {
             // stackAnimationFriction={1}
             stackScale={0}
             stackSeparation={0}
-            // // stackAnimationTension={10}
+          // // stackAnimationTension={10}
 
-            // animateOverlayLabelsOpacity
-            // animateCardOpacity
+          // animateOverlayLabelsOpacity
+          // animateCardOpacity
           />
         )}
         {/* </View> */}

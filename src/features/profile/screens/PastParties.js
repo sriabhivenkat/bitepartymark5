@@ -122,10 +122,7 @@ const PastParties = ({ route, navigation }) => {
                         {inviteList.filter(invite => invite.status == 'completed').map((item) => {
 
                             return (
-                                <PastPartyCard key={item.docID} invite={item} onPress={() => navigation.navigate("joinParty", {
-                                    screen: "joinParty/completed",
-                                    params: { partyID: item.docID }
-                                })} />
+                                <PastPartyCard key={item.docID} invite={item} onPress={() => navigation.navigate("profile/pastPartyView", { partyID: item.docID, timeStamp: item.timestamp })} />
 
                             );
                         })}

@@ -8,7 +8,7 @@ export const FriendInvites = () => {
   const { friends } = useFriends();
 
   return (
-    <View paddingHorizontal={20} marginBottom={10} flex={1}>
+    <View paddingHorizontal={20} marginBottom={10}>
       {/* <View backgroundColor="red" height={400} /> */}
       <FlatList
         contentInset={{ bottom: 0, top: 5 }}

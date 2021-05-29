@@ -9,6 +9,7 @@ import ShowGroups from './screens/ShowGroups';
 import { BackButton, logoHeaderOptions } from "../../components";
 import FriendsView from "./screens/FriendsView";
 import PastParties from "./screens/PastParties";
+import PastPartyView from "./screens/PastPartyView";
 const Stack = createStackNavigator();
 
 export default () => (
@@ -43,7 +44,7 @@ export default () => (
         // headerShown: false,
       }}
     />
-    <Stack.Screen 
+    <Stack.Screen
       name="profile/showGroup"
       component={ShowGroups}
       options={{
@@ -74,6 +75,17 @@ export default () => (
     <Stack.Screen
       name="profile/pastParties"
       component={PastParties}
+      options={{
+        title: "",
+        headerLeft: BackButton,
+
+        // headerShown: false,
+      }}
+    />
+
+    <Stack.Screen
+      name="profile/pastPartyView"
+      component={PastPartyView}
       options={{
         title: "",
         headerLeft: BackButton,
