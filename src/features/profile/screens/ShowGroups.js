@@ -1,38 +1,40 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
-  View,
-  Image,
-  Dimensions,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  StatusBar,
-  SafeAreaViuyew
+    View,
+    Image,
+    Dimensions,
+    StyleSheet,
+    FlatList,
+    TouchableOpacity,
+    StatusBar,
+    SafeAreaViuyew
 } from "react-native";
 import { Text } from "galio-framework";
 import { TitleText, InviteCard, SubtitleText, GroupCard } from "components";
-import {useUser} from 'lib';
+import { useUser } from 'lib';
 import { Input } from "galio-framework";
 import { ScrollView } from "react-native";
 import { stubFalse } from "lodash";
-import {useGroup} from 'lib';
-import firestore, {firebase} from "@react-native-firebase/firestore";
+import { useGroup } from 'lib';
+import firestore, { firebase } from "@react-native-firebase/firestore";
 
 const ShowGroups = ({ navigation, route }) => {
-    const {user} = useUser();
-    const {groups} = route?.params;
+    const { user } = useUser();
+    const { groups } = route?.params;
     const [query, setQuery] = useState("");
     const [data, setData] = useState([]);
     const [members, setMembers] = useState([]);
     var localArray = [];
 
     useEffect(() => {
+        console.log("This is groups array 1", groups)
         groups.map((item) => {
             localArray.push(item?.groupID)
         })
     })
 
     useEffect(() => {
+        console.log(localArray, "This is local array")
         firestore()
             .collection("Groups")
             .where(firebase.firestore.FieldPath.documentId(), 'in', localArray)
@@ -60,7 +62,7 @@ const ShowGroups = ({ navigation, route }) => {
             })
             .catch((err) => console.log(err));
     }, [])
-    return(
+    return (
         <View style={styles.container}>
             <TitleText style={styles.title}>
                 {user?.firstName}'s Groups
@@ -84,14 +86,14 @@ const ShowGroups = ({ navigation, route }) => {
                 />
             </View>
             <View alignItems="center" marginTop={10}>
-                <FlatList 
+                <FlatList
                     data={groups}
-                    style={{paddingTop: 5}}
+                    style={{ paddingTop: 5 }}
                     snapToInterval={Dimensions.get("window").width}
                     indicatorStyle="black"
                     decelerationRate="fast"
-                    renderItem={({item}) => (
-                        <GroupCard 
+                    renderItem={({ item }) => (
+                        <GroupCard
                             id={item.groupID}
                             request={false}
                         />

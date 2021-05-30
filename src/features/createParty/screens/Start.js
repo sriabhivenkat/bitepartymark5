@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Image,
@@ -15,11 +15,12 @@ import LinearGradient from "react-native-linear-gradient";
 import { startImages } from "../startImages";
 import { useInvites } from "lib/invites.js";
 import { Alert } from "react-native";
-import {useUser} from "lib";
-import {GradientButton} from "components";
+import { useUser } from "lib";
+import { GradientButton } from "components";
 import { Appbar, Button } from 'react-native-paper';
 import { logoHeaderOptions } from "../../../components";
 import { useEffect } from "react";
+import firestore, { firebase } from "@react-native-firebase/firestore";
 
 const Start = ({ navigation }) => {
   const hour = new Date().getHours();
@@ -28,108 +29,190 @@ const Start = ({ navigation }) => {
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const height = Dimensions.get("window").height;
   const width = Dimensions.get("window").width;
+  const [groups, setGroups] = useState([]);
+
+
+
+  // const [name, setName] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+
+  // const [members, setMembers] = useState();
+
+  const showModal = () => setModalVisible(true);
+  const hideModal = () => setModalVisible(false);
+
+  const selectFromPhone = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+    })
+      .then((image) => {
+        // console.log(image);
+        // setImage(image.path);
+        uploadPfp(image.path);
+        hideModal();
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  const openCamera = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 300,
+      cropping: true,
+    })
+      .then((image) => {
+        // console.log(image);
+        // setImage(image.path);
+        uploadPfp(image.path);
+        hideModal();
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
   useEffect(() => {
-    console.log(height);
-  }, []);
-  const isSmall = height < 700;
+    const unsub = firestore()
+      .collectionGroup('members')
+      .where("isGroup", '==', true)
+      .where('status', '==', "accepted") //filter by user uidvalue 
+      .onSnapshot(
+        (snapshot) => {
+          const results = snapshot.docs.map((x) => x.data());
+          console.log(results);
+          const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
+          console.log(filtered);
+          setGroups(filtered);
+          console.log("groups array is 1: ", groups)
+        },
+        (err) => console.error(err)
+      )
+    return unsub;
+  }, [])
+
+
+
+  // useEffect(() => {
+  //  //getGroup(groups[0]?.groupID).then(data => setName(data)).catch(err => console.log(err))
+  //  setName(groupName);
+  //  setMembers(groupMembers);
+  // }, [])
+  const uploadPfp = async (imagepath) => {
+    let filename = user.uidvalue;
+    try {
+      await storage().ref(filename).putFile(imagepath);
+      const storageRef = firebase.storage().ref(user.uidvalue);
+      storageRef.getDownloadURL().then((url) => {
+        firestore().collection("Users").doc(user.uidvalue).update({
+          imageUrl: url,
+        });
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      {height>=896 &&
-        <Appbar.Header style={[styles.bottom, {height: 70}]}>
-          <View flexDirection="row" style={{width: 230}}>
-          {/* <View flexDirection="row" style={{width: 330}}> */}
-          <Appbar.Content
+      {height >= 896 &&
+        <Appbar.Header style={[styles.bottom, { height: 70 }]}>
+          <View flexDirection="row" style={{ width: 230 }}>
+            {/* <View flexDirection="row" style={{width: 330}}> */}
+            <Appbar.Content
               title={
-                    <Image source={require("assets/images/newHeaderLogo.png")}
-                                  style={{
-                                      width: 29.333,
-                                      height: 44,
-                                      
-                                  }}
-                          />
-                        }
-                      titleStyle={{backgroundColor: "white"}}
-                      style={{alignItems: "flex-start", top: 5}}
+                <Image source={require("assets/images/newHeaderLogo.png")}
+                  style={{
+                    width: 29.333,
+                    height: 44,
+
+                  }}
+                />
+              }
+              titleStyle={{ backgroundColor: "white" }}
+              style={{ alignItems: "flex-start", top: 5 }}
             />
-          
-          <Appbar.Content 
-            title={`Welcome, ${user?.firstName}!`} 
-            //title="Welcome, Kirthivel!"
-            titleStyle={{
-              fontFamily: "Kollektif", 
-              fontSize: 20, 
-              color: "black", 
-              right: 75, 
-              top: 15, 
-              marginRight: -80
-            }} 
-            style={{
-              alignItems: "flex-start", 
-              top: 5
+
+            <Appbar.Content
+              title={`Welcome, ${user?.firstName}!`}
+              //title="Welcome, Kirthivel!"
+              titleStyle={{
+                fontFamily: "Kollektif",
+                fontSize: 20,
+                color: "black",
+                right: 75,
+                top: 15,
+                marginRight: -80
+              }}
+              style={{
+                alignItems: "flex-start",
+                top: 5
               }}
             />
           </View>
-          <View flexDirection="row" style={{width:185}}>
-          {/* <View flexDirection="row" style={{width:150}}> */}
-            <Appbar.Content 
+          <View flexDirection="row" style={{ width: 185 }}>
+            {/* <View flexDirection="row" style={{width:150}}> */}
+            <Appbar.Content
               title={
-                <Button 
-                  icon="account-multiple-plus" 
+                <Button
+                  icon="account-multiple-plus"
                   mode="outlined"
-                  labelStyle={{color: "black"}}
-                  style={{borderRadius: 20, }} 
+                  labelStyle={{ color: "black" }}
+                  style={{ borderRadius: 20, }}
                   uppercase={false}
                   onPress={() => navigation.navigate("createParty/createGroup")}
                   color="black"
                 >
                   Group
                 </Button>
-              } 
-              color="black" 
-              style={{top: 20}}
+              }
+              color="black"
+              style={{ top: 20 }}
             />
-            <Appbar.Action icon={'account-plus'} size={30} onPress={() => navigation.navigate("profile", {screen: "profile/addFriends"})} style={{top:5, right: 5,}} color="black"/>
+            <Appbar.Action icon={'account-plus'} size={30} onPress={() => navigation.navigate("profile", { screen: "profile/addFriends" })} style={{ top: 5, right: 5, }} color="black" />
           </View>
         </Appbar.Header>
       }
-      {height<=812 &&
-        <Appbar.Header style={[styles.bottom, {height: 60,}]}>
-          <View flexDirection="row" style={{width: 230}}>
-          {/* <View flexDirection="row" style={{width: 300}}> */}
-          <Appbar.Content
+      {height <= 812 &&
+        <Appbar.Header style={[styles.bottom, { height: 60, }]}>
+          <View flexDirection="row" style={{ width: 230 }}>
+            {/* <View flexDirection="row" style={{width: 300}}> */}
+            <Appbar.Content
               title={
-                    <Image source={require("assets/images/newHeaderLogo.png")}
-                                  style={{
-                                      width: 26.4,
-                                      height: 39.6,
-                                      aspectRatio: 2/3
-                                  }}
-                          />
-                        }
-                      titleStyle={{backgroundColor: "white", }}
-                      style={{alignItems: "flex-start", top: 5}}
+                <Image source={require("assets/images/newHeaderLogo.png")}
+                  style={{
+                    width: 26.4,
+                    height: 39.6,
+                    aspectRatio: 2 / 3
+                  }}
+                />
+              }
+              titleStyle={{ backgroundColor: "white", }}
+              style={{ alignItems: "flex-start", top: 5 }}
             />
-          
-          <Appbar.Content 
-            title={`Welcome, ${user?.firstName}!`}
-            // title="Welcome, Kirthivel!" 
-            titleStyle={{
-              fontFamily: "Kollektif", 
-              fontSize: 20, 
-              marginRight: -90, 
-              right: 75,
-              color: "black"
-            }} 
-            style={{
-              alignItems: "flex-start", 
-              top: 15
-            }}
-          />
+
+            <Appbar.Content
+              title={`Welcome, ${user?.firstName}!`}
+              // title="Welcome, Kirthivel!" 
+              titleStyle={{
+                fontFamily: "Kollektif",
+                fontSize: 20,
+                marginRight: -90,
+                right: 75,
+                color: "black"
+              }}
+              style={{
+                alignItems: "flex-start",
+                top: 15
+              }}
+            />
           </View>
-          <View flexDirection="row" style={{width:140}} alignItems="flex-end">
-            <Appbar.Action icon={'account-multiple-plus'} size={27.5} onPress={() => navigation.navigate("createParty/createGroup")} style={{top: 3.5, marginLeft: 40}} color="black"/>
-            <Appbar.Action icon={'account-plus'} size={27.5} onPress={() => navigation.navigate("profile", {screen: "profile/addFriends"})} style={{top: 2, }} color="black"/>
+          <View flexDirection="row" style={{ width: 140 }} alignItems="flex-end">
+            <Appbar.Action icon={'account-multiple-plus'} size={27.5} onPress={() => navigation.navigate("createParty/createGroup")} style={{ top: 3.5, marginLeft: 40 }} color="black" />
+            <Appbar.Action icon={'account-plus'} size={27.5} onPress={() => navigation.navigate("profile", { screen: "profile/addFriends" })} style={{ top: 2, }} color="black" />
           </View>
         </Appbar.Header>
       }
@@ -171,7 +254,7 @@ const Start = ({ navigation }) => {
           ]}
           onPress={() => {
             if (acceptedInvites?.length == 0) {
-              navigation.navigate("createParty/selectFriends");
+              navigation.navigate("createParty/selectFriends", { groups: groups });
             } else {
               Alert.alert(
                 "You have an active Party!",
@@ -232,7 +315,7 @@ const Start = ({ navigation }) => {
           style={[styles.image, { marginTop: 10 }]}
           onPress={() => {
             if (acceptedInvites?.length == 0) {
-              navigation.navigate("createParty/selectFriends");
+              navigation.navigate("createParty/selectFriends", { groups: groups });
             } else {
               Alert.alert(
                 "You have an active Party!",
@@ -283,6 +366,7 @@ const Start = ({ navigation }) => {
                 >
                   Start partying with friends!
                 </Text>
+
               </View>
             </LinearGradient>
           </ImageBackground>

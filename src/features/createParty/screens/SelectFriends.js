@@ -8,24 +8,69 @@ import TouchableScale from "react-native-touchable-scale";
 import { Input } from "galio-framework";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
-import { useFriends, useParty, useUser, useGroup} from "lib";
+import { useFriends, useParty, useUser, useGroup } from "lib";
 import MemberCard from "components/MemberCard";
 import { ScrollView } from "react-native";
 import { Alert } from "react-native";
 import { GradientButton, SubtitleText, TitleText, GroupCard } from "../../../components";
 import { SafeAreaView } from "react-native";
 import { Dimensions } from "react-native";
-import firestore, {firebase}  from "@react-native-firebase/firestore";
+import firestore, { firebase } from "@react-native-firebase/firestore";
+import { getGroups } from "../../../lib/groups";
+import { cos } from "react-native-reanimated";
 
 const SelectFriends = ({ route, navigation }) => {
   const { friends } = useFriends();
   const { partyId } = useParty();
-  const {user} = useUser();
+  const { user } = useUser();
   const [query, setQuery] = useState("");
   const [selectedFriends, setSelectedFriends] = useState([]);
+  const [selectedGroups, setSelectedGroups] = useState([]);
   const [data, setData] = useState([]);
-  const [groups, setGroups] = useState([]);
+  const [members, setMembers] = useState([]);
+  const [groupFriends, setGF] = useState([])
+  const { groups } = route?.params
   var localArray = [];
+
+  useEffect(() => {
+    groups.map((item) => {
+      localArray.push(item?.groupID)
+    })
+  })
+
+  useEffect(() => {
+    if (localArray.length != 0) {
+      console.log(localArray, "This is local array 1")
+      firestore()
+        .collection("Groups")
+        .where(firebase.firestore.FieldPath.documentId(), 'in', localArray)
+        .get()
+        .then((res) => {
+          const results = res.docs.map((x) => x.data());
+          // console.log("yuh yuh yuh")
+          console.log("this is results", results)
+          setData(results)
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [])
+
+  useEffect(() => {
+    if (localArray.length != 0) {
+      firestore()
+        .collectionGroup('members')
+        .where('isGroup', '==', 'true')
+        .where('groupID', 'array-contains-any', localArray)
+        .get()
+        .then((res) => {
+          const results = res.docs.map((x) => x.data());
+          console.log("yuh yuh yuh")
+          console.log("this is results", results)
+          setMembers(results)
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [])
   // const generateLink = async (groupId) => {
   //   const link = await dynamicLinks().buildShortLink({
   //     link: `https://biteparty.app/join?id=${partyId}`,
@@ -52,37 +97,12 @@ const SelectFriends = ({ route, navigation }) => {
   //     alert(error.message);
   //   }
   // };
-  useEffect(() => {
-    firestore()
-      .collectionGroup('members')
-      .where("isGroup", '==', true)
-      .where('status', '==', "accepted") //filter by user uidvalue 
-      .get()
-      .then((res) => {
-        const results = res.docs.map((x) => x.data());
-        console.log(results);
-        const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
-        console.log(filtered);
-        setGroups(filtered);
-        console.log("groups array is: ", groups)
-      })
-      .catch((err) => console.log(err));
-      
-  }, [])
 
-  useEffect(() => {
-    firestore()
-        .collection("Groups")
-        .where(firebase.firestore.FieldPath.documentId(), 'in', localArray)
-        .get()
-        .then((res) => {
-            const results = res.docs.map((x) => x.data());
-            // console.log("yuh yuh yuh")
-            console.log("this is results", results)
-            setData(results)
-        })
-        .catch((err) => console.log(err));
-}, [])
+
+
+
+
+
 
   const toggleSelection = (friend) => {
     const exists = selectedFriends.find(
@@ -97,6 +117,57 @@ const SelectFriends = ({ route, navigation }) => {
       setSelectedFriends([{ ...friend }, ...selectedFriends]);
     }
   };
+
+  const print = () => {
+    console.log("Friends is", friends)
+    console.log("Selected Friends", selectedFriends)
+    console.log("Groups is", groups)
+    console.log("GroupFriends is", groupFriends)
+    console.log("Data is", data)
+  }
+
+  function selectedValue(inp) {
+    out = false
+    selectedFriends.forEach(element => {
+      if (inp.includes(element.uidvalue)) {
+        out = true
+      }
+      else {
+        return out
+      }
+
+      console.log(selectedFriends)
+
+    }
+
+    );
+    return out
+
+  }
+  const toggleGroupSelection = (mems) => {
+
+    mems.map((friend) => {
+      const exists = selectedFriends.find(
+        (item) => item.uidvalue == friend
+      );
+      console.log(friend)
+      console.log("Exists is", exists)
+      const currentFriend = friends.find((f) => f.uidvalue == friend)
+
+      console.log("Current Friend is...", currentFriend)
+
+      if (exists) {
+        setSelectedFriends(
+          selectedFriends.filter((i) => i.uidvalue != friend)
+        );
+      } else {
+        setSelectedFriends([{ ...currentFriend }, ...selectedFriends]);
+      }
+
+
+    })
+
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -159,15 +230,20 @@ const SelectFriends = ({ route, navigation }) => {
           </>
         )}
         <ScrollView marginTop={10} paddingVertical={1}>
-          {groups &&
-            data
-            .filter((item) => {
-              item?.partyName.indexOf(query) >= 0 || query.length < 2
-            })
+
+          {groups && data
+            .filter(
+              (item) => item?.partyName?.indexOf(query) >= 0 || query.length < 2
+            )
             .map((item) => (
-              <GroupCard 
-                id={item.groupID}
+              <GroupCard
+                id={item.groupid}
                 request={false}
+                onPress={() =>
+                  toggleGroupSelection(item.members)
+                }
+                selected={selectedValue(item.members)
+                }
               />
             ))
           }
@@ -235,6 +311,7 @@ const SelectFriends = ({ route, navigation }) => {
               Start Party!
             </GradientButton>
           )}
+
         </View>
       </View>
     </SafeAreaView>

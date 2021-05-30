@@ -7,7 +7,7 @@ import { useUser } from "./user";
 export const useGroup = (id) => {
     const [groupName, setGroupName] = useState();
     const [groupMembers, setGroupMembers] = useState();
-    const {user} = useUser();
+    const { user } = useUser();
 
     // useEffect(() => firestore()
     //     .collectionGroup('members')
@@ -58,8 +58,8 @@ export const createGroup = async (array, name, user) => {
         isGroup: true,
         status: "accepted"
     })
-    //.then(() => {localArray.push(user?.firstName)})
-    .catch((err) => console.log(err))
+        //.then(() => {localArray.push(user?.firstName)})
+        .catch((err) => console.log(err))
 
     let membersBatch = firestore().batch();
     array.forEach((doc) => {
@@ -73,15 +73,16 @@ export const createGroup = async (array, name, user) => {
             isGroup: true,
             status: "pending",
         })
-        localArray.push(doc?.firstName)
+        localArray.push(doc?.uidvalue)
     })
-    localArray.push(user?.firstName);
+    localArray.push(user?.uidvalue);
     // await groupRef.doc(groupId).set({
     //     members: localArray,
     // })
     await groupRef.doc(groupId).set({
         partyName: name,
-        members: localArray
+        members: localArray,
+        groupid: groupId
     })
     await membersBatch.commit()
 }
@@ -100,7 +101,29 @@ export const getMembers = async (id) => {
         .map(({ imageUrl, firstName }) => ({ imageUrl, firstName }));
 }
 
-export const addGroup = async(id, user) => {
+export const getGroups = () => {
+    const { user } = useUser();
+
+    const unsub = firestore()
+        .collectionGroup('members')
+        .where("isGroup", '==', true)
+        .where('status', '==', "accepted") //filter by user uidvalue 
+        .onSnapshot(
+            (snapshot) => {
+                const results = snapshot.docs.map((x) => x.data());
+                console.log(results);
+                const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
+                console.log(filtered);
+
+                console.log("groups array is: ", groups)
+            },
+            (err) => console.error(err)
+        )
+    return unsub;
+}
+
+
+export const addGroup = async (id, user) => {
     firestore()
         .collection("Groups")
         .doc(id)
@@ -115,7 +138,7 @@ export const addGroup = async(id, user) => {
     // return console.log("yuh yuh yuh")
 }
 
-export const rejectGroup = async(id, user) => {
+export const rejectGroup = async (id, user) => {
     firestore()
         .collection("Groups")
         .doc(id)

@@ -15,7 +15,7 @@ import { Modal, Portal, Provider, IconButton } from "react-native-paper";
 import ImagePicker from "react-native-image-crop-picker";
 import storage from "@react-native-firebase/storage";
 import { SafeAreaView } from "react-native";
-import { useFriends, useUser, useInvites, useGroup} from "lib";
+import { useFriends, useUser, useInvites, useGroup } from "lib";
 import { TitleText } from "../../../components";
 import LinearGradient from "react-native-linear-gradient";
 
@@ -96,17 +96,17 @@ const ProfileDisplay = ({ navigation, route }) => {
       .where("isGroup", '==', true)
       .where('status', '==', "accepted") //filter by user uidvalue 
       .onSnapshot(
-         (snapshot) => {
-            const results = snapshot.docs.map((x) => x.data());
-            console.log(results);
-            const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
-            console.log(filtered);
-            setGroups(filtered);
-            console.log("groups array is: ", groups)
-         },
-          (err) => console.error(err)
+        (snapshot) => {
+          const results = snapshot.docs.map((x) => x.data());
+          console.log(results);
+          const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
+          console.log(filtered);
+          setGroups(filtered);
+          console.log("groups array is 1: ", groups)
+        },
+        (err) => console.error(err)
       )
-      return unsub;
+    return unsub;
   }, [])
 
 
@@ -133,166 +133,166 @@ const ProfileDisplay = ({ navigation, route }) => {
   const height = Dimensions.get("screen").height;
   return (
     <LinearGradient
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
-        colors={
-          ["#FFD0E4", "#FFCFBB", "#FFFFFF"]
-        }
-        style={styles.container}
-      >
-    <SafeAreaView>
-      <StatusBar translucent={true} barStyle="dark-content" />
-      <View paddingHorizontal={20} flexDirection="row">
-        <TitleText>@{user?.handle}</TitleText>
-        <View style={{position: "absolute", right: 0, top: 16}}>
-        <IconButton
-                  icon="account-plus"
-                  size={30}
-                  onPress={() =>
-                    navigation.navigate("profile/addFriends")
-                  }
-                />
-        </View>
-      </View>
-      <View backgroundColor="" marginTop={15}>
-        <View alignItems="center">
-          <TouchableOpacity onPress={showModal}>
-            <Image
-              source={{ uri: user?.imageUrl }}
-              style={{
-                width: 150,
-                height: 150,
-                backgroundColor: "yellow",
-                borderRadius: 500,
-                resizeMode: "cover",
-              }}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      colors={
+        ["#FFD0E4", "#FFCFBB", "#FFFFFF"]
+      }
+      style={styles.container}
+    >
+      <SafeAreaView>
+        <StatusBar translucent={true} barStyle="dark-content" />
+        <View paddingHorizontal={20} flexDirection="row">
+          <TitleText>@{user?.handle}</TitleText>
+          <View style={{ position: "absolute", right: 0, top: 16 }}>
+            <IconButton
+              icon="account-plus"
+              size={30}
+              onPress={() =>
+                navigation.navigate("profile/addFriends")
+              }
             />
-          </TouchableOpacity>
-          <View>
-            <Text
-              h5
-              style={{
-                color: "black",
-                textAlign: "center",
-                fontFamily: "Kollektif",
-                // marginVertical: 20,
-                marginTop: 20,
-                fontSize: 30,
-                fontWeight: "normal",
-              }}
-            >
-              {`${user?.firstName} ${user?.lastName}`}
-            </Text>
           </View>
         </View>
-        <View
-          marginTop={0}
-          flexDirection="row"
-          justifyContent="space-around"
-          marginTop={20}
-          marginBottom={15}
+        <View backgroundColor="" marginTop={15}>
+          <View alignItems="center">
+            <TouchableOpacity onPress={showModal}>
+              <Image
+                source={{ uri: user?.imageUrl }}
+                style={{
+                  width: 150,
+                  height: 150,
+                  backgroundColor: "yellow",
+                  borderRadius: 500,
+                  resizeMode: "cover",
+                }}
+              />
+            </TouchableOpacity>
+            <View>
+              <Text
+                h5
+                style={{
+                  color: "black",
+                  textAlign: "center",
+                  fontFamily: "Kollektif",
+                  // marginVertical: 20,
+                  marginTop: 20,
+                  fontSize: 30,
+                  fontWeight: "normal",
+                }}
+              >
+                {`${user?.firstName} ${user?.lastName}`}
+              </Text>
+            </View>
+          </View>
+          <View
+            marginTop={0}
+            flexDirection="row"
+            justifyContent="space-around"
+            marginTop={20}
+            marginBottom={15}
           // justifyContent="center"
           // backgroundColor="blue"
           // alignItems="space-around"
-        >
-          <TouchableOpacity 
-            alignItems="center"
-            onPress={
-              () => navigation.navigate("profile/showGroup", {
-                groups: groups,
-              })
-          }
           >
-            <Title
-              style={{
-                fontWeight: "bold",
-                color: "black",
-                fontFamily: "Kollektif",
-                fontSize: height < 700 ? 25 : 30,
-                fontWeight: "normal",
-                left: 25,
-              }}
+            <TouchableOpacity
+              alignItems="center"
+              onPress={
+                () => navigation.navigate("createParty/selectFriends",
+                  { groups: groups }
+                )
+              }
             >
-              {groups?.length}
-            </Title>
-            <Caption
-              style={{
-                color: "black",
-                fontSize: 20,
-                fontFamily: "Kollektif",
-              }}
-            >
-              Groups
+              <Title
+                style={{
+                  fontWeight: "bold",
+                  color: "black",
+                  fontFamily: "Kollektif",
+                  fontSize: height < 700 ? 25 : 30,
+                  fontWeight: "normal",
+                  left: 25,
+                }}
+              >
+                {groups?.length}
+              </Title>
+              <Caption
+                style={{
+                  color: "black",
+                  fontSize: 20,
+                  fontFamily: "Kollektif",
+                }}
+              >
+                Groups
             </Caption>
-          </TouchableOpacity>
-          <View alignItems="center">
-            <Title
-              style={{
-                fontWeight: "bold",
-                color: "black",
-                fontFamily: "Kollektif",
-                fontSize: height < 700 ? 25 : 30,
-                fontWeight: "normal",
-              }}
-            >
-              {friends?.length}
-            </Title>
-            <Caption
-              style={{
-                color: "black",
-                fontSize: 20,
-                fontFamily: "Kollektif",
-              }}
-            >
-              Friends
+            </TouchableOpacity>
+            <View alignItems="center">
+              <Title
+                style={{
+                  fontWeight: "bold",
+                  color: "black",
+                  fontFamily: "Kollektif",
+                  fontSize: height < 700 ? 25 : 30,
+                  fontWeight: "normal",
+                }}
+              >
+                {friends?.length}
+              </Title>
+              <Caption
+                style={{
+                  color: "black",
+                  fontSize: 20,
+                  fontFamily: "Kollektif",
+                }}
+              >
+                Friends
             </Caption>
+            </View>
+            <View alignItems="center">
+              <Title
+                style={{
+                  fontWeight: "bold",
+                  color: "black",
+                  fontSize: height < 700 ? 25 : 30,
+                  fontWeight: "normal",
+                  fontFamily: "Kollektif",
+                }}
+              >
+                {invites?.filter(({ status }) => status == "completed").length}
+              </Title>
+              <Caption
+                style={{
+                  color: "black",
+                  fontSize: 20,
+                  fontFamily: "Kollektif",
+                }}
+              >
+                Parties
+            </Caption>
+            </View>
           </View>
-          <View alignItems="center">
-            <Title
-              style={{
-                fontWeight: "bold",
-                color: "black",
-                fontSize: height < 700 ? 25 : 30,
-                fontWeight: "normal",
-                fontFamily: "Kollektif",
-              }}
-            >
-              {invites?.filter(({ status }) => status == "completed").length}
-            </Title>
-            <Caption
-              style={{
-                color: "black",
-                fontSize: 20,
-                fontFamily: "Kollektif",
-              }}
-            >
-              Parties
-            </Caption>
-          </View>
-        </View>
-        <View
-          // style={styles.containercolumn}
-          // marginTop={10}
-          paddingHorizontal={40}
-          justifyContent="space-around"
+          <View
+            // style={styles.containercolumn}
+            // marginTop={10}
+            paddingHorizontal={40}
+            justifyContent="space-around"
           // backgroundColor="red"
-        >
-          {/* <ProfileButton
+          >
+            {/* <ProfileButton
             onPress={() => navigation.navigate("profile/addFriends")}
           >
             Add Friends
           </ProfileButton> */}
-          <ProfileButton onPress={() => navigation.navigate("profile/edit")}>
-            Edit Profile
+            <ProfileButton onPress={() => navigation.navigate("profile/edit")}>
+              Edit Profile
           </ProfileButton>
-          <ProfileButton
-            onPress={() => navigation.navigate("profile/settings")}
-          >
-            Settings
+            <ProfileButton
+              onPress={() => navigation.navigate("profile/settings")}
+            >
+              Settings
           </ProfileButton>
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
     </LinearGradient>
   );
 };
