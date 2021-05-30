@@ -119,10 +119,11 @@ const BottomTabNavigator = () => (
 );
 
 const AppStack = () => {
-  const handleMessage = (message) => {
+  const handleMessage = async (message) => {
     if (!message) return;
 
-    const { partyId, type } = message.data;
+    const { partyId, type, initial } = message.data;
+    console.log({partyId, type})
     switch (type) {
       case "invite":
         RootNavigation.navigate("invites");
@@ -134,10 +135,17 @@ const AppStack = () => {
         });
         break;
       case "join":
+        /* uh so this avoids a race condition, 
+          user isn't loaded when the app initially launches, 
+          so delaying the navigation seems to resolve the issue,
+          god awful solution, will revisit later...
+        */
+        if (initial)
+          await new Promise(r => setTimeout(r, 2000));
         RootNavigation.navigate("invites", {
           screen: "invitesDisplay",
           params: { partyID: partyId, linkInvite: true },
-        });
+        })
         // RootNavigation.navigate("invitesDisplay",
         //  { partyID: partyId, linkInvite: true },
         // );
@@ -153,13 +161,13 @@ const AppStack = () => {
       const url = parse(link.url, true)
       handleMessage({ data: { partyId: url.query.id, type: url.pathname.slice(1) } })
     });
-    // dynamicLinks()
-    //   .getInitialLink()
-    //   .then(link => {
-    //     console.log({link})
-    //     const url = parse(link.url, true)
-    //     handleMessage({ data: { partyId: url.query.id, type: url.pathname.slice(1) } })
-    //   })
+    dynamicLinks()
+      .getInitialLink()
+      .then(link => {
+        console.log({link})
+        const url = parse(link.url, true)
+        handleMessage({ data: { partyId: url.query.id, type: url.pathname.slice(1), initial:true } })
+      })
   }, []);
 
   return (

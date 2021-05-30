@@ -70,21 +70,21 @@ const Swiping = ({ navigation, route, data }) => {
 
   useEffect(() => {
     console.log({partyMember})
-    if (partyMember?.status == "complete") {
+    if (partyMember?.status == "complete" || party?.winner) {
       hasNavigated.current = true;
       navigation.navigate("joinParty/completed", { partyID });
     }
-  }, [partyMember]);
+  }, [partyMember, party]);
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      if (partyMember?.status == "complete") {
+      if (partyMember?.status == "complete"  || party?.winner) {
         hasNavigated.current = true;
         navigation.navigate("joinParty/completed", { partyID });
       } 
     });
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, partyMember, party]);
 
   const handleYes = (item) => {
     setCardIdx((val) => val + 1);

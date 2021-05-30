@@ -25,7 +25,7 @@ const InvitesDisplay = ({ navigation, route }) => {
   const isSmall = height < 700;
 
  
-  const { partyID, linkInvite } = route.params
+  // const { partyID, linkInvite } = route.params
 
   // if(linkInvite) {
     
