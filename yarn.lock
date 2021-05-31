@@ -9595,6 +9595,11 @@ react-native-code-push@^7.0.1:
     semver "^7.3.2"
     xcode "3.0.1"
 
+react-native-contacts@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-7.0.0.tgz#8123decd865d63e7f50e7040cfb1559f56ce5708"
+  integrity sha512-K8DYUo3voC/cHFqy7FJzDRCmtsI5fkhjb7tWqfGe1hU/78XL3BcevEC6ZFCeiBDC2PaU6Y1bsq9969mEYODhCw==
+
 react-native-deck-swiper@^2.0.5:
   version "2.0.5"
   resolved "https://registry.npmjs.org/react-native-deck-swiper/-/react-native-deck-swiper-2.0.5.tgz"

@@ -11,6 +11,7 @@ import SignUp1ViewController from "../screens/SignUp1ViewController.js";
 import SignUp2ViewController from "../screens/SignUp2ViewController.js";
 import SignUp3ViewController from "../screens/SignUp3ViewController.js";
 import SignUp4ViewController from "../screens/SignUp4ViewController.js";
+import PhoneVerify from "../screens/PhoneVerify.js";
 import ResetPassword from "../screens/ResetPassword.js";
 import { logoHeaderOptions } from "../components/logoHeaderOptions.js";
 
@@ -51,7 +52,7 @@ const AuthStack = ({ navigation }) => {
         component={SignUpViewController}
         options={{
           headerShown: true,
-          headerBackTitle: "Back",
+          headerBackTitle: "",
           title: "Sign Up",
           ...logoHeaderOptions,
         }}
@@ -61,7 +62,7 @@ const AuthStack = ({ navigation }) => {
         component={AuthenticateViewController}
         options={{
           headerShown: true,
-          headerBackTitle: "Back",
+          headerBackTitle: "",
           title: "Login",
           ...logoHeaderOptions,
         }}
@@ -84,6 +85,11 @@ const AuthStack = ({ navigation }) => {
       <Stack.Screen
         name="Sign Up 4"
         component={SignUp4ViewController}
+        options={{ headerShown: true, title: "Sign Up", ...logoHeaderOptions }}
+      />
+      <Stack.Screen
+        name="Verify Phone"
+        component={PhoneVerify}
         options={{ headerShown: true, title: "Sign Up", ...logoHeaderOptions }}
       />
       <Stack.Screen
