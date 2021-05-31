@@ -8,13 +8,11 @@ export const logoHeaderOptions = {
   headerTitle: (props) => (
     <Image
       style={{
-        aspectRatio: 2/ 3,
-        height: height/20
+        aspectRatio: 2/3,
+        height: height/17,
       }}
       source={require("assets/images/newHeaderLogo.png")}
     />
   ),
   headerStyle: {
-    height: height/8
-  },
-};
+    height: height/7,
