@@ -1,19 +1,21 @@
 import React from "react";
 import {Text, View, Dimensions} from 'react-native'
 import { createStackNavigator } from "@react-navigation/stack";
+import {GradientButton} from "components";
 import Profile from "./screens/Profile";
 import Settings from "./screens/Settings";
 import EditProfile from "./screens/EditProfile";
 import AddFriends from "./screens/AddFriends";
 import ShowGroups from './screens/ShowGroups';
 
-import { BackButton, logoHeaderOptions, GradientButton } from "../../components";
+import { BackButton, logoHeaderOptions,  } from "../../components";
+import SyncContacts from "./screens/SyncContacts";
 import FriendsView from "./screens/FriendsView";
 import PastParties from "./screens/PastParties";
 import PastPartyView from "./screens/PastPartyView";
 const Stack = createStackNavigator();
 
-export default () => (
+export default ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
       name="profile"
@@ -62,9 +64,11 @@ export default () => (
         headerRight: () => (
           <GradientButton
             containerStyle={{right: 10,}}
-            innerStyle={{paddingHorizontal: 20, borderRadius: 7}}
+            innerStyle={{paddingHorizontal: 10,}}
+            textStyle={{fontSize: 17, letterSpacing: -0.3, lineHeight: 20}}
+            onPress={() => navigation.navigate("profile/syncContacts")}
           >
-            Sync Contacts
+            Add Contacts
           </GradientButton>
         ),
         headerStyle: {
@@ -102,6 +106,14 @@ export default () => (
         headerLeft: BackButton,
 
         // headerShown: false,
+      }}
+      />
+    <Stack.Screen 
+      name="profile/syncContacts"
+      component={SyncContacts}
+      options={{
+        title:"",
+        headerLeft: BackButton
       }}
     />
   </Stack.Navigator>
