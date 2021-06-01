@@ -13,6 +13,7 @@ import { Divider } from "react-native-elements";
 import { InAppBrowser } from "react-native-inappbrowser-reborn";
 import { TitleText } from "components";
 import { SafeAreaView } from "react-native";
+import { useFriends, useUser } from "lib";
 
 const SettingsButton = ({ children, right, style, textStyle, ...rest }) => (
   <TouchableOpacity {...rest} style={[styles.button, style]}>
@@ -22,6 +23,7 @@ const SettingsButton = ({ children, right, style, textStyle, ...rest }) => (
 );
 const Settings = () => {
   const { logout } = useContext(AuthContext);
+  const { user } = useUser();
 
   const openLink = async (url) => {
     try {

@@ -29,11 +29,19 @@ const AddFriends = () => {
             //         //console.log(contact?.phoneNumbers[0].number.slice(-4), friend?.sliced)
             //         return(contact?.phoneNumbers[0].number.slice(-4) == friend?.sliced)
             //     }))
-            console.log(JSON.stringify(contactval, null, 2))
-            console.log(JSON.stringify(friends, null, 2))
-            setContacts(contactval);
+            // console.log(JSON.stringify(contactval, null, 2))
+            // console.log(JSON.stringify(friends, null, 2))
+            const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-9);
+            const filtered = contactval.filter((c) => 
+                !c.phoneNumbers.some((cP) => 
+                    friends?.some((f) => cleanPhone(f.phoneNumber) == cleanPhone(cP.number))
+                )
+            )
+            //console.log(JSON.stringify(friends, null, 2))
+            setContacts(filtered);
             //console.log(contacts[0].phoneNumbers[0].number)
         })
+        .catch((err) => console.log(err))
     }, [])
 
     return(
