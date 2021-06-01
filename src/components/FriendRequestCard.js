@@ -34,7 +34,7 @@ export const FriendRequestCard = ({
               alignItems: "center",
             }}
           >
-            <Avatar.Image size={35} source={{ uri: data.imageUrl }} />
+            <Avatar.Image size={35} source={{ uri: data?.imageUrl }} />
 
             <View style={styles.nameContainer}>
               <Text

@@ -38,8 +38,9 @@ const AddFriends = () => {
         .get()
         .then((res) => {
           const results = res.docs.map((x) => x.data());
+          const filtered = results.filter(resval => resval?.uidvalue != user?.uidvalue)
           console.log(results);
-          setData(results);
+          setData(filtered);
         })
         .catch((err) => alert(err));
     } else {

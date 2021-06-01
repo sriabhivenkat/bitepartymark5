@@ -7,7 +7,7 @@ import { Button, Card } from 'react-native-paper'
 import { GradientButton } from '../components';
 import { Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
-
+import PhoneInput from "react-native-phone-number-input";
 
 const PhoneVerify = ({route, navigation}) => {
     const [number, setNumber] = useState('')
@@ -40,8 +40,8 @@ const PhoneVerify = ({route, navigation}) => {
           {visible===false &&
           <View>
           <Text style={[{ marginTop: 30, left: 15, fontSize: 30, fontFamily: "Kollektif" }]}>Verify phone number</Text>
-          <View style={{ alignItems: "center" }}>
-                    <Input
+                <View style={{ alignItems: "center" }}>
+                    {/* <Input
                         placeholder="Enter a phone number"
                         placeholderTextColor="gray"
                         onChangeText={(phone) => setNumber(phone)}
@@ -51,6 +51,18 @@ const PhoneVerify = ({route, navigation}) => {
                         fontFamily="Kollektif"
                         style={styles.input1}
                         value={number}
+                    /> */}
+                    <PhoneInput 
+                        defaultValue={number}
+                        defaultCode="US"
+                        onChangeFormattedText={(phone) => setNumber(phone)}
+                        layout="second"
+                        textInputStyle={{fontFamily: "Kollektif", fontSize: 17}}
+                        countryPickerButtonStyle={{borderRightColor: "black", borderRightWidth: 1}}
+                        codeTextStyle={{fontFamily: "Kollektif", fontSize: 17}}
+                        containerStyle={{borderColor: "black", borderWidth: 1, marginVertical: 10, borderRadius: 25, width: "90%", height: 60}}
+                        //containerStyle={styles.input1}
+                        placeholder="Enter number"
                     />
                 </View>
                 <View
@@ -59,7 +71,7 @@ const PhoneVerify = ({route, navigation}) => {
                         alignItems: "center"
                     }}
                 >
-                    <Text style={{textAlign: "center", fontFamily: "Kollektif", color: "lightgray"}}>SMS will be sent for verification, and standard rates may apply.</Text>
+                    <Text style={{textAlign: "center", fontFamily: "Kollektif", color: "lightgray"}}>SMS will be sent for verification, and standard messaging and data rates may apply</Text>
                 </View>
 
                 <View style={{ alignItems: "center" }}>
@@ -129,11 +141,13 @@ const styles = StyleSheet.create({
         fontFamily: "Kollektif"
     },
     input1: {
-        width: '95%',
+        width: '90%',
         height: 45,
-        borderRadius: 15,
-        borderWidth: 1,
-        borderColor: "black",
+        // marginTop: 20,
+        // marginBottom: 10,
+         borderWidth: 1,
+         borderColor: "black",
+         borderRadius: 15,
     },
     button: {
         marginTop: 20,
