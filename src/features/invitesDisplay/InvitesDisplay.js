@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   FlatList,
@@ -10,18 +10,44 @@ import {
 import { TitleText, InviteCard, SubtitleText } from "components";
 import { SafeAreaView } from "react-native";
 import { Button, Divider, IconButton } from "react-native-paper";
-import { useInvites } from "lib/invites.js";
+import { useInvites, useParty} from "lib";
 import LinearGradient from "react-native-linear-gradient";
 import { Appbar } from "react-native-paper";
 import { FriendInvites } from "./FriendsInvites";
 import {GradientButton} from "components";
 
-const InvitesDisplay = ({ navigation }) => {
+ 
+const InvitesDisplay = ({ navigation, route }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
+  const { addSelfToParty } = useParty();
+
+  // const { partyID, linkInvite } = route.params
+
   const isSmall = height < 700;
+
+ 
+  // const { partyID, linkInvite } = route.params
+
+  // if(linkInvite) {
+    
+  // }
+
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const pendingInvites = invites?.filter((item) => item.status == "pending");
   const height = Dimensions.get("window").height;
+
+
+  useEffect(() => {
+    if (route?.params?.linkInvite) {
+      addSelfToParty(route.params.partyID).then(() => 
+        navigation.navigate("joinParty", {
+          screen: "joinParty/swiping",
+          params: { partyID: route.params.partyID },
+        })
+      )
+    }
+  }, route.params)
+
   const handleAccept = (invite) => {
     if (acceptedInvites?.length <= 0) {
       acceptInvite(invite)

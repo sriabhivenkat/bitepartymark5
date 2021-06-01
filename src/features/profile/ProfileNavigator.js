@@ -8,6 +8,9 @@ import AddFriends from "./screens/AddFriends";
 import ShowGroups from './screens/ShowGroups';
 
 import { BackButton, logoHeaderOptions, GradientButton } from "../../components";
+import FriendsView from "./screens/FriendsView";
+import PastParties from "./screens/PastParties";
+import PastPartyView from "./screens/PastPartyView";
 const Stack = createStackNavigator();
 
 export default () => (
@@ -25,6 +28,7 @@ export default () => (
       component={Settings}
       options={{
         title: "",
+        headerShown: true,
         headerLeft: BackButton,
         // headerShown: false,
         // ...logoHeaderOptions,
@@ -37,10 +41,11 @@ export default () => (
         title: "",
         headerLeft: BackButton,
 
+
         // headerShown: false,
       }}
     />
-    <Stack.Screen 
+    <Stack.Screen
       name="profile/showGroup"
       component={ShowGroups}
       options={{
@@ -65,6 +70,37 @@ export default () => (
         headerStyle: {
           height: Dimensions.get("window").height/8
         }
+        // headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="profile/friendsView"
+      component={FriendsView}
+      options={{
+        title: "",
+        headerLeft: BackButton,
+
+        // headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="profile/pastParties"
+      component={PastParties}
+      options={{
+        title: "",
+        headerLeft: BackButton,
+
+        // headerShown: false,
+      }}
+    />
+
+    <Stack.Screen
+      name="profile/pastPartyView"
+      component={PastPartyView}
+      options={{
+        title: "",
+        headerLeft: BackButton,
+
         // headerShown: false,
       }}
     />

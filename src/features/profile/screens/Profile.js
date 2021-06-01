@@ -73,6 +73,8 @@ const ProfileDisplay = ({ navigation, route }) => {
       });
   };
 
+
+
   const openCamera = () => {
     ImagePicker.openCamera({
       width: 300,
@@ -95,20 +97,20 @@ const ProfileDisplay = ({ navigation, route }) => {
       .collectionGroup('members')
       .where("isGroup", '==', true)
       .where('status', '==', "accepted") //filter by user uidvalue 
-      .onSnapshot(
-        (snapshot) => {
-          const results = snapshot.docs.map((x) => x.data());
-          console.log(results);
-          const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
-          console.log(filtered);
-          setGroups(filtered);
-          console.log("groups array is 1: ", groups)
-        },
-        (err) => console.error(err)
-      )
-    return unsub;
+      .get()
+      .then((res) => {
+        const results = res.docs.map((x) => x.data());
+        console.log(results);
+        const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
+        console.log(filtered);
+        setGroups(filtered);
+        console.log("groups array is: ", groups)
+      })
+      .catch((err) => console.log(err));
+
   }, [])
 
+  const { groupName, groupMembers } = useGroup(groups[0]?.groupID);
 
 
   // useEffect(() => {

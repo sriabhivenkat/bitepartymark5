@@ -9,6 +9,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 import dynamicLinks from "@react-native-firebase/dynamic-links";
 import messaging from "@react-native-firebase/messaging";
+import parse from 'url-parse'
 
 import * as RootNavigation from "navigation/RootNavigation";
 
@@ -23,8 +24,13 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const tabBarListeners = ({ navigation, route }) => ({
   tabPress: () => {
-    if (route?.state?.index) navigation.replace("Home");
-    else navigation.navigate("Home");
+    // if (route?.state?.index) navigation.replace("Home");
+    // else navigation.navigate("Home");
+    // navigation.replace("Home");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "home" }],
+    })
   },
 });
 const BottomTabNavigator = () => (
@@ -72,7 +78,7 @@ const BottomTabNavigator = () => (
     <Tab.Screen
       name="home"
       component={CreatePartyNavigator}
-      listeners={tabBarListeners}
+      // listeners={tabBarListeners}
       options={{
         tabBarIcon: ({ focused }) => (
           <Ionicons name="home" color={focused ? "black" : "gray"} size={25} />
@@ -113,10 +119,11 @@ const BottomTabNavigator = () => (
 );
 
 const AppStack = () => {
-  const handleMessage = (message) => {
+  const handleMessage = async (message) => {
     if (!message) return;
 
-    const { partyId, type } = message.data;
+    const { partyId, type, initial } = message.data;
+    console.log({partyId, type})
     switch (type) {
       case "invite":
         RootNavigation.navigate("invites");
@@ -127,6 +134,22 @@ const AppStack = () => {
           params: { partyID: partyId },
         });
         break;
+      case "join":
+        /* uh so this avoids a race condition, 
+          user isn't loaded when the app initially launches, 
+          so delaying the navigation seems to resolve the issue,
+          god awful solution, will revisit later...
+        */
+        if (initial)
+          await new Promise(r => setTimeout(r, 2000));
+        RootNavigation.navigate("invites", {
+          screen: "invitesDisplay",
+          params: { partyID: partyId, linkInvite: true },
+        })
+        // RootNavigation.navigate("invitesDisplay",
+        //  { partyID: partyId, linkInvite: true },
+        // );
+        break;
       default:
         break;
     }
@@ -134,6 +157,17 @@ const AppStack = () => {
   useEffect(() => {
     messaging().getInitialNotification().then(handleMessage);
     messaging().onNotificationOpenedApp(handleMessage);
+    dynamicLinks().onLink((link) => {
+      const url = parse(link.url, true)
+      handleMessage({ data: { partyId: url.query.id, type: url.pathname.slice(1) } })
+    });
+    dynamicLinks()
+      .getInitialLink()
+      .then(link => {
+        console.log({link})
+        const url = parse(link.url, true)
+        handleMessage({ data: { partyId: url.query.id, type: url.pathname.slice(1), initial:true } })
+      })
   }, []);
 
   return (
