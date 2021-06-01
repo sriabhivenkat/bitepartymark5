@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useRef, useMemo, useCallback} from "react";
 import {
   View,
   Image,
@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   StatusBar,
   SafeAreaView,
+  TouchableWithoutFeedback,
+  Keyboard
 } from "react-native";
 import { Text } from "galio-framework";
 import TouchableScale from "react-native-touchable-scale";
@@ -18,8 +20,15 @@ import { Alert } from "react-native";
 import {useUser} from "lib";
 import {GradientButton} from "components";
 import { Appbar, Button } from 'react-native-paper';
+import {Input } from 'galio-framework';
+import { Modal, Portal, Provider } from 'react-native-paper';
 import { logoHeaderOptions } from "../../../components";
 import { useEffect } from "react";
+import PhoneInput from "react-native-phone-number-input";
+import auth from '@react-native-firebase/auth';
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import firestore from "@react-native-firebase/firestore";
+
 
 const Start = ({ navigation }) => {
   const hour = new Date().getHours();
@@ -28,9 +37,31 @@ const Start = ({ navigation }) => {
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const height = Dimensions.get("window").height;
   const width = Dimensions.get("window").width;
-  useEffect(() => {
-    console.log(height);
-  }, []);
+
+
+  const [number, setNumber] = useState('')
+  const [code, setCode] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [confirm, setConfirm] = useState('')
+  const bottomSheetRef = useRef(null);
+  const snapPoints = useMemo(() => ["0%", "100%"], []);
+
+  async function signInWithPhoneNumber(phoneNumber) {
+    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+    setConfirm(confirmation);
+  }
+
+  async function confirmCode() {
+      try {
+        await confirm.confirm(code)
+        await firestore().collection("Users").doc(user?.uidvalue).update({
+          phoneNumber: number,
+          sliced: number.slice(-4),
+        })
+      } catch (error) {
+        console.log(error);
+      }
+  }
   const isSmall = height < 700;
   return (
     <SafeAreaView style={styles.container}>
@@ -156,6 +187,49 @@ const Start = ({ navigation }) => {
             Resume your active party!
           </GradientButton>
         </View>
+      )}
+      {acceptedInvites?.length != 0 && !user?.phoneNumber && (
+        <GradientButton 
+          outline
+          style={{
+            width: "90%",
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 3.5 },
+            left: 20,
+            marginTop: 50,
+          }}
+          innerStyle={{
+            borderRadius: 14,
+          }}
+          textStyle={{
+            color: "black"
+          }}
+          onPress={() => bottomSheetRef.current.expand()}
+        >
+          Verify phone number!
+        </GradientButton>
+      )}
+      {acceptedInvites?.length === 0 && !user?.phoneNumber && (
+        <GradientButton 
+          outline
+          style={{
+            width: "90%",
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 3.5 },
+            left: 20,
+            marginTop: 50,
+            bottom: 40
+          }}
+          innerStyle={{
+            borderRadius: 14,
+          }}
+          textStyle={{
+            color: "black"
+          }}
+          onPress={() => bottomSheetRef.current.expand()}
+        >
+          Verify phone number!
+        </GradientButton>
       )}
       {acceptedInvites?.length != 0 && (
         <TouchableOpacity
@@ -345,6 +419,147 @@ const Start = ({ navigation }) => {
           </ImageBackground>
         </TouchableOpacity>
       )} */}
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={0}
+        snapPoints={snapPoints}
+        enableHandlePanningGesture={false}
+        handleComponent={null}
+      >
+        <BottomSheetView style={styles.contentContainer}>
+        <TouchableWithoutFeedback
+            accessible={false}
+            onPress={() => Keyboard.dismiss()}
+        >
+            <View style={styles.bottomSheetContainer}>
+                <StatusBar barStyle='dark-content' />
+          {visible===false &&
+          <View>
+          <Text style={[{ marginTop: 100, left: 15, fontSize: 30, fontFamily: "Kollektif" }]}>Verify phone number</Text>
+                <View style={{ alignItems: "center" }}>
+                    {/* <Input
+                        placeholder="Enter a phone number"
+                        placeholderTextColor="gray"
+                        onChangeText={(phone) => setNumber(phone)}
+                        type="phone-pad"
+                        color="black"
+                        fontSize={17}
+                        fontFamily="Kollektif"
+                        style={styles.input1}
+                        value={number}
+                    /> */}
+                    <PhoneInput 
+                        defaultValue={number}
+                        defaultCode="US"
+                        onChangeFormattedText={(phone) => setNumber(phone)}
+                        layout="second"
+                        textInputStyle={{fontFamily: "Kollektif", fontSize: 20}}
+                        countryPickerButtonStyle={{borderRightColor: "black", borderRightWidth: 1}}
+                        codeTextStyle={{fontFamily: "Kollektif", fontSize: 20}}
+                        containerStyle={{borderColor: "black", borderWidth: 1, marginVertical: 10, borderRadius: 25, width: "90%", height: 60}}
+                        //containerStyle={styles.input1}
+                        placeholder="Enter number"
+                    />
+                </View>
+                <View
+                    style={{
+                        paddingHorizontal: 20,
+                        alignItems: "center"
+                    }}
+                >
+                    <Text style={{textAlign: "center", fontFamily: "Kollektif", color: "lightgray"}}>SMS will be sent for verification, and standard messaging and data rates may apply</Text>
+                </View>
+
+                <View style={{ alignItems: "center" }}>
+                    {(number != '') &&
+                        <GradientButton
+                            onPress={() => {
+                                signInWithPhoneNumber(number)
+                                setVisible(true)
+                            }}
+                            style={styles.button}
+                            innerStyle={{ paddingVertical: 10 }}
+                        >
+                            Send code!
+                        </GradientButton>
+                    }
+                </View>
+                <View style={{alignItems: "center"}}> 
+                    <Button
+                        onPress={() => bottomSheetRef.current?.close()}
+                        style={{
+                          marginTop: 50, 
+                          borderColor: "red", 
+                          borderWidth: 1, 
+                          borderRadius: 15,
+                          width: "60%",
+                          height: 40,
+                          justifyContent: "center",
+                          backgroundColor: "red"
+                        }}
+                        labelStyle={{color: "white", fontFamily: "Kollektif", fontSize: 18}}
+                        uppercase={false}
+                      >
+                        Dismiss
+                    </Button>
+                </View>
+               </View> 
+            }
+                {visible===true &&
+                    <View>
+                    <Text style={[{ marginTop: 100, left: 15, fontSize: 30, fontFamily: "Kollektif" }]}>Enter code</Text>
+                    <View style={{alignItems: 'center'}}>
+                        <Input
+                            placeholder="Enter code"
+                            placeholderTextColor="gray"
+                            onChangeText={text => setCode(text)}
+                            type="numeric"
+                            color="black"
+                            fontSize={17}
+                            fontFamily="Kollektif"
+                            style={styles.input1}
+                            value={code}                                
+                        />
+                    </View>
+                    <View style={{ alignItems: "center" }}>
+                        {(code.length === 6) &&
+                            <GradientButton
+                                onPress={() => {
+                                    confirmCode(code);
+                                    bottomSheetRef.current?.close();
+                                }}
+                                style={styles.button}
+                                innerStyle={{ paddingVertical: 10 }}
+                            >
+                                Verify
+                            </GradientButton>
+                        }
+                    </View>
+                    <View style={{alignItems: "center", justifyContent: "center"}}> 
+                      <Button
+                        onPress={() => bottomSheetRef.current?.close()}
+                        style={{
+                          marginTop: 50, 
+                          borderColor: "red", 
+                          borderWidth: 1, 
+                          borderRadius: 15,
+                          width: "60%",
+                          height: 40,
+                          justifyContent: "center",
+                          backgroundColor: "red"
+                        }}
+                        labelStyle={{color: "white", fontFamily: "Kollektif", fontSize: 18}}
+                        uppercase={false}
+                      >
+                        Dismiss
+                      </Button>
+                    </View>
+                    </View>
+                }
+            </View>
+        </TouchableWithoutFeedback>
+        </BottomSheetView>
+      </BottomSheet>
     </SafeAreaView>
   );
 };
@@ -407,4 +622,20 @@ const styles = StyleSheet.create({
     borderBottomColor: "lightgray",
     borderBottomWidth: 1,
   },
+  contentContainer: {
+    backgroundColor: 'white',
+  },
+  input1: {
+    width: '90%',
+    height: 45,
+    // marginTop: 20,
+    // marginBottom: 10,
+     borderWidth: 1,
+     borderColor: "black",
+     borderRadius: 15,
+},
+//   bottomSheetontainer: {
+//     flex: 1,
+//     backgroundColor: "#fff",
+// },
 });

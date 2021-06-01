@@ -60,7 +60,7 @@ const PhoneVerify = ({route, navigation}) => {
                         textInputStyle={{fontFamily: "Kollektif", fontSize: 17}}
                         countryPickerButtonStyle={{borderRightColor: "black", borderRightWidth: 1}}
                         codeTextStyle={{fontFamily: "Kollektif", fontSize: 17}}
-                        containerStyle={{borderColor: "black", borderWidth: 1, marginVertical: 10, borderRadius: 25, width: "90%", height: 60}}
+                        containerStyle={{borderColor: "black", borderWidth: 1, marginVertical: 10, borderRadius: 25, width: "90%", height: 90}}
                         //containerStyle={styles.input1}
                         placeholder="Enter number"
                     />
