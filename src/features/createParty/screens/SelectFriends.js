@@ -33,46 +33,26 @@ const SelectFriends = ({ route, navigation }) => {
   const { groups } = useGroups();
   const { user } = useUser();
   // console.log({ groups });
-  // const generateLink = async (groupId) => {
-  //   const link = await dynamicLinks().buildShortLink({
-  //     link: `https://biteparty.app/join?id=${partyId}`,
-  //     domainUriPrefix: "https://biteparty.page.link",
-  //     androidInfo: {
-  //       androidPackageName: "com.kastech.biteparty",
-  //     },
-  //     iosInfo: {
-  //       iosBundleId: "com.kastech.biteparty",
-  //     },
-  //   });
-  //   // alert(link)
-  //   console.log(link);
 
-  //   return link;
-  // };
-
-  // const onShare = async ({ url }) => {
-  //   try {
-  //     const result = await Share.share({
-  //       message: `BiteParty | Join the party! ${url}`,
-  //     });
-  //   } catch (error) {
-  //     alert(error.message);
-  //   }
-  // };
-
-  // const toggleSelection = (friend) => {
-  // const exists = selectedFriends.find(
-  //   (item) => item.uidvalue == friend.uidvalue
-  // );
-
-  //   if (exists) {
-  //     setSelectedFriends(
-  //       selectedFriends.filter((i) => i.uidvalue != friend.uidvalue)
-  //     );
-  //   } else {
-  //     setSelectedFriends([{ ...friend }, ...selectedFriends]);
-  //   }
-  // };
+  const onShareLink = async () => {
+    try {
+      const link = await dynamicLinks().buildShortLink({
+        link: `https://biteparty.app/join?id=${partyId}`,
+        domainUriPrefix: "https://biteparty.page.link",
+        androidInfo: {
+          androidPackageName: "com.kastech.biteparty",
+        },
+        iosInfo: {
+          iosBundleId: "com.kastech.biteparty",
+        },
+      });
+      const result = await Share.share({
+        message: `BiteParty | Join the party! ${link}`,
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   const getGroupList = (group) =>
     Object.keys(group.members)
@@ -83,7 +63,7 @@ const SelectFriends = ({ route, navigation }) => {
       .filter((m) => m.uidvalue != user.uidvalue);
 
   const handleAddFriend = (friend) => {
-    const exists = selectedFriends.some(m => m.uidvalue == friend.uidvalue)
+    const exists = selectedFriends.some((m) => m.uidvalue == friend.uidvalue);
     setSelectedFriends((old) =>
       exists
         ? old.filter((m) => m.uidvalue != friend.uidvalue)
@@ -95,12 +75,14 @@ const SelectFriends = ({ route, navigation }) => {
     const selected = members.every((m) =>
       selectedFriends.some((f) => f.uidvalue == m.uidvalue)
     );
-    console.log({selected: selectedFriends.filter((m) => !members.includes(m.uidvalue))})
+    console.log({
+      selected: selectedFriends.filter((m) => !members.includes(m.uidvalue)),
+    });
     // console.log(selectedFriends)
     // ;
     setSelectedFriends((old) =>
       selected
-        ? old.filter((m) => members.every(f => f.uidvalue != m.uidvalue))
+        ? old.filter((m) => members.every((f) => f.uidvalue != m.uidvalue))
         : [...old, ...members]
     );
   };
@@ -116,7 +98,12 @@ const SelectFriends = ({ route, navigation }) => {
           justifyContent="space-between"
           marginTop={-25}
         >
-          <TitleText style={{ fontSize: 37 }}>Invite Friends</TitleText>
+          <View flex={1}>
+            <TitleText style={{ fontSize: 37 }} >Invite Friends</TitleText>
+          </View>
+          <View flex={0} position="relative" top={10}>
+            <GradientButton innerStyle={{flex: 0, paddingHorizontal: 10}} onPress={onShareLink}>Share Link</GradientButton>
+          </View>
         </View>
         <View>
           <Input
