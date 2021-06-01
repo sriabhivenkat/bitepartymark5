@@ -7,9 +7,9 @@ import { GradientButton } from "./";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { useGroup, addGroup, useUser, rejectGroup } from 'lib';
 
-export const GroupCard = ({ id, request, onTap, selected, onPress }) => {
-  const { groupName, groupMembers } = useGroup(id);
-  const { user } = useUser();
+export const GroupCard = ({ id, request, onTap, selected, onPress, groupName, groupMembers }) => {
+  // const { groupName, groupMembers } = useGroup(id);
+  // const { user } = useUser();
   //console.log(groupName);
   return (
     <View style={styles.container}>
