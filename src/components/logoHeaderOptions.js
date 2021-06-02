@@ -16,3 +16,5 @@ export const logoHeaderOptions = {
   ),
   headerStyle: {
     height: height/7,
+  },
+};
