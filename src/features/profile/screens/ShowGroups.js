@@ -1,27 +1,68 @@
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
-  View,
-  Image,
-  Dimensions,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  StatusBar,
-  SafeAreaViuyew
+    View,
+    Image,
+    Dimensions,
+    StyleSheet,
+    FlatList,
+    TouchableOpacity,
+    StatusBar,
+    SafeAreaViuyew
 } from "react-native";
 import { Text } from "galio-framework";
 import { TitleText, InviteCard, SubtitleText, GroupCard } from "components";
-import {useUser} from 'lib';
+import { useUser } from 'lib';
 import { Input } from "galio-framework";
 import { ScrollView } from "react-native";
+import { stubFalse } from "lodash";
+import { useGroup } from 'lib';
+import firestore, { firebase } from "@react-native-firebase/firestore";
 
 const ShowGroups = ({ navigation, route }) => {
-    const {user} = useUser();
-    const {groups} = route?.params;
-    console.log(groups)
+    const { user } = useUser();
+    const { groups } = route?.params;
     const [query, setQuery] = useState("");
+    const [data, setData] = useState([]);
+    const [members, setMembers] = useState([]);
+    var localArray = [];
 
-    return(
+    useEffect(() => {
+        console.log("This is groups array 1", groups)
+        groups.map((item) => {
+            localArray.push(item?.groupID)
+        })
+    })
+
+    useEffect(() => {
+        console.log(localArray, "This is local array")
+        firestore()
+            .collection("Groups")
+            .where(firebase.firestore.FieldPath.documentId(), 'in', localArray)
+            .get()
+            .then((res) => {
+                const results = res.docs.map((x) => x.data());
+                // console.log("yuh yuh yuh")
+                console.log("this is results", results)
+                setData(results)
+            })
+            .catch((err) => console.log(err));
+    }, [])
+
+    useEffect(() => {
+        firestore()
+            .collectionGroup('members')
+            .where('isGroup', '==', 'true')
+            .where('groupID', 'array-contains-any', localArray)
+            .get()
+            .then((res) => {
+                const results = res.docs.map((x) => x.data());
+                console.log("yuh yuh yuh")
+                console.log("this is results", results)
+                setMembers(results)
+            })
+            .catch((err) => console.log(err));
+    }, [])
+    return (
         <View style={styles.container}>
             <TitleText style={styles.title}>
                 {user?.firstName}'s Groups
@@ -45,15 +86,16 @@ const ShowGroups = ({ navigation, route }) => {
                 />
             </View>
             <View alignItems="center" marginTop={10}>
-                <FlatList 
+                <FlatList
                     data={groups}
-                    style={{paddingTop: 5}}
+                    style={{ paddingTop: 5 }}
                     snapToInterval={Dimensions.get("window").width}
                     indicatorStyle="black"
                     decelerationRate="fast"
-                    renderItem={({item}) => (
-                        <GroupCard 
+                    renderItem={({ item }) => (
+                        <GroupCard
                             id={item.groupID}
+                            request={false}
                         />
                     )}
                 />

@@ -1,6 +1,6 @@
 import React from "react";
-import { View, StyleSheet, Dimensions, Animated, Text} from "react-native";
-//import { Text } from "galio-framework";
+import { View, StyleSheet, Dimensions, Animated } from "react-native";
+import { Text } from "galio-framework";
 import { Card, Avatar, Chip, IconButton } from "react-native-paper";
 import { TouchableOpacity } from "react-native";
 import { useFriends } from "lib";
@@ -34,13 +34,12 @@ export const FriendRequestCard = ({
               alignItems: "center",
             }}
           >
-            <Avatar.Image size={35} source={{ uri: data?.imageUrl }} />
+            <Avatar.Image size={35} source={{ uri: data.imageUrl }} />
 
             <View style={styles.nameContainer}>
               <Text
                 ellipsizeMode="tail"
                 numberOfLines={1}
-                // adjustsFontSizeToFit={true}
                 style={[styles.text, styles.name]}
               >
                 {`${data.firstName} ${data.lastName}`}
@@ -76,9 +75,7 @@ export default FriendRequestCard;
 const styles = StyleSheet.create({
   container: {
     width: Dimensions.get("window").width - 20 * 2,
-    paddingHorizontal:2,
-    top: 10,
-    alignSelf: "stretch"
+    paddingHorizontal: 2,
   },
   card: {
     borderRadius: 15,

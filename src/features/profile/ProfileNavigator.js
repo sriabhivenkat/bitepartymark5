@@ -1,16 +1,18 @@
 import React from "react";
+import {Text, View, Dimensions} from 'react-native'
 import { createStackNavigator } from "@react-navigation/stack";
-import {Dimensions} from 'react-native';
 import {GradientButton} from "components";
 import Profile from "./screens/Profile";
 import Settings from "./screens/Settings";
 import EditProfile from "./screens/EditProfile";
 import AddFriends from "./screens/AddFriends";
 import ShowGroups from './screens/ShowGroups';
+
+import { BackButton, logoHeaderOptions,  } from "../../components";
 import SyncContacts from "./screens/SyncContacts";
-import { BackButton, logoHeaderOptions } from "../../components";
 import FriendsView from "./screens/FriendsView";
 import PastParties from "./screens/PastParties";
+import PastPartyView from "./screens/PastPartyView";
 const Stack = createStackNavigator();
 
 export default ({navigation}) => (
@@ -45,7 +47,7 @@ export default ({navigation}) => (
         // headerShown: false,
       }}
     />
-    <Stack.Screen 
+    <Stack.Screen
       name="profile/showGroup"
       component={ShowGroups}
       options={{
@@ -95,6 +97,17 @@ export default ({navigation}) => (
         // headerShown: false,
       }}
     />
+
+    <Stack.Screen
+      name="profile/pastPartyView"
+      component={PastPartyView}
+      options={{
+        title: "",
+        headerLeft: BackButton,
+
+        // headerShown: false,
+      }}
+      />
     <Stack.Screen 
       name="profile/syncContacts"
       component={SyncContacts}

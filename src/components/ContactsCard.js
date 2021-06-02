@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Dimensions, Animated, TouchableOpacity} from "react-native";
+import { View, StyleSheet, Dimensions, Animated, Share} from "react-native";
 import { Text } from "galio-framework";
 import { Card, Avatar, Chip } from "react-native-paper";
 import {GradientButton} from '../components'
 import { Button } from "react-native";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { useFriends, useUser } from "lib";
-
+import dynamicLinks from "@react-native-firebase/dynamic-links";
+import { Platform } from "react-native";
 export const ContactsCard = ({
   onPress,
   data,
@@ -65,7 +66,30 @@ export const ContactsCard = ({
       textColor: "#000",
     },
   };
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: `BiteParty | Join the party! ${Platform.select({
+          ios: 'https://apps.apple.com/us/app/biteparty/id1551432967',
+          android: 'https://play.google.com/store/apps/details?id=com.bitepartymark4&hl=en_US&gl=US'
+        })}`,
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  }
 
+  const addContact = async () => {
+    try {
+      const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-9);
+      alert(cleanPhone(data.phoneNumbers[0].number))
+      const friend = (await firestore().collection('Users').where('sliced', '==', cleanPhone(data.phoneNumbers[0].number)).get()).docs[0]
+      addFriend(friend)
+    } catch (error) {
+      console.error(error)
+    }
+    
+  }
   return (
     <View style={styles.container}>
       <Card
@@ -119,6 +143,7 @@ export const ContactsCard = ({
            {resultval.length!=0 &&
             <GradientButton
                 style={{width: 75}}
+                onPress={addContact}
             >
                 Add
             </GradientButton>
@@ -129,7 +154,7 @@ export const ContactsCard = ({
                 textStyle={{color: "black", letterSpacing: 0.3}}
 
                 // containerStyle={{backgroundColor: "black"}}
-                onPress
+                onPress={onShare}
                 outline
             >
                 Invite

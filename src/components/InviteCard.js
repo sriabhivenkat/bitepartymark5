@@ -7,8 +7,7 @@ import { GradientButton } from "./";
 import moment from "moment";
 
 export const InviteCard = ({ onAccept, onReject, invite }) => {
-  const { friends } = useFriends();
-  const { user } = useUser();
+  const {friends} = useFriends();
   const data = friends?.find(item => item.uidvalue == invite.inviter)
   const id = invite.inviter
   console.log(data)

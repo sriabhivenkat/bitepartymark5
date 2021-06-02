@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Share, StatusBar } from "react-native";
 import { Text } from "galio-framework";
 import { Avatar } from "react-native-paper";
@@ -8,13 +8,21 @@ import TouchableScale from "react-native-touchable-scale";
 import { Input } from "galio-framework";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
-import { useFriends, useParty } from "lib";
+import { useFriends, useParty, useUser, useGroup } from "lib";
 import MemberCard from "components/MemberCard";
 import { ScrollView } from "react-native";
 import { Alert } from "react-native";
-import { GradientButton, SubtitleText, TitleText } from "../../../components";
+import {
+  GradientButton,
+  SubtitleText,
+  TitleText,
+  GroupCard,
+} from "../../../components";
 import { SafeAreaView } from "react-native";
 import { Dimensions } from "react-native";
+import firestore, { firebase } from "@react-native-firebase/firestore";
+import { getGroups, useGroups } from "../../../lib/groups";
+import { cos } from "react-native-reanimated";
 
 const SelectFriends = ({ route, navigation }) => {
   const { friends } = useFriends();
@@ -22,45 +30,61 @@ const SelectFriends = ({ route, navigation }) => {
   const [query, setQuery] = useState("");
   const [selectedFriends, setSelectedFriends] = useState([]);
 
-  // const generateLink = async (groupId) => {
-  //   const link = await dynamicLinks().buildShortLink({
-  //     link: `https://biteparty.app/join?id=${partyId}`,
-  //     domainUriPrefix: "https://biteparty.page.link",
-  //     androidInfo: {
-  //       androidPackageName: "com.kastech.biteparty",
-  //     },
-  //     iosInfo: {
-  //       iosBundleId: "com.kastech.biteparty",
-  //     },
-  //   });
-  //   // alert(link)
-  //   console.log(link);
+  const { groups } = useGroups();
+  const { user } = useUser();
+  // console.log({ groups });
 
-  //   return link;
-  // };
-
-  // const onShare = async ({ url }) => {
-  //   try {
-  //     const result = await Share.share({
-  //       message: `BiteParty | Join the party! ${url}`,
-  //     });
-  //   } catch (error) {
-  //     alert(error.message);
-  //   }
-  // };
-
-  const toggleSelection = (friend) => {
-    const exists = selectedFriends.find(
-      (item) => item.uidvalue == friend.uidvalue
-    );
-
-    if (exists) {
-      setSelectedFriends(
-        selectedFriends.filter((i) => i.uidvalue != friend.uidvalue)
-      );
-    } else {
-      setSelectedFriends([{ ...friend }, ...selectedFriends]);
+  const onShareLink = async () => {
+    try {
+      const link = await dynamicLinks().buildShortLink({
+        link: `https://biteparty.app/join?id=${partyId}`,
+        domainUriPrefix: "https://biteparty.page.link",
+        androidInfo: {
+          androidPackageName: "com.kastech.biteparty",
+        },
+        iosInfo: {
+          iosBundleId: "com.kastech.biteparty",
+        },
+      });
+      const result = await Share.share({
+        message: `BiteParty | Join the party! ${link}`,
+      });
+    } catch (error) {
+      alert(error.message);
     }
+  };
+
+  const getGroupList = (group) =>
+    Object.keys(group.members)
+      .map((uidvalue) => ({
+        uidvalue,
+        ...group.members[uidvalue],
+      }))
+      .filter((m) => m.uidvalue != user.uidvalue);
+
+  const handleAddFriend = (friend) => {
+    const exists = selectedFriends.some((m) => m.uidvalue == friend.uidvalue);
+    setSelectedFriends((old) =>
+      exists
+        ? old.filter((m) => m.uidvalue != friend.uidvalue)
+        : [...old, friend]
+    );
+  };
+
+  const handleAddGroup = (members) => {
+    const selected = members.every((m) =>
+      selectedFriends.some((f) => f.uidvalue == m.uidvalue)
+    );
+    console.log({
+      selected: selectedFriends.filter((m) => !members.includes(m.uidvalue)),
+    });
+    // console.log(selectedFriends)
+    // ;
+    setSelectedFriends((old) =>
+      selected
+        ? old.filter((m) => members.every((f) => f.uidvalue != m.uidvalue))
+        : [...old, ...members]
+    );
   };
 
   return (
@@ -74,7 +98,12 @@ const SelectFriends = ({ route, navigation }) => {
           justifyContent="space-between"
           marginTop={-25}
         >
-          <TitleText style={{ fontSize: 37 }}>Invite Friends</TitleText>
+          <View flex={1}>
+            <TitleText style={{ fontSize: 37 }} >Invite Friends</TitleText>
+          </View>
+          <View flex={0} position="relative" top={10}>
+            <GradientButton innerStyle={{flex: 0, paddingHorizontal: 10}} onPress={onShareLink}>Share Link</GradientButton>
+          </View>
         </View>
         <View>
           <Input
@@ -124,6 +153,23 @@ const SelectFriends = ({ route, navigation }) => {
           </>
         )}
         <ScrollView marginTop={10} paddingVertical={1}>
+          {groups
+            .filter(
+              (item) => item?.partyName?.indexOf(query) >= 0 || query.length < 2
+            )
+            .map((item) => (
+              <GroupCard
+                key={item.groupid}
+                id={item.groupid}
+                request={false}
+                groupName={item.partyName}
+                groupMembers={getGroupList(item)}
+                onPress={() => handleAddGroup(getGroupList(item))}
+                selected={getGroupList(item).every((m) =>
+                  selectedFriends.some((f) => f.uidvalue == m.uidvalue)
+                )}
+              />
+            ))}
           {friends &&
             friends
               // .filter(({ friendStatus }) => friendStatus != "sent")
@@ -139,7 +185,7 @@ const SelectFriends = ({ route, navigation }) => {
                       item.friendStatus == "sent" ? "friendPending" : undefined,
                   }}
                   onPress={() =>
-                    item.friendStatus != "sent" && toggleSelection(item)
+                    item.friendStatus != "sent" && handleAddFriend(item)
                   }
                   selected={selectedFriends.some(
                     (friend) => friend.uidvalue == item.uidvalue
