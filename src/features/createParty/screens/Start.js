@@ -245,7 +245,7 @@ const Start = ({ navigation }) => {
           ]}
           onPress={() => {
             if (acceptedInvites?.length == 0) {
-              navigation.navigate("createParty/selectFriends", { groups: groups });
+              navigation.navigate("createParty/selectFriends");
             } else {
               Alert.alert(
                 "You have an active Party!",
@@ -306,7 +306,7 @@ const Start = ({ navigation }) => {
           style={[styles.image, { marginTop: 10 }]}
           onPress={() => {
             if (acceptedInvites?.length == 0) {
-              navigation.navigate("createParty/selectFriends", { groups: groups });
+              navigation.navigate("createParty/selectFriends");
             } else {
               Alert.alert(
                 "You have an active Party!",

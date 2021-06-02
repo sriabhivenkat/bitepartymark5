@@ -60,13 +60,14 @@ const Swiping = ({ navigation, route, data }) => {
         party?.restaurants[cardIdx].coordinates.latitude,
         party?.restaurants[cardIdx].coordinates.longitude
       )
-      console.log("time to get there is:", time);
+      // console.log("time to get there is:", time);
+      // alert(time)
       setETA(time[0]);
       setDistance(time[1]);
       // const time = await timeToDestination(29.7174, -95.4018, 29.539869, -95.597939)
     }
     main();
-  }, [cardIdx])
+  }, [cardIdx, party])
 
   useEffect(() => {
     console.log({partyMember})

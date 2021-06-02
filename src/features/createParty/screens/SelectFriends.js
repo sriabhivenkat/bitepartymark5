@@ -22,7 +22,7 @@ import { SafeAreaView } from "react-native";
 import { Dimensions } from "react-native";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { getGroups, useGroups } from "../../../lib/groups";
-import { cos } from "react-native-reanimated";
+// import { cos } from "react-native-reanimated";
 
 const SelectFriends = ({ route, navigation }) => {
   const { friends } = useFriends();
@@ -153,8 +153,7 @@ const SelectFriends = ({ route, navigation }) => {
           </>
         )}
         <ScrollView marginTop={10} paddingVertical={1}>
-          {groups
-            .filter(
+          {groups?.filter(
               (item) => item?.partyName?.indexOf(query) >= 0 || query.length < 2
             )
             .map((item) => (
