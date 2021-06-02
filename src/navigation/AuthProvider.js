@@ -21,8 +21,9 @@ export const AuthProvider = ({ children }) => {
             Alert.alert("Invalid email/password");
           }
         },
-        register: async (email, password, first, last, handle) => {
+        register: async (email, password, first, last, handle, phoneNumber) => {
           try {
+            const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-9);
             await auth()
               .createUserWithEmailAndPassword(email, password)
               .then(() => {
@@ -33,6 +34,8 @@ export const AuthProvider = ({ children }) => {
                   handle: handle,
                   flavorProfileCreated: false,
                   uidvalue: uidval,
+                  phoneNumber: phoneNumber,
+                  sliced: cleanPhone(phoneNumber),
                 });
               })
               .then(() => {
@@ -87,6 +90,16 @@ export const AuthProvider = ({ children }) => {
             console.log(e);
           }
         },
+
+        otpAuth: async(phoneNumber) => {
+          const [confirm, setConfirm] = useState(null)
+          try{ 
+            const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+            setConfirm(confirmation)
+          } catch (error) {
+            alert(error);
+          }
+        }
       }}
     >
       {children}

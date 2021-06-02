@@ -7,10 +7,10 @@ import { Button, Card } from 'react-native-paper'
 import { GradientButton } from '../components';
 import { Alert } from 'react-native';
 
-const SignUp4ViewController = ({ route }) => {
+const SignUp4ViewController = ({ route, navigation }) => {
     const [handle, setHandle] = useState('');
     const { firstName, lastName, electronicmail, password } = route.params
-    const { register } = useContext(AuthContext);
+    const { register, otpAuth } = useContext(AuthContext);
 
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
@@ -41,7 +41,7 @@ const SignUp4ViewController = ({ route }) => {
                 </View>
                 {handle != "" &&
                     <View style={{ alignItems: "center" }}>
-                        <GradientButton
+                        {/* <GradientButton
                             onPress={() => {
                                 register(electronicmail, password, firstName, lastName, handle)
                                     .then(error => {
@@ -59,6 +59,18 @@ const SignUp4ViewController = ({ route }) => {
                             style={styles.button}
                         >
                             LET'S GO
+                    </GradientButton> */}
+                    <GradientButton
+                        onPress={() => {
+                            try {
+                                navigation.navigate("Verify Phone", { lastName, firstName, password, electronicmail, handle })
+                            } catch (err) {
+                                Alert.alert(err);
+                            }
+                        }}
+                        style={styles.button}
+                    >
+                        Next
                     </GradientButton>
                     </View>
                 }

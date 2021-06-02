@@ -11,6 +11,7 @@ export const GradientButton = ({
   onPress,
   outline,
   bg,
+  gradient,
   ...rest
 }) => (
   <TouchableOpacity
@@ -25,7 +26,7 @@ export const GradientButton = ({
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
       colors={
-        outline ? ["#ffffff00", "#ffffff00"] : ["#E1387F", '#F18F64']
+        outline ? ["#ffffff00", "#ffffff00"] : (gradient ? gradient: ["#E1387F", "#E85F73", "#F18F64"])
       }
       style={[
         {
@@ -40,7 +41,7 @@ export const GradientButton = ({
         },
         outline && {
           borderWidth: 1,
-          borderColor: "#ee0979",
+          borderColor: "black",
         },
         innerStyle,
       ]}
