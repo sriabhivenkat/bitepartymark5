@@ -14,6 +14,7 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { FlatList, Dimensions } from "react-native";
 import MemberCard from "components/MemberCard";
 import { Divider, Chip, Modal } from "react-native-paper";
+import InAppBrowser from "react-native-inappbrowser-reborn";
 import {
   usePartyData,
   usePartyMembers,
@@ -113,7 +114,9 @@ const Completed = ({ route, navigation }) => {
       }
     });
   };
-
+  const handleTap = () => {
+    InAppBrowser.open(currentWinner?.url);
+  }
   const openCamera = () => {
     ImagePicker.openCamera({
       width: 300,
@@ -271,7 +274,7 @@ const Completed = ({ route, navigation }) => {
                 <TitleText
                   style={{
                     marginTop: 10,
-                    marginBottom: 15,
+                    marginBottom: 30,
                     textAlign: "center",
                     fontSize: 25,
                   }}
@@ -281,11 +284,13 @@ const Completed = ({ route, navigation }) => {
                 {/* <View backgroundColor="#00000050" height={1} marginBottom={15} /> */}
               </View>
               <View flex={1} marginTop={25} position="relative" top={30}>
+                <TouchableOpacity style={{flex: 1}} onPress={handleTap}>
                 <RestarauntCard
-                  style={{ flexShrink: 0 }}
+                  style={{ flexShrink: 0 }} 
                   data={currentWinner}
                   compact
                 />
+                </TouchableOpacity>
               </View>
 
               <GradientButton

@@ -10,7 +10,7 @@ import {
 import { TitleText, InviteCard, SubtitleText } from "components";
 import { SafeAreaView } from "react-native";
 import { Button, Divider, IconButton } from "react-native-paper";
-import { useInvites, useParty} from "lib";
+import { useInvites, useParty, useFriends} from "lib";
 import LinearGradient from "react-native-linear-gradient";
 import { Appbar } from "react-native-paper";
 import { FriendInvites } from "./FriendsInvites";
@@ -20,6 +20,7 @@ import {GradientButton} from "components";
 const InvitesDisplay = ({ navigation, route }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
   const { addSelfToParty } = useParty();
+  const { friends } = useFriends();
 
   // const { partyID, linkInvite } = route.params
 
@@ -89,7 +90,7 @@ const InvitesDisplay = ({ navigation, route }) => {
             <View
               style={{
                 // backgroundColor: "red",
-                height: isSmall ? 60 : 70,
+                height: height/11,
                 // height: 10,
                 justifyContent: "space-between",
                 flex: 1,
@@ -140,7 +141,8 @@ const InvitesDisplay = ({ navigation, route }) => {
             </View>
           </View>
           <Divider style={{width: 600, right:30, backgroundColor: "gray"}}/>
-            <View style={{ alignItems: "center", marginTop: 20 }}>
+            {friends?.filter(({ friendStatus }) => friendStatus == "pending").length != 0 &&
+              <View style={{ alignItems: "center", marginTop: 20 }}>
               <GradientButton
                 onPress={() => navigation.navigate("invitesDisplay/friendRequests")}
                 style={{
@@ -162,11 +164,14 @@ const InvitesDisplay = ({ navigation, route }) => {
                 Friend Requests
               </GradientButton>
             </View>
-          <TitleText style={[styles.title, { marginTop: 70, left: 5}]}>Notifications</TitleText>
+          }
           {pendingInvites?.length <= 0 && (
-            <SubtitleText style={styles.subtitle}>
-              No pending invites. Start a party!
-            </SubtitleText>
+            <>
+              <TitleText style={[styles.title]}>Notifications</TitleText>
+              <SubtitleText style={[styles.subtitle, {fontSize: 20}]}>
+                No pending invites. Start a party!
+              </SubtitleText>
+            </>
           )}
           <View style={{
             alignItems: "center"
@@ -222,7 +227,6 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: "black",
-    paddingLeft: 20,
     marginBottom: 15,
   },
   card: {

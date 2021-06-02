@@ -67,7 +67,7 @@ const Start = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
       {height >= 896 &&
-        <Appbar.Header style={[styles.bottom, { height: 70 }]}>
+        <Appbar.Header style={[styles.bottom, { height: height/11 }]}>
           <View flexDirection="row" style={{ width: 230 }}>
             {/* <View flexDirection="row" style={{width: 330}}> */}
             <Appbar.Content

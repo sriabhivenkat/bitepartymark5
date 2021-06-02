@@ -146,7 +146,7 @@ const ProfileDisplay = ({ navigation, route }) => {
         <StatusBar translucent={true} barStyle="dark-content" />
         <View paddingHorizontal={20} flexDirection="row">
           <TitleText>@{user?.handle}</TitleText>
-          <View style={{ position: "absolute", right: 0, top: 16 }}>
+          <View style={{ position: "absolute", right: 0, bottom: 4}}>
             <IconButton
               icon="account-plus"
               size={30}

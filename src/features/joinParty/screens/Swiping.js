@@ -156,8 +156,8 @@ const Swiping = ({ navigation, route, data }) => {
         </Portal> */}
         <View justifyContent="center" alignItems="center">
           <Image
-            style={{ width: 100, height: 75, alignItems: "center" }}
-            source={require("assets/images/headerlogo.png")}
+            style={{ width: 100, height: 50, alignItems: "center", aspectRatio: 2/3, top: 5 }}
+            source={require("assets/images/newHeaderLogo.png")}
           />
         </View>
 
@@ -292,8 +292,7 @@ const Swiping = ({ navigation, route, data }) => {
                   style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}
                 >
                   <Text
-                    h4
-                    style={{ fontFamily: "Kollektif", color: "#f76f6d" }}
+                    style={{ fontFamily: "Kollektif", color: "#f76f6d", fontSize:17 }}
                   >
                     Address
                     {/* <Text>{JSON.stringify(party?.restaurants[cardIdx], null, 2)}</Text> */}
@@ -306,12 +305,12 @@ const Swiping = ({ navigation, route, data }) => {
                   // }
                   >
                     <Text
-                      style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}
+                      style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}
                     >
                       {party?.restaurants[cardIdx]?.location.address1}
                     </Text>
                     <Text
-                      style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}
+                      style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}
                     >
                       {party?.restaurants[cardIdx]?.location.city +
                         ", " +
@@ -331,13 +330,13 @@ const Swiping = ({ navigation, route, data }) => {
                   }}
                 >
                   <Text
-                    h4
-                    style={{ fontFamily: "Kollektif", color: "#f76f6d" }}
+                    style={{ fontFamily: "Kollektif", color: "#f76f6d", fontSize: 17 }}
                   >
                     Distance
                   </Text>
                   <Text
-                    style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}
+                    
+                    style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}
                   >
                     {distance}les ({eta} away)
                   </Text>
@@ -352,12 +351,12 @@ const Swiping = ({ navigation, route, data }) => {
                 >
                   <Text
                     h4
-                    style={{ fontFamily: "Kollektif", color: "#f76f6d" }}
+                    style={{ fontFamily: "Kollektif", color: "#f76f6d", fontSize: 17 }}
                   >
                     Phone
                   </Text>
                   <Text
-                    style={{ fontFamily: "Kollektif", top: 5, fontSize: 20 }}
+                    style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}
                   >
                     {party?.restaurants[cardIdx]?.display_phone}
                   </Text>
@@ -373,7 +372,7 @@ const Swiping = ({ navigation, route, data }) => {
                 >
                   <Text
                     h4
-                    style={{ fontFamily: "Kollektif", color: "#f76f6d" }}
+                    style={{ fontFamily: "Kollektif", color: "#f76f6d", fontSize: 17 }}
                   >
                     Filters
                   </Text>
