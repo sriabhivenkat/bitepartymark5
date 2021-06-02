@@ -20,10 +20,12 @@ export const ContactsCard = ({
 
   const { friends, addFriend } = useFriends();
   const { user } = useUser();
+  const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-4);
+  
   useEffect(() => {
     firestore()
     .collection("Users")
-    .where('sliced', '==', data.phoneNumbers[0].number.slice(-4))
+    .where('sliced', '==', cleanPhone(data.phoneNumbers[0].number))
     .get()
     .then((res) => {
       const results = res.docs.map((x) => x.data());

@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
         },
         register: async (email, password, first, last, handle, phoneNumber) => {
           try {
+            const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-9);
             await auth()
               .createUserWithEmailAndPassword(email, password)
               .then(() => {
@@ -34,6 +35,7 @@ export const AuthProvider = ({ children }) => {
                   flavorProfileCreated: false,
                   uidvalue: uidval,
                   phoneNumber: phoneNumber,
+                  sliced: cleanPhone(phoneNumber),
                 });
               })
               .then(() => {
