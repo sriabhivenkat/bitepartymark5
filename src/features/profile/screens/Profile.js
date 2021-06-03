@@ -18,6 +18,7 @@ import { SafeAreaView } from "react-native";
 import { useFriends, useUser, useInvites, useGroup } from "lib";
 import { TitleText } from "../../../components";
 import LinearGradient from "react-native-linear-gradient";
+import { HeaderComp } from "../../../components/Header";
 
 const ProfileButton = ({ children, ...rest }) => (
   <TouchableOpacity
@@ -144,18 +145,7 @@ const ProfileDisplay = ({ navigation, route }) => {
     >
       <SafeAreaView>
         <StatusBar translucent={true} barStyle="dark-content" />
-        <View paddingHorizontal={20} flexDirection="row">
-          <TitleText>@{user?.handle}</TitleText>
-          <View style={{ position: "absolute", right: 0, bottom: 4}}>
-            <IconButton
-              icon="account-plus"
-              size={30}
-              onPress={() =>
-                navigation.navigate("profile/addFriends")
-              }
-            />
-          </View>
-        </View>
+        <HeaderComp height={height} isHomeScreen={false} isProfile={true} navigation={navigation} route={route} handle={user?.handle} />
         <View backgroundColor="" marginTop={15}>
           <View alignItems="center">
             <TouchableOpacity onPress={showModal}>

@@ -19,14 +19,16 @@ import { useInvites } from "lib/invites.js";
 import { Alert } from "react-native";
 import { useUser } from "lib";
 import { GradientButton, PhoneInput } from "components";
-import { Appbar, Button } from "react-native-paper";
-import { Input } from "galio-framework";
 import { Modal, Portal, Provider } from "react-native-paper";
+import { Appbar, Button, Divider } from 'react-native-paper';
+import { Input } from 'galio-framework';
 import { logoHeaderOptions } from "../../../components";
 import { useEffect } from "react";
 import auth from "@react-native-firebase/auth";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import firestore from "@react-native-firebase/firestore";
+import { HeaderComp } from "../../../components/Header";
+
 
 const Start = ({ navigation }) => {
   const hour = new Date().getHours();
@@ -66,130 +68,12 @@ const Start = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      {height >= 896 && (
-        <Appbar.Header style={[styles.bottom, { height: height / 11 }]}>
-          <View flexDirection="row" style={{ width: 230 }}>
-            {/* <View flexDirection="row" style={{width: 330}}> */}
-            <Appbar.Content
-              title={
-                <Image
-                  source={require("assets/images/newHeaderLogo.png")}
-                  style={{
-                    width: 29.333,
-                    height: 44,
-                  }}
-                />
-              }
-              titleStyle={{ backgroundColor: "white" }}
-              style={{ alignItems: "flex-start", top: 5 }}
-            />
 
-            <Appbar.Content
-              title={`Welcome, ${user?.firstName}!`}
-              //title="Welcome, Kirthivel!"
-              titleStyle={{
-                fontFamily: "Kollektif",
-                fontSize: 20,
-                color: "black",
-                right: 75,
-                top: 15,
-                marginRight: -80,
-              }}
-              style={{
-                alignItems: "flex-start",
-                top: 5,
-              }}
-            />
-          </View>
-          <View flexDirection="row" style={{ width: 185 }}>
-            {/* <View flexDirection="row" style={{width:150}}> */}
-            <Appbar.Content
-              title={
-                <Button
-                  icon="account-multiple-plus"
-                  mode="outlined"
-                  labelStyle={{ color: "black" }}
-                  style={{ borderRadius: 20 }}
-                  uppercase={false}
-                  onPress={() => navigation.navigate("createParty/createGroup")}
-                  color="black"
-                >
-                  Group
-                </Button>
-              }
-              color="black"
-              style={{ top: 20 }}
-            />
-            <Appbar.Action
-              icon={"account-plus"}
-              size={30}
-              onPress={() =>
-                navigation.navigate("profile", { screen: "profile/addFriends" })
-              }
-              style={{ top: 5, right: 5 }}
-              color="black"
-            />
-          </View>
-        </Appbar.Header>
-      )}
-      {height <= 812 && (
-        <Appbar.Header style={[styles.bottom, { height: 60 }]}>
-          <View flexDirection="row" style={{ width: 230 }}>
-            {/* <View flexDirection="row" style={{width: 300}}> */}
-            <Appbar.Content
-              title={
-                <Image
-                  source={require("assets/images/newHeaderLogo.png")}
-                  style={{
-                    width: 29.333,
-                    height: 44,
-                  }}
-                />
-              }
-              titleStyle={{ backgroundColor: "white" }}
-              style={{ alignItems: "flex-start", top: 5 }}
-            />
+      <HeaderComp isHomeScreen={true} name={user?.firstName} height={height} navigation={navigation} />
+      <Divider style={{ height: 1.5 }} />
 
-            <Appbar.Content
-              title={`Welcome, ${user?.firstName}!`}
-              // title="Welcome, Kirthivel!"
-              titleStyle={{
-                fontFamily: "Kollektif",
-                fontSize: 20,
-                marginRight: -90,
-                right: 75,
-                color: "black",
-              }}
-              style={{
-                alignItems: "flex-start",
-                top: 15,
-              }}
-            />
-          </View>
-          <View
-            flexDirection="row"
-            style={{ width: 140 }}
-            alignItems="flex-end"
-          >
-            <Appbar.Action
-              icon={"account-multiple-plus"}
-              size={27.5}
-              onPress={() => navigation.navigate("createParty/createGroup")}
-              style={{ top: 3.5, marginLeft: 40 }}
-              color="black"
-            />
-            <Appbar.Action
-              icon={"account-plus"}
-              size={27.5}
-              onPress={() =>
-                navigation.navigate("profile", { screen: "profile/addFriends" })
-              }
-              style={{ top: 2 }}
-              color="black"
-            />
-          </View>
-        </Appbar.Header>
-      )}
+
+
       {acceptedInvites?.length != 0 && (
         <View style={{ alignItems: "center", marginTop: 10 }}>
           <GradientButton

@@ -10,13 +10,14 @@ import {
 import { TitleText, InviteCard, SubtitleText } from "components";
 import { SafeAreaView } from "react-native";
 import { Button, Divider, IconButton } from "react-native-paper";
-import { useInvites, useParty, useFriends} from "lib";
+import { useInvites, useParty, useFriends } from "lib";
 import LinearGradient from "react-native-linear-gradient";
 import { Appbar } from "react-native-paper";
 import { FriendInvites } from "./FriendsInvites";
-import {GradientButton} from "components";
+import { GradientButton } from "components";
+import { HeaderComp } from "../../components/Header";
 
- 
+
 const InvitesDisplay = ({ navigation, route }) => {
   const { invites, rejectInvite, acceptInvite } = useInvites();
   const { addSelfToParty } = useParty();
@@ -26,11 +27,11 @@ const InvitesDisplay = ({ navigation, route }) => {
 
   const isSmall = height < 700;
 
- 
+
   // const { partyID, linkInvite } = route.params
 
   // if(linkInvite) {
-    
+
   // }
 
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
@@ -40,7 +41,7 @@ const InvitesDisplay = ({ navigation, route }) => {
 
   useEffect(() => {
     if (route?.params?.linkInvite) {
-      addSelfToParty(route.params.partyID).then(() => 
+      addSelfToParty(route.params.partyID).then(() =>
         navigation.navigate("joinParty", {
           screen: "joinParty/swiping",
           params: { partyID: route.params.partyID },
@@ -77,138 +78,85 @@ const InvitesDisplay = ({ navigation, route }) => {
   };
   console.log({ acceptedInvites });
   return (
-      <LinearGradient
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
-        colors={
-          ["#FFD0E4", "#FFCFBB", "#FFFFFF"]
-        }
-        style={styles.container}
-      >
-        <SafeAreaView>
-          <View flexDirection="row">
-            <View
+    <LinearGradient
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      colors={
+        ["#FFD0E4", "#FFCFBB", "#FFFFFF"]
+      }
+      style={styles.container}
+    >
+      <SafeAreaView>
+        <HeaderComp height={height} isHomeScreen={false} navigation={navigation} route={route} />
+        <Divider style={{ width: 600, right: 30, backgroundColor: "gray" }} />
+        {friends?.filter(({ friendStatus }) => friendStatus == "pending").length != 0 &&
+          <View style={{ alignItems: "center", marginTop: 20 }}>
+            <GradientButton
+              onPress={() => navigation.navigate("invitesDisplay/friendRequests")}
               style={{
-                // backgroundColor: "red",
-                // height: height/11,
-                // height: 10,
-                justifyContent: "space-between",
-                flex: 1,
-                flexDirection: "row",
+                width: "100%",
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 3.5 },
+                shadowOpacity: 0.5,
+                shadowRadius: 2.5,
               }}
-            >
-              {/* <Appbar.Content
-                title={
-    
-                }
-                titleStyle={{ backgroundColor: "white", right: 40 }}
-                style={{ alignItems: "flex-start", top: 5 }}
-              /> */}
-              <View
-                flexDirection="row"
-                alignItems="center"
-                paddingHorizontal={10}
-                flex={1}
-              >
-                <Image
-                  source={require("assets/images/newHeaderLogo.png")}
-                  style={{
-                    width: 29.333,
-                    height: 44,
-                  }}
-                />
-              </View>
-              <View flexDirection="row" alignItems="center" paddingLeft={10}>
-                <Button 
-                  icon="account-multiple-plus" 
-                  mode="outlined"
-                  labelStyle={{color: "black"}}
-                  style={{borderRadius: 20, borderColor: "black" }} 
-                  uppercase={false}
-                  onPress={() => navigation.navigate("createParty/createGroup")}
-                  color="black"
-                >
-                  Group
-                </Button>
-                <IconButton
-                  icon="account-plus"
-                  size={30}
-                  onPress={() =>
-                    navigation.navigate("profile", { screen: "profile/addFriends" })
-                  }
-                />
-              </View>
-            </View>
-          </View>
-          <Divider style={{width: 600, right:30, backgroundColor: "gray"}}/>
-            {friends?.filter(({ friendStatus }) => friendStatus == "pending").length != 0 &&
-              <View style={{ alignItems: "center", marginTop: 20 }}>
-              <GradientButton
-                onPress={() => navigation.navigate("invitesDisplay/friendRequests")}
-                style={{
-                  width: "100%",
-                  shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 3.5 },
-                  shadowOpacity: 0.5,
-                  shadowRadius: 2.5,
-                }}
-                textStyle={{
-                  left: 20,
-                }}
-                innerStyle={{
-                  borderRadius: 14,
-                  justifyContent: "flex-start",
-                }}
+              textStyle={{
+                left: 20,
+              }}
+              innerStyle={{
+                borderRadius: 14,
+                justifyContent: "flex-start",
+              }}
 
-              >
-                Friend Requests
+            >
+              Friend Requests
               </GradientButton>
-            </View>
-          }
-          {pendingInvites?.length <= 0 && (
-            <>
-              <TitleText style={[styles.title]}>Notifications</TitleText>
-              <SubtitleText style={[styles.subtitle, {fontSize: 20}]}>
-                No pending invites. Start a party!
-              </SubtitleText>
-            </>
-          )}
-          <View style={{
-            alignItems: "center"
-          }}>
-            <FlatList
-              data={pendingInvites && pendingInvites}
-              style={{ paddingTop: 5 }}
-              // horizontal
-              snapToInterval={Dimensions.get("window").width}
-              indicatorStyle="black"
-              decelerationRate="fast"
-              renderItem={({ item }) => (
-                <InviteCard
-                  invite={item}
-                  onAccept={handleAccept}
-                  onReject={handleReject}
-                />
-              )}
-              keyExtractor={(item) => item.docID}
-            />
           </View>
-          {/* <View
+        }
+        {pendingInvites?.length <= 0 && (
+          <>
+            <TitleText style={[styles.title]}>Notifications</TitleText>
+            <SubtitleText style={[styles.subtitle, { fontSize: 20 }]}>
+              No pending invites. Start a party!
+              </SubtitleText>
+          </>
+        )}
+        <View style={{
+          alignItems: "center"
+        }}>
+          <FlatList
+            data={pendingInvites && pendingInvites}
+            style={{ paddingTop: 5 }}
+            // horizontal
+            snapToInterval={Dimensions.get("window").width}
+            indicatorStyle="black"
+            decelerationRate="fast"
+            renderItem={({ item }) => (
+              <InviteCard
+                invite={item}
+                onAccept={handleAccept}
+                onReject={handleReject}
+              />
+            )}
+            keyExtractor={(item) => item.docID}
+          />
+        </View>
+        {/* <View
             height={1}
             width="100%"
             backgroundColor="#00000020"
             // marginHorizontal={20}
             // marginVertical={20}
           /> */}
-          {/* <View> */}
-          {/* <TitleText style={[styles.title, { fontSize: 25, marginTop: 15, left: 20 }]}>
+        {/* <View> */}
+        {/* <TitleText style={[styles.title, { fontSize: 25, marginTop: 15, left: 20 }]}>
             Friend and Group Requests
           </TitleText>
 
           <FriendInvites /> */}
-          {/* </View> */}
-        </SafeAreaView>
-      </LinearGradient>
+        {/* </View> */}
+      </SafeAreaView>
+    </LinearGradient >
 
   );
 };
@@ -217,17 +165,27 @@ export default InvitesDisplay;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
-    backgroundColor: "#fff",
     flex: 1,
+    alignItems: "stretch",
+    alignContent: "flex-end",
+    backgroundColor: "white",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: "100%",
+    height: "100%",
   },
   title: {
     marginTop: 17.5,
     fontSize: 30,
+    paddingLeft: 10
   },
   subtitle: {
     color: "black",
     marginBottom: 15,
+    paddingLeft: 10
   },
   card: {
     borderRadius: 25,
