@@ -69,6 +69,7 @@ export const HeaderComp = ({
                 {height >= 896 && (
                     <Button
                         icon="account-multiple-plus"
+                        iconSize={30}
                         mode="outlined"
                         labelStyle={{ color: "black" }}
                         style={{ borderRadius: 20, borderColor: "black" }}
@@ -82,13 +83,17 @@ export const HeaderComp = ({
                 )}
 
                 {height <= 812 && (
-                    <IconButton icon='account-multiple-plus' size={30} onPress={() => navigation.navigate("createParty/createGroup")} />
+                    <IconButton icon='account-multiple-plus' size={30} style={{left: 5, borderWidth: 1, borderColor: "black"}} onPress={() => navigation.navigate("createParty/createGroup")} />
 
 
                 )}
                 <IconButton
                     icon="account-plus"
                     size={30}
+                    style={{
+                        borderWidth: 1,
+                        borderColor: "black",
+                    }}
                     onPress={() =>
                         navigation.navigate("profile", { screen: "profile/addFriends" })
                     }
