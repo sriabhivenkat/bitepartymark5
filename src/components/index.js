@@ -12,3 +12,4 @@ export * from "./BackButton";
 export * from "./GroupCard";
 export * from "./FriendRequestCard";
 export * from "./ContactsCard";
+export * from "./PhoneInput"

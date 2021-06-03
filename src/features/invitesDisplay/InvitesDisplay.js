@@ -90,7 +90,7 @@ const InvitesDisplay = ({ navigation, route }) => {
             <View
               style={{
                 // backgroundColor: "red",
-                height: height/11,
+                // height: height/11,
                 // height: 10,
                 justifyContent: "space-between",
                 flex: 1,

@@ -21,9 +21,6 @@ import { useUser } from "lib";
 import { GradientButton } from "components";
 import { Appbar, Button } from 'react-native-paper';
 import {Input } from 'galio-framework';
-import { Modal, Portal, Provider } from 'react-native-paper';
-import { logoHeaderOptions } from "../../../components";
-import { useEffect } from "react";
 import PhoneInput from "react-native-phone-number-input";
 import auth from '@react-native-firebase/auth';
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
@@ -130,11 +127,11 @@ const Start = ({ navigation }) => {
             {/* <View flexDirection="row" style={{width: 300}}> */}
             <Appbar.Content
               title={
-                <Image source={require("assets/images/newHeaderLogo.png")}
+                <Image
+                  source={require("assets/images/newHeaderLogo.png")}
                   style={{
-                    width: 26.4,
-                    height: 39.6,
-                    aspectRatio: 2 / 3
+                    width: 29.333,
+                    height: 44,
                   }}
                 />
               }
