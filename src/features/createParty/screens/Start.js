@@ -1,4 +1,4 @@
-import React, {useState, useRef, useMemo, useCallback} from "react";
+import React, { useState, useRef, useMemo, useCallback } from "react";
 import {
   View,
   Image,
@@ -19,8 +19,8 @@ import { useInvites } from "lib/invites.js";
 import { Alert } from "react-native";
 import { useUser } from "lib";
 import { GradientButton } from "components";
-import { Appbar, Button } from 'react-native-paper';
-import {Input } from 'galio-framework';
+import { Appbar, Button, Divider } from 'react-native-paper';
+import { Input } from 'galio-framework';
 import { Modal, Portal, Provider } from 'react-native-paper';
 import { logoHeaderOptions } from "../../../components";
 import { useEffect } from "react";
@@ -28,6 +28,8 @@ import PhoneInput from "react-native-phone-number-input";
 import auth from '@react-native-firebase/auth';
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import firestore from "@react-native-firebase/firestore";
+import { HeaderComp } from "../../../components/Header";
+
 
 
 const Start = ({ navigation }) => {
@@ -37,6 +39,9 @@ const Start = ({ navigation }) => {
   const acceptedInvites = invites?.filter((item) => item.status == "accepted");
   const height = Dimensions.get("window").height;
   const width = Dimensions.get("window").width;
+
+
+
 
 
   const [number, setNumber] = useState('')
@@ -52,118 +57,26 @@ const Start = ({ navigation }) => {
   }
 
   async function confirmCode() {
-      try {
-        await confirm.confirm(code)
-        await firestore().collection("Users").doc(user?.uidvalue).update({
-          phoneNumber: number,
-          sliced: number.slice(-4),
-        })
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      await confirm.confirm(code)
+      await firestore().collection("Users").doc(user?.uidvalue).update({
+        phoneNumber: number,
+        sliced: number.slice(-4),
+      })
+    } catch (error) {
+      console.log(error);
+    }
   }
   const isSmall = height < 700;
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      {height >= 896 &&
-        <Appbar.Header style={[styles.bottom, { height: height/11 }]}>
-          <View flexDirection="row" style={{ width: 230 }}>
-            {/* <View flexDirection="row" style={{width: 330}}> */}
-            <Appbar.Content
-              title={
-                <Image source={require("assets/images/newHeaderLogo.png")}
-                  style={{
-                    width: 29.333,
-                    height: 44,
 
-                  }}
-                />
-              }
-              titleStyle={{ backgroundColor: "white" }}
-              style={{ alignItems: "flex-start", top: 5 }}
-            />
+      <HeaderComp isHomeScreen={true} name={user?.firstName} height={height} navigation={navigation} />
+      <Divider style={{ height: 1.5 }} />
 
-            <Appbar.Content
-              title={`Welcome, ${user?.firstName}!`}
-              //title="Welcome, Kirthivel!"
-              titleStyle={{
-                fontFamily: "Kollektif",
-                fontSize: 20,
-                color: "black",
-                right: 75,
-                top: 15,
-                marginRight: -80
-              }}
-              style={{
-                alignItems: "flex-start",
-                top: 5
-              }}
-            />
-          </View>
-          <View flexDirection="row" style={{ width: 185 }}>
-            {/* <View flexDirection="row" style={{width:150}}> */}
-            <Appbar.Content
-              title={
-                <Button
-                  icon="account-multiple-plus"
-                  mode="outlined"
-                  labelStyle={{ color: "black" }}
-                  style={{ borderRadius: 20, }}
-                  uppercase={false}
-                  onPress={() => navigation.navigate("createParty/createGroup")}
-                  color="black"
-                >
-                  Group
-                </Button>
-              }
-              color="black"
-              style={{ top: 20 }}
-            />
-            <Appbar.Action icon={'account-plus'} size={30} onPress={() => navigation.navigate("profile", { screen: "profile/addFriends" })} style={{ top: 5, right: 5, }} color="black" />
-          </View>
-        </Appbar.Header>
-      }
-      {height <= 812 &&
-        <Appbar.Header style={[styles.bottom, { height: 60, }]}>
-          <View flexDirection="row" style={{ width: 230 }}>
-            {/* <View flexDirection="row" style={{width: 300}}> */}
-            <Appbar.Content
-              title={
-                <Image source={require("assets/images/newHeaderLogo.png")}
-                  style={{
-                    width: 26.4,
-                    height: 39.6,
-                    aspectRatio: 2 / 3
-                  }}
-                />
-              }
-              titleStyle={{ backgroundColor: "white", }}
-              style={{ alignItems: "flex-start", top: 5 }}
-            />
 
-            <Appbar.Content
-              title={`Welcome, ${user?.firstName}!`}
-              // title="Welcome, Kirthivel!" 
-              titleStyle={{
-                fontFamily: "Kollektif",
-                fontSize: 20,
-                marginRight: -90,
-                right: 75,
-                color: "black"
-              }}
-              style={{
-                alignItems: "flex-start",
-                top: 15
-              }}
-            />
-          </View>
-          <View flexDirection="row" style={{ width: 140 }} alignItems="flex-end">
-            <Appbar.Action icon={'account-multiple-plus'} size={27.5} onPress={() => navigation.navigate("createParty/createGroup")} style={{ top: 3.5, marginLeft: 40 }} color="black" />
-            <Appbar.Action icon={'account-plus'} size={27.5} onPress={() => navigation.navigate("profile", { screen: "profile/addFriends" })} style={{ top: 2, }} color="black" />
-          </View>
-        </Appbar.Header>
-      }
+
       {acceptedInvites?.length != 0 && (
         <View style={{ alignItems: "center", marginTop: 10 }}>
           <GradientButton
@@ -189,7 +102,7 @@ const Start = ({ navigation }) => {
         </View>
       )}
       {acceptedInvites?.length != 0 && !user?.phoneNumber && (
-        <GradientButton 
+        <GradientButton
           outline
           style={{
             width: "90%",
@@ -210,7 +123,7 @@ const Start = ({ navigation }) => {
         </GradientButton>
       )}
       {acceptedInvites?.length === 0 && !user?.phoneNumber && (
-        <GradientButton 
+        <GradientButton
           outline
           style={{
             width: "90%",
@@ -428,16 +341,16 @@ const Start = ({ navigation }) => {
         handleComponent={null}
       >
         <BottomSheetView style={styles.contentContainer}>
-        <TouchableWithoutFeedback
+          <TouchableWithoutFeedback
             accessible={false}
             onPress={() => Keyboard.dismiss()}
-        >
+          >
             <View style={styles.bottomSheetContainer}>
-                <StatusBar barStyle='dark-content' />
-          {visible===false &&
-          <View>
-          <Text style={[{ marginTop: 100, left: 15, fontSize: 30, fontFamily: "Kollektif" }]}>Verify phone number</Text>
-                <View style={{ alignItems: "center" }}>
+              <StatusBar barStyle='dark-content' />
+              {visible === false &&
+                <View>
+                  <Text style={[{ marginTop: 100, left: 15, fontSize: 30, fontFamily: "Kollektif" }]}>Verify phone number</Text>
+                  <View style={{ alignItems: "center" }}>
                     {/* <Input
                         placeholder="Enter a phone number"
                         placeholderTextColor="gray"
@@ -449,116 +362,116 @@ const Start = ({ navigation }) => {
                         style={styles.input1}
                         value={number}
                     /> */}
-                    <PhoneInput 
-                        defaultValue={number}
-                        defaultCode="US"
-                        onChangeFormattedText={(phone) => setNumber(phone)}
-                        layout="second"
-                        textInputStyle={{fontFamily: "Kollektif", fontSize: 20}}
-                        countryPickerButtonStyle={{borderRightColor: "black", borderRightWidth: 1}}
-                        codeTextStyle={{fontFamily: "Kollektif", fontSize: 20}}
-                        containerStyle={{borderColor: "black", borderWidth: 1, marginVertical: 10, borderRadius: 25, width: "90%", height: 60}}
-                        //containerStyle={styles.input1}
-                        placeholder="Enter number"
+                    <PhoneInput
+                      defaultValue={number}
+                      defaultCode="US"
+                      onChangeFormattedText={(phone) => setNumber(phone)}
+                      layout="second"
+                      textInputStyle={{ fontFamily: "Kollektif", fontSize: 20 }}
+                      countryPickerButtonStyle={{ borderRightColor: "black", borderRightWidth: 1 }}
+                      codeTextStyle={{ fontFamily: "Kollektif", fontSize: 20 }}
+                      containerStyle={{ borderColor: "black", borderWidth: 1, marginVertical: 10, borderRadius: 25, width: "90%", height: 60 }}
+                      //containerStyle={styles.input1}
+                      placeholder="Enter number"
                     />
-                </View>
-                <View
+                  </View>
+                  <View
                     style={{
-                        paddingHorizontal: 20,
-                        alignItems: "center"
+                      paddingHorizontal: 20,
+                      alignItems: "center"
                     }}
-                >
-                    <Text style={{textAlign: "center", fontFamily: "Kollektif", color: "lightgray"}}>SMS will be sent for verification, and standard messaging and data rates may apply</Text>
-                </View>
+                  >
+                    <Text style={{ textAlign: "center", fontFamily: "Kollektif", color: "lightgray" }}>SMS will be sent for verification, and standard messaging and data rates may apply</Text>
+                  </View>
 
-                <View style={{ alignItems: "center" }}>
+                  <View style={{ alignItems: "center" }}>
                     {(number != '') &&
-                        <GradientButton
-                            onPress={() => {
-                                signInWithPhoneNumber(number)
-                                setVisible(true)
-                            }}
-                            style={styles.button}
-                            innerStyle={{ paddingVertical: 10 }}
-                        >
-                            Send code!
+                      <GradientButton
+                        onPress={() => {
+                          signInWithPhoneNumber(number)
+                          setVisible(true)
+                        }}
+                        style={styles.button}
+                        innerStyle={{ paddingVertical: 10 }}
+                      >
+                        Send code!
                         </GradientButton>
                     }
-                </View>
-                <View style={{alignItems: "center"}}> 
+                  </View>
+                  <View style={{ alignItems: "center" }}>
                     <Button
-                        onPress={() => bottomSheetRef.current?.close()}
-                        style={{
-                          marginTop: 50, 
-                          borderColor: "red", 
-                          borderWidth: 1, 
-                          borderRadius: 15,
-                          width: "60%",
-                          height: 40,
-                          justifyContent: "center",
-                          backgroundColor: "red"
-                        }}
-                        labelStyle={{color: "white", fontFamily: "Kollektif", fontSize: 18}}
-                        uppercase={false}
-                      >
-                        Dismiss
+                      onPress={() => bottomSheetRef.current?.close()}
+                      style={{
+                        marginTop: 50,
+                        borderColor: "red",
+                        borderWidth: 1,
+                        borderRadius: 15,
+                        width: "60%",
+                        height: 40,
+                        justifyContent: "center",
+                        backgroundColor: "red"
+                      }}
+                      labelStyle={{ color: "white", fontFamily: "Kollektif", fontSize: 18 }}
+                      uppercase={false}
+                    >
+                      Dismiss
                     </Button>
+                  </View>
                 </View>
-               </View> 
-            }
-                {visible===true &&
-                    <View>
-                    <Text style={[{ marginTop: 100, left: 15, fontSize: 30, fontFamily: "Kollektif" }]}>Enter code</Text>
-                    <View style={{alignItems: 'center'}}>
-                        <Input
-                            placeholder="Enter code"
-                            placeholderTextColor="gray"
-                            onChangeText={text => setCode(text)}
-                            type="numeric"
-                            color="black"
-                            fontSize={17}
-                            fontFamily="Kollektif"
-                            style={styles.input1}
-                            value={code}                                
-                        />
-                    </View>
-                    <View style={{ alignItems: "center" }}>
-                        {(code.length === 6) &&
-                            <GradientButton
-                                onPress={() => {
-                                    confirmCode(code);
-                                    bottomSheetRef.current?.close();
-                                }}
-                                style={styles.button}
-                                innerStyle={{ paddingVertical: 10 }}
-                            >
-                                Verify
-                            </GradientButton>
-                        }
-                    </View>
-                    <View style={{alignItems: "center", justifyContent: "center"}}> 
-                      <Button
-                        onPress={() => bottomSheetRef.current?.close()}
-                        style={{
-                          marginTop: 50, 
-                          borderColor: "red", 
-                          borderWidth: 1, 
-                          borderRadius: 15,
-                          width: "60%",
-                          height: 40,
-                          justifyContent: "center",
-                          backgroundColor: "red"
+              }
+              {visible === true &&
+                <View>
+                  <Text style={[{ marginTop: 100, left: 15, fontSize: 30, fontFamily: "Kollektif" }]}>Enter code</Text>
+                  <View style={{ alignItems: 'center' }}>
+                    <Input
+                      placeholder="Enter code"
+                      placeholderTextColor="gray"
+                      onChangeText={text => setCode(text)}
+                      type="numeric"
+                      color="black"
+                      fontSize={17}
+                      fontFamily="Kollektif"
+                      style={styles.input1}
+                      value={code}
+                    />
+                  </View>
+                  <View style={{ alignItems: "center" }}>
+                    {(code.length === 6) &&
+                      <GradientButton
+                        onPress={() => {
+                          confirmCode(code);
+                          bottomSheetRef.current?.close();
                         }}
-                        labelStyle={{color: "white", fontFamily: "Kollektif", fontSize: 18}}
-                        uppercase={false}
+                        style={styles.button}
+                        innerStyle={{ paddingVertical: 10 }}
                       >
-                        Dismiss
+                        Verify
+                            </GradientButton>
+                    }
+                  </View>
+                  <View style={{ alignItems: "center", justifyContent: "center" }}>
+                    <Button
+                      onPress={() => bottomSheetRef.current?.close()}
+                      style={{
+                        marginTop: 50,
+                        borderColor: "red",
+                        borderWidth: 1,
+                        borderRadius: 15,
+                        width: "60%",
+                        height: 40,
+                        justifyContent: "center",
+                        backgroundColor: "red"
+                      }}
+                      labelStyle={{ color: "white", fontFamily: "Kollektif", fontSize: 18 }}
+                      uppercase={false}
+                    >
+                      Dismiss
                       </Button>
-                    </View>
-                    </View>
-                }
+                  </View>
+                </View>
+              }
             </View>
-        </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback>
         </BottomSheetView>
       </BottomSheet>
     </SafeAreaView>
@@ -631,12 +544,12 @@ const styles = StyleSheet.create({
     height: 45,
     // marginTop: 20,
     // marginBottom: 10,
-     borderWidth: 1,
-     borderColor: "black",
-     borderRadius: 15,
-},
-//   bottomSheetontainer: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-// },
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 15,
+  },
+  //   bottomSheetontainer: {
+  //     flex: 1,
+  //     backgroundColor: "#fff",
+  // },
 });
