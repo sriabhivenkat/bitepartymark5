@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     fontFamily: "Kollektif",
     letterSpacing: 0.1,
     marginBottom: 10,
-    marginTop: 30,
+    marginTop: 20,
   },
   subtitle: {
     fontSize: 22,
