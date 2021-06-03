@@ -51,13 +51,13 @@ export default ({navigation}) => {
       />
 
       <Stack.Screen 
-        name="createParty/createGroup"
+        name="createGroup"
         component={CreateGroup}
         options={{
           title: "Group Creation",
           headerShown: false,
-          headerLeft: BackButton,
-          headerBackTitle: "",
+          headerLeft: () => {},
+          // headerBackTitle: "",
           headerRight: () => (
             <TouchableOpacity
               style={{
@@ -103,7 +103,7 @@ export default ({navigation}) => {
         }}
       />
       <Stack.Screen
-        name="createParty/addFriends"
+        name="addFriends"
         component={AddFriends}
         options={{
           title: "Friends",

@@ -20,15 +20,14 @@ import { Alert } from "react-native";
 import { useUser } from "lib";
 import { GradientButton, PhoneInput } from "components";
 import { Modal, Portal, Provider } from "react-native-paper";
-import { Appbar, Button, Divider } from 'react-native-paper';
-import { Input } from 'galio-framework';
+import { Appbar, Button, Divider } from "react-native-paper";
+import { Input } from "galio-framework";
 import { logoHeaderOptions } from "../../../components";
 import { useEffect } from "react";
 import auth from "@react-native-firebase/auth";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import firestore from "@react-native-firebase/firestore";
 import { HeaderComp } from "../../../components/Header";
-
 
 const Start = ({ navigation }) => {
   const hour = new Date().getHours();
@@ -38,41 +37,38 @@ const Start = ({ navigation }) => {
   const height = Dimensions.get("window").height;
   const width = Dimensions.get("window").width;
 
-  const [number, setNumber] = useState("");
-  const [code, setCode] = useState("");
-  const [visible, setVisible] = useState(false);
-  const [confirm, setConfirm] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["0%", "100%"], []);
 
-  async function signInWithPhoneNumber(phoneNumber) {
-    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-    setConfirm(confirmation);
-  }
-
-  async function confirmCode() {
+  const handlePhone = async () => {
     try {
-      await confirm.confirm(code);
+      const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-9);
       await firestore()
         .collection("Users")
         .doc(user?.uidvalue)
         .update({
-          phoneNumber: number,
-          sliced: number.slice(-4),
+          phoneNumber: phoneNumber,
+          sliced: cleanPhone(phoneNumber)
         });
     } catch (error) {
       console.log(error);
+    } finally {
+      bottomSheetRef.current?.close()
     }
-  }
+  };
   const isSmall = height < 700;
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
 
-      <HeaderComp isHomeScreen={true} name={user?.firstName} height={height} navigation={navigation} />
+      <HeaderComp
+        isHomeScreen={true}
+        name={user?.firstName}
+        height={height}
+        navigation={navigation}
+      />
       <Divider style={{ height: 1.5 }} />
-
-
 
       {acceptedInvites?.length != 0 && (
         <View style={{ alignItems: "center", marginTop: 10 }}>
@@ -343,7 +339,7 @@ const Start = ({ navigation }) => {
           >
             <View style={{ paddingHorizontal: 20 }}>
               <StatusBar barStyle="dark-content" />
-              {visible === false && (
+              { user?.uidvalue && !user?.phoneNumber && (
                 <View>
                   <Text
                     style={[
@@ -360,8 +356,8 @@ const Start = ({ navigation }) => {
                   </Text>
                   <View style={{ alignItems: "center" }}>
                     <PhoneInput
-                      value={number}
-                      onChangeFormattedText={(phone) => setNumber(phone)}
+                      value={phoneNumber}
+                      onChangeFormattedText={(phone) => setPhoneNumber(phone)}
                     />
                   </View>
                   <View
@@ -377,85 +373,27 @@ const Start = ({ navigation }) => {
                         color: "lightgray",
                       }}
                     >
-                      SMS will be sent for verification, and standard messaging
-                      and data rates may apply
+                      {/* SMS will be sent for verification, and standard messaging
+                      and data rates may apply */}
                     </Text>
                   </View>
 
-                  <View style={{ alignItems: "center" }} marginTop={25}>
-                    {number != "" && (
-                      <GradientButton
-                        onPress={() => {
-                          signInWithPhoneNumber(number);
-                          setVisible(true);
-                        }}
-                        innerStyle={{ paddingVertical: 15 }}
-                        // style={styles.button}
-                        // innerStyle={{ paddingVertical: 10 }}
-                      >
-                        Send code!
+                  <View style={{ alignItems: "center" }} marginTop={0}>
+                    {phoneNumber.length > 5 && (
+                      <GradientButton innerStyle={{ paddingVertical: 15 }} onPress={handlePhone}>
+                        Verify!
                       </GradientButton>
                     )}
                   </View>
                   <View style={{ alignItems: "center" }} marginTop={15}>
                     <GradientButton
                       onPress={() => bottomSheetRef.current?.close()}
-                      // style={styles.button}
                       innerStyle={{ paddingVertical: 15 }}
                       textStyle={{ color: "#000" }}
                       outline
-                      // gradient={["red", "red"]}
                     >
                       Dismiss
                     </GradientButton>
-                  </View>
-                </View>
-              )}
-              {visible === true && (
-                <View>
-                  <Text
-                    style={[
-                      {
-                        marginTop: 80,
-                        // left: 15,
-                        fontSize: 30,
-                        fontFamily: "Kollektif",
-                      },
-                    ]}
-                  >
-                    Enter code
-                  </Text>
-                  <View style={{ alignItems: "center" }}>
-                    <Input
-                      placeholder="Enter code"
-                      placeholderTextColor="gray"
-                      onChangeText={(text) => setCode(text)}
-                      type="numeric"
-                      color="black"
-                      fontSize={17}
-                      fontFamily="Kollektif"
-                      style={styles.input1}
-                      value={code}
-                    />
-                  </View>
-                  <View style={{ alignItems: "center" }}>
-                    {code.length === 6 && (
-                      <View style={{ alignItems: "center" }} marginTop={15}>
-                        <GradientButton
-                          onPress={() => {
-                            confirmCode(code);
-                            bottomSheetRef.current?.close();
-                          }}
-                          // style={styles.button}
-                          innerStyle={{ paddingVertical: 15 }}
-                          // textStyle={{ color: "#000" }}
-                          // outline
-                          // gradient={["red", "red"]}
-                        >
-                          Confirm
-                        </GradientButton>
-                      </View>
-                    )}
                   </View>
                 </View>
               )}

@@ -5,7 +5,7 @@ import FriendRequests from './FriendRequests';
 import InvitesDisplay from "./InvitesDisplay";
 import { BackButton, logoHeaderOptions } from "../../components";
 import AddFriends from "../profile/screens/AddFriends";
-
+import CreateGroup from "../createParty/screens/CreateGroup";
 const Stack = createStackNavigator();
 
 const windowWidth = Dimensions.get("window").width;
@@ -32,23 +32,22 @@ export default () => (
       }}
     />
     <Stack.Screen
-      name="invitesDisplay/addFriends"
+      name="addFriends"
       component={AddFriends}
       options={{
         title: "Friends",
         headerShown: true,
         headerLeft: BackButton,
-        // headerRight: () => (
-        //   <View marginRight={10}>
-        //     <GradientButton
-        //       innerStyle={{ paddingHorizontal: 20 }}
-        //       textStyle={{ fontSize: 16 }}
-        //     >
-        //       Add Friends
-        //     </GradientButton>
-        //   </View>
-        // ),
-
+        ...logoHeaderOptions,
+      }}
+    />
+     <Stack.Screen
+      name="createGroup"
+      component={CreateGroup}
+      options={{
+        title: "Create Group",
+        headerShown: false,
+        headerLeft: BackButton,
         ...logoHeaderOptions,
       }}
     />

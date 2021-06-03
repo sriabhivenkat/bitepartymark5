@@ -14,6 +14,7 @@ export const HeaderComp = ({
     route,
     isProfile,
     handle,
+    baseRoute,
     ...rest
 }) => (
 
@@ -40,7 +41,7 @@ export const HeaderComp = ({
             <View
                 flexDirection="row"
                 alignItems="center"
-                paddingHorizontal={10}
+                paddingHorizontal={20}
                 flex={1}
             >
                 {!isProfile && (<Image
@@ -52,9 +53,12 @@ export const HeaderComp = ({
                 />)}
                 {!isProfile && isHomeScreen && (
                     <View style={{
-                        paddingLeft: 10
+                        paddingLeft: 10,
+                        flex: 1,
+                        // backgroundColor: 'red',
+                        width: '100%'
                     }}>
-                        <Text adjustsFontSizeToFit={true} style={{
+                        <Text adjustsFontSizeToFit={true} numberOfLines={1}style={{
 
 
                             fontFamily: "Kollektif",
@@ -73,7 +77,7 @@ export const HeaderComp = ({
                 )}
             </View>
 
-            <View flexDirection="row" alignItems="center" paddingLeft={10}>
+            <View flexDirection="row" alignItems="center">
 
                 {height >= 896 && (
                     <Button
@@ -83,7 +87,7 @@ export const HeaderComp = ({
                         labelStyle={{ color: "black" }}
                         style={{ borderRadius: 20, borderColor: "black" }}
                         uppercase={false}
-                        onPress={() => navigation.navigate("createParty/createGroup")}
+                        onPress={() => navigation.navigate("createGroup")}
                         color="gray"
                     >
                         Group
@@ -92,7 +96,7 @@ export const HeaderComp = ({
                 )}
 
                 {height <= 812 && (
-                    <IconButton icon='account-multiple-plus' size={30} style={{ left: 5, borderWidth: 1, borderColor: "gray" }} onPress={() => navigation.navigate("createParty/createGroup")} />
+                    <IconButton icon='account-multiple-plus' size={30} style={{ borderWidth: 1, borderColor: "gray" }} onPress={() => navigation.navigate("createGroup")} />
 
 
                 )}
@@ -102,9 +106,10 @@ export const HeaderComp = ({
                     style={{
                         borderWidth: 1,
                         borderColor: "grey",
+                        marginRight: 20,
                     }}
                     onPress={() =>
-                        navigation.navigate("profile", { screen: "profile/addFriends" })
+                        navigation.navigate("addFriends")
                     }
                 />
             </View>

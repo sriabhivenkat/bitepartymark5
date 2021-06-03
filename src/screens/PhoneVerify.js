@@ -7,8 +7,7 @@ import { Button, Card } from 'react-native-paper'
 import { GradientButton } from '../components';
 import { Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import PhoneInput from "react-native-phone-number-input";
-
+import {PhoneInput} from 'components';
 const PhoneVerify = ({route, navigation}) => {
     const [number, setNumber] = useState('')
     const [code, setCode] = useState('');
@@ -54,15 +53,8 @@ const PhoneVerify = ({route, navigation}) => {
                     /> */}
                     <PhoneInput 
                         defaultValue={number}
-                        defaultCode="US"
+                        
                         onChangeFormattedText={(phone) => setNumber(phone)}
-                        layout="second"
-                        textInputStyle={{fontFamily: "Kollektif", fontSize: 17}}
-                        countryPickerButtonStyle={{borderRightColor: "black", borderRightWidth: 1}}
-                        codeTextStyle={{fontFamily: "Kollektif", fontSize: 17}}
-                        containerStyle={{borderColor: "black", borderWidth: 1, marginVertical: 10, borderRadius: 25, width: "90%", height: 90}}
-                        //containerStyle={styles.input1}
-                        placeholder="Enter number"
                     />
                 </View>
                 <View
@@ -132,6 +124,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
+        paddingHorizontal: 20,
     },
     text: {
         marginTop: 150,
@@ -141,7 +134,7 @@ const styles = StyleSheet.create({
         fontFamily: "Kollektif"
     },
     input1: {
-        width: '90%',
+        // width: '90%',
         height: 45,
         // marginTop: 20,
         // marginBottom: 10,

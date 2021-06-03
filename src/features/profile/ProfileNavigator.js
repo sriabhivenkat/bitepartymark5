@@ -7,7 +7,7 @@ import Settings from "./screens/Settings";
 import EditProfile from "./screens/EditProfile";
 import AddFriends from "./screens/AddFriends";
 import ShowGroups from './screens/ShowGroups';
-
+import CreateGroup from "../createParty/screens/CreateGroup"
 import { BackButton, logoHeaderOptions,  } from "../../components";
 import SyncContacts from "./screens/SyncContacts";
 import FriendsView from "./screens/FriendsView";
@@ -56,7 +56,7 @@ export default ({navigation}) => (
       }}
     />
     <Stack.Screen
-      name="profile/addFriends"
+      name="addFriends"
       component={AddFriends}
       options={{
         title: "",
@@ -114,6 +114,16 @@ export default ({navigation}) => (
       options={{
         title:"",
         headerLeft: BackButton
+      }}
+    />
+      <Stack.Screen
+      name="createGroup"
+      component={CreateGroup}
+      options={{
+        title: "Create Group",
+        headerShown: false,
+        headerLeft: BackButton,
+        ...logoHeaderOptions,
       }}
     />
   </Stack.Navigator>
