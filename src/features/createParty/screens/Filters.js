@@ -125,7 +125,7 @@ const Filters = ({ route, navigation }) => {
         price,
         // pricing,
         time,
-        autoResolve:!link,
+        autoResolve: !link,
       });
       // } else {
       //   Geocoder.from(selectionval)
@@ -277,21 +277,21 @@ const Filters = ({ route, navigation }) => {
         </View>
       )}
       <View display="flex" flexDirection="column" justifyContent="center" style={{
-        marginTop: selectedFriends.length===0 ? -20:0
+        marginTop: selectedFriends.length === 0 ? -20 : 0
       }}>
         <SectionLabel label="Price" />
         <PricingSelector value={price} onChange={(val) => setPrice(val)} />
       </View>
       <Divider style={{ marginTop: 10 }} />
       <View flexDirection="column" flex={1}>
-        <SectionLabel label="Location" />
+        <SectionLabel label="Location" paddingHorizontal={-10} />
         <View
           style={{ alignItems: "center", marginTop: 10 }}
           flex={1}
           // backgroundColor="red"
           // paddingLeft={0}
           // paddingRight={0}
-          paddingHorizontal={40}
+          paddingHorizontal={20}
         >
           <TouchableOpacity
             onPress={() => {
@@ -311,7 +311,7 @@ const Filters = ({ route, navigation }) => {
               alignItems="center"
               // position="relative"
               flex={1}
-              // top={8}
+            // top={8}
             >
               <Icon name="locate-outline" size={20} />
 
@@ -370,7 +370,7 @@ const Filters = ({ route, navigation }) => {
           containerStyle={{width: "90%"}}
         />
       </View> */}
-      <View padingLeft={10} paddingRight={80} marginTop={5}>
+      <View justifyContent='center' paddingLeft={-20} paddingRight={60} marginTop={5}>
         <List.Section>
           <List.Accordion
             expanded={isDropdownOpen}

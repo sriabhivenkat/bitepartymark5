@@ -45,11 +45,12 @@ const Completed = ({ route, navigation }) => {
   const snapPoints = useMemo(() => ["1%", "70%"], []);
 
   const { party } = usePartyData(partyID);
+  const [eta, setETA] = useState("")
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modal2Visible, setModal2Visible] = useState(false);
   const [rating, setRating] = useState(1);
-
+  const [distance, setDistance] = useState("");
   const [ratingHistory, setRatingHistory] = useAsyncStorage("ratingHistory", {
     count: 0,
     total: 0,
@@ -87,6 +88,28 @@ const Completed = ({ route, navigation }) => {
         count: old.total + 1,
       }));
     }
+
+
+
+    useEffect(() => {
+      const main = async () => {
+        const position = await getUserLocation();
+        console.log([position[0], position[1]])
+        console.log([currentWinner?.coordinates.latitude, currentWinner?.coordinates.longitude])
+        const time = await timeToDestination(
+          position[0], position[1],
+          currentWinner?.coordinates.latitude,
+          currentWinner?.coordinates.longitude
+        )
+        // console.log("time to get there is:", time);
+        // alert(time)
+        setETA(time[0]);
+        setDistance(time[1]);
+        // const time = await timeToDestination(29.7174, -95.4018, 29.539869, -95.597939)
+      }
+      main();
+    }, [currentWinner])
+
 
     InAppReview.isAvailable();
 
@@ -362,7 +385,7 @@ const Completed = ({ route, navigation }) => {
                         marginTop: 10,
                       }}
                       innerStyle={{ paddingVertical: 15 }}
-                      textStyle={{ fontSize: 22 }}
+                      textStyle={{ fontSize: 22, color: "black" }}
                       outline
                       onPress={() => show2Modal()}
                     >
@@ -434,7 +457,7 @@ const Completed = ({ route, navigation }) => {
                     marginTop: 10,
                   }}
                   innerStyle={{ paddingVertical: 15 }}
-                  textStyle={{ fontSize: 22 }}
+                  textStyle={{ fontSize: 22, color: "black" }}
                   outline
                   onPress={() => show2Modal()}
                 >
@@ -564,6 +587,27 @@ const Completed = ({ route, navigation }) => {
                   " " +
                   currentWinner?.location?.zip_code}
               </Text>
+            </View>
+            <Divider />
+            <View
+              style={{
+                top: 10,
+                left: 22,
+                marginBottom: 22.5,
+                marginTop: 10,
+              }}
+            >
+              <Text
+                style={{ fontFamily: "Kollektif", color: "#f76f6d", fontSize: 17 }}
+              >
+                Distance
+                  </Text>
+              <Text
+
+                style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}
+              >
+                {distance}les ({eta} away)
+                  </Text>
             </View>
             <Divider />
             <View
