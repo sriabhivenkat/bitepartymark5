@@ -217,50 +217,56 @@ const ProfileDisplay = ({ navigation, route }) => {
                 Groups
             </Caption>
             </TouchableOpacity>
-            <View alignItems="center">
-              <Title
-                style={{
-                  fontWeight: "bold",
-                  color: "black",
-                  fontFamily: "Kollektif",
-                  fontSize: height < 700 ? 25 : 30,
-                  fontWeight: "normal",
-                }}
-              >
-                {friends?.length}
-              </Title>
-              <Caption
-                style={{
-                  color: "black",
-                  fontSize: 20,
-                  fontFamily: "Kollektif",
-                }}
-              >
-                Friends
+
+            <TouchableOpacity onPress={() => navigation.navigate('profile/friendsView')}>
+              <View alignItems="center">
+                <Title
+                  style={{
+                    fontWeight: "bold",
+                    color: "black",
+                    fontFamily: "Kollektif",
+                    fontSize: height < 700 ? 25 : 30,
+                    fontWeight: "normal",
+                  }}
+                >
+                  {friends?.length}
+                </Title>
+                <Caption
+                  style={{
+                    color: "black",
+                    fontSize: 20,
+                    fontFamily: "Kollektif",
+                  }}
+                >
+                  Friends
             </Caption>
-            </View>
-            <View alignItems="center">
-              <Title
-                style={{
-                  fontWeight: "bold",
-                  color: "black",
-                  fontSize: height < 700 ? 25 : 30,
-                  fontWeight: "normal",
-                  fontFamily: "Kollektif",
-                }}
-              >
-                {invites?.filter(({ status }) => status == "completed").length}
-              </Title>
-              <Caption
-                style={{
-                  color: "black",
-                  fontSize: 20,
-                  fontFamily: "Kollektif",
-                }}
-              >
-                Parties
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("profile/pastParties", { inviteList: invites })}>
+              <View alignItems='center'>
+                <Title
+                  style={{
+                    fontWeight: "bold",
+                    color: "black",
+                    fontSize: height < 700 ? 25 : 30,
+                    fontWeight: "normal",
+                    fontFamily: "Kollektif",
+                  }}
+                >
+                  {invites?.filter(({ status }) => status == "completed").length}
+                </Title>
+                <Caption
+                  style={{
+                    color: "black",
+                    fontSize: 20,
+                    fontFamily: "Kollektif",
+                    alignItems: 'flex-start'
+                  }}
+                >
+                  Parties
             </Caption>
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
           <View
             // style={styles.containercolumn}

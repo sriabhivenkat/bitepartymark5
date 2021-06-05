@@ -3,9 +3,11 @@ import { Image, Dimensions } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import FriendRequests from './FriendRequests';
 import InvitesDisplay from "./InvitesDisplay";
-import { BackButton, logoHeaderOptions } from "../../components";
+
 import AddFriends from "../profile/screens/AddFriends";
 import CreateGroup from "../createParty/screens/CreateGroup";
+import { GradientButton, logoHeaderOptions, BackButton } from "../../components";
+
 const Stack = createStackNavigator();
 
 const windowWidth = Dimensions.get("window").width;
@@ -23,7 +25,7 @@ export default () => (
         ...logoHeaderOptions,
       }}
     />
-    <Stack.Screen 
+    <Stack.Screen
       name="invitesDisplay/friendRequests"
       component={FriendRequests}
       options={{
@@ -38,10 +40,26 @@ export default () => (
         title: "Friends",
         headerShown: true,
         headerLeft: BackButton,
-        ...logoHeaderOptions,
+        headerRight: () => (
+
+
+          <GradientButton
+            containerStyle={{ right: 10, }}
+            innerStyle={{ paddingHorizontal: 10, }}
+            textStyle={{ fontSize: 17, letterSpacing: -0.3, lineHeight: 20 }}
+            onPress={() => navigation.navigate("profile/syncContacts")}
+          >
+            Add Contacts
+          </GradientButton>
+
+
+        )
+        , ...logoHeaderOptions,
+
+
       }}
     />
-     <Stack.Screen
+    <Stack.Screen
       name="createGroup"
       component={CreateGroup}
       options={{

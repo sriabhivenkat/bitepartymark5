@@ -102,7 +102,7 @@ const SelectFriends = ({ route, navigation }) => {
             <TitleText style={{ fontSize: 37 }} >Invite Friends</TitleText>
           </View>
           <View flex={0} position="relative" top={10}>
-            <GradientButton innerStyle={{flex: 0, paddingHorizontal: 10}} onPress={onShareLink}>Share Link</GradientButton>
+            <GradientButton innerStyle={{ flex: 0, paddingHorizontal: 10 }} onPress={onShareLink}>Share Link</GradientButton>
           </View>
         </View>
         <View>
@@ -131,7 +131,7 @@ const SelectFriends = ({ route, navigation }) => {
           colors={["rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 0.5)"]}
           pointerEvents={"none"}
         /> */}
-        {friends?.length < 1 && (
+        {friends?.length < 1 && groups?.length < 1 && (
           <>
             <Text
               style={{
@@ -144,7 +144,7 @@ const SelectFriends = ({ route, navigation }) => {
             >
               <Text>{`You haven't added any friends. \n`}</Text>
               <Text
-                onPress={() => navigation.navigate("createParty/addFriends")}
+                onPress={() => navigation.navigate("addFriends")}
                 style={{ color: "#f76f6d", textDecorationLine: "underline" }}
               >{`Add some `}</Text>
 
@@ -154,8 +154,8 @@ const SelectFriends = ({ route, navigation }) => {
         )}
         <ScrollView marginTop={10} paddingVertical={1}>
           {groups?.filter(
-              (item) => item?.partyName?.indexOf(query) >= 0 || query.length < 2
-            )
+            (item) => item?.partyName?.indexOf(query) >= 0 || query.length < 2
+          )
             .map((item) => (
               <GroupCard
                 key={item.groupid}

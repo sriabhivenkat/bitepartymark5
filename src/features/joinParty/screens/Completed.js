@@ -284,12 +284,12 @@ const Completed = ({ route, navigation }) => {
                 {/* <View backgroundColor="#00000050" height={1} marginBottom={15} /> */}
               </View>
               <View flex={1} marginTop={25} position="relative" top={30}>
-                <TouchableOpacity style={{flex: 1}} onPress={handleTap}>
-                <RestarauntCard
-                  style={{ flexShrink: 0 }} 
-                  data={currentWinner}
-                  compact
-                />
+                <TouchableOpacity style={{ flex: 1 }} onPress={handleTap}>
+                  <RestarauntCard
+                    style={{ flexShrink: 0 }}
+                    data={currentWinner}
+                    compact
+                  />
                 </TouchableOpacity>
               </View>
 
@@ -444,45 +444,6 @@ const Completed = ({ route, navigation }) => {
             )}
 
 
-
-          {party &&
-            partyMembers &&
-            !party.winner &&
-            user &&
-            user.uidvalue != party.admin && (
-              <View alignItems="center">
-                <GradientButton
-                  containerStyle={{ maxWidth: 200, marginBottom: 10 }}
-                  onPress={() =>
-                    Alert.alert(
-                      "Leave Party?",
-                      "This will remove you from the party with no way to get back!",
-                      [
-                        {
-                          text: "Nope!",
-                          onPress: () => console.log("Cancel Pressed"),
-                          style: "cancel",
-                        },
-                        {
-                          text: "Leave",
-                          onPress: () =>
-                            leaveParty()
-                              .then(() =>
-                                navigation.reset({
-                                  index: 0,
-                                  routes: [{ name: "home" }],
-                                })
-                              )
-                              .catch((err) => console.error(err)),
-                        },
-                      ]
-                    )
-                  }
-                >
-                  Leave Party!
-              </GradientButton>
-              </View>
-            )}
           {party && party.winner && <View height={30} />}
 
           {party && partyMembers && !party.winner && (

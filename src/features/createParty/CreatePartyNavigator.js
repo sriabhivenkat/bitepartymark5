@@ -14,7 +14,7 @@ import { useUser } from "lib";
 const Stack = createStackNavigator();
 
 
-export default ({navigation}) => {
+export default ({ navigation }) => {
   const { user } = useUser();
   const isSmall = height < 700;
   const height = Dimensions.get("window").height;
@@ -50,20 +50,20 @@ export default ({navigation}) => {
         }}
       />
 
-      <Stack.Screen 
+      <Stack.Screen
         name="createGroup"
         component={CreateGroup}
         options={{
           title: "Group Creation",
           headerShown: false,
-          headerLeft: () => {},
+          headerLeft: () => { },
           // headerBackTitle: "",
           headerRight: () => (
             <TouchableOpacity
               style={{
                 right: 20,
               }}
-              onPress={() => {navigation.goBack()}}
+              onPress={() => { navigation.goBack() }}
             >
               <Text
                 style={{
@@ -87,7 +87,7 @@ export default ({navigation}) => {
           title: "Friends",
           headerShown: true,
           headerLeft: BackButton,
-          headerBackTitle:"",
+          headerBackTitle: "",
           // headerRight: () => (
           //   <View marginRight={10}>
           //     <GradientButton
@@ -119,7 +119,16 @@ export default ({navigation}) => {
           //     </GradientButton>
           //   </View>
           // ),
-
+          headerRight: () => (
+            <GradientButton
+              containerStyle={{ right: 10, }}
+              innerStyle={{ paddingHorizontal: 10, }}
+              textStyle={{ fontSize: 17, letterSpacing: -0.3, lineHeight: 20 }}
+              onPress={() => navigation.navigate("profile/syncContacts")}
+            >
+              Add Contacts
+            </GradientButton>
+          ),
           ...logoHeaderOptions,
         }}
       />

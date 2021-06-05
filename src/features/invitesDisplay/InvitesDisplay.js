@@ -87,10 +87,10 @@ const InvitesDisplay = ({ navigation, route }) => {
       style={styles.container}
     >
       <SafeAreaView paddingHorizontal={20} >
-        <HeaderComp height={height} isHomeScreen={false} navigation={navigation} route={route} baseRoute='invitesDisplay'/>
+        <HeaderComp height={height} isHomeScreen={false} navigation={navigation} route={route} baseRoute='invitesDisplay' />
         <Divider style={{ width: 600, right: 30, backgroundColor: "gray" }} />
         {friends?.filter(({ friendStatus }) => friendStatus == "pending").length != 0 &&
-          <View style={{ alignItems: "center", marginTop: 20, }}>
+          <View style={{ alignItems: "center", marginTop: 10, marginBottom: 40 }}>
             <GradientButton
               onPress={() => navigation.navigate("invitesDisplay/friendRequests")}
               style={{
@@ -99,6 +99,7 @@ const InvitesDisplay = ({ navigation, route }) => {
                 shadowOffset: { width: 0, height: 3.5 },
                 shadowOpacity: 0.5,
                 shadowRadius: 2.5,
+                paddingHorizontal: 20
               }}
               textStyle={{
                 left: 20,
