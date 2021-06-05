@@ -92,6 +92,7 @@ const InvitesDisplay = ({ navigation, route }) => {
         {friends?.filter(({ friendStatus }) => friendStatus == "pending").length != 0 &&
           <View style={{ alignItems: "center", marginTop: 10, marginBottom: 40 }}>
             <GradientButton
+            needsArrow={true}
               onPress={() => navigation.navigate("invitesDisplay/friendRequests")}
               style={{
                 width: "100%",
@@ -108,9 +109,11 @@ const InvitesDisplay = ({ navigation, route }) => {
                 borderRadius: 14,
                 justifyContent: "flex-start",
               }}
+              
 
             >
               Friend Requests
+           
               </GradientButton>
           </View>
         }

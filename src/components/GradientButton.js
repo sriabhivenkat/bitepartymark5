@@ -2,6 +2,8 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Text } from "galio-framework";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { size } from "lodash";
 
 export const GradientButton = ({
   innerStyle,
@@ -12,6 +14,7 @@ export const GradientButton = ({
   outline,
   bg,
   gradient,
+  needsArrow,
   ...rest
 }) => (
   <TouchableOpacity
@@ -26,7 +29,7 @@ export const GradientButton = ({
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
       colors={
-        outline ? ["#ffffff00", "#ffffff00"] : (gradient ? gradient: ["#E1387F", "#E85F73", "#F18F64"])
+        outline ? ["#ffffff00", "#ffffff00"] : (gradient ? gradient : ["#E1387F", "#E85F73", "#F18F64"])
       }
       style={[
         {
@@ -61,6 +64,9 @@ export const GradientButton = ({
       >
         {children}
       </Text>
+      {needsArrow && (
+        <Ionicons name="chevron-forward-outline" style={{ position: "absolute", right: 10, color: "white" }} size={30} />
+      )}
     </LinearGradient>
   </TouchableOpacity>
 );
