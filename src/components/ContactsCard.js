@@ -26,7 +26,7 @@ export const ContactsCard = ({
   useEffect(() => {
     firestore()
     .collection("Users")
-    .where('sliced', '==', cleanPhone(data.phoneNumbers[0].number))
+    .where('sliced', '==', cleanPhone(data?.phoneNumbers[0]?.number))
     .get()
     .then((res) => {
       const results = res.docs.map((x) => x.data());
@@ -82,8 +82,8 @@ export const ContactsCard = ({
   const addContact = async () => {
     try {
       const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-9);
-      alert(cleanPhone(data.phoneNumbers[0].number))
-      const friend = (await firestore().collection('Users').where('sliced', '==', cleanPhone(data.phoneNumbers[0].number)).get()).docs[0]
+      alert(cleanPhone(data?.phoneNumbers[0]?.number))
+      const friend = (await firestore().collection('Users').where('sliced', '==', cleanPhone(data?.phoneNumbers[0]?.number)).get()).docs[0]
       addFriend(friend)
     } catch (error) {
       console.error(error)
