@@ -20,7 +20,7 @@ const PriceButton = ({ value, label, selected, style, textStyle, ...rest }) => (
               borderWidth: selected ? 0:1,
               alignSelf: "stretch",
               flex: 1,
-              marginHorizontal: 5,
+              marginHorizontal: 4,
               height: 40,
               borderRadius: 25,
               alignItems: "center",
@@ -70,7 +70,7 @@ export const PricingSelector = ({ value, onChange }) => {
       // backgroundColor="red"
       alignItems="center"
       justifyContent="space-between"
-      paddingHorizontal={30}
+      paddingHorizontal={20}
       marginVertical={10}
     >
       {opts.map((item, i) => (

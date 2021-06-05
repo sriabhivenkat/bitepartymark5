@@ -370,19 +370,20 @@ const Filters = ({ route, navigation }) => {
           containerStyle={{width: "90%"}}
         />
       </View> */}
-      <View justifyContent='center' paddingLeft={-20} paddingRight={60} marginTop={5}>
+      <View justifyContent='center' paddingLeft={-20} paddingRight={40} marginTop={5} right={20} >
         <List.Section>
           <List.Accordion
             expanded={isDropdownOpen}
             onPress={() => setIsDropDownOpen((old) => !old)}
             title="Select a cuisine"
             left={(props) => (
-              <List.Icon {...props} icon="food" color={"black"} />
+              <List.Icon {...props} icon="food" color={"black"} style={{right: 5}}/>
             )}
             titleStyle={{
               color: "black",
               fontSize: 18,
               fontFamily: "Kollektif",
+              right: 10
             }}
             style={{
               borderWidth: 1,
@@ -423,6 +424,7 @@ const Filters = ({ route, navigation }) => {
                       minHeight: 38,
                       justifyContent: "center",
                       paddingHorizontal: 60,
+                      backgroundColor: "black",
                       flex: 1,
                     },
                   ]}
@@ -495,7 +497,7 @@ const Filters = ({ route, navigation }) => {
                 style={[
                   {
                     borderRadius: 25,
-                    marginRight: 5,
+                    left:-20,
                   },
                 ]}
               >
@@ -598,7 +600,7 @@ export default Filters;
 const SectionLabel = ({ label }) => (
   <Text
     style={{
-      marginLeft: 40,
+      marginLeft: 20,
       marginTop: 20,
       fontSize: 22.5,
       fontFamily: "Kollektif",
