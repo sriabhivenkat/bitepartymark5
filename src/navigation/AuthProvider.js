@@ -24,6 +24,12 @@ export const AuthProvider = ({ children }) => {
         register: async (email, password, first, last, handle, phoneNumber) => {
           try {
             const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-9);
+            const docs = (await firestore().collection("Users").where("handle", "==",handle.toLowerCase()).get()).docs.map(x => x.data())
+
+            if (docs.length > 0) {
+              throw new Error(`Username ${handle} already taken`);
+            }
+
             await auth()
               .createUserWithEmailAndPassword(email, password)
               .then(() => {
@@ -31,7 +37,7 @@ export const AuthProvider = ({ children }) => {
                 firestore().collection("Users").doc(uidval).set({
                   firstName: first,
                   lastName: last,
-                  handle: handle,
+                  handle: handle.toLowerCase(),
                   flavorProfileCreated: false,
                   uidvalue: uidval,
                   phoneNumber: phoneNumber,
