@@ -129,8 +129,9 @@ const EditProfile = ({ navigation }) => {
   }, [user]);
 
   const onSubmit = (data) => {
-    updateUser(data);
-    navigation.goBack();
+    updateUser(data).then(() => 
+        navigation.goBack()
+    ).catch(err => Alert.alert('Couldn\'t update profile', err.message))
   };
   const onErr = (data) => {
     Alert.alert("Invalid entry!", "Try again");
