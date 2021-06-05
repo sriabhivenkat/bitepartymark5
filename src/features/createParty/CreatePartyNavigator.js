@@ -124,7 +124,9 @@ export default ({ navigation }) => {
               containerStyle={{ right: 10, }}
               innerStyle={{ paddingHorizontal: 10, }}
               textStyle={{ fontSize: 17, letterSpacing: -0.3, lineHeight: 20 }}
-              onPress={() => navigation.navigate("profile/syncContacts")}
+              onPress={() => navigation.navigate("profile", {
+                screen: "profile/syncContacts"
+              })}
             >
               Add Contacts
             </GradientButton>
