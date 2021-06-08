@@ -126,7 +126,7 @@ const AddFriends = () => {
                   addFriend(item)
                     .then(() => {
                       // console.log({ poop: item });
-                      Alert.alert("Added friend", `${item.handle} was added!`);
+                      Alert.alert("Request Sent", `A friend request was sent to ${item.handle}!`);
                     })
                     .catch((err) => err)
                 }
