@@ -47,16 +47,16 @@ const AddFriends = () => {
           //     }))
           // console.log(JSON.stringify(contactval, null, 2))
           // console.log(JSON.stringify(friends, null, 2))
-          const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-9);
+          const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-4);
           const filtered = contactval.filter(
             (c) =>
               !c.phoneNumbers.some((cP) =>
                 friends?.some(
-                  (f) => cleanPhone(f.phoneNumber) == cleanPhone(cP.number)
+                  (f) => cleanPhone(f?.phoneNumber) == cleanPhone(cP?.number)
                 )
               )
           );
-          //console.log(JSON.stringify(friends, null, 2))
+          console.log(JSON.stringify(friends, null, 2))
           setContacts(filtered);
         });
       } else {
