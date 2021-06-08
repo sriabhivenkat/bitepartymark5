@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState } from "react";
+import React, { useRef, useMemo, useState, useEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -32,7 +32,7 @@ import { Alert } from "react-native";
 import InAppReview, { RequestInAppReview } from "react-native-in-app-review";
 import uuid from "react-native-uuid";
 import ImagePicker from "react-native-image-crop-picker";
-
+import { timeToDestination, getUserLocation } from "lib";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
 import CustomRate from "components/CustomRate";
@@ -78,6 +78,31 @@ const Completed = ({ route, navigation }) => {
     android: `geo:0,0?q=${currentWinner?.location.display_address}`,
   });
 
+
+  useEffect(() => {
+      // alert();
+      getUserLocation().then(loc => alert(loc))
+      const main = async () => {
+        const position = await getUserLocation();
+
+        console.log([position[0], position[1]])
+        console.log("Current Winner Coordinates Are:", [currentWinner?.coordinates.latitude, currentWinner?.coordinates.longitude])
+        // alert(JSON.stringify(currentWinner))
+        const time = await timeToDestination(
+          position[0], position[1],
+          currentWinner?.coordinates.latitude,
+          currentWinner?.coordinates.longitude
+
+        )
+        // console.log("time to get there is:", time);
+        // alert(time)
+        setETA(time[0]);
+        setDistance(time[1]);
+        // const time = await timeToDestination(29.7174, -95.4018, 29.539869, -95.597939)
+      }
+      main().catch(err => console.error(err));
+    }, [currentWinner, party])
+
   const handleClick = () => {
     console.log({ ratingHistory });
 
@@ -95,53 +120,31 @@ const Completed = ({ route, navigation }) => {
     }
 
 
+    // InAppReview.isAvailable();
 
-    useEffect(() => {
-      const main = async () => {
-        const position = await getUserLocation();
-        console.log([position[0], position[1]])
-        console.log("Current Winner Coordinates Are:", [currentWinner?.coordinates.latitude, currentWinner?.coordinates.longitude])
-        const time = await timeToDestination(
-          position[0], position[1],
-          currentWinner?.coordinates.latitude,
-          currentWinner?.coordinates.longitude
+    // // trigger UI InAppreview
+    // InAppReview.RequestInAppReview().then((hasFlowFinishedSuccessfully) => {
+    //   // when return true in android it means user finished or close review flow
+    //   console.log("InAppReview in android", hasFlowFinishedSuccessfully);
 
-        )
-        // console.log("time to get there is:", time);
-        // alert(time)
-        setETA(time[0]);
-        setDistance(time[1]);
-        // const time = await timeToDestination(29.7174, -95.4018, 29.539869, -95.597939)
-      }
-      main();
-    }, [currentWinner, party])
+    //   // when return true in ios it means review flow lanuched to user.
+    //   console.log(
+    //     "InAppReview in ios has lanuched successfully",
+    //     hasFlowFinishedSuccessfully
+    //   );
 
+    //   // 1- you have option to do something ex: (navigate Home page) (in android).
+    //   // 2- you have option to do something,
+    //   // ex: (save date today to lanuch InAppReview after 15 days) (in android and ios).
 
-    InAppReview.isAvailable();
-
-    // trigger UI InAppreview
-    InAppReview.RequestInAppReview().then((hasFlowFinishedSuccessfully) => {
-      // when return true in android it means user finished or close review flow
-      console.log("InAppReview in android", hasFlowFinishedSuccessfully);
-
-      // when return true in ios it means review flow lanuched to user.
-      console.log(
-        "InAppReview in ios has lanuched successfully",
-        hasFlowFinishedSuccessfully
-      );
-
-      // 1- you have option to do something ex: (navigate Home page) (in android).
-      // 2- you have option to do something,
-      // ex: (save date today to lanuch InAppReview after 15 days) (in android and ios).
-
-      // 3- another option:
-      if (hasFlowFinishedSuccessfully) {
-        // do something for ios
-        // do something for android
-        setModalVisible(false);
-        setModal2Visible(true);
-      }
-    });
+    //   // 3- another option:
+    //   if (hasFlowFinishedSuccessfully) {
+    //     // do something for ios
+    //     // do something for android
+    //     setModalVisible(false);
+    //     setModal2Visible(true);
+    //   }
+    // });
   };
   const handleTap = () => {
     InAppBrowser.open(currentWinner?.url);

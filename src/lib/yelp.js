@@ -2,17 +2,26 @@ import Geolocation from "@react-native-community/geolocation";
 import { useEffect } from "react";
 import Geocoder from "react-native-geocoding";
 
-export const getNearby = async ({ radius, count, loc, filters, price }) => {
+export const getNearby = async ({ radius, count, loc, filters, price, time, showOpen, restrictions }) => {
   // console.log({ price: price.join(",") });
   price = price.length > 0 ? price : [1, 2, 3, 4];
+  console.log('foop',parseInt((time.getTime() / 1000).toFixed(0)))
+    console.log('boop',showOpen)
+  console.log( `https://api.yelp.com/v3/businesses/search?latitude=${loc[0]}&longitude=${
+      loc[1]
+    }&radius=${Math.round(
+      1609 * radius
+    )}&term=restaurants ${filters.join(' ')}&categories=${restrictions.join(
+      ","
+    )}&price=${price.join(",")} ${showOpen ? '&open_at' + parseInt((time.getTime() / 1000).toFixed(0)) : ''}`)
   const res = await fetch(
     `https://api.yelp.com/v3/businesses/search?latitude=${loc[0]}&longitude=${
       loc[1]
     }&radius=${Math.round(
       1609 * radius
-    )}&open_now=true&term=restaurants&categories=${filters.join(
+    )}&term=restaurants ${filters.join(' ')}&categories=${restrictions.join(
       ","
-    )}&price=${price.join(",")}`,
+    )}&price=${price.join(",")} ${showOpen ? '&open_at=' + parseInt((time.getTime() / 1000).toFixed(0)) : ''}`,
     {
       headers: {
         Authorization:
