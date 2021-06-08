@@ -1,9 +1,10 @@
 import React from "react";
-import { View, StyleSheet, Dimensions, Animated, Text} from "react-native";
+import { View, StyleSheet, Dimensions, Animated, Text } from "react-native";
 //import { Text } from "galio-framework";
 import { Card, Avatar, Chip, IconButton } from "react-native-paper";
 import { TouchableOpacity } from "react-native";
 import { useFriends } from "lib";
+import { useUser } from "../lib/user";
 export const FriendRequestCard = ({
   onPress,
   data,
@@ -12,6 +13,7 @@ export const FriendRequestCard = ({
   ...rest
 }) => {
   const { acceptFriend, rejectFriend } = useFriends();
+  const { user } = useUser();
   return (
     <View style={styles.container}>
       <Card
@@ -76,7 +78,7 @@ export default FriendRequestCard;
 const styles = StyleSheet.create({
   container: {
     width: Dimensions.get("window").width - 20 * 2,
-    paddingHorizontal:2,
+    paddingHorizontal: 2,
     top: 10,
     alignSelf: "stretch"
   },

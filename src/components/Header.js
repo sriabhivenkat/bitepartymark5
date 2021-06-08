@@ -58,7 +58,7 @@ export const HeaderComp = ({
                         // backgroundColor: 'red',
                         width: '100%'
                     }}>
-                        <Text adjustsFontSizeToFit={true} numberOfLines={1}style={{
+                        <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{
 
 
                             fontFamily: "Kollektif",

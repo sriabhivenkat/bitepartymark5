@@ -134,13 +134,15 @@ const InvitesDisplay = ({ navigation, route }) => {
         )}
         
         <View style={{
-          alignItems: "center"
+          alignItems: "center",
+         height: height,
+        
         }}>
           <FlatList
             data={pendingInvites && pendingInvites}
-            style={{ paddingTop: 5 }}
+            style={{ paddingTop: 5}}
             // horizontal
-            snapToInterval={Dimensions.get("window").width}
+         
             indicatorStyle="black"
             decelerationRate="fast"
             renderItem={({ item }) => (

@@ -347,15 +347,9 @@ const Completed = ({ route, navigation }) => {
                   party.winner &&
                   user &&
                   user.uidvalue == party.admin && (
-                    <View alignItems="center">
+                    <View alignItems="center" paddingTop={10}>
                       <GradientButton
-                        // containerStyle={{ maxWidth: 200, marginBottom: 10 }}
-                        containerStyle={{
-                          // position: "relative",
-                          // top: -5,
-                          marginTop: 10,
-                          marginBottom: -40
-                        }}
+                        containerStyle={{ marginBottom: -20, }}
                         innerStyle={{ paddingVertical: 15 }}
                         textStyle={{ fontSize: 22, color: "black" }}
                         outline
@@ -426,7 +420,7 @@ const Completed = ({ route, navigation }) => {
                     containerStyle={{
                       // position: "relative",
                       // top: -5,
-                      marginTop: 10,
+
                     }}
                     innerStyle={{ paddingVertical: 15 }}
                     textStyle={{ fontSize: 22, color: "black" }}
@@ -805,8 +799,7 @@ const Completed = ({ route, navigation }) => {
                         containerStyle={{
                           // position: "relative",
                           // top: -5,
-                          marginTop: 5,
-                          marginBottom: -50
+
                         }}
                         innerStyle={{ paddingVertical: 15 }}
                         textStyle={{ fontSize: 22, color: "black" }}
@@ -872,13 +865,13 @@ const Completed = ({ route, navigation }) => {
               party.winner &&
               user &&
               user.uidvalue != party.admin && (
-                <View alignItems="center">
+                <View alignItems="center" marginTop={10}>
                   <GradientButton
                     // containerStyle={{ maxWidth: 200, marginBottom: 10 }}
                     containerStyle={{
                       // position: "relative",
                       // top: -5,
-                      marginTop: 10,
+
                     }}
                     innerStyle={{ paddingVertical: 15 }}
                     textStyle={{ fontSize: 22, color: "black" }}

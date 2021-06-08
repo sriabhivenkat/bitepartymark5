@@ -72,7 +72,7 @@ const FriendRequests = () => {
         <View style={{ left: 10, top: 20, marginBottom: 25, paddingHorizontal: 20 }}>
           <Text style={{ fontFamily: "Kollektif", fontSize: 30 }}>Friend Requests</Text>
         </View>
-        <ScrollView width={Dimensions.get("window").width * 2}>
+        <ScrollView height={height} width={Dimensions.get("window").width * 2}>
           <FriendInvites />
           <View paddingHorizontal={20}>
             {groups.map((x) => (
