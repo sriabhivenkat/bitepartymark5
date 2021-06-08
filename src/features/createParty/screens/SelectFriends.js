@@ -152,7 +152,7 @@ const SelectFriends = ({ route, navigation }) => {
             </Text>
           </>
         )}
-        <ScrollView marginTop={10} paddingVertical={1}>
+        <ScrollView marginTop={10} paddingVertical={1} onStartShouldSetResponder={() => true}>
           {groups?.filter(
             (item) => item?.partyName?.indexOf(query) >= 0 || query.length < 2
           )

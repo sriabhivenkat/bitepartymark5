@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 //import { Text } from "galio-framework";
 import { Card, Avatar, Divider, Chip, IconButton } from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
@@ -12,10 +12,16 @@ export const GroupCard = ({ id, request, onTap, selected, onPress, groupName, gr
   // const { user } = useUser();
   //console.log(groupName);
   return (
-    <View style={styles.container}>
+
+
+
+    <View style={styles.container}  >
+
       <Card style={[styles.card, { marginBottom: 20 }, selected && {
         backgroundColor: "#e0e0e0",
-      },]} elevation={1} onPress={onPress}>
+      },]} elevation={1} onPress={onPress} >
+
+
         {request === false &&
           !selected &&
           < LinearGradient
@@ -139,6 +145,7 @@ export const GroupCard = ({ id, request, onTap, selected, onPress, groupName, gr
               minHeight: 50,
               flex: 1,
               flexDirection: "row",
+
               // shadowRadius: 2,
               // borderWidth: 2,
             }}
@@ -185,7 +192,7 @@ export const GroupCard = ({ id, request, onTap, selected, onPress, groupName, gr
         }
         <Divider style={{ height: 1, backgroundColor: 'black' }} />
         <Card.Content style={styles.innerCard}>
-          <ScrollView style={{ backgroundColor: 'blue' }} horizontal={true} scrollEnabled={true}>
+          <ScrollView style={{}} horizontal={true} scrollEnabled={true}>
             {Dimensions.get("window").height >= 896 &&
               <View
                 width={100}
@@ -197,9 +204,11 @@ export const GroupCard = ({ id, request, onTap, selected, onPress, groupName, gr
                   top: 7.5,
                   left: 2,
                   alignItems: "center",
-                  width: "100%"
-                }}
-              >
+                  width: "100%",
+
+                }
+                }
+                onStartShouldSetResponder={() => true} >
                 {groupMembers?.map((item) => (
                   <Chip
                     avatar={
@@ -282,8 +291,12 @@ export const GroupCard = ({ id, request, onTap, selected, onPress, groupName, gr
             }
           </ScrollView>
         </Card.Content>
+
       </Card>
-    </View >);
+
+    </View >
+
+  )
 }
 
 const styles = StyleSheet.create({
