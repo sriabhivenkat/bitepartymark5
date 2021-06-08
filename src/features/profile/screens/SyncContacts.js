@@ -23,50 +23,53 @@ const AddFriends = () => {
   const [contacts, setContacts] = useState([]);
   const { friends, addFriend } = useFriends();
 
-  useEffect(async () => {
-    try {
-      const andoidContactPermission = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
-        {
-          title: "Contacts Permission",
-          message: "This app would like to view your contacts.",
-          buttonNeutral: "Ask Me Later",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK",
-        }
-      );
-      if (
-        Platform.OS == "ios" ||
-        andoidContactPermission === PermissionsAndroid.RESULTS.GRANTED
-      ) {
-        Contacts.getAllWithoutPhotos().then((contactval) => {
-          // const filtered = contactval.filter(
-          //     contact => !friends.some(friend => {
-          //         //console.log(contact?.phoneNumbers[0].number.slice(-4), friend?.sliced)
-          //         return(contact?.phoneNumbers[0].number.slice(-4) == friend?.sliced)
-          //     }))
-          // console.log(JSON.stringify(contactval, null, 2))
-          // console.log(JSON.stringify(friends, null, 2))
-          const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-4);
-          const filtered = contactval.filter(
-            (c) =>
-              !c.phoneNumbers.some((cP) =>
-                friends?.some(
-                  (f) => cleanPhone(f?.phoneNumber) == cleanPhone(cP?.number)
+  useEffect(() => {
+    const main = async() => {
+      try {
+        const andoidContactPermission = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+          {
+            title: "Contacts Permission",
+            message: "This app would like to view your contacts.",
+            buttonNeutral: "Ask Me Later",
+            buttonNegative: "Cancel",
+            buttonPositive: "OK",
+          }
+        );
+        if (
+          Platform.OS == "ios" ||
+          andoidContactPermission === PermissionsAndroid.RESULTS.GRANTED
+        ) {
+          Contacts.getAllWithoutPhotos().then((contactval) => {
+            // const filtered = contactval.filter(
+            //     contact => !friends.some(friend => {
+            //         //console.log(contact?.phoneNumbers[0].number.slice(-4), friend?.sliced)
+            //         return(contact?.phoneNumbers[0].number.slice(-4) == friend?.sliced)
+            //     }))
+            // console.log(JSON.stringify(contactval, null, 2))
+            // console.log(JSON.stringify(friends, null, 2))
+            const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-4);
+            const filtered = contactval.filter(
+              (c) =>
+                !c.phoneNumbers.some((cP) =>
+                  friends?.some(
+                    (f) => cleanPhone(f?.phoneNumber) == cleanPhone(cP?.number)
+                  )
                 )
-              )
-          );
-          console.log(JSON.stringify(friends, null, 2))
-          setContacts(filtered);
-        });
-      } else {
-        console.log("Contacts permission denied");
-      }
-    } catch (err) {
-      console.log(err);
+            );
+            console.log(JSON.stringify(friends, null, 2))
+            setContacts(filtered);
+          });
+        } else {
+          console.log("Contacts permission denied");
+        }
+      } catch (err) {
+        console.log(err);
 
-      //console.log(contacts[0].phoneNumbers[0].number)
-    }
+        //console.log(contacts[0].phoneNumbers[0].number)
+      }
+    };
+    main();
   }, []);
 
   return (

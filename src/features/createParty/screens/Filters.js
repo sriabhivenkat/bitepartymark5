@@ -272,14 +272,14 @@ const Filters = ({ route, navigation }) => {
           justifyContent: "center",
         }}
       >
-        <SectionLabel label="Show Open Restaurants" />
+        <SectionLabel label="Show Closed Restaurants" />
         <View
           paddingHorizontal={20}
           flexDirection="row"
           marginTop={10}
           justifyContent="space-around"
         >
-          <Switch style={{ flex: 1 }} value={showOpen} onValueChange={c => setShowOpen(c)}/>
+          <Switch style={{ flex: 1 }} value={showOpen} onValueChange={c => setShowOpen(c)} color="#f76f6d"/>
           <View flexDirection="column">
             <DateTimePicker
               value={time}
