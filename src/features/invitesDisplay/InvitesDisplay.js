@@ -89,8 +89,14 @@ const InvitesDisplay = ({ navigation, route }) => {
       <SafeAreaView paddingHorizontal={20} >
         <HeaderComp height={height} isHomeScreen={false} navigation={navigation} route={route} baseRoute='invitesDisplay' />
         <Divider style={{ width: 600, right: 30, backgroundColor: "gray" }} />
+        {pendingInvites?.length <= 0 && (
+          <>
+            <TitleText style={[styles.title]}>Notifications</TitleText>
+           
+          </>
+        )}
         {friends?.filter(({ friendStatus }) => friendStatus == "pending").length != 0 &&
-          <View style={{ alignItems: "center", marginTop: 10, marginBottom: 40 }}>
+          <View style={{ alignItems: "center",marginBottom: 55}}>
             <GradientButton
             needsArrow={true}
               onPress={() => navigation.navigate("invitesDisplay/friendRequests")}
@@ -100,7 +106,7 @@ const InvitesDisplay = ({ navigation, route }) => {
                 shadowOffset: { width: 0, height: 3.5 },
                 shadowOpacity: 0.5,
                 shadowRadius: 2.5,
-                paddingHorizontal: 20
+                paddingHorizontal: 10
               }}
               textStyle={{
                 left: 20,
@@ -117,14 +123,16 @@ const InvitesDisplay = ({ navigation, route }) => {
               </GradientButton>
           </View>
         }
-        {pendingInvites?.length <= 0 && (
+
+{pendingInvites?.length <= 0 && (
           <>
-            <TitleText style={[styles.title]}>Notifications</TitleText>
+           
             <SubtitleText style={[styles.subtitle, { fontSize: 20 }]}>
               No pending invites. Start a party!
               </SubtitleText>
           </>
         )}
+        
         <View style={{
           alignItems: "center"
         }}>

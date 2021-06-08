@@ -15,12 +15,12 @@ import { useUser } from 'lib';
 import { Input } from "galio-framework";
 import { ScrollView } from "react-native";
 import { stubFalse } from "lodash";
-import { useGroup } from 'lib';
+import { useGroups } from 'lib';
 import firestore, { firebase } from "@react-native-firebase/firestore";
 
 const ShowGroups = ({ navigation, route }) => {
     const { user } = useUser();
-    const { groups } = route?.params;
+    const { groups } = useGroups();
     const [query, setQuery] = useState("");
     const [data, setData] = useState([]);
     const [members, setMembers] = useState([]);
@@ -62,6 +62,18 @@ const ShowGroups = ({ navigation, route }) => {
             })
             .catch((err) => console.log(err));
     }, [])
+
+
+    const getGroupList = (group) =>
+        Object.keys(group.members)
+            .map((uidvalue) => ({
+                uidvalue,
+                ...group.members[uidvalue],
+            }))
+            .filter((m) => m.uidvalue != user.uidvalue);
+
+
+
     return (
         <View style={styles.container}>
             <TitleText style={styles.title}>
@@ -86,19 +98,17 @@ const ShowGroups = ({ navigation, route }) => {
                 />
             </View>
             <View alignItems="center" marginTop={10}>
-                <FlatList
-                    data={groups}
-                    style={{ paddingTop: 5 }}
-                    snapToInterval={Dimensions.get("window").width}
-                    indicatorStyle="black"
-                    decelerationRate="fast"
-                    renderItem={({ item }) => (
-                        <GroupCard
-                            id={item.groupID}
-                            request={false}
-                        />
-                    )}
-                />
+                {groups?.map((item) => (
+                    <GroupCard
+                        key={item.groupid}
+                        id={item.groupid}
+                        request={false}
+                        groupName={item.partyName}
+                        groupMembers={getGroupList(item)}
+
+
+                    />
+                ))}
             </View>
         </View>
     )

@@ -190,7 +190,7 @@ const ProfileDisplay = ({ navigation, route }) => {
             <TouchableOpacity
               alignItems="center"
               onPress={
-                () => navigation.navigate("createParty/selectFriends",
+                () => navigation.navigate("profile/showGroup",
                   { groups: groups }
                 )
               }

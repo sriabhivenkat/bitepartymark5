@@ -21,6 +21,7 @@ import { Appbar, Button, IconButton, Divider } from 'react-native-paper';
 import { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 import { FriendInvites } from "./FriendsInvites";
+import { HeaderComp } from "../../components/Header";
 
 const FriendRequests = () => {
   const isSmall = height < 700;
@@ -66,60 +67,7 @@ const FriendRequests = () => {
       style={styles.container}
     >
       <SafeAreaView>
-        <View flexDirection="row" paddingHorizontal={20}>
-          <View
-            style={{
-              // backgroundColor: "red",
-              height: isSmall ? 60 : 70,
-              // height: 10,
-              justifyContent: "space-between",
-              flex: 1,
-              flexDirection: "row",
-            }}
-          >
-            {/* <Appbar.Content
-                title={
-    
-                }
-                titleStyle={{ backgroundColor: "white", right: 40 }}
-                style={{ alignItems: "flex-start", top: 5 }}
-              /> */}
-            <View
-              flexDirection="row"
-              alignItems="center"
-              paddingHorizontal={10}
-              flex={1}
-            >
-              <Image
-                source={require("assets/images/newHeaderLogo.png")}
-                style={{
-                  width: 29.333,
-                  height: 44,
-                }}
-              />
-            </View>
-            <View flexDirection="row" alignItems="center" paddingLeft={10}>
-              <Button
-                icon="account-multiple-plus"
-                mode="outlined"
-                labelStyle={{ color: "black" }}
-                style={{ borderRadius: 20, borderColor: "black" }}
-                uppercase={false}
-                onPress={() => navigation.navigate("createParty/createGroup")}
-                color="black"
-              >
-                Group
-                </Button>
-              <IconButton
-                icon="account-plus"
-                size={30}
-                onPress={() =>
-                  navigation.navigate("profile", { screen: "profile/addFriends" })
-                }
-              />
-            </View>
-          </View>
-        </View>
+        <HeaderComp height={height} isHomeScreen={false} baseRoute='invitesDisplay' />
         <Divider style={{ width: 600, right: 30, backgroundColor: "gray" }} />
         <View style={{ left: 10, top: 20, marginBottom: 25, paddingHorizontal: 20 }}>
           <Text style={{ fontFamily: "Kollektif", fontSize: 30 }}>Friend Requests</Text>

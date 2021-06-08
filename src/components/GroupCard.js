@@ -17,10 +17,11 @@ export const GroupCard = ({ id, request, onTap, selected, onPress, groupName, gr
         backgroundColor: "#e0e0e0",
       },]} elevation={1} onPress={onPress}>
         {request === false &&
-          <LinearGradient
+          !selected &&
+          < LinearGradient
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
-            colors={["#E1387F", '#F18F64']}
+            colors={["white", 'white']}
             style={[
               // styles.card,
               {
@@ -32,6 +33,7 @@ export const GroupCard = ({ id, request, onTap, selected, onPress, groupName, gr
                 minHeight: 50,
                 flex: 1,
                 flexDirection: "row",
+
                 // shadowRadius: 2,
                 // borderWidth: 2,
               },
@@ -40,15 +42,72 @@ export const GroupCard = ({ id, request, onTap, selected, onPress, groupName, gr
             <Card.Content style={styles.innerCard}>
               <View minHeight={20}>
                 <View flexDirection="row" flex={1} alignItems="center" minHeight={50}>
-                  <View flex={1} flexDirection="column">
+                  <View flex={1} flexDirection="column" >
                     <Text
-                      style={[styles.text, { fontSize: 25, color: "white" }]}
+                      style={[styles.text, { fontSize: 25, color: "black" }]}
                       numberOfLines={1}
                       ellipsizeMode="tail" //new comment
                     >
                       {groupName}
                     </Text>
                   </View>
+
+                  <View flex={1} flexDirection="column" style={{ position: "absolute", right: 0, }}>
+                    {request === true &&
+                      <View style={styles.chipContainer}>
+                        <TouchableOpacity
+                          style={styles.confirmButton}
+                          onPress={() => console.log("yuh yuh yuh")}
+                        >
+                          <Text style={[styles.text, styles.confirmButtonText]}>
+                            Accept
+                      </Text>
+                        </TouchableOpacity>
+                      </View>
+                    }
+                  </View>
+                </View>
+              </View>
+            </Card.Content>
+          </LinearGradient>}
+
+
+        {request === false &&
+          selected &&
+          < LinearGradient
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            colors={["#e0e0e0", "#e0e0e0"]}
+            style={[
+              // styles.card,
+              {
+                justifyContent: "center",
+                alignItems: "center",
+                borderTopLeftRadius: 15,
+                borderTopRightRadius: 15,
+                alignSelf: "stretch",
+                minHeight: 50,
+                flex: 1,
+                flexDirection: "row",
+
+                // shadowRadius: 2,
+                // borderWidth: 2,
+              },
+            ]}
+          >
+            <Card.Content style={styles.innerCard}>
+              <View minHeight={20}>
+                <View flexDirection="row" flex={1} alignItems="center" minHeight={50}>
+                  <View flex={1} flexDirection="column" >
+                    <Text
+                      style={[styles.text, { fontSize: 25, color: "black" }]}
+                      numberOfLines={1}
+                      ellipsizeMode="tail" //new comment
+                    >
+                      {groupName}
+                    </Text>
+                  </View>
+
                   <View flex={1} flexDirection="column" style={{ position: "absolute", right: 0, }}>
                     {request === true &&
                       <View style={styles.chipContainer}>
@@ -124,8 +183,9 @@ export const GroupCard = ({ id, request, onTap, selected, onPress, groupName, gr
             </Card.Content>
           </View>
         }
+        <Divider style={{ height: 1, backgroundColor: 'black' }} />
         <Card.Content style={styles.innerCard}>
-          <ScrollView horizontal={true}>
+          <ScrollView style={{ backgroundColor: 'blue' }} horizontal={true} scrollEnabled={true}>
             {Dimensions.get("window").height >= 896 &&
               <View
                 width={100}
@@ -223,7 +283,7 @@ export const GroupCard = ({ id, request, onTap, selected, onPress, groupName, gr
           </ScrollView>
         </Card.Content>
       </Card>
-    </View>);
+    </View >);
 }
 
 const styles = StyleSheet.create({

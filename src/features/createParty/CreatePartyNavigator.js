@@ -10,7 +10,7 @@ import { logoHeaderOptions } from "components";
 import { BackButton, GradientButton } from "../../components";
 import { View } from "react-native";
 import AddFriends from "features/profile/screens/AddFriends";
-import { useUser } from "lib";
+import { useUser } from "../../lib";
 const Stack = createStackNavigator();
 
 
