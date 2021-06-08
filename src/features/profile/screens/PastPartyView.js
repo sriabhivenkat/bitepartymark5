@@ -90,7 +90,7 @@ const PastPartyView = ({ route, navigation }) => {
 
     useEffect(() => {
         // alert();
-        getUserLocation().then(loc => alert(loc))
+        getUserLocation()
         const main = async () => {
             const position = await getUserLocation();
 
