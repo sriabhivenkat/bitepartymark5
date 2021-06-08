@@ -186,9 +186,7 @@ const EditProfile = ({ navigation }) => {
         //   // My Profile
         //   imageUrl: url,
         // });
-        console.log(url)
-        firebase.firestore().collection("Users").doc(user?.uidvalue).update({imageUrl: url});
-        //updateUser({ imageUrl: url });
+        updateUser({ ...user, imageUrl: url });
       });
     } catch (e) {
       console.error(e);
