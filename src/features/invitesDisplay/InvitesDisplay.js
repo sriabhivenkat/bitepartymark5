@@ -89,12 +89,12 @@ const InvitesDisplay = ({ navigation, route }) => {
       <SafeAreaView paddingHorizontal={20} >
         <HeaderComp height={height} isHomeScreen={false} navigation={navigation} route={route} baseRoute='invitesDisplay' />
         <Divider style={{ width: 600, right: 30, backgroundColor: "gray" }} />
-        {pendingInvites?.length <= 0 && (
+       
           <>
             <TitleText style={[styles.title]}>Notifications</TitleText>
            
           </>
-        )}
+        
         {friends?.filter(({ friendStatus }) => friendStatus == "pending").length != 0 &&
           <View style={{ alignItems: "center",marginBottom: 55}}>
             <GradientButton

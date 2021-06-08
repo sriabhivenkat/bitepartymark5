@@ -62,20 +62,21 @@ export const PastPartyCard = ({ invite, onPress }) => {
                                     style={{ marginRight: 10 }}
                                 />
                                 <View flex={1} flexDirection="column">
-                                    <Text style={[styles.text, { fontSize: 15 }]}>
+                                    <Text style={[styles.text, { fontSize: 15 }]} adjustsFontSizeToFit={true}>
                                         Organized by
                                 </Text>
                                     <Text
                                         style={[styles.text, { fontSize: 24 }]}
                                         numberOfLines={1}
                                         ellipsizeMode="tail" //new comment
+                                        adjustsFontSizeToFit={true}
                                     >
                                         {data?.firstName} {data?.lastName}
                                     </Text>
                                     <Text
                                         style={[styles.text, { fontSize: 20, marginTop: 5 }]}
                                         numberOfLines={1}
-                                        ad
+                                        adjustsFontSizeToFit={true}
 
                                     >
                                         {out}
@@ -93,13 +94,14 @@ export const PastPartyCard = ({ invite, onPress }) => {
                                     style={{ marginRight: 15 }}
                                 />
                                 <View flex={1} flexDirection="column">
-                                    <Text style={[styles.text, { fontSize: 15 }]}>
+                                    <Text style={[styles.text, { fontSize: 15 }]} adjustsFontSizeToFit={true}>
                                         Organized by
                                 </Text>
                                     <Text
                                         style={[styles.text, { fontSize: 24 }]}
                                         numberOfLines={1}
                                         ellipsizeMode="tail" //new comment
+                                        adjustsFontSizeToFit={true}
                                     >
                                         {user?.firstName} {user?.lastName}
                                     </Text>
