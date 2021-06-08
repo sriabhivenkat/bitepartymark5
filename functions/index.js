@@ -21,11 +21,18 @@ exports.sendInviteNotification = functions.firestore
         .doc(inviteId)
         .update({ notified: true });
 
+      const inviterDoc = (
+        await db.collection("Users").doc(inviter).get()
+      ).data();
+      // .collection("invitations")
+      // .doc(inviteId)
+      // .update({ notified: true });
+
       var { tokens } = (await db.collection("Users").doc(userId).get()).data();
       const payload = {
         notification: {
           title: "You have new party invite!",
-          body: `Join ${inviter}'s party`,
+          body: `Join ${inviterDoc.firstName}'s party`,
         },
         data: {
           inviteId,
@@ -57,9 +64,11 @@ exports.resolveParty = functions.firestore
         .every(({ status }) => status == "complete");
 
       if (isComplete) {
-        const { restaurants, winner, autoResolve=true } = (
-          await db.collection("Parties").doc(partyID).get()
-        ).data();
+        const {
+          restaurants,
+          winner,
+          autoResolve = true,
+        } = (await db.collection("Parties").doc(partyID).get()).data();
 
         if (winner || !autoResolve) {
           return;
