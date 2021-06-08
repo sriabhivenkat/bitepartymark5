@@ -43,7 +43,7 @@ const Swiping = ({ navigation, route, data }) => {
   // const [modalData, setModalData] = useState({});
   const [cardIdx, setCardIdx] = useState(0);
 
-  // // // handle swiping complete
+  // // // handle swiping completef
   useEffect(() => {
     addPartySelections(selections)
       // .then(() => navigation.replace("joinParty/completed", { partyID }))
@@ -70,7 +70,7 @@ const Swiping = ({ navigation, route, data }) => {
   }, [cardIdx, party])
 
   useEffect(() => {
-    console.log({partyMember})
+    console.log({ partyMember })
     if (partyMember?.status == "complete" || party?.winner) {
       hasNavigated.current = true;
       navigation.navigate("joinParty/completed", { partyID });
@@ -79,10 +79,10 @@ const Swiping = ({ navigation, route, data }) => {
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      if (partyMember?.status == "complete"  || party?.winner) {
+      if (partyMember?.status == "complete" || party?.winner) {
         hasNavigated.current = true;
         navigation.navigate("joinParty/completed", { partyID });
-      } 
+      }
     });
     return unsubscribe;
   }, [navigation, partyMember, party]);
@@ -156,7 +156,7 @@ const Swiping = ({ navigation, route, data }) => {
         </Portal> */}
         <View justifyContent="center" alignItems="center">
           <Image
-            style={{ width: 100, height: 50, alignItems: "center", aspectRatio: 2/3, top: 5 }}
+            style={{ width: 100, height: 50, alignItems: "center", aspectRatio: 2 / 3, top: 5 }}
             source={require("assets/images/newHeaderLogo.png")}
           />
         </View>
@@ -292,7 +292,7 @@ const Swiping = ({ navigation, route, data }) => {
                   style={{ top: 10, left: 22, marginBottom: 30, marginTop: 10 }}
                 >
                   <Text
-                    style={{ fontFamily: "Kollektif", color: "#f76f6d", fontSize:17 }}
+                    style={{ fontFamily: "Kollektif", color: "#f76f6d", fontSize: 17 }}
                   >
                     Address
                     {/* <Text>{JSON.stringify(party?.restaurants[cardIdx], null, 2)}</Text> */}
@@ -335,7 +335,7 @@ const Swiping = ({ navigation, route, data }) => {
                     Distance
                   </Text>
                   <Text
-                    
+
                     style={{ fontFamily: "Kollektif", top: 5, fontSize: 25 }}
                   >
                     {distance}les ({eta} away)

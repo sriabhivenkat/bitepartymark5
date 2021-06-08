@@ -103,7 +103,7 @@ const PastPartyView = ({ route, navigation }) => {
             // const time = await timeToDestination(29.7174, -95.4018, 29.539869, -95.597939)
         }
         main();
-    }, [win])
+    }, [currentWinner])
 
 
 
