@@ -36,6 +36,7 @@ import storage from "@react-native-firebase/storage";
 import CustomRate from "components/CustomRate";
 import moment from "moment";
 import InAppBrowser from "react-native-inappbrowser-reborn";
+import { timeToDestination, getUserLocation } from "lib";
 
 const PastPartyView = ({ route, navigation }) => {
     const { partyID, timeStamp } = route.params;
@@ -88,22 +89,28 @@ const PastPartyView = ({ route, navigation }) => {
 
 
     useEffect(() => {
+        // alert();
+        getUserLocation().then(loc => alert(loc))
         const main = async () => {
             const position = await getUserLocation();
+
             console.log([position[0], position[1]])
-            console.log(currentwinner?.coordinates.latitude, currentWinner?.coordinates.longitude)
+            console.log("Current Winner Coordinates Are:", [currentWinner?.coordinates.latitude, currentWinner?.coordinates.longitude])
+            // alert(JSON.stringify(currentWinner))
             const time = await timeToDestination(
                 position[0], position[1],
                 currentWinner?.coordinates.latitude,
                 currentWinner?.coordinates.longitude
+
             )
-            console.log("time to get there is:", time);
+            // console.log("time to get there is:", time);
+            // alert(time)
             setETA(time[0]);
             setDistance(time[1]);
             // const time = await timeToDestination(29.7174, -95.4018, 29.539869, -95.597939)
         }
-        main();
-    }, [currentWinner])
+        main().catch(err => console.error(err));
+    }, [currentWinner, party])
 
 
 
