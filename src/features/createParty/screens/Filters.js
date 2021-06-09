@@ -279,18 +279,18 @@ const Filters = ({ route, navigation }) => {
           marginTop={10}
           justifyContent="space-around"
         >
-          <Switch style={{ flex: 1 }} value={showOpen} onValueChange={c => setShowOpen(c)} color="#f76f6d"/>
-          <View flexDirection="column">
+          <Switch style={{ flex: 1 }} value={!showOpen} onValueChange={c => setShowOpen(!c)} color="#f76f6d"/>
+          {/* <View flexDirection="column">
             <DateTimePicker
               value={time}
               mode="time"
               // display="inline"
-              disabled={!showOpen}
+              disabled={!showOpen}  
               style={{ width: 100 }}
               onChange={(_,c) => setTime(c)}
               // style={{ right: 40}}
             />
-          </View>
+          </View> */}
         </View>
       </View>
       <Divider style={{ marginTop: 10 }} />
