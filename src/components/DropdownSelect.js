@@ -4,7 +4,7 @@ import { TouchableOpacity, Text } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { List } from "react-native-paper";
 
-export const DropdownSelect = ({ data, selections, onChange, multi, title, icon="food" }) => {
+export const DropdownSelect = ({ data, selections, onChange, multi, title, icon = "food" }) => {
   const [open, setOpen] = useState(false);
 
   const handleTap = (value) => {
@@ -49,9 +49,10 @@ export const DropdownSelect = ({ data, selections, onChange, multi, title, icon=
         }}
       >
         {data.map(({ label, value }) => (
-        //   <View key={value}>
+          // /   <View key={value}>
+          label != "Kosher" && label != "Thai" && (
             <LinearGradient
-            key={value}
+              key={value}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               colors={
@@ -66,9 +67,9 @@ export const DropdownSelect = ({ data, selections, onChange, multi, title, icon=
                   //   paddingHorizontal: 60,
                   backgroundColor: "black",
                   borderWidth: 0.5,
-                //   borderLeftWidth: 1,
+                  //   borderLeftWidth: 1,
                   borderColor: "#000",
-                //   borderTopWidth: 0.1,
+                  //   borderTopWidth: 0.1,
                   //   flex: 1,
                   //   width: '100%',
                 },
@@ -102,8 +103,127 @@ export const DropdownSelect = ({ data, selections, onChange, multi, title, icon=
                 </Text>
               </TouchableOpacity>
             </LinearGradient>
-        //   </View>
-        ))}
+            //   </View>
+          )))}
+
+        {data.map(({ label, value }) => (
+          // /   <View key={value}>
+          label == "Thai" && (
+            <LinearGradient
+              key={value}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              colors={
+                selections.includes(value)
+                  ? ["#ee0979", "#f76f6d", "#ff6a00"]
+                  : ["#fff", "#fff", "#fff"]
+              }
+              style={[
+                {
+                  minHeight: 38,
+                  justifyContent: "center",
+                  //   paddingHorizontal: 60,
+                  backgroundColor: "black",
+                  borderWidth: 0.5,
+                  //   borderLeftWidth: 1,
+                  borderColor: "#000",
+                  borderBottomColor: '#000',
+                  borderBottomRightRadius: 10,
+                  borderBottomLeftRadius: 10
+                  //   borderTopWidth: 0.1,
+                  //   flex: 1,
+                  //   width: '100%',
+                },
+              ]}
+            >
+              <TouchableOpacity
+                key={value}
+                flex={1}
+                // left={40}
+                style={
+                  {
+                    // width: 10,
+                    // backgroundColor: "red",
+                    // borderWidth: 1,
+                    // borderTopWidth: 0,
+                  }
+                }
+                onPress={() => {
+                  handleTap(value, label);
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Kollektif",
+                    fontSize: 18,
+                    textAlign: "left",
+                    color: selections.includes(value) ? "#fff" : "#000",
+                  }}
+                >
+                  {label}
+                </Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          )))}
+
+
+        {data.map(({ label, value }) => (
+          // /   <View key={value}>
+          label == 'Kosher' && (
+            <LinearGradient
+              key={value}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              colors={
+                selections.includes(value)
+                  ? ["#ee0979", "#f76f6d", "#ff6a00"]
+                  : ["#fff", "#fff", "#fff"]
+              }
+              style={[
+                {
+                  minHeight: 38,
+                  justifyContent: "center",
+                  //   paddingHorizontal: 60,
+                  backgroundColor: "black",
+                  borderWidth: 0.5,
+                  //   borderLeftWidth: 1,
+                  borderColor: "#000",
+                  //   borderTopWidth: 0.1,
+                  //   flex: 1,
+                  //   width: '100%',
+                },
+              ]}
+            >
+              <TouchableOpacity
+                key={value}
+                flex={1}
+                // left={40}
+                style={
+                  {
+                    // width: 10,
+                    // backgroundColor: "red",
+                    // borderWidth: 1,
+                    // borderTopWidth: 0,
+                  }
+                }
+                onPress={() => {
+                  handleTap(value, label);
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Kollektif",
+                    fontSize: 18,
+                    textAlign: "left",
+                    color: selections.includes(value) ? "#fff" : "#000",
+                  }}
+                >
+                  {label}
+                </Text>
+              </TouchableOpacity>
+            </LinearGradient>
+            //   </View>
+          )))}
       </List.Accordion>
     </List.Section>
   );

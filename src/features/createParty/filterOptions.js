@@ -11,8 +11,4 @@ export const filterOptions = [
   { label: "Japanese", value: "japanese" },
   { label: "Mexican", value: "mexican" },
   { label: "Thai", value: "thai" },
-  { label: "Halal", value: "halal" },
-  { label: "Vegan", value: "vegan" },
-  { label: "Vegetarian", value: "vegetarian" },
-  { label: "Kosher", value: "kosher" },
 ];

@@ -16,6 +16,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import DropDownPicker from "react-native-dropdown-picker";
 import { filterOptions } from "../filterOptions";
 import { restrictionOptions } from "../restrictionOptions";
+import { SubtitleText } from "../../../components";
 
 
 const Filters = ({ route, navigation }) => {
@@ -137,7 +138,7 @@ const Filters = ({ route, navigation }) => {
         display="flex"
         flexDirection="column"
         marginTop={-25}
-        // paddingRight={30}
+      // paddingRight={30}
       >
         {selectedFriends.length != 0 && <SectionLabel label="Party with:" />}
         <ScrollView
@@ -148,8 +149,8 @@ const Filters = ({ route, navigation }) => {
           horizontal={true}
           showsHorizontalScrollIndicator={true}
           paddingBottom={10}
-          // width="100%"
-          // paddingHorizontal={20}
+        // width="100%"
+        // paddingHorizontal={20}
         >
           {selectedFriends.length != 0 &&
             selectedFriends.map((item) => (
@@ -244,7 +245,7 @@ const Filters = ({ route, navigation }) => {
               alignItems="center"
               // position="relative"
               flex={1}
-              // top={8}
+            // top={8}
             >
               <Icon name="locate-outline" size={20} />
 
@@ -264,7 +265,7 @@ const Filters = ({ route, navigation }) => {
         </View>
       </View>
       <Divider style={{ marginTop: 10 }} />
-
+      {/* 
       <View
         style={{
           display: "flex",
@@ -273,13 +274,16 @@ const Filters = ({ route, navigation }) => {
         }}
       >
         <SectionLabel label="Show Closed Restaurants" />
+        <SubtitleText style={{ paddingLeft: 20 }}>
+          Help
+        </SubtitleText>
         <View
           paddingHorizontal={20}
           flexDirection="row"
           marginTop={10}
           justifyContent="space-around"
         >
-          <Switch style={{ flex: 1 }} value={!showOpen} onValueChange={c => setShowOpen(!c)} color="#f76f6d"/>
+          <Switch style={{ flex: 1 }} value={!showOpen} onValueChange={c => setShowOpen(!c)} color="#f76f6d" />
           {/* <View flexDirection="column">
             <DateTimePicker
               value={time}
@@ -290,10 +294,10 @@ const Filters = ({ route, navigation }) => {
               onChange={(_,c) => setTime(c)}
               // style={{ right: 40}}
             />
-          </View> */}
-        </View>
-      </View>
-      <Divider style={{ marginTop: 10 }} />
+      //     </View> */}
+      {/* </View> */}
+      {/* // </View> */}
+      {/* // <Divider style={{ marginTop: 10 }} /> */}
       <SectionLabel label="Cuisine" />
 
       <View justifyContent="center" marginTop={5} paddingHorizontal={20}>
@@ -312,6 +316,7 @@ const Filters = ({ route, navigation }) => {
           onChange={setFilters}
           title="Set Cuisines"
           multi
+
         />
       </View>
 

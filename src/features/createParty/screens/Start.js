@@ -60,17 +60,28 @@ const Start = ({ navigation }) => {
   const isSmall = height < 700;
   return (
     <SafeAreaView style={styles.container}>
+
       <StatusBar barStyle="dark-content" />
 
-      <HeaderComp
-        isHomeScreen={true}
-        name={user?.firstName}
-        height={height}
-        navigation={navigation}
-      />
-      <Divider style={{ height: 1.5 }} />
+      {!user && (
+        <View height={height} width={width} style={{ justifyContent: 'center', alignItems: 'center' }}>
 
-      {acceptedInvites?.length != 0 && (
+
+        </View>
+
+
+      )}
+      {user && (
+        <HeaderComp
+          isHomeScreen={true}
+          name={user?.firstName}
+          height={height}
+          navigation={navigation}
+        />
+      )}
+      {user && (<Divider style={{ height: 1.5 }} />)}
+
+      {acceptedInvites?.length != 0 && user && (
         <View style={{ alignItems: "center", marginTop: 10 }}>
           <GradientButton
             onPress={() =>
@@ -94,7 +105,7 @@ const Start = ({ navigation }) => {
           </GradientButton>
         </View>
       )}
-      {acceptedInvites?.length != 0 && !user?.phoneNumber && (
+      {acceptedInvites?.length != 0 && !user?.phoneNumber && user && (
         <GradientButton
           outline
           style={{
@@ -115,7 +126,7 @@ const Start = ({ navigation }) => {
           Verify phone number!
         </GradientButton>
       )}
-      {acceptedInvites?.length === 0 && !user?.phoneNumber && (
+      {acceptedInvites?.length === 0 && !user?.phoneNumber && user && (
         <GradientButton
           outline
           style={{
@@ -137,7 +148,7 @@ const Start = ({ navigation }) => {
           Verify phone number!
         </GradientButton>
       )}
-      {acceptedInvites?.length != 0 && (
+      {acceptedInvites?.length != 0 && user && (
         <TouchableOpacity
           style={[
             styles.image,
@@ -207,7 +218,7 @@ const Start = ({ navigation }) => {
           </ImageBackground>
         </TouchableOpacity>
       )}
-      {acceptedInvites?.length === 0 && (
+      {acceptedInvites?.length === 0 && user && (
         <TouchableOpacity
           style={[styles.image, { marginTop: 10 }]}
           onPress={() => {
@@ -339,7 +350,7 @@ const Start = ({ navigation }) => {
           >
             <View style={{ paddingHorizontal: 20 }}>
               <StatusBar barStyle="dark-content" />
-              { user?.uidvalue && !user?.phoneNumber && (
+              {user?.uidvalue && !user?.phoneNumber && (
                 <View>
                   <Text
                     style={[
