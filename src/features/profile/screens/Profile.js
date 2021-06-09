@@ -15,7 +15,7 @@ import { Modal, Portal, Provider, IconButton } from "react-native-paper";
 import ImagePicker from "react-native-image-crop-picker";
 import storage from "@react-native-firebase/storage";
 import { SafeAreaView } from "react-native";
-import { useFriends, useUser, useInvites, useGroup } from "lib";
+import { useFriends, useUser, useInvites, useGroups, useGroup } from "lib";
 import { TitleText } from "../../../components";
 import LinearGradient from "react-native-linear-gradient";
 import { HeaderComp } from "../../../components/Header";
@@ -51,7 +51,8 @@ const ProfileDisplay = ({ navigation, route }) => {
   const { invites } = useInvites();
   // const [name, setName] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [groups, setGroups] = useState([]);
+  const { groups } = useGroups()
+
   // const [members, setMembers] = useState();
 
   const showModal = () => setModalVisible(true);
@@ -93,25 +94,10 @@ const ProfileDisplay = ({ navigation, route }) => {
       });
   };
 
-  useEffect(() => {
-    const unsub = firestore()
-      .collectionGroup('members')
-      .where("isGroup", '==', true)
-      .where('status', '==', "accepted") //filter by user uidvalue 
-      .get()
-      .then((res) => {
-        const results = res.docs.map((x) => x.data());
-        console.log(results);
-        const filtered = results.filter(resval => resval?.uidval === user?.uidvalue)
-        console.log(filtered);
-        setGroups(filtered);
-        console.log("groups array is: ", groups)
-      })
-      .catch((err) => console.log(err));
 
-  }, [])
 
-  const { groupName, groupMembers } = useGroup(groups[0]?.groupID);
+
+
 
 
   // useEffect(() => {
