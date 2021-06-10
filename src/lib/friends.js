@@ -12,7 +12,7 @@ export const useFriends = () => {
   //   `Users/${user?.uidvalue}/friends`,
   //   {
   //     listen: true,
-  //     shouldRetryOnError: true,
+  //     shouldRetryOnError: true, 
   //   }
   // );
 

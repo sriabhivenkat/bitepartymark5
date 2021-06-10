@@ -389,7 +389,7 @@ const Completed = ({ route, navigation }) => {
                     </TouchableOpacity>
 
                     <GradientButton
-                      containerStyle={{ marginTop: 10, paddingHorizontal: 10, }}
+                      containerStyle={{ marginTop: 10, paddingHorizontal: 10, marginBottom: 10 }}
                       onPress={() =>
                         endParty()
                           .then(
@@ -401,10 +401,8 @@ const Completed = ({ route, navigation }) => {
                           .catch((err) => console.error(err))
                       }
                     >
-                      <Text adjustsFontSizeToFit={true} style={{ fontSize: 25 }}>Leave Party</Text>
+                      <Text>Leave Party</Text>
                     </GradientButton>
-
-
                   </View>
 
                 </Modal>
@@ -832,13 +830,14 @@ const Completed = ({ route, navigation }) => {
                   </Text>
 
                     <TouchableOpacity
-                      style={{ alignItems: "center" }}
+                      style={{ alignItems: "center", flexDirection: 'row', borderWidth: 1, borderRadius: 10, paddingHorizontal: 40, height: 40, justifyContent: 'center' }}
                       onPress={() => openCamera()}
-                    >
-                      <Ionicons name="camera" size={80} />
-                      <Text>Add Image of Menu</Text>
-                    </TouchableOpacity>
 
+
+                    >
+                      <Ionicons name="camera-outline" size={30} style={{ paddingHorizontal: 5 }} />
+                      <Text adjustsFontSizeToFit={true} style={{ fontSize: 25, fontFamily: "Kollektif", }}>Add Image of Menu</Text>
+                    </TouchableOpacity>
                     <GradientButton
                       containerStyle={{ marginTop: 10, paddingHorizontal: 10, marginBottom: 10 }}
                       onPress={() =>

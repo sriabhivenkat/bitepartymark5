@@ -19,6 +19,7 @@ import { useFriends, useUser, useInvites, useGroups, useGroup } from "lib";
 import { TitleText } from "../../../components";
 import LinearGradient from "react-native-linear-gradient";
 import { HeaderComp } from "../../../components/Header";
+import { getGroupCount } from "../../../lib/groups";
 
 const ProfileButton = ({ children, ...rest }) => (
   <TouchableOpacity
@@ -51,7 +52,7 @@ const ProfileDisplay = ({ navigation, route }) => {
   const { invites } = useInvites();
   // const [name, setName] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const { groups } = useGroups()
+  const { groups } = getGroupCount()
 
   // const [members, setMembers] = useState();
 

@@ -62,6 +62,59 @@ export const useGroups = () => {
   return { groups: data };
 };
 
+
+export const getGroupCount = () => {
+  const { user } = useUser();
+  // const { data, error } = useCollection(`Users/${user?.uidvalue}/invitations`, {
+  //   orderBy: ["timestamp", "desc"],
+  //   listen: true,
+  //   shouldRetryOnError: true,
+  // });
+
+  const [data, setData] = useState();
+  const [error, setError] = useState();
+  // useEffect(() => {
+  //   const unsubscribe = firestore()
+  //     .collection("Parties")
+  //     .doc(id)
+  //     .onSnapshot(
+  //       (snapshot) => setParty(snapshot.data()),
+  //       (err) => console.error(err)
+  //     );
+  //   return () => unsubscribe();
+  // }, [id]);
+  useEffect(() => {
+    const unsub = firestore()
+      .collection("Groups")
+      .where(`members.${user.uidvalue}.exists`, "==", true)
+      .onSnapshot(
+        (snap) => setData(snap.docs.map((x) => x.data())),
+        (err) => setError(err)
+      );
+    return unsub;
+  }, [user]);
+
+  // const members = (await partyRef.collection("members").get()).docs.map((x) =>
+  //   x.data()
+  // );
+
+  // await firestore()
+  //   .collection("Parties")
+  //   .doc(invite.docID)
+  //   .collection("members")
+  //   .doc(user.uidvalue)
+  //   .update({ status: "rejected" });
+
+  return {
+    groups: data,
+    groupsMeta: {
+      error,
+      isLoading: !error && !data,
+    },
+
+  };
+};
+
 // const {groupName, groupMembers} = useGroup(id)
 
 export const createGroup = async (members, name, user) => {
