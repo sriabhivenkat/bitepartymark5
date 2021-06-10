@@ -10,18 +10,20 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
 import messaging from "@react-native-firebase/messaging";
 import parse from 'url-parse'
-
+import {useUser} from 'lib'
 import * as RootNavigation from "navigation/RootNavigation";
 
 import CreatePartyNavigator from "features/createParty/CreatePartyNavigator";
 import JoinPartyNavigator from "features/joinParty/JoinPartyNavigator";
 import InvitesDisplayNavigator from "features/invitesDisplay/InvitesDisplayNavigator";
 import ProfileNavigator from "features/profile/ProfileNavigator";
+import FriendsMapNavigator from 'features/friendsMap/FriendsMapNavigator'
 import { TouchableOpacity } from "react-native";
 import { BackButton } from "../components/BackButton.js";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+//const {user} = useUser();
 const tabBarListeners = ({ navigation, route }) => ({
   tabPress: () => {
     // if (route?.state?.index) navigation.replace("Home");
@@ -85,13 +87,29 @@ const BottomTabNavigator = () => (
         ),
       }}
     />
+    <Tab.Screen 
+      name="friendsMap"
+      component={FriendsMapNavigator}
+      options={{
+        tabBarIcon: ({focused}) => (
+          <Ionicons 
+            name="earth-sharp"
+            color={focused ? "black" : "gray"}
+            size={25}
+          />
+        )
+      }}
+    />
     <Tab.Screen
       name="profile"
       component={ProfileNavigator}
       options={{
         tabBarIcon: ({ focused }) => (
+          // <Image 
+          //   source={user?.imageUrl}
+          // />
           <Ionicons
-            name="person"
+            name="person-sharp"
             color={focused ? "black" : "gray"}
             size={25}
           />
