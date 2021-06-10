@@ -440,10 +440,10 @@ const Filters = ({ route, navigation }) => {
         <Divider />
       )}
 
-      {time.getHours() <= 6 && (
+      {time.getHours() >= 6 && (
 
-        <View flex={1} paddingHorizontal={20} paddingVertical={20}>
-          <Text style={{ color: 'red', fontSize: 16 }}>
+        <View flex={1} paddingHorizontal={20} style={{ paddingTop: 20 }}>
+          <Text style={{ color: '#db4848', fontSize: 16, fontFamily: 'Kollektif' }}>
             Note: We only show restaurants that are open - for more variety of restaurants, we recommend swiping at a later time
    </Text>
         </View>
@@ -457,7 +457,7 @@ const Filters = ({ route, navigation }) => {
       {time.getHours() >= 21 && (
 
         <View flex={1} paddingHorizontal={20} paddingVertical={30}>
-          <Text>
+          <Text style={{ color: 'red', fontSize: 16, fontFamily: 'Kollektif' }}>
             Note: We only show restaurants that are open - for more variety of restaurants, we recommend swiping at a later time
    </Text>
         </View>
