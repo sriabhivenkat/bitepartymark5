@@ -364,7 +364,7 @@ const Completed = ({ route, navigation }) => {
                   )}
 
                 <Modal
-                  style={{ padding: 30, }}
+                  style={{ padding: 20, }}
                   visible={modal2Visible}
                   onDismiss={hide2Modal}
                 >
@@ -373,24 +373,23 @@ const Completed = ({ route, navigation }) => {
                       backgroundColor: "white",
                       alignItems: "center",
                       borderRadius: 15,
-                      height: 225,
+                      height: 150,
                       justifyContent: 'center'
                     }}
                   >
-                    <Text style={{ fontWeight: "600", fontSize: 15, marginTop: 10, fontFamily: 'Kollektif' }}>
-                      Would you like to submit a photo of the menu?
-                  </Text>
 
                     <TouchableOpacity
-                      style={{ alignItems: "center" }}
+                      style={{ alignItems: "center", flexDirection: 'row', borderWidth: 1, borderRadius: 10, paddingHorizontal: 40, height: 40, justifyContent: 'center' }}
                       onPress={() => openCamera()}
+
+
                     >
-                      <Ionicons name="camera" size={80} />
-                      <Text>Add Image of Menu</Text>
+                      <Ionicons name="camera-outline" size={30} style={{ paddingHorizontal: 5 }} />
+                      <Text adjustsFontSizeToFit={true} style={{ fontSize: 25, fontFamily: "Kollektif", }}>Add Image of Menu</Text>
                     </TouchableOpacity>
 
                     <GradientButton
-                      containerStyle={{ marginTop: 10, paddingHorizontal: 10, marginBottom: 10 }}
+                      containerStyle={{ marginTop: 10, paddingHorizontal: 10, }}
                       onPress={() =>
                         endParty()
                           .then(
@@ -402,7 +401,7 @@ const Completed = ({ route, navigation }) => {
                           .catch((err) => console.error(err))
                       }
                     >
-                      <Text>Leave Party</Text>
+                      <Text adjustsFontSizeToFit={true} style={{ fontSize: 25 }}>Leave Party</Text>
                     </GradientButton>
 
 
