@@ -442,8 +442,8 @@ const Filters = ({ route, navigation }) => {
 
       {time.getHours() <= 6 && (
 
-        <View flex={1} paddingHorizontal={20} paddingVertical={30}>
-          <Text style={{ color: 'red', fontSize: 15 }}>
+        <View flex={1} paddingHorizontal={20} paddingVertical={20}>
+          <Text style={{ color: 'red', fontSize: 16 }}>
             Note: We only show restaurants that are open - for more variety of restaurants, we recommend swiping at a later time
    </Text>
         </View>
@@ -464,7 +464,7 @@ const Filters = ({ route, navigation }) => {
 
       )}
 
-      <View flex={1} paddingHorizontal={40} paddingVertical={30}>
+      <View flex={1} paddingHorizontal={40} paddingVertical={40}>
         <GradientButton onPress={startParty}>Start Party!</GradientButton>
         {/* <GradientButton onPress={() => console.log(time.getHours())}>Test</GradientButton> */}
 
