@@ -19,12 +19,12 @@ import { ContactsCard } from "../../../components";
 import { useFriends, useUser } from "lib";
 import { Platform } from "react-native";
 
-const AddFriends = () => {
+const AddFriends = (navigation) => {
   const [contacts, setContacts] = useState([]);
   const { friends, addFriend } = useFriends();
 
   useEffect(() => {
-    const main = async() => {
+    const main = async () => {
       try {
         const andoidContactPermission = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.READ_CONTACTS,

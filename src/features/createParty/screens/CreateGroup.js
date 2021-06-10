@@ -1,58 +1,58 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
-  View,
-  Image,
-  Dimensions,
-  StyleSheet,
-  TouchableOpacity,
-  StatusBar,
-  SafeAreaView
+    View,
+    Image,
+    Dimensions,
+    StyleSheet,
+    TouchableOpacity,
+    StatusBar,
+    SafeAreaView
 } from "react-native";
 import { Text } from "galio-framework";
 import { TitleText } from "../../../components";
 import { Input } from "galio-framework";
-import {GradientButton, MemberCard, BackButton} from "../../../components";
+import { GradientButton, MemberCard, BackButton } from "../../../components";
 import { Divider, Chip } from "react-native-paper";
 import { useFriends, useParty, useUser } from "lib";
 import { ScrollView } from "react-native";
 import { Alert } from "react-native";
-import {createGroup} from "../../../lib/groups";
+import { createGroup } from "../../../lib/groups";
 
 const CreateGroup = ({ navigation }) => {
-    
+
     const [selectedFriends, setSelectedFriends] = useState([]);
     const [query, setQuery] = useState("");
     const [name, setName] = useState("");
 
     const { friends } = useFriends();
-    const {user} = useUser();
+    const { user } = useUser();
     const { partyId } = useParty();
 
     const toggleSelection = (friend) => {
         const exists = selectedFriends.find(
-          (item) => item.uidvalue == friend.uidvalue
+            (item) => item.uidvalue == friend.uidvalue
         );
-    
+
         if (exists) {
-          setSelectedFriends(
-            selectedFriends.filter((i) => i.uidvalue != friend.uidvalue)
-          );
+            setSelectedFriends(
+                selectedFriends.filter((i) => i.uidvalue != friend.uidvalue)
+            );
         } else {
-          setSelectedFriends([{ ...friend }, ...selectedFriends]);
+            setSelectedFriends([{ ...friend }, ...selectedFriends]);
         }
     };
     const height = Dimensions.get("window").height;
     const isSmall = height < 700;
-    return(
+    return (
         <SafeAreaView style={styles.container}>
             <View
                 paddingHorizontal={20}
             >
                 <View
-                  flexDirection="row"
-                  paddingTop={10}
+                    flexDirection="row"
+                    paddingTop={10}
                 >
-                    <BackButton 
+                    <BackButton
                         onPress={() => Alert.alert(
                             'Leave without saving?',
                             'Your group creation will not be saved.',
@@ -69,17 +69,17 @@ const CreateGroup = ({ navigation }) => {
                             ]
                         )}
                     />
-                    {selectedFriends.length != 0 && name != "" &&
+                    {selectedFriends.length > 1 && name != "" &&
                         <TouchableOpacity
                             style={{
                                 position: "absolute",
-                                right:0,
+                                right: 0,
                                 top: 5,
                                 paddingTop: 10
                             }}
                             onPress={() => {
                                 createGroup(selectedFriends, name, user)
-                                .catch((err) => console.log(err))
+                                    .catch((err) => console.log(err))
                                 navigation.goBack();
                             }}
                         >
@@ -92,32 +92,32 @@ const CreateGroup = ({ navigation }) => {
                             >
                                 Save
                             </Text>
-                        </TouchableOpacity> 
+                        </TouchableOpacity>
                     }
                 </View>
                 <TitleText fontSize={25}>Create Group</TitleText>
-                    <Input 
-                        placeholder="Type Group name"
-                        value={name}
-                        onChangeText={(text) => setName(text)}
-                        autoCapitalize="none"
-                        placeholderTextColor="lightgray"
-                        placeholderTextColor="rgba(0,0,0,0.5)"
-                        fontFamily="Kollektif"
-                        fontSize={20}
-                        style={{
-                            borderRadius: 14,
-                            shadowColor: "black",
-                            shadowRadius: 30,
-                            borderColor: "black",
-                            borderWidth: 1.5,
-                        }}
-                    />
+                <Input
+                    placeholder="Type Group name"
+                    value={name}
+                    onChangeText={(text) => setName(text)}
+                    autoCapitalize="none"
+                    placeholderTextColor="lightgray"
+                    placeholderTextColor="rgba(0,0,0,0.5)"
+                    fontFamily="Kollektif"
+                    fontSize={20}
+                    style={{
+                        borderRadius: 14,
+                        shadowColor: "black",
+                        shadowRadius: 30,
+                        borderColor: "black",
+                        borderWidth: 1.5,
+                    }}
+                />
                 <Text
                     style={{
                         fontFamily: "Kollektif",
                         fontSize: 25,
-                        marginTop: isSmall? 10:20,
+                        marginTop: isSmall ? 10 : 20,
                     }}
                 >
                     Current Members
@@ -135,45 +135,45 @@ const CreateGroup = ({ navigation }) => {
                             height: 60
                         }}
                     >
-                    {selectedFriends.length != 0 &&
-                        selectedFriends.map((item) => (
-                        <Chip
-                            avatar={
-                            <Image
-                                source={{ uri: item?.imageUrl }}
-                                style={{
-                                    height: 35,
-                                    width: 35,
-                                    borderRadius: 25,
-                                    right: 1,
-                                    borderColor: "black",
-                                    borderWidth: 1,
-                                    backgroundColor: "purple",
-                                    marginLeft: 3,
-                                }}
-                            />
-                            }
-                            style={{
-                            width: 125,
-                            left: 0,
-                            height: 50,
-                            alignItems: "center",
-                            marginRight: 4,
-                            marginVertical: 2.5,
-                            top:5,
-                            }}
-                            textStyle={{ fontFamily: "Kollektif", fontSize: 15 }}
-                            mode="outlined"
-                        >
-                            {item?.firstName}
-                        </Chip>
-                        ))}
+                        {selectedFriends.length != 0 &&
+                            selectedFriends.map((item) => (
+                                <Chip
+                                    avatar={
+                                        <Image
+                                            source={{ uri: item?.imageUrl }}
+                                            style={{
+                                                height: 35,
+                                                width: 35,
+                                                borderRadius: 25,
+                                                right: 1,
+                                                borderColor: "black",
+                                                borderWidth: 1,
+                                                backgroundColor: "purple",
+                                                marginLeft: 3,
+                                            }}
+                                        />
+                                    }
+                                    style={{
+                                        width: 125,
+                                        left: 0,
+                                        height: 50,
+                                        alignItems: "center",
+                                        marginRight: 4,
+                                        marginVertical: 2.5,
+                                        top: 5,
+                                    }}
+                                    textStyle={{ fontFamily: "Kollektif", fontSize: 15 }}
+                                    mode="outlined"
+                                >
+                                    {item?.firstName}
+                                </Chip>
+                            ))}
                     </ScrollView>
                 </View>
-                <Divider 
-                    marginTop={10} 
+                <Divider
+                    marginTop={10}
                     style={{
-                        height:1, 
+                        height: 1,
                         backgroundColor: "lightgray",
 
                     }}
@@ -197,44 +197,44 @@ const CreateGroup = ({ navigation }) => {
                 {friends?.length < 1 && (
                     <>
                         <Text
-                        style={{
-                            fontSize: 20,
-                            fontFamily: "Kollektif",
-                            marginTop: 30,
-                            textAlign: "center",
-                            // lineHeigh: 50,
-                        }}
+                            style={{
+                                fontSize: 20,
+                                fontFamily: "Kollektif",
+                                marginTop: 30,
+                                textAlign: "center",
+                                // lineHeigh: 50,
+                            }}
                         >
-                        <Text>{`You haven't added any friends. \n`}</Text>
-                        <Text
-                            onPress={() => navigation.navigate("createParty/addFriends")}
-                            style={{ color: "#f76f6d", textDecorationLine: "underline" }}
-                        >{`Add some `}</Text>
+                            <Text>{`You haven't added any friends. \n`}</Text>
+                            <Text
+                                onPress={() => navigation.navigate("createParty/addFriends")}
+                                style={{ color: "#f76f6d", textDecorationLine: "underline" }}
+                            >{`Add some `}</Text>
 
-                        <Text>to get started!</Text>
+                            <Text>to get started!</Text>
                         </Text>
                     </>
                 )}
                 <ScrollView marginTop={10} >
                     {friends &&
-                    [...friends]
-                    .filter(
-                        (item) => item?.handle?.indexOf(query) >= 0 || query.length < 2
-                    )
-                    .map((item) => (
-                        <MemberCard
-                            key={item.uidvalue}
-                            data={item}
-                            onPress={() => {
-                                toggleSelection(item);
-                                console.log(item);
-                                console.log(selectedFriends)
-                            }}
-                            selected={selectedFriends.some(
-                                (friend) => friend.uidvalue == item.uidvalue
-                            )}
-                        />
-                    ))}
+                        [...friends]
+                            .filter(
+                                (item) => item?.handle?.indexOf(query) >= 0 || query.length < 2
+                            )
+                            .map((item) => (
+                                <MemberCard
+                                    key={item.uidvalue}
+                                    data={item}
+                                    onPress={() => {
+                                        toggleSelection(item);
+                                        console.log(item);
+                                        console.log(selectedFriends)
+                                    }}
+                                    selected={selectedFriends.some(
+                                        (friend) => friend.uidvalue == item.uidvalue
+                                    )}
+                                />
+                            ))}
                 </ScrollView>
             </View>
         </SafeAreaView>

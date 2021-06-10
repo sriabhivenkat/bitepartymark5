@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Dimensions, Animated, Share} from "react-native";
+import { View, StyleSheet, Dimensions, Animated, Share } from "react-native";
 import { Text } from "galio-framework";
 import { Card, Avatar, Chip } from "react-native-paper";
-import {GradientButton} from '../components'
+import { GradientButton } from '../components'
 import { Button } from "react-native";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import { useFriends, useUser } from "lib";
@@ -22,25 +22,25 @@ export const ContactsCard = ({
   const { friends, addFriend } = useFriends();
   const { user } = useUser();
   const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-4);
-  
+
   useEffect(() => {
     if (!data?.phoneNumbers[0]?.number)
       return
     firestore()
-    .collection("Users")
-    .where('sliced', '==', cleanPhone(data?.phoneNumbers[0]?.number))
-    .get()
-    .then((res) => {
-      const results = res.docs.map((x) => x.data());
-      console.log("results are,", results)
-      setResults(results)
-    })
+      .collection("Users")
+      .where('sliced', '==', cleanPhone(data?.phoneNumbers[0]?.number))
+      .get()
+      .then((res) => {
+        const results = res.docs.map((x) => x.data());
+        console.log("results are,", results)
+        setResults(results)
+      })
     // const thing = data.phoneNumbers[0].number;
     // const spliced = thing.slice(-4)
     // console.log(spliced);
   }, [])
 
-  
+
   const statusMap = {
     pending: {
       text: "Waiting",
@@ -84,13 +84,14 @@ export const ContactsCard = ({
   const addContact = async () => {
     try {
       const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-9);
-      alert(cleanPhone(data?.phoneNumbers[0]?.number))
+
       const friend = (await firestore().collection('Users').where('sliced', '==', cleanPhone(data?.phoneNumbers[0]?.number)).get()).docs[0]
       addFriend(friend)
+      resultval.pop()
     } catch (error) {
       console.error(error)
     }
-    
+
   }
   return (
     <View style={styles.container}>
@@ -119,49 +120,49 @@ export const ContactsCard = ({
               <Text
                 ellipsizeMode="tail"
                 numberOfLines={1}
-                style={[styles.text, styles.name, {right: (Dimensions.get("window").width)/20}]}
+                style={[styles.text, styles.name, { right: (Dimensions.get("window").width) / 20 }]}
               >
                 {`${data.givenName} ${data.familyName}`}
               </Text>
-              {resultval.length!=0 && 
+              {resultval.length != 0 &&
                 <Text
                   // adjustsFontSizeToFit
                   numberOfLines={1}
-                  style={[styles.text, styles.handle, {right: (Dimensions.get("window").width)/20, color: "lightgray"}]}
+                  style={[styles.text, styles.handle, { right: (Dimensions.get("window").width) / 20, color: "lightgray" }]}
                 >
                   On this app
                 </Text>
               }
-              {resultval.length===0 &&
+              {resultval.length === 0 &&
                 <Text
-                // adjustsFontSizeToFit
-                numberOfLines={1}
-                style={[styles.text, styles.handle, {right: (Dimensions.get("window").width)/20, color: "lightgray"}]}
-              >
-                Invite
+                  // adjustsFontSizeToFit
+                  numberOfLines={1}
+                  style={[styles.text, styles.handle, { right: (Dimensions.get("window").width) / 20, color: "lightgray" }]}
+                >
+                  Invite
               </Text>
               }
             </View>
-           {resultval.length!=0 &&
-            <GradientButton
-                style={{width: 75}}
+            {resultval.length != 0 &&
+              <GradientButton
+                style={{ width: 75 }}
                 onPress={addContact}
-            >
+              >
                 Add
             </GradientButton>
-           }
-           {resultval.length===0 &&
-            <GradientButton
-                style={{width: 75,  }}
-                textStyle={{color: "black", letterSpacing: 0.3}}
+            }
+            {resultval.length === 0 &&
+              <GradientButton
+                style={{ width: 75, }}
+                textStyle={{ color: "black", letterSpacing: 0.3 }}
 
                 // containerStyle={{backgroundColor: "black"}}
                 onPress={onShare}
                 outline
-            >
+              >
                 Invite
             </GradientButton>
-          }
+            }
           </View>
         </Card.Content>
       </Card>

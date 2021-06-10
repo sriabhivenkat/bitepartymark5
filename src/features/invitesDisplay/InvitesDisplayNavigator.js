@@ -7,13 +7,13 @@ import InvitesDisplay from "./InvitesDisplay";
 import AddFriends from "../profile/screens/AddFriends";
 import CreateGroup from "../createParty/screens/CreateGroup";
 import { GradientButton, logoHeaderOptions, BackButton } from "../../components";
-
+import SyncContacts from "../profile/screens/SyncContacts";
 const Stack = createStackNavigator();
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export default () => (
+export default ({ navigation }) => (
   <Stack.Navigator screenOptions={{ headerShown: "false" }}>
     <Stack.Screen
       name="invitesDisplay"
@@ -40,25 +40,36 @@ export default () => (
         title: "Friends",
         headerShown: true,
         headerLeft: BackButton,
+        // headerRight: () => (
+        //   <View marginRight={10}>
+        //     <GradientButton
+        //       innerStyle={{ paddingHorizontal: 20 }}
+        //       textStyle={{ fontSize: 16 }}
+        //     >
+        //       Add Friends
+        //     </GradientButton>
+        //   </View>
+        // ),
         headerRight: () => (
-
-
           <GradientButton
             containerStyle={{ right: 10, }}
             innerStyle={{ paddingHorizontal: 10, }}
             textStyle={{ fontSize: 17, letterSpacing: -0.3, lineHeight: 20 }}
-            onPress={() => navigation.navigate("profile", {
-              screen: "profile/syncContacts"
-            })}
+            onPress={() => navigation.navigate("invites/syncContacts"
+            )}
           >
             Add Contacts
           </GradientButton>
-
-
-        )
-        , ...logoHeaderOptions,
-
-
+        ),
+        ...logoHeaderOptions,
+      }}
+    />
+    <Stack.Screen
+      name="invites/syncContacts"
+      component={SyncContacts}
+      options={{
+        title: "",
+        headerLeft: BackButton
       }}
     />
     <Stack.Screen
