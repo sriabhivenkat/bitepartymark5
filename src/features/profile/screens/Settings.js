@@ -56,7 +56,7 @@ const Settings = () => {
         >
           Terms of Service
         </SettingsButton>
-        <Text style={{ fontFamily: "Kollektif", fontSize: 22, paddingHorizontal: 7, paddingVertical: 10, color: "darkgray" }}>Bite Party! Version 1.4.6</Text>
+        <Text style={{ fontFamily: "Kollektif", fontSize: 22, paddingHorizontal: 7, paddingVertical: 10, color: "darkgray" }}>Bite Party! Version 1.4.7</Text>
         <Divider style={styles.divider} />
         <SettingsButton
           onPress={logout}

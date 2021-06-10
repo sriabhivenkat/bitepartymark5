@@ -436,11 +436,40 @@ const Filters = ({ route, navigation }) => {
           />
         </View>
       </View>
+      {time.getHours() <= 6 && (
+        <Divider />
+      )}
+
+      {time.getHours() <= 6 && (
+
+        <View flex={1} paddingHorizontal={20} paddingVertical={30}>
+          <Text style={{ color: 'red', fontSize: 15 }}>
+            Note: We only show restaurants that are open - for more variety of restaurants, we recommend swiping at a later time
+   </Text>
+        </View>
+
+      )}
+
+      {time.getHours() >= 21 && (
+        <Divider />
+      )}
+
+      {time.getHours() >= 21 && (
+
+        <View flex={1} paddingHorizontal={20} paddingVertical={30}>
+          <Text>
+            Note: We only show restaurants that are open - for more variety of restaurants, we recommend swiping at a later time
+   </Text>
+        </View>
+
+      )}
 
       <View flex={1} paddingHorizontal={40} paddingVertical={30}>
         <GradientButton onPress={startParty}>Start Party!</GradientButton>
+        {/* <GradientButton onPress={() => console.log(time.getHours())}>Test</GradientButton> */}
+
       </View>
-    </ScrollView>
+    </ScrollView >
   );
 };
 
