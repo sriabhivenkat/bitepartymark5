@@ -47,10 +47,13 @@ const CreateGroup = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             <View
                 paddingHorizontal={20}
+
+                height={height}
             >
                 <View
                     flexDirection="row"
                     paddingTop={10}
+
                 >
                     <BackButton
                         onPress={() => Alert.alert(
@@ -124,15 +127,17 @@ const CreateGroup = ({ navigation }) => {
                 </Text>
                 <View
                     flexDirection="row"
+
                 >
                     <ScrollView
                         flexDirection="row"
                         horizontal={true}
                         showsHorizontalScrollIndicator={true}
-                        paddingBottom={10}
+                        paddingBottom={40}
                         width="100%"
                         style={{
-                            height: 60
+                            height: 60,
+
                         }}
                     >
                         {selectedFriends.length != 0 &&
@@ -178,7 +183,7 @@ const CreateGroup = ({ navigation }) => {
 
                     }}
                 />
-                <View>
+                <View >
                     <Input
                         placeholder="Enter a handle"
                         onChangeText={(txt) => setQuery(txt)}
@@ -215,7 +220,7 @@ const CreateGroup = ({ navigation }) => {
                         </Text>
                     </>
                 )}
-                <ScrollView marginTop={10} >
+                <ScrollView marginTop={10} style={{ marginBottom: 0 }} >
                     {friends &&
                         [...friends]
                             .filter(
