@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { TouchableOpacity, Text } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { List } from "react-native-paper";
 
-export const DropdownSelect = ({ data, selections, onChange, multi, title, icon = "food" }) => {
+export const DropdownSelect = ({
+  data,
+  selections,
+  onChange,
+  multi,
+  title,
+  icon = "food",
+}) => {
   const [open, setOpen] = useState(false);
 
   const handleTap = (value) => {
@@ -35,196 +42,95 @@ export const DropdownSelect = ({ data, selections, onChange, multi, title, icon 
           fontSize: 18,
           fontFamily: "Kollektif",
           right: 10,
+          backgroundColor: "transparent",
         }}
         style={{
-          borderWidth: 1,
+          borderWidth: 1.5,
           borderColor: "black",
           borderRadius: 15,
           borderBottomLeftRadius: open ? 0 : 15,
           borderBottomRightRadius: open ? 0 : 15,
-
           maxHeight: 40,
-          //   left: 40,
           justifyContent: "center",
         }}
       >
-        {data.map(({ label, value }) => (
-          // /   <View key={value}>
-          label != "Kosher" && label != "Thai" && (
-            <LinearGradient
+        {data.map(({ label, value }, i) => (
+          <ItemContainer
+            key={value}
+            selected={selections.includes(value)}
+            last={i == data.length - 1}
+          >
+            <TouchableOpacity
               key={value}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              colors={
-                selections.includes(value)
-                  ? ["#ee0979", "#f76f6d", "#ff6a00"]
-                  : ["#fff", "#fff", "#fff"]
-              }
-              style={[
-                {
-                  minHeight: 38,
-                  justifyContent: "center",
-                  //   paddingHorizontal: 60,
-                  backgroundColor: "black",
-                  borderWidth: 0.5,
-                  //   borderLeftWidth: 1,
-                  borderColor: "#000",
-                  //   borderTopWidth: 0.1,
-                  //   flex: 1,
-                  //   width: '100%',
-                },
-              ]}
+              style={{
+                borderBottomLeftRadius: i == data.length - 1 ? 15 : 0,
+                borderBottomRightRadius: i == data.length - 1 ? 15 : 0,
+              }}
+              onPress={() => {
+                handleTap(value, label);
+              }}
             >
-              <TouchableOpacity
-                key={value}
-                flex={1}
-                // left={40}
-                style={
-                  {
-                    // width: 10,
-                    // backgroundColor: "red",
-                    // borderWidth: 1,
-                    // borderTopWidth: 0,
-                  }
-                }
-                onPress={() => {
-                  handleTap(value, label);
+              <Text
+                style={{
+                  fontFamily: "Kollektif",
+                  fontSize: 18,
+                  textAlign: "left",
+                  marginLeft: 60,
+                  color: selections.includes(value) ? "#fff" : "#000",
+                  borderBottomLeftRadius: i == data.length - 1 ? 15 : 0,
+                  borderBottomRightRadius: i == data.length - 1 ? 15 : 0,
                 }}
               >
-                <Text
-                  style={{
-                    fontFamily: "Kollektif",
-                    fontSize: 18,
-                    textAlign: "left",
-                    color: selections.includes(value) ? "#fff" : "#000",
-                  }}
-                >
-                  {label}
-                </Text>
-              </TouchableOpacity>
-            </LinearGradient>
-            //   </View>
-          )))}
-
-        {data.map(({ label, value }) => (
-          // /   <View key={value}>
-          label == "Thai" && (
-            <LinearGradient
-              key={value}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              colors={
-                selections.includes(value)
-                  ? ["#ee0979", "#f76f6d", "#ff6a00"]
-                  : ["#fff", "#fff", "#fff"]
-              }
-              style={[
-                {
-                  minHeight: 38,
-                  justifyContent: "center",
-                  //   paddingHorizontal: 60,
-                  backgroundColor: "black",
-                  borderWidth: 0.5,
-                  //   borderLeftWidth: 1,
-                  borderColor: "#000",
-                  borderBottomColor: '#000',
-                  borderBottomRightRadius: 10,
-                  borderBottomLeftRadius: 10
-                  //   borderTopWidth: 0.1,
-                  //   flex: 1,
-                  //   width: '100%',
-                },
-              ]}
-            >
-              <TouchableOpacity
-                key={value}
-                flex={1}
-                // left={40}
-                style={
-                  {
-                    // width: 10,
-                    // backgroundColor: "red",
-                    // borderWidth: 1,
-                    // borderTopWidth: 0,
-                  }
-                }
-                onPress={() => {
-                  handleTap(value, label);
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "Kollektif",
-                    fontSize: 18,
-                    textAlign: "left",
-                    color: selections.includes(value) ? "#fff" : "#000",
-                  }}
-                >
-                  {label}
-                </Text>
-              </TouchableOpacity>
-            </LinearGradient>
-          )))}
-
-
-        {data.map(({ label, value }) => (
-          // /   <View key={value}>
-          label == 'Kosher' && (
-            <LinearGradient
-              key={value}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              colors={
-                selections.includes(value)
-                  ? ["#ee0979", "#f76f6d", "#ff6a00"]
-                  : ["#fff", "#fff", "#fff"]
-              }
-              style={[
-                {
-                  minHeight: 38,
-                  justifyContent: "center",
-                  //   paddingHorizontal: 60,
-                  backgroundColor: "black",
-                  borderWidth: 0.5,
-                  //   borderLeftWidth: 1,
-                  borderColor: "#000",
-                  //   borderTopWidth: 0.1,
-                  //   flex: 1,
-                  //   width: '100%',
-                },
-              ]}
-            >
-              <TouchableOpacity
-                key={value}
-                flex={1}
-                // left={40}
-                style={
-                  {
-                    // width: 10,
-                    // backgroundColor: "red",
-                    // borderWidth: 1,
-                    // borderTopWidth: 0,
-                  }
-                }
-                onPress={() => {
-                  handleTap(value, label);
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "Kollektif",
-                    fontSize: 18,
-                    textAlign: "left",
-                    color: selections.includes(value) ? "#fff" : "#000",
-                  }}
-                >
-                  {label}
-                </Text>
-              </TouchableOpacity>
-            </LinearGradient>
-            //   </View>
-          )))}
+                {label}
+              </Text>
+            </TouchableOpacity>
+          </ItemContainer>
+        ))}
       </List.Accordion>
     </List.Section>
   );
+};
+
+const ItemContainer = ({ selected, last, children }) => {
+  if (selected) {
+    return (
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        colors={["#ee0979", "#f76f6d", "#ff6a00"]}
+        minHeight={38}
+        justifyContent="center"
+        style={[
+          {
+            // borderWidth: 1,
+            borderLeftWidth: 1,
+            borderBottomLeftRadius: last ? 15 : 0,
+            borderBottomRightRadius: last ? 15 : 0,
+            // borderColor: "#000",
+            // paddingLeft: 30,
+          },
+        ]}
+      >
+        {children}
+      </LinearGradient>
+    );
+  } else {
+    return (
+      <View
+        minHeight={38}
+        justifyContent="center"
+        style={[
+          {
+            borderWidth: 1.5,
+            borderTopWidth: 0,
+            borderBottomLeftRadius: last ? 15 : 0,
+            borderBottomRightRadius: last ? 15 : 0,
+            borderColor: "#000",
+          },
+        ]}
+      >
+        {children}
+      </View>
+    );
+  }
 };

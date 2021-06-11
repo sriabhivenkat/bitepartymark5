@@ -243,7 +243,6 @@ const Filters = ({ route, navigation }) => {
             <View
               flexDirection="row"
               alignItems="center"
-              // position="relative"
               flex={1}
             // top={8}
             >
@@ -300,18 +299,17 @@ const Filters = ({ route, navigation }) => {
       {/* // <Divider style={{ marginTop: 10 }} /> */}
       <SectionLabel label="Cuisine" />
 
-      <View justifyContent="center" marginTop={5} paddingHorizontal={20}>
+      <View marginTop={5} paddingHorizontal={20}>
         <DropdownSelect
-          data={restrictionOptions}
+          data={restrictionOptions.sort((a, b) => a.label.localeCompare(b.label))}
           selections={restrictions}
           onChange={setRestrictions}
           title="Set Restrictions"
         />
       </View>
-
       <View justifyContent="center" marginTop={5} paddingHorizontal={20}>
         <DropdownSelect
-          data={filterOptions}
+          data={filterOptions.sort((a, b) => a.label.localeCompare(b.label))}
           selections={filters}
           onChange={setFilters}
           title="Set Cuisines"
