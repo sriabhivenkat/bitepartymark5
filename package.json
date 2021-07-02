@@ -93,6 +93,7 @@
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.13.12",
+    "react-native-wheel-picker": "^1.2.0",
     "react-redux-firebase": "^3.10.0",
     "redux": "^4.0.5",
     "tslib": "^2.0.3",

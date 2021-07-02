@@ -28,6 +28,8 @@ import auth from "@react-native-firebase/auth";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import firestore from "@react-native-firebase/firestore";
 import { HeaderComp } from "../../../components/Header";
+import { getUserLocation, createRandom, useRandom, useParty } from "lib";
+import Geocoder from "react-native-geocoding";
 
 const Start = ({ navigation }) => {
   const hour = new Date().getHours();
@@ -40,23 +42,113 @@ const Start = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["0%", "100%"], []);
+  const [radius, setRadius] = useState(5);
+  const [count, setCount] = useState(10);
+  const [filters, setFilters] = useState([]);
+  const [restrictions, setRestrictions] = useState([]);
+  const [price, setPrice] = useState([]);
+  const [longName, setName] = useState("");
+  const [currentLat, setCurrentLat] = useState();
+  const [currentLong, setCurrentLong] = useState();
+  const [showOpen, setShowOpen] = useState(true);
+  const [time, setTime] = useState(new Date());
 
-  const handlePhone = async () => {
+  // const onChange = (event, selectedTime) => {
+  //   const currentDate = selectedTime || time;
+  //   setTime(currentDate);
+  //   // console.log(time);
+  // };
+
+  Geocoder.init("AIzaSyBudsRFHgcT7lqUV3xQ9oiM0MquRynmGzI", { language: "en" });
+  useEffect(() => {
+    const main = async () => {
+      const position = await getUserLocation();
+      console.log(position);
+      Geocoder.from(position[0], position[1])
+        .then((json) => {
+          var addressComponent = json.results[4].formatted_address;
+          console.log(addressComponent);
+          setName(addressComponent);
+        })
+        .catch((error) => console.warn(error));
+    };
+    main();
+  }, []);
+
+  const [partyId, setPartyId] = useState(Math.random().toString(36).substring(7))
+  const [selectionval, setSelectionVal] = useState("");
+  //passing data back from changelocation screen
+
+
+  const { createParty } = useParty(partyId);
+
+  useEffect(() => {
+    const main = async () => {
+      const position = await getUserLocation();
+      setCurrentLat(position[0]);
+      setCurrentLong(position[1]);
+      Geocoder.from(currentLat, currentLong)
+        .then((json) => {
+          var addressComponent = json.results[4].formatted_address; // new commen
+          console.log(addressComponent);
+          setName(addressComponent);
+        })
+        .catch((error) => console.warn(error));
+    };
+    main();
+  }, [currentLat, currentLong]);
+
+  const startParty = async () => {
     try {
-      const cleanPhone = (str) => str?.replace(/\D/g, "").slice(-9);
-      await firestore()
-        .collection("Users")
-        .doc(user?.uidvalue)
-        .update({
-          phoneNumber: phoneNumber,
-          sliced: cleanPhone(phoneNumber)
-        });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      bottomSheetRef.current?.close()
+      navigation.navigate("joinParty", {
+        screen: "joinParty/swiping",
+        params: { partyID: partyId },
+      });
+
+      let loc;
+      if (selectionval.length == 0) {
+        loc = await getUserLocation();
+      } else {
+        const res = await Geocoder.from(selectionval);
+        const data = res.results[0].geometry.location;
+        loc = [data.lat, data.lng];
+      }
+      const id = await createParty(selectedFriends, {
+        loc,
+        count,
+        radius,
+        filters,
+        price,
+        time,
+        showOpen,
+        restrictions,
+        autoResolve: !link,
+      });
+    } catch (err) {
+      Alert.alert(
+        "No matches!",
+        "We couldn't find anything that matched your filters. Try again with less restrictive filters",
+        [
+          {
+            text: "Ok",
+            onPress: () =>
+              navigation.navigate("createParty/filters", {
+                partyID: partyId,
+                selectedFriends,
+              }),
+          },
+        ]
+      );
+      console.error(err);
     }
   };
+
+
+
+
+
+
+
   const isSmall = height < 700;
   return (
     <SafeAreaView style={styles.container}>
@@ -278,7 +370,75 @@ const Start = ({ navigation }) => {
             </LinearGradient>
           </ImageBackground>
         </TouchableOpacity>
+
+
+
+
+
       )}
+
+      {acceptedInvites?.length === 0 && user && (
+        <TouchableOpacity
+          style={[styles.image, { marginTop: 10 }]}
+          onPress={() => {
+            startParty()
+          }}
+          Component={TouchableScale}
+          tension={100}
+          activeScale={0.95}
+        >
+          <ImageBackground
+            source={startImages.find(({ end }) => hour < end).image}
+            style={styles.image}
+            borderRadius={15}
+            marginHorizontal={20}
+            marginBottom={15}
+            blurRadius={5}
+          >
+            <LinearGradient
+              style={styles.image}
+              marginHorizontal={20}
+              marginBottom={15}
+              locations={[0.5, 1]}
+              // start={{ x: 0, y: 0 }}
+              // end={{ x: 0, y: 1 }}
+              colors={["rgba(0,0,0,0)", "rgba(0,0,0,1)"]}
+            >
+              <View style={styles.textContainer}>
+                <Text
+                  h2
+                  style={{
+                    fontFamily: "Kollektif",
+                    fontWeight: "800",
+                    color: "white",
+                    textAlign: "center",
+                  }}
+                >
+                  Random Mode
+                </Text>
+                <Text
+                  h5
+                  style={{
+                    fontFamily: "Kollektif",
+                    color: "#f76f6d",
+                    textAlign: "center",
+                  }}
+                >
+                  Start partying with friends!
+                </Text>
+              </View>
+            </LinearGradient>
+          </ImageBackground>
+        </TouchableOpacity>
+
+
+
+
+
+      )}
+
+
+
       {/* {acceptedInvites?.length > 0 && (
         <TouchableOpacity
           style={styles.image}

@@ -19,6 +19,7 @@ import InvitesDisplayNavigator from "features/invitesDisplay/InvitesDisplayNavig
 import ProfileNavigator from "features/profile/ProfileNavigator";
 import { TouchableOpacity } from "react-native";
 import { BackButton } from "../components/BackButton.js";
+import randomModeNavigator from "../features/randomMode/randomModeNavigator.js";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -50,17 +51,17 @@ const BottomTabNavigator = () => (
     screenOptions={({ route }) => ({
       tabBarButton: ["joinParty"].includes(route.name)
         ? () => {
-            return null;
-          }
+          return null;
+        }
         : undefined,
     })}
     initialRouteName={"home"}
-    // tabBar={(props) => (
-    //   <BottomTabBar
-    //     {...props}
-    //     state={{ ...props.state, routes: props.state.routes.slice(0, 3) }}
-    //   ></BottomTabBar>
-    // )}
+  // tabBar={(props) => (
+  //   <BottomTabBar
+  //     {...props}
+  //     state={{ ...props.state, routes: props.state.routes.slice(0, 3) }}
+  //   ></BottomTabBar>
+  // )}
   >
     <Tab.Screen
       name="invites"
@@ -115,6 +116,23 @@ const BottomTabNavigator = () => (
         tabBarButton: () => null,
       })}
     />
+    <Tab.Screen
+      name="randomMode"
+      component={randomModeNavigator}
+      // options={{
+      //   headerShown: false,
+      //   tabBarIcon: ({ focused }) => (
+      //     <Ionicons
+      //       name="person"
+      //       color={focused ? "black" : "gray"}
+      //       size={25}
+      //     />
+      //   ),
+      // }}
+      screenOptions={({ route }) => ({
+        tabBarButton: () => null,
+      })}
+    />
   </Tab.Navigator>
 );
 
@@ -123,7 +141,7 @@ const AppStack = () => {
     if (!message) return;
 
     const { partyId, type, initial } = message.data;
-    console.log({partyId, type})
+    console.log({ partyId, type })
     switch (type) {
       case "invite":
         RootNavigation.navigate("invites");
@@ -164,9 +182,9 @@ const AppStack = () => {
     dynamicLinks()
       .getInitialLink()
       .then(link => {
-        console.log({link})
+        console.log({ link })
         const url = parse(link.url, true)
-        handleMessage({ data: { partyId: url.query.id, type: url.pathname.slice(1), initial:true } })
+        handleMessage({ data: { partyId: url.query.id, type: url.pathname.slice(1), initial: true } })
       })
   }, []);
 

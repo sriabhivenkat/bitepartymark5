@@ -179,14 +179,17 @@ const addPartySelections = async (id, user, party, selections, override) => {
   );
 };
 
-const createParty = async (id, user, members, options) => {
+
+
+
+const createRandom = async (id, user, options) => {
   const restaurants = await getNearby(options);
   if (restaurants.length < 2) {
     throw Error("Too restrictive!");
   }
-  const partyRef = firestore().collection("Parties").doc(id);
+  const partyRef = firestore().collection("").doc(id);
   const usersRef = firestore().collection("Users");
-  console.log({options})
+  console.log({ options })
   await partyRef.set({
     admin: user.uidvalue,
     restrictions: {
@@ -248,8 +251,8 @@ const resolveParty = async (partyId) => {
   const partyRef = firestore().collection("Parties").doc(partyId);
 
 
-  partyRef.update({autoResolve: true});
-  console.log({partyId})
+  partyRef.update({ autoResolve: true });
+  console.log({ partyId })
   console.log('foo')
 
   const members = (await partyRef.collection("members").get()).docs.map((x) =>
@@ -262,7 +265,7 @@ const resolveParty = async (partyId) => {
     const docRef = partyRef.collection("members").doc(doc.uidvalue);
     membersBatch.update(docRef, {
       status: "complete",
-      rand:  Math.floor(Math.random() * 10)
+      rand: Math.floor(Math.random() * 10)
     });
   });
 
@@ -321,11 +324,11 @@ const addSelf = (partyId, user) => {
     timestamp: firestore.FieldValue.serverTimestamp(),
     inviter: user.uidvalue,
     inviterHandle: user.handle,
-    isDuo: false, 
+    isDuo: false,
     status: "accepted",
     imagePath: user.imageUrl,
     docID: partyId,
   });
-  
+
 
 }
